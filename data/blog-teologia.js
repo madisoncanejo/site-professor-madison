@@ -11,4 +11,4 @@
      data: "2026-09-10"
    }
 */
-const BLOG_TEOLOGIA = [];
+var BLOG_TEOLOGIA = [];

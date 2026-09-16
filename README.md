@@ -33,6 +33,10 @@ um objeto no formato mostrado no comentário do próprio arquivo:
 | Ebooks (Teologia)              | `data/ebooks.js`                | `ebooks-teologia/`                   |
 | Blog (Teologia)                | `data/blog-teologia.js`       | `teologia/blog/` (copie `teologia/post-modelo.html`) |
 
+**Vídeo-aulas, Listas de exercícios e Aulas interativas** são divididas por série do Ensino
+Médio. Cada item nesses três arquivos de dados precisa de um campo `serie` com o valor `"1"`,
+`"2"` ou `"3"` (1ª, 2ª ou 3ª série), que determina em qual subseção da página ele aparece.
+
 A seção **Bíblia** não precisa de conteúdo manual: ela busca o texto (versão Almeida, domínio
 público) em tempo real na API pública gratuita [bible-api.com](https://bible-api.com).
 

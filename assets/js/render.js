@@ -3,6 +3,12 @@
    Lê os arrays definidos em /data/*.js e monta os cards.
    =========================================================== */
 
+const SERIES = [
+  { id: "1", label: "1ª Série — Ensino Médio" },
+  { id: "2", label: "2ª Série — Ensino Médio" },
+  { id: "3", label: "3ª Série — Ensino Médio" }
+];
+
 function formatDateBR(iso) {
   if (!iso) return "";
   const [y, m, d] = iso.split("-");
@@ -31,87 +37,111 @@ function emptyState(container, icon, title, hint) {
     </div>`;
 }
 
-/* ---------- Vídeo-aulas ---------- */
-function renderVideoaulas() {
-  const el = document.getElementById("lista-videoaulas");
+/* Renderiza um container agrupando os itens por série (1ª/2ª/3ª do Ensino Médio).
+   `buildCard` recebe um item e devolve o HTML do card. */
+function renderGroupedBySerie(containerId, items, buildCard, emptyIcon, emptyHint) {
+  const el = document.getElementById(containerId);
   if (!el) return;
+
+  el.innerHTML = SERIES.map((serie) => {
+    const doSerie = items.filter((item) => item.serie === serie.id);
+    const body =
+      doSerie.length === 0
+        ? `<div class="empty-state empty-state-sm">
+             <div class="icon">${emptyIcon}</div>
+             <p>${emptyHint}</p>
+           </div>`
+        : `<div class="item-grid">${doSerie.map(buildCard).join("")}</div>`;
+
+    return `
+      <section class="serie-section">
+        <h2 class="serie-title">${serie.label}</h2>
+        ${body}
+      </section>`;
+  }).join("");
+}
+
+/* ---------- Vídeo-aulas ---------- */
+function videoaulaCard(v) {
+  const id = youtubeIdFromUrl(v.youtubeId || v.url);
+  return `
+    <article class="item-card">
+      <div class="thumb">
+        <iframe src="https://www.youtube.com/embed/${id}" title="${v.titulo}" loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="body">
+        ${v.tema ? `<span class="tag">${v.tema}</span>` : ""}
+        <h3>${v.titulo}</h3>
+        <p>${v.descricao || ""}</p>
+        <span class="meta">${formatDateBR(v.data)}</span>
+      </div>
+    </article>`;
+}
+
+function renderVideoaulas() {
   const items = window.VIDEOAULAS || [];
-  if (items.length === 0) {
-    emptyState(el, "🎬", "Nenhuma vídeo-aula publicada ainda", "Em breve novas aulas gravadas serão adicionadas aqui.");
-    return;
-  }
-  el.innerHTML = items
-    .map((v) => {
-      const id = youtubeIdFromUrl(v.youtubeId || v.url);
-      return `
-      <article class="item-card">
-        <div class="thumb">
-          <iframe src="https://www.youtube.com/embed/${id}" title="${v.titulo}" loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-        <div class="body">
-          ${v.tema ? `<span class="tag">${v.tema}</span>` : ""}
-          <h3>${v.titulo}</h3>
-          <p>${v.descricao || ""}</p>
-          <span class="meta">${formatDateBR(v.data)}</span>
-        </div>
-      </article>`;
-    })
-    .join("");
+  renderGroupedBySerie(
+    "lista-videoaulas",
+    items,
+    videoaulaCard,
+    "🎬",
+    "Nenhuma vídeo-aula publicada para esta série ainda."
+  );
 }
 
 /* ---------- Listas de exercícios ---------- */
-function renderListas() {
-  const el = document.getElementById("lista-listas");
-  if (!el) return;
-  const items = window.LISTAS || [];
-  if (items.length === 0) {
-    emptyState(el, "📄", "Nenhuma lista disponível ainda", "As listas de exercícios em PDF aparecerão aqui assim que forem publicadas.");
-    return;
-  }
-  el.innerHTML = items
-    .map(
-      (item) => `
-      <article class="item-card">
-        <div class="body">
-          ${item.tema ? `<span class="tag">${item.tema}</span>` : ""}
-          <h3>${item.titulo}</h3>
-          <p>${item.descricao || ""}</p>
-          <span class="meta">${formatDateBR(item.data)}</span>
-          <div class="actions">
-            <a class="btn btn-primary" href="${item.arquivo}" download>⬇ Baixar PDF</a>
-          </div>
+function listaCard(item) {
+  return `
+    <article class="item-card">
+      <div class="body">
+        ${item.tema ? `<span class="tag">${item.tema}</span>` : ""}
+        <h3>${item.titulo}</h3>
+        <p>${item.descricao || ""}</p>
+        <span class="meta">${formatDateBR(item.data)}</span>
+        <div class="actions">
+          <a class="btn btn-primary" href="${item.arquivo}" download>⬇ Baixar PDF</a>
         </div>
-      </article>`
-    )
-    .join("");
+      </div>
+    </article>`;
+}
+
+function renderListas() {
+  const items = window.LISTAS || [];
+  renderGroupedBySerie(
+    "lista-listas",
+    items,
+    listaCard,
+    "📄",
+    "Nenhuma lista disponível para esta série ainda."
+  );
 }
 
 /* ---------- Aulas em HTML ---------- */
-function renderAulas() {
-  const el = document.getElementById("lista-aulas");
-  if (!el) return;
-  const items = window.AULAS || [];
-  if (items.length === 0) {
-    emptyState(el, "🧪", "Nenhuma aula interativa publicada ainda", "As aulas em HTML criadas com a IA aparecerão aqui.");
-    return;
-  }
-  el.innerHTML = items
-    .map(
-      (item) => `
-      <article class="item-card">
-        <div class="body">
-          ${item.tema ? `<span class="tag">${item.tema}</span>` : ""}
-          <h3>${item.titulo}</h3>
-          <p>${item.descricao || ""}</p>
-          <span class="meta">${formatDateBR(item.data)}</span>
-          <div class="actions">
-            <a class="btn btn-primary" href="${item.url}" target="_blank" rel="noopener">Abrir aula →</a>
-          </div>
+function aulaCard(item) {
+  return `
+    <article class="item-card">
+      <div class="body">
+        ${item.tema ? `<span class="tag">${item.tema}</span>` : ""}
+        <h3>${item.titulo}</h3>
+        <p>${item.descricao || ""}</p>
+        <span class="meta">${formatDateBR(item.data)}</span>
+        <div class="actions">
+          <a class="btn btn-primary" href="${item.url}" target="_blank" rel="noopener">Abrir aula →</a>
         </div>
-      </article>`
-    )
-    .join("");
+      </div>
+    </article>`;
+}
+
+function renderAulas() {
+  const items = window.AULAS || [];
+  renderGroupedBySerie(
+    "lista-aulas",
+    items,
+    aulaCard,
+    "🧪",
+    "Nenhuma aula interativa publicada para esta série ainda."
+  );
 }
 
 /* ---------- Games em HTML ---------- */

@@ -166,6 +166,19 @@ ul{ margin:0; padding:0; list-style:none; }
   color:var(--text-faint);
 }
 .empty-state .icon{ font-size:2.2rem; margin-bottom:10px; }
+.empty-state-sm{
+  text-align:center; padding:28px 20px; border:1px dashed var(--border); border-radius:var(--radius-sm);
+  color:var(--text-faint); font-size:.88rem;
+}
+.empty-state-sm .icon{ font-size:1.5rem; margin-bottom:6px; }
+
+/* ---------- Seções por série (Física) ---------- */
+.serie-section{ margin-bottom:44px; }
+.serie-section:last-child{ margin-bottom:0; }
+.serie-title{
+  font-size:1.05rem; font-weight:700; color:var(--teal);
+  border-bottom:1px solid var(--border-soft); padding-bottom:10px; margin-bottom:20px;
+}
 
 /* ---------- Bible reader ---------- */
 .bible-controls{
