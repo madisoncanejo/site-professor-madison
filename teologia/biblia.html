@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bíblia — Teologia — Professor Madison</title>
+<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body data-area="teologia" data-active="biblia">
+
+<header class="site-header" id="site-header"></header>
+
+<main>
+  <section class="hero container">
+    <span class="eyebrow">Teologia</span>
+    <h1>Bíblia — <span>leitura livre</span></h1>
+    <p class="lead">Escolha o livro e o capítulo para ler. Texto em domínio público (versão Almeida).</p>
+  </section>
+
+  <section class="container">
+    <div class="bible-controls">
+      <div class="field">
+        <label for="selectLivro">Livro</label>
+        <select id="selectLivro"></select>
+      </div>
+      <div class="field">
+        <label for="selectCapitulo">Capítulo</label>
+        <select id="selectCapitulo"></select>
+      </div>
+      <button class="btn btn-primary" id="btnLer">Ler capítulo</button>
+    </div>
+
+    <div class="bible-reading" id="bibleReading">
+      <p style="text-align:center; color:var(--text-faint);">Selecione um livro e um capítulo para começar a leitura.</p>
+    </div>
+    <p class="bible-note">Texto bíblico: versão de João Ferreira de Almeida (domínio público), via bible-api.com.</p>
+  </section>
+</main>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script src="/data/biblia-livros.js"></script>
+<script src="/assets/js/layout.js"></script>
+<script>
+  const selectLivro = document.getElementById("selectLivro");
+  const selectCapitulo = document.getElementById("selectCapitulo");
+  const btnLer = document.getElementById("btnLer");
+  const reading = document.getElementById("bibleReading");
+
+  function popularLivros() {
+    selectLivro.innerHTML = BIBLIA_LIVROS
+      .map((l, i) => `<option value="${i}">${l.nome}</option>`)
+      .join("");
+  }
+
+  function popularCapitulos() {
+    const livro = BIBLIA_LIVROS[selectLivro.value];
+    const opts = [];
+    for (let c = 1; c <= livro.capitulos; c++) opts.push(`<option value="${c}">${c}</option>`);
+    selectCapitulo.innerHTML = opts.join("");
+  }
+
+  async function lerCapitulo() {
+    const livro = BIBLIA_LIVROS[selectLivro.value];
+    const capitulo = selectCapitulo.value;
+    reading.innerHTML = `<p style="text-align:center; color:var(--text-faint);">Carregando ${livro.nome} ${capitulo}...</p>`;
+
+    const query = encodeURIComponent(`${livro.slug} ${capitulo}`).replace(/%20/g, "+");
+    try {
+      const res = await fetch(`https://bible-api.com/${query}?translation=almeida`);
+      if (!res.ok) throw new Error("Falha na resposta");
+      const data = await res.json();
+      if (!data.verses || data.verses.length === 0) throw new Error("Sem versículos");
+
+      reading.innerHTML = `
+        <h2>${livro.nome} ${capitulo}</h2>
+        ${data.verses
+          .map((v) => `<p class="verse"><span class="vnum">${v.verse}</span>${v.text.trim()}</p>`)
+          .join("")}
+      `;
+      reading.scrollIntoView({ behavior: "smooth", block: "start" });
+    } catch (err) {
+      reading.innerHTML = `<p style="text-align:center; color:var(--text-faint);">Não foi possível carregar este capítulo agora. Verifique sua conexão com a internet e tente novamente.</p>`;
+    }
+  }
+
+  selectLivro.addEventListener("change", popularCapitulos);
+  btnLer.addEventListener("click", lerCapitulo);
+
+  popularLivros();
+  popularCapitulos();
+</script>
+</body>
+</html>

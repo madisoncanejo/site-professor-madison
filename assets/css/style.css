@@ -1,0 +1,230 @@
+/* ===========================================================
+   Professor Madison — Design System
+   =========================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg:            #081420;
+  --bg-alt:        #0c1c2c;
+  --card:          #10263a;
+  --card-hover:    #143050;
+  --border:        #1d3d56;
+  --border-soft:   #16324a;
+  --teal:          #18e3ac;
+  --teal-2:        #10b3c4;
+  --teal-soft:     rgba(24,227,172,.12);
+  --text:          #eef4f8;
+  --text-dim:      #9fb6c8;
+  --text-faint:    #6f8ba0;
+  --physics:       #18e3ac;
+  --physics-2:     #10b3c4;
+  --theology:      #d9b25c;
+  --theology-2:    #b98a2e;
+  --radius:        16px;
+  --radius-sm:     10px;
+  --maxw:          1180px;
+  --shadow:        0 10px 30px rgba(0,0,0,.35);
+  --font-head:     'Poppins', system-ui, sans-serif;
+  --font-body:     'Inter', system-ui, sans-serif;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  margin:0;
+  background:
+    radial-gradient(1100px 600px at 85% -10%, rgba(24,227,172,.08), transparent 60%),
+    radial-gradient(900px 500px at -10% 20%, rgba(16,179,196,.07), transparent 55%),
+    var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  line-height:1.6;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+main{ flex:1; }
+img{ max-width:100%; display:block; }
+a{ color:inherit; text-decoration:none; }
+h1,h2,h3,h4{ font-family:var(--font-head); margin:0 0 .5em; line-height:1.2; }
+p{ margin:0 0 1em; color:var(--text-dim); }
+ul{ margin:0; padding:0; list-style:none; }
+.container{ max-width:var(--maxw); margin:0 auto; padding:0 24px; }
+
+/* ---------- Header ---------- */
+.site-header{
+  position:sticky; top:0; z-index:50;
+  background:rgba(8,20,32,.85);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border-soft);
+}
+.site-header .container{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px; padding-top:14px; padding-bottom:14px;
+}
+.brand{ display:flex; align-items:center; gap:12px; }
+.brand-logo{ width:38px; height:38px; flex:none; }
+.brand-text{ display:flex; flex-direction:column; line-height:1.05; }
+.brand-text .p{ font-size:.62rem; letter-spacing:.28em; color:var(--text-faint); font-weight:600; }
+.brand-text .m{ font-family:var(--font-head); font-weight:800; font-size:1.15rem; letter-spacing:.02em; }
+
+.main-nav{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.main-nav a{
+  font-size:.9rem; font-weight:600; color:var(--text-dim);
+  padding:8px 14px; border-radius:999px; transition:.15s;
+  white-space:nowrap;
+}
+.main-nav a:hover{ color:var(--text); background:var(--teal-soft); }
+.main-nav a.active{ color:var(--bg); background:var(--teal); }
+
+.area-switch{
+  font-size:.8rem; font-weight:700; color:var(--teal);
+  border:1px solid var(--border); padding:7px 14px; border-radius:999px;
+  transition:.15s;
+}
+.area-switch:hover{ background:var(--teal-soft); border-color:var(--teal); }
+
+.nav-toggle{
+  display:none; background:none; border:1px solid var(--border); color:var(--text);
+  border-radius:8px; padding:8px 10px; font-size:1.1rem; cursor:pointer;
+}
+
+/* ---------- Hero ---------- */
+.hero{ padding:64px 0 40px; text-align:center; }
+.hero .eyebrow{
+  display:inline-block; font-size:.78rem; font-weight:700; letter-spacing:.18em;
+  color:var(--teal); text-transform:uppercase; margin-bottom:14px;
+}
+.hero h1{ font-size:clamp(1.9rem,4vw,3rem); font-weight:800; }
+.hero h1 span{ background:linear-gradient(120deg,var(--teal),var(--teal-2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.hero p.lead{ font-size:1.05rem; max-width:620px; margin:0 auto 8px; }
+.hero .tagline{ font-style:italic; color:var(--teal); font-weight:600; margin-top:8px; }
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; gap:8px; font-weight:700; font-size:.92rem;
+  padding:12px 22px; border-radius:999px; border:1px solid transparent; cursor:pointer;
+  transition:.15s; font-family:var(--font-body);
+}
+.btn-primary{ background:linear-gradient(120deg,var(--teal),var(--teal-2)); color:#04231b; }
+.btn-primary:hover{ filter:brightness(1.08); transform:translateY(-1px); }
+.btn-outline{ border-color:var(--border); color:var(--text); background:transparent; }
+.btn-outline:hover{ border-color:var(--teal); color:var(--teal); }
+
+/* ---------- Section chooser (home) ---------- */
+.area-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:28px; margin:48px 0 32px;
+}
+@media (max-width:720px){ .area-grid{ grid-template-columns:1fr; } }
+.area-card{
+  position:relative; overflow:hidden; border-radius:var(--radius);
+  border:1px solid var(--border); background:var(--card);
+  padding:44px 32px; text-align:center; transition:.2s;
+}
+.area-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); border-color:var(--teal); }
+.area-card .icon{ font-size:2.6rem; margin-bottom:14px; }
+.area-card h2{ font-size:1.5rem; }
+.area-card p{ margin-bottom:20px; }
+.area-card.theology:hover{ border-color:var(--theology); }
+.area-card.theology .btn-primary{ background:linear-gradient(120deg,var(--theology),var(--theology-2)); color:#241a02; }
+
+/* ---------- Card grid (section hubs) ---------- */
+.grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:22px; margin:36px 0; }
+.card{
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  padding:26px; transition:.18s; display:flex; flex-direction:column; height:100%;
+}
+.card:hover{ border-color:var(--teal); background:var(--card-hover); transform:translateY(-2px); }
+.card .icon{ font-size:1.8rem; margin-bottom:12px; }
+.card h3{ font-size:1.1rem; }
+.card p{ flex:1; font-size:.92rem; }
+.card .go{ font-size:.85rem; font-weight:700; color:var(--teal); }
+
+/* ---------- Content list cards (videos, files, blog...) ---------- */
+.item-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; }
+.item-card{
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  overflow:hidden; display:flex; flex-direction:column;
+}
+.item-card .thumb{
+  aspect-ratio:16/9; background:var(--bg-alt); position:relative; overflow:hidden;
+}
+.item-card .thumb iframe{ width:100%; height:100%; border:0; }
+.item-card .body{ padding:18px 20px 20px; display:flex; flex-direction:column; gap:8px; flex:1; }
+.item-card .tag{
+  align-self:flex-start; font-size:.7rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+  color:var(--teal); background:var(--teal-soft); padding:4px 10px; border-radius:999px;
+}
+.item-card h3{ font-size:1.02rem; margin:0; }
+.item-card .meta{ font-size:.78rem; color:var(--text-faint); }
+.item-card .actions{ margin-top:auto; padding-top:6px; }
+
+/* ---------- Empty state ---------- */
+.empty-state{
+  text-align:center; padding:60px 24px; border:1px dashed var(--border); border-radius:var(--radius);
+  color:var(--text-faint);
+}
+.empty-state .icon{ font-size:2.2rem; margin-bottom:10px; }
+
+/* ---------- Bible reader ---------- */
+.bible-controls{
+  display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; margin-bottom:28px;
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:20px;
+}
+.field{ display:flex; flex-direction:column; gap:6px; }
+.field label{ font-size:.78rem; color:var(--text-faint); font-weight:600; }
+select, input[type=text]{
+  background:var(--bg-alt); color:var(--text); border:1px solid var(--border);
+  border-radius:8px; padding:10px 12px; font-size:.92rem; font-family:var(--font-body);
+  min-width:180px;
+}
+.bible-reading{
+  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+  padding:32px; max-width:760px; margin:0 auto;
+}
+.bible-reading h2{ color:var(--theology); }
+.bible-reading .verse{ margin-bottom:.9em; }
+.bible-reading .vnum{ color:var(--theology); font-weight:700; font-size:.8em; margin-right:.4em; }
+.bible-note{ font-size:.8rem; color:var(--text-faint); margin-top:18px; text-align:center; }
+
+/* ---------- Footer ---------- */
+.site-footer{ border-top:1px solid var(--border-soft); margin-top:60px; padding:40px 0 28px; }
+.footer-grid{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
+.footer-brand{ display:flex; align-items:center; gap:10px; }
+.footer-brand .brand-logo{ width:28px; height:28px; }
+.footer-brand span{ font-family:var(--font-head); font-weight:700; }
+.social-links{ display:flex; gap:12px; }
+.social-links a{
+  width:40px; height:40px; border-radius:50%; border:1px solid var(--border);
+  display:flex; align-items:center; justify-content:center; transition:.15s;
+}
+.social-links a:hover{ border-color:var(--teal); background:var(--teal-soft); }
+.social-links svg{ width:18px; height:18px; fill:var(--text-dim); }
+.social-links a:hover svg{ fill:var(--teal); }
+.footer-copy{ text-align:center; color:var(--text-faint); font-size:.8rem; margin-top:24px; }
+
+/* ---------- Section theme override (Teologia) ---------- */
+body[data-area="teologia"] .main-nav a.active{ background:var(--theology); color:#241a02; }
+body[data-area="teologia"] .area-switch{ color:var(--theology); }
+body[data-area="teologia"] .area-switch:hover{ border-color:var(--theology); background:rgba(217,178,92,.12); }
+body[data-area="teologia"] .hero .eyebrow{ color:var(--theology); }
+body[data-area="teologia"] .hero h1 span{ background:linear-gradient(120deg,var(--theology),var(--theology-2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+body[data-area="teologia"] .hero .tagline{ color:var(--theology); }
+body[data-area="teologia"] .card:hover{ border-color:var(--theology); }
+body[data-area="teologia"] .card .go{ color:var(--theology); }
+body[data-area="teologia"] .item-card .tag{ color:var(--theology); background:rgba(217,178,92,.12); }
+body[data-area="teologia"] .btn-primary{ background:linear-gradient(120deg,var(--theology),var(--theology-2)); color:#241a02; }
+
+/* ---------- Responsive nav ---------- */
+@media (max-width:900px){
+  .nav-toggle{ display:inline-flex; }
+  .main-nav{
+    position:absolute; top:100%; left:0; right:0; background:var(--bg-alt);
+    border-bottom:1px solid var(--border-soft); flex-direction:column; align-items:stretch;
+    padding:10px 16px; display:none;
+  }
+  .main-nav.open{ display:flex; }
+  .main-nav a{ padding:12px 10px; border-radius:8px; }
+  .site-header .container{ position:relative; flex-wrap:wrap; }
+}
