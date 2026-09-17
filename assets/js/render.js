@@ -202,7 +202,7 @@ function renderGames() {
     .join("");
 }
 
-/* ---------- Blog (Física ou Teologia) ---------- */
+/* ---------- Blog ---------- */
 function renderBlog(containerId, arrayName) {
   const el = document.getElementById(containerId);
   if (!el) return;
@@ -222,33 +222,6 @@ function renderBlog(containerId, arrayName) {
           <span class="meta">${formatDateBR(post.data)}</span>
           <div class="actions">
             <a class="btn btn-outline" href="${post.url}">Ler post →</a>
-          </div>
-        </div>
-      </article>`
-    )
-    .join("");
-}
-
-/* ---------- Ebooks (Teologia) ---------- */
-function renderEbooks() {
-  const el = document.getElementById("lista-ebooks");
-  if (!el) return;
-  const items = window.EBOOKS || [];
-  if (items.length === 0) {
-    emptyState(el, "📚", "Nenhum ebook publicado ainda", "Os ebooks sobre estudos bíblicos e teológicos aparecerão aqui.");
-    return;
-  }
-  el.innerHTML = items
-    .map(
-      (item) => `
-      <article class="item-card">
-        <div class="body">
-          ${item.tema ? `<span class="tag">${item.tema}</span>` : ""}
-          <h3>${item.titulo}</h3>
-          <p>${item.descricao || ""}</p>
-          <span class="meta">${formatDateBR(item.data)}</span>
-          <div class="actions">
-            <a class="btn btn-primary" href="${item.arquivo}" download>⬇ Baixar Ebook</a>
           </div>
         </div>
       </article>`

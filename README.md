@@ -1,21 +1,22 @@
 # Site — Professor Madison
 
-Site estático (HTML/CSS/JS puro, sem build) com duas áreas — **Física** e **Teologia** — escolhidas na página inicial.
+Site estático de Física (HTML/CSS/JS puro, sem build). Publicado em [professormadison.com.br](https://professormadison.com.br).
+
+> Nota: este site já teve uma área de Teologia, removida para manter o foco em Física — a Teologia vai ganhar um site próprio no futuro.
 
 ## Estrutura
 
 ```
-index.html              → página inicial (escolher Física ou Teologia)
-fisica/                  → hub de Física + vídeo-aulas, listas, aulas, games, blog
-teologia/                → hub de Teologia + Bíblia, ebooks, blog
+index.html              → página inicial / hub de Física
+fisica/                  → vídeo-aulas, listas, aulas, games, blog
+  fisica/index.html      → redireciona para "/" (mantido por compatibilidade de links)
 assets/css/style.css     → estilos (cores da marca, tipografia, layout)
 assets/js/layout.js      → monta o cabeçalho/rodapé/menu em todas as páginas
 assets/js/render.js      → monta os cards de conteúdo a partir dos arquivos em /data
 data/*.js                → "banco de dados" do site (arrays editáveis)
-downloads/               → PDFs das listas de exercícios de Física
-aulas-html/               → aulas interativas em HTML de Física
-games-html/                → games em HTML de Física
-ebooks-teologia/          → PDFs/EPUBs de Teologia
+downloads/               → PDFs das listas de exercícios
+aulas-html/               → aulas interativas em HTML
+games-html/                → games em HTML
 ```
 
 ## Como adicionar conteúdo (sem mexer no HTML)
@@ -23,15 +24,13 @@ ebooks-teologia/          → PDFs/EPUBs de Teologia
 Cada seção lê uma lista de itens de um arquivo em `/data`. Basta editar o arquivo e adicionar
 um objeto no formato mostrado no comentário do próprio arquivo:
 
-| Seção                          | Arquivo de dados              | Onde colocar o arquivo (se houver) |
-|--------------------------------|--------------------------------|--------------------------------------|
-| Vídeo-aulas (Física)           | `data/videoaulas.js`          | —, só o link/ID do YouTube          |
-| Listas de exercícios (Física)  | `data/listas.js`              | `downloads/`                         |
-| Aulas interativas (Física)     | `data/aulas.js`                | `aulas-html/`                        |
-| Games (Física)                 | `data/games.js`                | `games-html/`                        |
-| Blog (Física)                  | `data/blog-fisica.js`         | `fisica/blog/` (copie `fisica/post-modelo.html`) |
-| Ebooks (Teologia)              | `data/ebooks.js`                | `ebooks-teologia/`                   |
-| Blog (Teologia)                | `data/blog-teologia.js`       | `teologia/blog/` (copie `teologia/post-modelo.html`) |
+| Seção                  | Arquivo de dados       | Onde colocar o arquivo (se houver) |
+|-------------------------|--------------------------|--------------------------------------|
+| Vídeo-aulas             | `data/videoaulas.js`   | —, só o link/ID do YouTube          |
+| Listas de exercícios    | `data/listas.js`       | `downloads/`                         |
+| Aulas interativas       | `data/aulas.js`         | `aulas-html/`                        |
+| Games                   | `data/games.js`         | `games-html/`                        |
+| Blog                    | `data/blog-fisica.js`  | `fisica/blog/` (copie `fisica/post-modelo.html`) |
 
 **Vídeo-aulas, Listas de exercícios e Aulas interativas** são divididas por série do Ensino
 Médio. Cada item nesses três arquivos de dados precisa de um campo `serie` com o valor `"1"`,
@@ -41,9 +40,6 @@ aparece.
 A subseção **`"enem"` (Revisão ENEM)** é para conteúdo que cruza as 3 séries — em vez de
 listar os itens soltos, ela os agrupa pelo campo `tema` (ex: "Mecânica", "Eletricidade",
 "Óptica"), já que revisão de ENEM normalmente não é presa a um ano específico.
-
-A seção **Bíblia** não precisa de conteúdo manual: ela busca o texto (versão Almeida, domínio
-público) em tempo real na API pública gratuita [bible-api.com](https://bible-api.com).
 
 ## Redes sociais e marca
 
@@ -68,9 +64,9 @@ Depois acesse `http://localhost:8000`.
 
 ## Publicar (deploy)
 
-Este site é 100% estático — pode ser publicado gratuitamente em serviços como
-**Netlify**, **Vercel**, **Cloudflare Pages** ou **GitHub Pages**, bastando enviar esta
-pasta (`site-professor-madison`) como raiz do projeto.
+Publicado via **GitHub Pages** a partir do repositório
+[github.com/madisoncanejo/site-professor-madison](https://github.com/madisoncanejo/site-professor-madison),
+com domínio próprio `professormadison.com.br` e HTTPS ativo.
 
 ## Próximos passos (venda futura)
 

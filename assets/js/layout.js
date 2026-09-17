@@ -1,6 +1,6 @@
 /* ===========================================================
    Professor Madison — Header / Footer / Nav injection
-   Controlled by <body data-area="fisica|teologia|home" data-active="...">
+   Site de Física. Controlado por <body data-active="...">
    =========================================================== */
 
 const LOGO_SVG = `
@@ -24,22 +24,14 @@ const SOCIAL_LINKS = {
   tiktok: "https://www.tiktok.com/@professormadison"
 };
 
-const NAV = {
-  fisica: [
-    { href: "/fisica/index.html", label: "Início", key: "home" },
-    { href: "/fisica/videoaulas.html", label: "Vídeo-aulas", key: "videoaulas" },
-    { href: "/fisica/listas.html", label: "Listas de Exercícios", key: "listas" },
-    { href: "/fisica/aulas.html", label: "Aulas HTML", key: "aulas" },
-    { href: "/fisica/games.html", label: "Games", key: "games" },
-    { href: "/fisica/blog.html", label: "Blog", key: "blog" }
-  ],
-  teologia: [
-    { href: "/teologia/index.html", label: "Início", key: "home" },
-    { href: "/teologia/biblia.html", label: "Bíblia", key: "biblia" },
-    { href: "/teologia/ebooks.html", label: "Ebooks", key: "ebooks" },
-    { href: "/teologia/blog.html", label: "Blog", key: "blog" }
-  ]
-};
+const NAV = [
+  { href: "/index.html", label: "Início", key: "home" },
+  { href: "/fisica/videoaulas.html", label: "Vídeo-aulas", key: "videoaulas" },
+  { href: "/fisica/listas.html", label: "Listas de Exercícios", key: "listas" },
+  { href: "/fisica/aulas.html", label: "Aulas HTML", key: "aulas" },
+  { href: "/fisica/games.html", label: "Games", key: "games" },
+  { href: "/fisica/blog.html", label: "Blog", key: "blog" }
+];
 
 function socialIcon(name) {
   const icons = {
@@ -51,25 +43,13 @@ function socialIcon(name) {
 }
 
 function renderHeader() {
-  const area = document.body.dataset.area || "home";
   const active = document.body.dataset.active || "";
   const el = document.getElementById("site-header");
   if (!el) return;
 
-  let navHtml = "";
-  let switchHtml = "";
-
-  if (area === "fisica" || area === "teologia") {
-    navHtml = NAV[area]
-      .map(
-        (item) =>
-          `<a href="${item.href}" class="${item.key === active ? "active" : ""}">${item.label}</a>`
-      )
-      .join("");
-    const other = area === "fisica" ? "teologia" : "fisica";
-    const otherLabel = area === "fisica" ? "Teologia" : "Física";
-    switchHtml = `<a class="area-switch" href="/${other}/index.html">Ir para ${otherLabel} →</a>`;
-  }
+  const navHtml = NAV.map(
+    (item) => `<a href="${item.href}" class="${item.key === active ? "active" : ""}">${item.label}</a>`
+  ).join("");
 
   el.innerHTML = `
     <div class="container">
@@ -80,9 +60,8 @@ function renderHeader() {
           <span class="m">MADISON</span>
         </span>
       </a>
-      ${navHtml ? `<button class="nav-toggle" id="navToggle" aria-label="Abrir menu">☰</button>` : ""}
+      <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">☰</button>
       <nav class="main-nav" id="mainNav">${navHtml}</nav>
-      ${switchHtml}
     </div>
   `;
 

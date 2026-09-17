@@ -19,8 +19,6 @@
   --text-faint:    #6f8ba0;
   --physics:       #18e3ac;
   --physics-2:     #10b3c4;
-  --theology:      #d9b25c;
-  --theology-2:    #b98a2e;
   --radius:        16px;
   --radius-sm:     10px;
   --maxw:          1180px;
@@ -78,13 +76,6 @@ ul{ margin:0; padding:0; list-style:none; }
 .main-nav a:hover{ color:var(--text); background:var(--teal-soft); }
 .main-nav a.active{ color:var(--bg); background:var(--teal); }
 
-.area-switch{
-  font-size:.8rem; font-weight:700; color:var(--teal);
-  border:1px solid var(--border); padding:7px 14px; border-radius:999px;
-  transition:.15s;
-}
-.area-switch:hover{ background:var(--teal-soft); border-color:var(--teal); }
-
 .nav-toggle{
   display:none; background:none; border:1px solid var(--border); color:var(--text);
   border-radius:8px; padding:8px 10px; font-size:1.1rem; cursor:pointer;
@@ -111,23 +102,6 @@ ul{ margin:0; padding:0; list-style:none; }
 .btn-primary:hover{ filter:brightness(1.08); transform:translateY(-1px); }
 .btn-outline{ border-color:var(--border); color:var(--text); background:transparent; }
 .btn-outline:hover{ border-color:var(--teal); color:var(--teal); }
-
-/* ---------- Section chooser (home) ---------- */
-.area-grid{
-  display:grid; grid-template-columns:1fr 1fr; gap:28px; margin:48px 0 32px;
-}
-@media (max-width:720px){ .area-grid{ grid-template-columns:1fr; } }
-.area-card{
-  position:relative; overflow:hidden; border-radius:var(--radius);
-  border:1px solid var(--border); background:var(--card);
-  padding:44px 32px; text-align:center; transition:.2s;
-}
-.area-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow); border-color:var(--teal); }
-.area-card .icon{ font-size:2.6rem; margin-bottom:14px; }
-.area-card h2{ font-size:1.5rem; }
-.area-card p{ margin-bottom:20px; }
-.area-card.theology:hover{ border-color:var(--theology); }
-.area-card.theology .btn-primary{ background:linear-gradient(120deg,var(--theology),var(--theology-2)); color:#241a02; }
 
 /* ---------- Card grid (section hubs) ---------- */
 .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:22px; margin:36px 0; }
@@ -186,27 +160,6 @@ ul{ margin:0; padding:0; list-style:none; }
   text-transform:uppercase; letter-spacing:.05em; margin-bottom:14px;
 }
 
-/* ---------- Bible reader ---------- */
-.bible-controls{
-  display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; margin-bottom:28px;
-  background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:20px;
-}
-.field{ display:flex; flex-direction:column; gap:6px; }
-.field label{ font-size:.78rem; color:var(--text-faint); font-weight:600; }
-select, input[type=text]{
-  background:var(--bg-alt); color:var(--text); border:1px solid var(--border);
-  border-radius:8px; padding:10px 12px; font-size:.92rem; font-family:var(--font-body);
-  min-width:180px;
-}
-.bible-reading{
-  background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
-  padding:32px; max-width:760px; margin:0 auto;
-}
-.bible-reading h2{ color:var(--theology); }
-.bible-reading .verse{ margin-bottom:.9em; }
-.bible-reading .vnum{ color:var(--theology); font-weight:700; font-size:.8em; margin-right:.4em; }
-.bible-note{ font-size:.8rem; color:var(--text-faint); margin-top:18px; text-align:center; }
-
 /* ---------- Footer ---------- */
 .site-footer{ border-top:1px solid var(--border-soft); margin-top:60px; padding:40px 0 28px; }
 .footer-grid{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px; }
@@ -222,18 +175,6 @@ select, input[type=text]{
 .social-links svg{ width:18px; height:18px; fill:var(--text-dim); }
 .social-links a:hover svg{ fill:var(--teal); }
 .footer-copy{ text-align:center; color:var(--text-faint); font-size:.8rem; margin-top:24px; }
-
-/* ---------- Section theme override (Teologia) ---------- */
-body[data-area="teologia"] .main-nav a.active{ background:var(--theology); color:#241a02; }
-body[data-area="teologia"] .area-switch{ color:var(--theology); }
-body[data-area="teologia"] .area-switch:hover{ border-color:var(--theology); background:rgba(217,178,92,.12); }
-body[data-area="teologia"] .hero .eyebrow{ color:var(--theology); }
-body[data-area="teologia"] .hero h1 span{ background:linear-gradient(120deg,var(--theology),var(--theology-2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
-body[data-area="teologia"] .hero .tagline{ color:var(--theology); }
-body[data-area="teologia"] .card:hover{ border-color:var(--theology); }
-body[data-area="teologia"] .card .go{ color:var(--theology); }
-body[data-area="teologia"] .item-card .tag{ color:var(--theology); background:rgba(217,178,92,.12); }
-body[data-area="teologia"] .btn-primary{ background:linear-gradient(120deg,var(--theology),var(--theology-2)); color:#241a02; }
 
 /* ---------- Responsive nav ---------- */
 @media (max-width:900px){
