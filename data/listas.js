@@ -23,4 +23,13 @@
      data: "2026-09-16"
    }
 */
-var LISTAS = [];
+var LISTAS = [
+  {
+    serie: "enem",
+    tema: "ENEM 2018",
+    titulo: "Lista ENEM 2018 — Física",
+    descricao: "Questões de Física da prova do ENEM de novembro de 2018, com resolução comentada.",
+    arquivo: "/downloads/enem-2018-fisica.pdf",
+    data: "2026-09-17"
+  }
+];
