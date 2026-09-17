@@ -179,6 +179,12 @@ ul{ margin:0; padding:0; list-style:none; }
   font-size:1.05rem; font-weight:700; color:var(--teal);
   border-bottom:1px solid var(--border-soft); padding-bottom:10px; margin-bottom:20px;
 }
+.tema-group{ margin-bottom:28px; }
+.tema-group:last-child{ margin-bottom:0; }
+.tema-title{
+  font-size:.85rem; font-weight:700; color:var(--text-dim);
+  text-transform:uppercase; letter-spacing:.05em; margin-bottom:14px;
+}
 
 /* ---------- Bible reader ---------- */
 .bible-controls{

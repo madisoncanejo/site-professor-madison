@@ -35,7 +35,12 @@ um objeto no formato mostrado no comentário do próprio arquivo:
 
 **Vídeo-aulas, Listas de exercícios e Aulas interativas** são divididas por série do Ensino
 Médio. Cada item nesses três arquivos de dados precisa de um campo `serie` com o valor `"1"`,
-`"2"` ou `"3"` (1ª, 2ª ou 3ª série), que determina em qual subseção da página ele aparece.
+`"2"`, `"3"` (1ª, 2ª ou 3ª série) ou `"enem"`, que determina em qual subseção da página ele
+aparece.
+
+A subseção **`"enem"` (Revisão ENEM)** é para conteúdo que cruza as 3 séries — em vez de
+listar os itens soltos, ela os agrupa pelo campo `tema` (ex: "Mecânica", "Eletricidade",
+"Óptica"), já que revisão de ENEM normalmente não é presa a um ano específico.
 
 A seção **Bíblia** não precisa de conteúdo manual: ela busca o texto (versão Almeida, domínio
 público) em tempo real na API pública gratuita [bible-api.com](https://bible-api.com).

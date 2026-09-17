@@ -6,7 +6,8 @@
 const SERIES = [
   { id: "1", label: "1ª Série — Ensino Médio" },
   { id: "2", label: "2ª Série — Ensino Médio" },
-  { id: "3", label: "3ª Série — Ensino Médio" }
+  { id: "3", label: "3ª Série — Ensino Médio" },
+  { id: "enem", label: "Revisão ENEM", groupByTema: true }
 ];
 
 function formatDateBR(iso) {
@@ -37,7 +38,35 @@ function emptyState(container, icon, title, hint) {
     </div>`;
 }
 
-/* Renderiza um container agrupando os itens por série (1ª/2ª/3ª do Ensino Médio).
+/* Agrupa itens pelo campo "tema" (usado dentro da Revisão ENEM, que cruza as 3 séries). */
+function groupByTema(items, buildCard, emptyIcon, emptyHint) {
+  if (items.length === 0) {
+    return `<div class="empty-state empty-state-sm">
+               <div class="icon">${emptyIcon}</div>
+               <p>${emptyHint}</p>
+             </div>`;
+  }
+
+  const temas = [];
+  items.forEach((item) => {
+    const tema = item.tema || "Geral";
+    if (!temas.includes(tema)) temas.push(tema);
+  });
+
+  return temas
+    .map((tema) => {
+      const doTema = items.filter((item) => (item.tema || "Geral") === tema);
+      return `
+        <div class="tema-group">
+          <h3 class="tema-title">${tema}</h3>
+          <div class="item-grid">${doTema.map(buildCard).join("")}</div>
+        </div>`;
+    })
+    .join("");
+}
+
+/* Renderiza um container agrupando os itens por série (1ª/2ª/3ª do Ensino Médio)
+   e, na Revisão ENEM, subagrupando por tema/assunto (já que o ENEM cruza as 3 séries).
    `buildCard` recebe um item e devolve o HTML do card. */
 function renderGroupedBySerie(containerId, items, buildCard, emptyIcon, emptyHint) {
   const el = document.getElementById(containerId);
@@ -45,13 +74,15 @@ function renderGroupedBySerie(containerId, items, buildCard, emptyIcon, emptyHin
 
   el.innerHTML = SERIES.map((serie) => {
     const doSerie = items.filter((item) => item.serie === serie.id);
-    const body =
-      doSerie.length === 0
-        ? `<div class="empty-state empty-state-sm">
-             <div class="icon">${emptyIcon}</div>
-             <p>${emptyHint}</p>
-           </div>`
-        : `<div class="item-grid">${doSerie.map(buildCard).join("")}</div>`;
+
+    const body = serie.groupByTema
+      ? groupByTema(doSerie, buildCard, emptyIcon, emptyHint)
+      : doSerie.length === 0
+      ? `<div class="empty-state empty-state-sm">
+           <div class="icon">${emptyIcon}</div>
+           <p>${emptyHint}</p>
+         </div>`
+      : `<div class="item-grid">${doSerie.map(buildCard).join("")}</div>`;
 
     return `
       <section class="serie-section">

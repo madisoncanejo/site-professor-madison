@@ -1,6 +1,7 @@
 /* Aulas interativas em HTML — Física
    Coloque o arquivo .html dentro da pasta /aulas-html/ e adicione um objeto abaixo.
-   "serie" define em qual subseção a aula aparece: "1" (1ª Série), "2" (2ª Série) ou "3" (3ª Série).
+   "serie" define em qual subseção a aula aparece: "1" (1ª Série), "2" (2ª Série),
+   "3" (3ª Série) ou "enem" (Revisão ENEM — cruza as 3 séries e é organizada por "tema").
 
    Exemplo:
    {
