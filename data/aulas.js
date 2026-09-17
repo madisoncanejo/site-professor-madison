@@ -13,4 +13,13 @@
      data: "2026-09-10"
    }
 */
-var AULAS = [];
+var AULAS = [
+  {
+    serie: "2",
+    tema: "Termodinâmica",
+    titulo: "Primeira Lei da Termodinâmica — Laboratório Interativo",
+    descricao: "Aula completa com simulador de gás ideal, gráficos p×V, transformações (isotérmica, isobárica, isocórica, adiabática), exemplos resolvidos e quiz final.",
+    url: "/aulas-html/primeira-lei-termodinamica-interativa.html",
+    data: "2026-09-17"
+  }
+];

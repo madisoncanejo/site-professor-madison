@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Primeira Lei da Termodinâmica — Laboratório Interativo</title>
+<style>
+  :root{
+    --bg:#07111f;
+    --panel:#0d1b2f;
+    --panel2:#10243f;
+    --ink:#eef7ff;
+    --muted:#a8bfd6;
+    --cyan:#22d3ee;
+    --blue:#3b82f6;
+    --orange:#f59e0b;
+    --red:#fb7185;
+    --green:#34d399;
+    --violet:#a78bfa;
+    --line:#24405e;
+    --paper:#f7fbff;
+    --dark:#07111f;
+    --shadow:0 18px 50px rgba(0,0,0,.28);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:
+    radial-gradient(circle at 15% 0%,rgba(34,211,238,.08),transparent 28%),
+    radial-gradient(circle at 85% 5%,rgba(245,158,11,.08),transparent 30%),
+    var(--bg); color:var(--ink); font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; line-height:1.55}
+  button,input,select{font:inherit}
+  button{cursor:pointer}
+  a{color:inherit}
+  .topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:14px;padding:10px 18px;background:rgba(7,17,31,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(148,163,184,.15)}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:850;letter-spacing:.2px;white-space:nowrap}
+  .brandmark{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:grid;place-items:center;color:#03111d;font-weight:950;box-shadow:0 0 0 1px rgba(255,255,255,.15) inset}
+  .topbar .grow{flex:1}
+  .pillbtn{border:1px solid #29445f;background:#0f223a;color:var(--ink);padding:8px 12px;border-radius:999px;font-weight:750}
+  .pillbtn:hover{border-color:#3d678d;background:#132b48}
+  .progress{height:3px;background:#15314c;position:fixed;left:0;right:0;top:55px;z-index:31}
+  .progress > i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--orange))}
+  .layout{display:grid;grid-template-columns:250px minmax(0,1fr);max-width:1500px;margin:0 auto}
+  aside{position:sticky;top:59px;height:calc(100vh - 59px);padding:24px 14px 40px;border-right:1px solid rgba(148,163,184,.12);overflow:auto}
+  aside .label{font-size:.72rem;text-transform:uppercase;letter-spacing:.18em;color:#6f8ca7;margin:0 10px 10px}
+  nav a{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;color:#a9c0d5;text-decoration:none;font-size:.92rem;margin:2px 0}
+  nav a:hover, nav a.active{background:#10243f;color:white}
+  nav b{width:24px;height:24px;border-radius:8px;background:#142c49;display:grid;place-items:center;color:#7dd3fc;font-size:.78rem}
+  main{min-width:0;padding:24px 28px 100px}
+  section{scroll-margin-top:78px;margin-bottom:38px}
+  .hero{min-height:78vh;display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center;padding:40px 0 26px}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;color:#98e9f6;font-weight:800;text-transform:uppercase;letter-spacing:.15em;font-size:.78rem}
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--cyan)}
+  h1{font-size:clamp(2.7rem,5.3vw,6rem);line-height:.93;margin:14px 0 18px;letter-spacing:-.055em;max-width:900px}
+  h1 em{font-style:normal;color:var(--cyan)}
+  .lede{font-size:clamp(1.05rem,1.6vw,1.35rem);color:#c3d7e7;max-width:760px}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+  .btn{border:0;border-radius:14px;padding:12px 16px;font-weight:850;background:linear-gradient(135deg,var(--cyan),#60a5fa);color:#03111d;box-shadow:0 9px 30px rgba(34,211,238,.16)}
+  .btn.secondary{background:#10243f;color:white;border:1px solid #2a4762;box-shadow:none}
+  .hero-card{background:linear-gradient(180deg,rgba(16,36,63,.9),rgba(8,24,42,.92));border:1px solid rgba(125,211,252,.2);border-radius:28px;padding:18px;box-shadow:var(--shadow)}
+  .kicker{font-size:.8rem;color:#86a7c4;font-weight:800;text-transform:uppercase;letter-spacing:.12em}
+  .panel{background:linear-gradient(180deg,#0d1b2f,#0a1829);border:1px solid rgba(148,163,184,.14);border-radius:22px;padding:22px;box-shadow:0 14px 40px rgba(0,0,0,.17)}
+  .panel.white{background:#f8fbff;color:#0b1728;border-color:#dbe8f4}
+  .section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:16px}
+  .section-head h2{font-size:clamp(1.8rem,3vw,3.2rem);letter-spacing:-.035em;line-height:1.02;margin:0}
+  .section-head p{max-width:720px;color:#a7bfd5;margin:0}
+  .white .section-head p{color:#4f657a}
+  .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+  .grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+  .card{background:#10243f;border:1px solid #203b57;border-radius:18px;padding:18px;position:relative;overflow:hidden}
+  .card h3{margin:0 0 7px;font-size:1.08rem}
+  .card p{margin:0;color:#abc2d6}
+  .card strong{color:white}
+  .white .card{background:white;border-color:#dbe8f4}.white .card p{color:#425a70}.white .card strong{color:#0b1728}
+  .formula{font-family:Cambria,"Times New Roman",serif;background:#071522;border:1px solid #24445f;border-radius:14px;padding:12px 14px;color:#e9f7ff;font-size:clamp(1.2rem,2vw,1.7rem);text-align:center;overflow:auto}
+  .white .formula{background:#eef7ff;color:#071522;border-color:#cce0f1}
+  .formula small{font-family:inherit;color:#9dc0d8;font-size:.65em}
+  .mathline{font-family:Cambria,"Times New Roman",serif;font-size:1.15em}
+  .tag{display:inline-block;border-radius:999px;padding:4px 9px;font-size:.75rem;font-weight:850;background:#123553;color:#92e8f4;border:1px solid #245575}
+  .tag.orange{background:#3a2810;color:#ffd28a;border-color:#5f4216}.tag.green{background:#0c3329;color:#7ff2c6;border-color:#185443}.tag.red{background:#3b1820;color:#fca5b3;border-color:#632734}
+  .callout{border-left:4px solid var(--cyan);background:#0b2237;padding:14px 16px;border-radius:0 14px 14px 0;color:#c9dfef}
+  .callout.orange{border-color:var(--orange);background:#2a2111}.callout.red{border-color:var(--red);background:#2a1720}.callout.green{border-color:var(--green);background:#0d2c25}
+  .white .callout{background:#eef8ff;color:#243d52}.white .callout.orange{background:#fff7e8}.white .callout.red{background:#fff1f3}.white .callout.green{background:#ebfff7}
+  .energy-flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:12px;margin:20px 0}
+  .node{min-height:120px;border-radius:20px;padding:15px;display:grid;place-items:center;text-align:center;background:#10243f;border:1px solid #294762}
+  .arrow{font-size:2rem;color:var(--cyan);font-weight:900}
+  .sim{display:grid;grid-template-columns:minmax(420px,1.05fr) minmax(360px,.95fr);gap:16px}
+  .sim .panel{padding:16px}
+  .simstage{min-height:455px;background:linear-gradient(180deg,#0a1a2e,#07111f);border-radius:18px;border:1px solid #203c58;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px}
+  .vizbox{border-radius:14px;background:rgba(7,17,31,.6);border:1px solid rgba(148,163,184,.12);padding:8px;display:flex;align-items:center;justify-content:center;min-width:0}
+  svg{max-width:100%;height:auto}
+  .controls{display:grid;gap:12px}
+  .ctrl{background:#0d2036;border:1px solid #24415e;border-radius:14px;padding:12px}
+  .ctrl label{display:flex;justify-content:space-between;gap:10px;font-weight:800;font-size:.88rem;color:#bcd1e4;margin-bottom:7px}
+  input[type=range]{width:100%;accent-color:#22d3ee}
+  select{width:100%;background:#071522;color:white;border:1px solid #31516e;border-radius:12px;padding:10px}
+  .meters{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .meter{background:#081827;border:1px solid #1f3b56;border-radius:12px;padding:10px;text-align:center}
+  .meter span{display:block;color:#7f9bb5;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:850}.meter strong{display:block;font-size:1.03rem;margin-top:3px}
+  .process-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .process-tabs button{border:1px solid #2b4c68;background:#0f2238;color:#c0d6e7;padding:8px 10px;border-radius:12px;font-weight:800}
+  .process-tabs button.active{background:linear-gradient(135deg,#1b5d75,#184f82);color:white;border-color:#4ba1c5}
+  .process-note{margin-top:10px;color:#9cb9cf;font-size:.91rem}
+  .compare{overflow:auto}.compare table{width:100%;border-collapse:collapse;min-width:920px}.compare th,.compare td{padding:12px;border-bottom:1px solid #d9e6f1;text-align:left;vertical-align:top}.compare th{background:#eef7ff;color:#103049;position:sticky;top:0}.compare td{color:#2e465b}.compare tr:hover td{background:#f4f9fd}
+  .steps{display:grid;gap:9px}.step{border:1px solid #26435e;background:#0c2035;border-radius:14px;padding:12px 14px;display:none}.step.show{display:block;animation:reveal .22s ease-out}.step strong{color:#9be8f6}
+  @keyframes reveal{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .example h3{margin-top:0}.example .prompt{color:#d6e6f2;font-size:1.02rem}.example .toolrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .mini{border:1px solid #31516e;background:#0f243c;color:#e8f6ff;padding:8px 10px;border-radius:10px;font-weight:750}
+  .mini:hover{background:#15304f}
+  .quiz-card{border:1px solid #294762;background:#0d2035;border-radius:16px;padding:16px;margin:10px 0}
+  .options{display:grid;gap:8px;margin-top:10px}.option{border:1px solid #294762;background:#0a1a2b;color:#dcecf7;border-radius:12px;padding:10px 12px;text-align:left}.option:hover{border-color:#4b7598}.option.correct{border-color:#34d399;background:#0d352b}.option.wrong{border-color:#fb7185;background:#3b1722}
+  .feedback{margin-top:8px;font-weight:750;min-height:1.5em;color:#b8d5e8}
+  .labbox{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}.labbox .ctrl input[type=number]{width:100%;background:#071522;color:white;border:1px solid #31516e;border-radius:10px;padding:9px}
+  .resultbig{font-size:clamp(1.8rem,4vw,3.8rem);font-weight:900;letter-spacing:-.04em;color:#9cecf7}
+  .cycle-wrap{display:grid;grid-template-columns:1fr .9fr;gap:16px}.direction{display:flex;gap:8px;flex-wrap:wrap}.direction button{border:1px solid #355874;background:#0b1f34;color:white;padding:9px 12px;border-radius:11px;font-weight:800}.direction button.active{background:#174a6b;border-color:#5ab2d2}
+  .chiprow{display:flex;gap:8px;flex-wrap:wrap}.chip{padding:7px 10px;border-radius:999px;background:#0b2138;border:1px solid #294b68;color:#b9d5e8;font-size:.82rem;font-weight:780}
+  .teacher-only{transition:.2s}.hide-teacher .teacher-only{filter:blur(7px);user-select:none}.hide-teacher .teacher-only:hover{filter:none}
+  .source-note{font-size:.84rem;color:#819db6;margin-top:14px}
+  .footer{border-top:1px solid #17314b;padding:26px 0;color:#7994ab;font-size:.88rem}
+  .float-next{position:fixed;right:18px;bottom:18px;z-index:25;display:flex;gap:8px}.float-next button{width:46px;height:46px;border-radius:50%;border:1px solid #355873;background:#0f243b;color:white;box-shadow:var(--shadow);font-size:1.1rem}
+  .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:.78rem;color:#97afc4}.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+  .accordion{border:1px solid #27445e;border-radius:14px;overflow:hidden;margin:9px 0}.accordion button{width:100%;padding:12px 14px;text-align:left;background:#0e2238;color:white;border:0;font-weight:850;display:flex;justify-content:space-between}.accordion .body{display:none;padding:13px 14px;background:#091a2c;color:#bed4e5}.accordion.open .body{display:block}
+  .summary-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.summary-card{border-radius:16px;padding:14px;background:#0c2136;border:1px solid #284763}.summary-card h3{margin:0 0 6px;font-size:.96rem}.summary-card .formula{font-size:1rem;padding:8px}
+  @media (max-width:1100px){.layout{grid-template-columns:1fr}aside{display:none}.hero,.sim,.cycle-wrap{grid-template-columns:1fr}.summary-grid{grid-template-columns:repeat(2,1fr)}.hero{min-height:auto}.simstage{min-height:390px}}
+  @media (max-width:720px){main{padding:16px 12px 80px}.topbar{padding:8px 10px}.brand span{display:none}.grid2,.grid3,.grid4,.labbox{grid-template-columns:1fr}.simstage{grid-template-columns:1fr;min-height:600px}.meters{grid-template-columns:repeat(2,1fr)}.energy-flow{grid-template-columns:1fr}.arrow{transform:rotate(90deg);text-align:center}.summary-grid{grid-template-columns:1fr}.section-head{align-items:start;flex-direction:column}.progress{top:51px}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="brand"><div class="brandmark">W</div><span>Primeira Lei • Laboratório Interativo</span></div>
+  <div class="grow"></div>
+  <button class="pillbtn" id="teacherToggle" title="Oculta/mostra respostas e resoluções">Modo professor: ON</button>
+  <button class="pillbtn" id="fullBtn">⛶ Tela cheia</button>
+</div>
+<div class="progress"><i id="progressBar"></i></div>
+<div class="layout">
+<aside>
+  <div class="label">Roteiro da aula</div>
+  <nav id="nav">
+    <a href="#inicio"><b>01</b>Começar</a>
+    <a href="#energia"><b>02</b>Calor, trabalho e energia</a>
+    <a href="#trabalho"><b>03</b>Trabalho em p × V</a>
+    <a href="#primeira"><b>04</b>Primeira Lei</a>
+    <a href="#simulador"><b>05</b>Laboratório do gás</a>
+    <a href="#transformacoes"><b>06</b>Transformações</a>
+    <a href="#ciclo"><b>07</b>Ciclos</a>
+    <a href="#exemplos"><b>08</b>Exemplos resolvidos</a>
+    <a href="#pratica"><b>09</b>Prática guiada</a>
+    <a href="#quiz"><b>10</b>Desafio final</a>
+    <a href="#resumo"><b>11</b>Mapa-resumo</a>
+  </nav>
+</aside>
+<main>
+<section class="hero" id="inicio">
+  <div>
+    <div class="eyebrow">Termodinâmica em movimento</div>
+    <h1>Energia entra. O gás muda. O êmbolo <em>se move.</em></h1>
+    <p class="lede">Uma aula visual sobre <strong>calor Q</strong>, <strong>trabalho W</strong>, <strong>energia interna U</strong> e as transformações gasosas. A convenção usada aqui é <strong>W = trabalho realizado pelo gás</strong>.</p>
+    <div class="hero-actions">
+      <button class="btn" onclick="document.querySelector('#simulador').scrollIntoView()">Abrir simulador</button>
+      <button class="btn secondary" onclick="document.querySelector('#primeira').scrollIntoView()">Ir à Primeira Lei</button>
+    </div>
+    <div class="chiprow" style="margin-top:18px">
+      <span class="chip">ΔU = Q − W</span><span class="chip">W &gt; 0 na expansão</span><span class="chip">W &lt; 0 na compressão</span><span class="chip">Área em p × V = trabalho</span>
+    </div>
+  </div>
+  <div class="hero-card">
+    <div class="kicker">Experimento mental</div>
+    <svg viewBox="0 0 540 430" role="img" aria-label="Cilindro com gás e êmbolo móvel">
+      <defs>
+        <linearGradient id="gasGlow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#22d3ee" stop-opacity=".65"/><stop offset="1" stop-color="#2563eb" stop-opacity=".18"/></linearGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <rect x="150" y="70" width="240" height="300" rx="24" fill="#071522" stroke="#6aa7c7" stroke-width="6"/>
+      <rect x="157" y="178" width="226" height="184" rx="12" fill="url(#gasGlow)"/>
+      <rect x="135" y="156" width="270" height="28" rx="7" fill="#dce9f2"/>
+      <rect x="247" y="96" width="46" height="62" rx="8" fill="#95a9b8"/>
+      <circle cx="195" cy="225" r="7" fill="#d9fbff"/><circle cx="245" cy="255" r="7" fill="#d9fbff"/><circle cx="323" cy="225" r="7" fill="#d9fbff"/><circle cx="350" cy="294" r="7" fill="#d9fbff"/><circle cx="207" cy="318" r="7" fill="#d9fbff"/><circle cx="289" cy="334" r="7" fill="#d9fbff"/><circle cx="270" cy="211" r="7" fill="#d9fbff"/>
+      <path d="M95 295 C55 270 55 220 95 195" fill="none" stroke="#fb7185" stroke-width="8" stroke-linecap="round"/>
+      <path d="M88 192 l18 2 -8 16" fill="#fb7185"/>
+      <text x="35" y="250" fill="#fda4af" font-size="24" font-weight="800">Q &gt; 0</text>
+      <path d="M430 160 C480 140 485 95 456 70" fill="none" stroke="#22d3ee" stroke-width="8" stroke-linecap="round"/>
+      <path d="M451 69 l20 5 -13 14" fill="#22d3ee"/>
+      <text x="430" y="125" fill="#8be9f6" font-size="24" font-weight="800">W &gt; 0</text>
+      <text x="150" y="405" fill="#9db8cb" font-size="19">Calor recebido pode elevar U e/ou virar trabalho.</text>
+    </svg>
+  </div>
+</section>
+
+<section id="energia" class="panel">
+  <div class="section-head"><div><div class="kicker">02 • Considerações preliminares</div><h2>Três ideias que não podem se confundir</h2></div><p>Calor e trabalho são <strong>formas de transferência de energia</strong>. Energia interna é uma propriedade do estado do sistema.</p></div>
+  <div class="energy-flow">
+    <div class="node"><div><div class="tag red">Q</div><h3>Calor</h3><p>Energia transferida por diferença de temperatura.</p></div></div>
+    <div class="arrow">⇄</div>
+    <div class="node"><div><div class="tag green">ΔU</div><h3>Energia interna</h3><p>Energia microscópica associada ao estado do gás.</p></div></div>
+    <div class="arrow">⇄</div>
+    <div class="node"><div><div class="tag">W</div><h3>Trabalho</h3><p>Energia transferida quando o gás move o meio externo.</p></div></div>
+  </div>
+  <div class="grid3">
+    <div class="card"><h3>Q &gt; 0</h3><p>O gás <strong>recebe calor</strong>.</p></div>
+    <div class="card"><h3>W &gt; 0</h3><p>O gás <strong>se expande</strong> e realiza trabalho.</p></div>
+    <div class="card"><h3>ΔU &gt; 0</h3><p>A energia interna <strong>aumenta</strong>; para gás ideal, isso significa aumento de temperatura.</p></div>
+  </div>
+  <div class="callout orange" style="margin-top:16px"><strong>Regra conceitual:</strong> não diga “o corpo possui calor” ou “possui trabalho”. O sistema possui energia interna; calor e trabalho descrevem energia em trânsito.</div>
+</section>
+
+<section id="trabalho" class="panel white">
+  <div class="section-head"><div><div class="kicker">03 • Trabalho numa transformação</div><h2>O gráfico p × V mede trabalho por área</h2></div><p>Para pressão constante, o trabalho do gás é <span class="mathline">W = p·ΔV</span>. Em transformação qualquer, a área sob a curva representa numericamente o trabalho.</p></div>
+  <div class="grid2">
+    <div>
+      <div class="formula">W = p · ΔV = p(V<sub>f</sub> − V<sub>i</sub>)</div>
+      <div class="grid3" style="margin-top:12px">
+        <div class="card"><h3>Expansão</h3><p>V<sub>f</sub> &gt; V<sub>i</sub> → <strong>W &gt; 0</strong></p></div>
+        <div class="card"><h3>Compressão</h3><p>V<sub>f</sub> &lt; V<sub>i</sub> → <strong>W &lt; 0</strong></p></div>
+        <div class="card"><h3>Isocórica</h3><p>ΔV = 0 → <strong>W = 0</strong></p></div>
+      </div>
+      <div class="callout" style="margin-top:14px">Em SI, <strong>1 Pa·m³ = 1 J</strong>. Uma equivalência prática útil no simulador: <strong>1 kPa·L = 1 J</strong>.</div>
+    </div>
+    <div>
+      <svg id="workGraph" viewBox="0 0 560 360" aria-label="Gráfico pressão por volume com área de trabalho">
+        <rect x="0" y="0" width="560" height="360" rx="18" fill="#f4f9fd"/>
+        <line x1="70" y1="300" x2="520" y2="300" stroke="#172c3d" stroke-width="3"/><line x1="70" y1="300" x2="70" y2="40" stroke="#172c3d" stroke-width="3"/>
+        <polygon points="150,150 450,150 450,300 150,300" fill="#22d3ee" opacity=".22"/>
+        <line x1="150" y1="150" x2="450" y2="150" stroke="#0e7490" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="150" cy="150" r="7" fill="#0e7490"/><circle cx="450" cy="150" r="7" fill="#0e7490"/>
+        <text x="130" y="135" fill="#0b1728" font-weight="800">i</text><text x="460" y="135" fill="#0b1728" font-weight="800">f</text>
+        <text x="490" y="330" fill="#0b1728" font-size="20" font-weight="700">V</text><text x="42" y="55" fill="#0b1728" font-size="20" font-weight="700">p</text>
+        <text x="265" y="235" fill="#0e7490" font-size="26" font-weight="900">W = área</text>
+        <text x="155" y="326" fill="#334155">Vᵢ</text><text x="435" y="326" fill="#334155">V𝒇</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section id="primeira" class="panel">
+  <div class="section-head"><div><div class="kicker">04 • Conservação da energia</div><h2>A Primeira Lei da Termodinâmica</h2></div><p>Com a convenção pedida nesta aula — <strong>W é o trabalho realizado pelo gás</strong> — a variação de energia interna é o calor líquido recebido menos o trabalho realizado.</p></div>
+  <div class="formula" style="font-size:clamp(2rem,5vw,4.4rem);padding:22px">ΔU = Q − W</div>
+  <div class="grid3" style="margin-top:15px">
+    <div class="card"><span class="tag red">Q</span><h3>Entrada térmica</h3><p>Q &gt; 0 quando o gás recebe calor; Q &lt; 0 quando cede calor.</p></div>
+    <div class="card"><span class="tag">W</span><h3>Trabalho do gás</h3><p>W &gt; 0 na expansão; W &lt; 0 na compressão.</p></div>
+    <div class="card"><span class="tag green">ΔU</span><h3>Saldo interno</h3><p>ΔU &gt; 0 quando a energia interna final é maior.</p></div>
+  </div>
+  <div class="grid2" style="margin-top:16px">
+    <div class="callout green"><strong>Lei de Joule para gases ideais:</strong> a energia interna depende da temperatura. Para um gás ideal monoatômico, <span class="mathline">U = 3/2 nRT</span> e <span class="mathline">ΔU = 3/2 nRΔT</span>.</div>
+    <div class="callout orange"><strong>Função de estado:</strong> entre os mesmos estados inicial e final, ΔU é a mesma, ainda que o caminho no diagrama p × V seja diferente. Já Q e W dependem do processo.</div>
+  </div>
+  <div class="panel" style="margin-top:16px;background:#09192a">
+    <div class="kicker">Cheque os sinais</div>
+    <div class="labbox" style="margin-top:10px">
+      <div class="ctrl"><label>Calor Q (J)</label><input type="number" id="signQ" value="600" step="50"></div>
+      <div class="ctrl"><label>Trabalho W (J)</label><input type="number" id="signW" value="250" step="50"></div>
+      <div class="ctrl"><label>ΔU = Q − W</label><div class="resultbig" id="signDU">350 J</div></div>
+    </div>
+    <div class="feedback" id="signText">O gás recebe 600 J, usa 250 J para realizar trabalho e armazena 350 J como aumento de energia interna.</div>
+  </div>
+</section>
+
+<section id="simulador">
+  <div class="section-head"><div><div class="kicker">05 • Laboratório do gás</div><h2>Movimente o êmbolo e veja as leis acontecendo</h2></div><p>O simulador usa um <strong>gás ideal monoatômico</strong> para calcular ΔU, Q e W numericamente. Troque o tipo de transformação e compare o cilindro, o gráfico e os balanços de energia.</p></div>
+  <div class="sim">
+    <div class="panel">
+      <div class="process-tabs" id="processTabs">
+        <button data-p="isothermal" class="active">Isotérmica</button>
+        <button data-p="isobaric">Isobárica</button>
+        <button data-p="isochoric">Isocórica</button>
+        <button data-p="adiabatic">Adiabática</button>
+      </div>
+      <div class="simstage">
+        <div class="vizbox"><svg id="pistonSvg" viewBox="0 0 400 410"></svg></div>
+        <div class="vizbox"><svg id="pvSvg" viewBox="0 0 440 390"></svg></div>
+      </div>
+      <div class="legend" style="margin-top:10px"><span><i style="background:#22d3ee"></i>processo</span><span><i style="background:#f59e0b"></i>área ≈ trabalho</span><span><i style="background:#fb7185"></i>calor</span></div>
+    </div>
+    <div class="panel controls">
+      <div class="ctrl"><label><span id="sliderLabel">Volume final V₂</span><strong id="sliderRead">4,00 L</strong></label><input id="mainSlider" type="range" min="1" max="5" value="4" step="0.02"></div>
+      <div class="ctrl"><label><span>Estado inicial</span><span>P₁ = 200 kPa • V₁ = 2,00 L • T₁ = 300 K</span></label></div>
+      <div class="meters">
+        <div class="meter"><span>P₂</span><strong id="mP">100 kPa</strong></div>
+        <div class="meter"><span>V₂</span><strong id="mV">4,00 L</strong></div>
+        <div class="meter"><span>T₂</span><strong id="mT">300 K</strong></div>
+        <div class="meter"><span>Q</span><strong id="mQ">277 J</strong></div>
+        <div class="meter"><span>W</span><strong id="mW">277 J</strong></div>
+        <div class="meter"><span>ΔU</span><strong id="mDU">0 J</strong></div>
+      </div>
+      <div class="formula" id="processFormula">T = constante → ΔU = 0 → Q = W</div>
+      <div class="process-note" id="processNote">Na expansão isotérmica de um gás ideal, a temperatura não muda; toda energia recebida como calor reaparece como trabalho.</div>
+      <div class="callout orange"><strong>Leia o gráfico:</strong> a curva azul mostra o caminho termodinâmico. A região âmbar representa o trabalho realizado pelo gás entre V₁ e V₂.</div>
+    </div>
+  </div>
+</section>
+
+<section id="transformacoes" class="panel white">
+  <div class="section-head"><div><div class="kicker">06 • Transformações gasosas</div><h2>As quatro transformações fundamentais, lado a lado</h2></div><p>Observe o que fica constante, como muda o gráfico p × V e o que a Primeira Lei se torna em cada caso.</p></div>
+  <div class="compare">
+  <table>
+    <thead><tr><th>Transformação</th><th>Grandeza constante</th><th>Relação principal</th><th>Trabalho W</th><th>Primeira Lei</th><th>Leitura física</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Isotérmica</strong></td><td>T constante</td><td>pV = constante</td><td>W = nRT ln(V₂/V₁)</td><td>ΔU = 0 → Q = W</td><td>Calor recebido é convertido integralmente em trabalho, ou vice-versa.</td></tr>
+      <tr><td><strong>Isobárica</strong></td><td>p constante</td><td>V/T = constante</td><td>W = pΔV = nRΔT</td><td>Q = ΔU + W</td><td>Ao aquecer e expandir, parte de Q eleva U e parte vira trabalho.</td></tr>
+      <tr><td><strong>Isocórica</strong></td><td>V constante</td><td>p/T = constante</td><td>W = 0</td><td>ΔU = Q</td><td>Como o êmbolo não se move, todo calor líquido muda a energia interna.</td></tr>
+      <tr><td><strong>Adiabática</strong></td><td>Q = 0</td><td>pV<sup>γ</sup> = constante</td><td>W = −ΔU</td><td>ΔU = −W</td><td>Na expansão, o gás realiza trabalho às custas da própria energia interna e esfria.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="grid2" style="margin-top:18px">
+    <div class="card">
+      <span class="tag">Isotérmica • desenvolvimento</span>
+      <h3>T constante</h3>
+      <div class="formula" style="font-size:1.05rem;line-height:1.8">
+        ΔT = 0<br>
+        gás ideal: ΔU ∝ ΔT ⇒ ΔU = 0<br>
+        ΔU = Q − W ⇒ 0 = Q − W<br>
+        <strong>Q = W</strong>
+      </div>
+      <p style="margin-top:10px">Como <span class="mathline">pV = nRT</span> e T não muda, <span class="mathline">pV = constante</span>. O gráfico p × V é uma hipérbole.</p>
+      <svg viewBox="0 0 360 210" style="margin-top:8px">
+        <rect width="360" height="210" rx="14" fill="#f4f9fd"/><line x1="48" y1="175" x2="330" y2="175" stroke="#173247" stroke-width="2"/><line x1="48" y1="175" x2="48" y2="25" stroke="#173247" stroke-width="2"/><path d="M80 55 C115 78 155 104 295 153" fill="none" stroke="#0284c7" stroke-width="5"/><text x="308" y="195" fill="#173247">V</text><text x="26" y="36" fill="#173247">p</text><text x="165" y="70" fill="#075985" font-weight="800">T = const.</text>
+      </svg>
+    </div>
+    <div class="card">
+      <span class="tag orange">Isobárica • desenvolvimento</span>
+      <h3>p constante</h3>
+      <div class="formula" style="font-size:1.05rem;line-height:1.8">
+        W = pΔV<br>
+        Q = nC<sub>p</sub>ΔT<br>
+        pΔV = nRΔT<br>
+        ΔU = Q − W = n(C<sub>p</sub> − R)ΔT
+      </div>
+      <p style="margin-top:10px">Com <span class="mathline">C<sub>p</sub> − C<sub>v</sub> = R</span>, resulta <span class="mathline">ΔU = nC<sub>v</sub>ΔT</span>. Em expansão aquecida, Q &gt; W.</p>
+      <svg viewBox="0 0 360 210" style="margin-top:8px">
+        <rect width="360" height="210" rx="14" fill="#f4f9fd"/><line x1="48" y1="175" x2="330" y2="175" stroke="#173247" stroke-width="2"/><line x1="48" y1="175" x2="48" y2="25" stroke="#173247" stroke-width="2"/><polygon points="95,85 292,85 292,175 95,175" fill="#f59e0b" opacity=".2"/><line x1="95" y1="85" x2="292" y2="85" stroke="#0284c7" stroke-width="5"/><text x="308" y="195" fill="#173247">V</text><text x="26" y="36" fill="#173247">p</text><text x="148" y="70" fill="#075985" font-weight="800">p = const.</text>
+      </svg>
+    </div>
+    <div class="card">
+      <span class="tag green">Isocórica • desenvolvimento</span>
+      <h3>V constante</h3>
+      <div class="formula" style="font-size:1.05rem;line-height:1.8">
+        ΔV = 0 ⇒ W = 0<br>
+        Q = nC<sub>v</sub>ΔT<br>
+        ΔU = Q − 0<br>
+        <strong>ΔU = Q</strong>
+      </div>
+      <p style="margin-top:10px">No gráfico p × V, o processo é vertical. Não existe área sob deslocamento em V; por isso o trabalho é nulo.</p>
+      <svg viewBox="0 0 360 210" style="margin-top:8px">
+        <rect width="360" height="210" rx="14" fill="#f4f9fd"/><line x1="48" y1="175" x2="330" y2="175" stroke="#173247" stroke-width="2"/><line x1="48" y1="175" x2="48" y2="25" stroke="#173247" stroke-width="2"/><line x1="190" y1="145" x2="190" y2="55" stroke="#0284c7" stroke-width="5"/><text x="308" y="195" fill="#173247">V</text><text x="26" y="36" fill="#173247">p</text><text x="202" y="90" fill="#075985" font-weight="800">V = const.</text>
+      </svg>
+    </div>
+    <div class="card">
+      <span class="tag red">Adiabática • desenvolvimento</span>
+      <h3>Q = 0</h3>
+      <div class="formula" style="font-size:1.05rem;line-height:1.8">
+        Q = 0<br>
+        ΔU = Q − W ⇒ ΔU = −W<br>
+        pV<sup>γ</sup> = constante<br>
+        γ = C<sub>p</sub>/C<sub>v</sub>
+      </div>
+      <p style="margin-top:10px">Expansão: W &gt; 0 ⇒ ΔU &lt; 0 ⇒ T diminui. Compressão: W &lt; 0 ⇒ ΔU &gt; 0 ⇒ T aumenta.</p>
+      <svg viewBox="0 0 360 210" style="margin-top:8px">
+        <rect width="360" height="210" rx="14" fill="#f4f9fd"/><line x1="48" y1="175" x2="330" y2="175" stroke="#173247" stroke-width="2"/><line x1="48" y1="175" x2="48" y2="25" stroke="#173247" stroke-width="2"/><path d="M80 52 C112 88 155 124 295 160" fill="none" stroke="#e11d48" stroke-width="5"/><path d="M80 52 C125 78 180 107 295 143" fill="none" stroke="#0284c7" stroke-width="3" opacity=".7"/><text x="308" y="195" fill="#173247">V</text><text x="26" y="36" fill="#173247">p</text><text x="154" y="95" fill="#be123c" font-weight="800">adiabática</text><text x="204" y="127" fill="#075985" font-size="12">isotérmica</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="grid2" style="margin-top:16px">
+    <div class="card"><h3>Calores molares</h3><div class="formula">Q<sub>p</sub> = nC<sub>p</sub>ΔT<br>Q<sub>v</sub> = nC<sub>v</sub>ΔT</div><p style="margin-top:10px">Para uma mesma elevação de temperatura, em geral Q<sub>p</sub> &gt; Q<sub>v</sub>, porque na isobárica o gás também realiza trabalho.</p></div>
+    <div class="card"><h3>Relação de Mayer</h3><div class="formula">C<sub>p</sub> − C<sub>v</sub> = R</div><p style="margin-top:10px">A diferença entre os calores molares a pressão e a volume constantes é a constante universal dos gases.</p></div>
+  </div>
+  <div class="grid2" style="margin-top:14px">
+    <div class="card"><h3>Adiabática × isotérmica</h3><p>Partindo do mesmo estado, a curva adiabática é <strong>mais íngreme</strong>. Na expansão adiabática, a pressão cai mais rapidamente porque o gás também esfria.</p></div>
+    <div class="card"><h3>Expoente de Poisson</h3><div class="formula">γ = C<sub>p</sub>/C<sub>v</sub></div><p style="margin-top:10px">Ele aparece na lei de Poisson: <span class="mathline">pV<sup>γ</sup> = constante</span>.</p></div>
+  </div>
+</section>
+
+<section id="ciclo" class="panel">
+  <div class="section-head"><div><div class="kicker">07 • Transformação cíclica</div><h2>Num ciclo, ΔU = 0. O que sobra é Q = W.</h2></div><p>O sistema retorna ao estado inicial. Como a energia interna é função de estado, sua variação total é nula. O trabalho líquido é a área algébrica interna ao ciclo.</p></div>
+  <div class="cycle-wrap">
+    <div class="panel" style="background:#081827">
+      <svg id="cycleSvg" viewBox="0 0 620 420"></svg>
+    </div>
+    <div class="panel" style="background:#081827">
+      <div class="kicker">Sentido do ciclo</div>
+      <div class="direction" style="margin:10px 0 14px"><button id="clockBtn" class="active">Horário</button><button id="counterBtn">Anti-horário</button></div>
+      <div class="formula" id="cycleFormula">W<sub>ciclo</sub> &gt; 0 → Q<sub>ciclo</sub> &gt; 0</div>
+      <div class="callout" id="cycleText" style="margin-top:12px">No sentido horário, o trabalho total realizado pelo gás é positivo. Ao final do ciclo, o gás recebeu calor líquido igual a esse trabalho.</div>
+      <div class="meters" style="margin-top:12px">
+        <div class="meter"><span>ΔU ciclo</span><strong>0 J</strong></div>
+        <div class="meter"><span>W ciclo</span><strong id="cycleW">+600 J</strong></div>
+        <div class="meter"><span>Q ciclo</span><strong id="cycleQ">+600 J</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="exemplos">
+  <div class="section-head"><div><div class="kicker">08 • Exemplos de aplicação</div><h2>Resolução construída passo a passo</h2></div><p>Use “Próximo passo” para conduzir a turma sem entregar tudo de uma vez. Os valores são exemplos autorais alinhados ao conteúdo do capítulo.</p></div>
+  <div class="grid2">
+    <div class="panel example">
+      <span class="tag">Exemplo 1 • Primeira Lei</span>
+      <h3>Calor recebido e trabalho de expansão</h3>
+      <p class="prompt">Um gás recebe 900 J de calor e realiza 350 J de trabalho. Determine a variação da energia interna.</p>
+      <div class="steps" data-example="1">
+        <div class="step"><strong>1.</strong> Convenção: Q = +900 J e W = +350 J.</div>
+        <div class="step"><strong>2.</strong> Primeira Lei: ΔU = Q − W.</div>
+        <div class="step"><strong>3.</strong> ΔU = 900 − 350 = 550 J.</div>
+        <div class="step teacher-only"><strong>Resposta:</strong> ΔU = +550 J. A energia interna aumentou.</div>
+      </div>
+      <div class="toolrow"><button class="mini next-step" data-example="1">Próximo passo</button><button class="mini reset-step" data-example="1">Reiniciar</button></div>
+    </div>
+    <div class="panel example">
+      <span class="tag orange">Exemplo 2 • Isobárica</span>
+      <h3>Trabalho no diagrama p × V</h3>
+      <p class="prompt">Sob pressão constante de 150 kPa, um gás passa de 2,0 L para 5,0 L. Calcule W.</p>
+      <div class="steps" data-example="2">
+        <div class="step"><strong>1.</strong> ΔV = 5,0 − 2,0 = 3,0 L.</div>
+        <div class="step"><strong>2.</strong> W = pΔV.</div>
+        <div class="step"><strong>3.</strong> Como 1 kPa·L = 1 J: W = 150 × 3,0 = 450 J.</div>
+        <div class="step teacher-only"><strong>Resposta:</strong> W = +450 J, pois houve expansão.</div>
+      </div>
+      <div class="toolrow"><button class="mini next-step" data-example="2">Próximo passo</button><button class="mini reset-step" data-example="2">Reiniciar</button></div>
+    </div>
+    <div class="panel example">
+      <span class="tag green">Exemplo 3 • Isocórica</span>
+      <h3>Aquecimento sem movimento do êmbolo</h3>
+      <p class="prompt">Um gás em recipiente rígido recebe 1,2 kJ de calor. Qual é ΔU?</p>
+      <div class="steps" data-example="3">
+        <div class="step"><strong>1.</strong> Recipiente rígido → ΔV = 0.</div>
+        <div class="step"><strong>2.</strong> Logo, W = 0.</div>
+        <div class="step"><strong>3.</strong> ΔU = Q − W = 1200 − 0.</div>
+        <div class="step teacher-only"><strong>Resposta:</strong> ΔU = +1,2 kJ.</div>
+      </div>
+      <div class="toolrow"><button class="mini next-step" data-example="3">Próximo passo</button><button class="mini reset-step" data-example="3">Reiniciar</button></div>
+    </div>
+    <div class="panel example">
+      <span class="tag red">Exemplo 4 • Adiabática</span>
+      <h3>Trabalho sem troca de calor</h3>
+      <p class="prompt">Em uma expansão adiabática, o gás realiza 500 J de trabalho. Determine Q e ΔU.</p>
+      <div class="steps" data-example="4">
+        <div class="step"><strong>1.</strong> Adiabática → Q = 0.</div>
+        <div class="step"><strong>2.</strong> Expansão → W = +500 J.</div>
+        <div class="step"><strong>3.</strong> ΔU = Q − W = 0 − 500 = −500 J.</div>
+        <div class="step teacher-only"><strong>Resposta:</strong> Q = 0 e ΔU = −500 J; a temperatura diminui para gás ideal.</div>
+      </div>
+      <div class="toolrow"><button class="mini next-step" data-example="4">Próximo passo</button><button class="mini reset-step" data-example="4">Reiniciar</button></div>
+    </div>
+  </div>
+</section>
+
+<section id="pratica" class="panel">
+  <div class="section-head"><div><div class="kicker">09 • Prática guiada</div><h2>Construa o balanço energético</h2></div><p>Escolha Q e W. O painel calcula ΔU e interpreta o que ocorreu. Depois use as questões para testar os casos especiais.</p></div>
+  <div class="labbox">
+    <div class="ctrl"><label>Q (J)</label><input id="labQ" type="range" min="-1000" max="1000" value="400" step="50"><strong id="labQv">+400 J</strong></div>
+    <div class="ctrl"><label>W (J)</label><input id="labW" type="range" min="-1000" max="1000" value="150" step="50"><strong id="labWv">+150 J</strong></div>
+    <div class="ctrl"><label>ΔU = Q − W</label><div class="resultbig" id="labDU">+250 J</div></div>
+  </div>
+  <div class="callout" id="labInterpret" style="margin-top:14px"></div>
+  <div class="grid2" style="margin-top:18px">
+    <div>
+      <div class="accordion"><button>Questão A • Compressão adiabática <span>＋</span></button><div class="body">Se Q = 0 e o meio externo realiza 300 J sobre o gás, então o trabalho <em>realizado pelo gás</em> é W = −300 J. Assim, ΔU = 0 − (−300) = +300 J.</div></div>
+      <div class="accordion"><button>Questão B • Isotérmica <span>＋</span></button><div class="body">Em um gás ideal isotérmico, ΔU = 0. Logo, Q = W. Se o gás realiza 250 J, deve receber 250 J de calor.</div></div>
+    </div>
+    <div>
+      <div class="accordion"><button>Questão C • Isocórica <span>＋</span></button><div class="body">Como V é constante, W = 0. Portanto, ΔU = Q. Se o gás cede 180 J, Q = −180 J e ΔU = −180 J.</div></div>
+      <div class="accordion"><button>Questão D • Ciclo horário <span>＋</span></button><div class="body">Num ciclo, ΔU = 0. Se o trabalho líquido é +700 J, então Q líquido = +700 J.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="quiz">
+  <div class="section-head"><div><div class="kicker">10 • Desafio final</div><h2>Se você entendeu os sinais, entendeu o coração do tema</h2></div><p>Responda no telão com a turma. O placar é local e reinicia ao recarregar a página.</p></div>
+  <div class="panel">
+    <div id="quizArea"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px"><button class="btn secondary" id="resetQuiz">Reiniciar desafio</button><div class="chip">Acertos: <strong id="score">0</strong>/6</div></div>
+  </div>
+</section>
+
+<section id="resumo" class="panel white">
+  <div class="section-head"><div><div class="kicker">11 • Mapa-resumo</div><h2>Uma tela para fechar a aula</h2></div><p>As relações essenciais do capítulo reunidas em um quadro de revisão.</p></div>
+  <div class="summary-grid">
+    <div class="summary-card"><h3>Primeira Lei</h3><div class="formula">ΔU = Q − W</div><p>W é o trabalho realizado pelo gás.</p></div>
+    <div class="summary-card"><h3>Isotérmica</h3><div class="formula">ΔU = 0<br>Q = W</div><p>T constante.</p></div>
+    <div class="summary-card"><h3>Isobárica</h3><div class="formula">W = pΔV</div><p>p constante; Q = ΔU + W.</p></div>
+    <div class="summary-card"><h3>Isocórica</h3><div class="formula">W = 0<br>ΔU = Q</div><p>V constante.</p></div>
+    <div class="summary-card"><h3>Adiabática</h3><div class="formula">Q = 0<br>ΔU = −W</div><p>pV<sup>γ</sup> = constante.</p></div>
+  </div>
+  <div class="grid3" style="margin-top:14px">
+    <div class="card"><h3>Gás ideal</h3><p>Energia interna depende apenas da temperatura.</p></div>
+    <div class="card"><h3>Mayer</h3><p>C<sub>p</sub> − C<sub>v</sub> = R.</p></div>
+    <div class="card"><h3>Ciclo</h3><p>ΔU<sub>ciclo</sub> = 0 e, portanto, Q<sub>ciclo</sub> = W<sub>ciclo</sub>.</p></div>
+  </div>
+  <div class="callout orange" style="margin-top:16px"><strong>Pergunta de encerramento:</strong> em uma expansão adiabática, de onde vem a energia usada pelo gás para realizar trabalho? <span class="teacher-only"><strong>Resposta:</strong> da própria energia interna; por isso ΔU &lt; 0 e a temperatura cai.</span></div>
+  <p class="source-note">Material didático desenvolvido a partir do capítulo anexado sobre Leis da Termodinâmica, preservando a estrutura conceitual do conteúdo e adotando W para o trabalho, conforme solicitado.</p>
+</section>
+<div class="footer">Professor Madison • Física • Material interativo para projeção em sala de aula</div>
+</main>
+</div>
+<div class="float-next"><button id="prevSec" title="Seção anterior">↑</button><button id="nextSec" title="Próxima seção">↓</button></div>
+<script>
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const fmt = (x,d=0)=> Number(x).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const sgn = x => (x>0?'+':'')+fmt(x,0);
+
+// progress + nav
+const sections = $$('main section');
+const navLinks = $$('#nav a');
+function scrollState(){
+  const doc = document.documentElement;
+  const max = doc.scrollHeight - innerHeight;
+  $('#progressBar').style.width = (max>0 ? scrollY/max*100 : 0)+'%';
+  let current=sections[0];
+  sections.forEach(sec=>{ if(sec.getBoundingClientRect().top < 160) current=sec; });
+  navLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+current.id));
+}
+addEventListener('scroll',scrollState,{passive:true}); scrollState();
+$('#fullBtn').onclick=()=>{ if(!document.fullscreenElement) document.documentElement.requestFullscreen?.(); else document.exitFullscreen?.(); };
+let teacher=true;
+$('#teacherToggle').onclick=()=>{ teacher=!teacher; document.body.classList.toggle('hide-teacher',!teacher); $('#teacherToggle').textContent='Modo professor: '+(teacher?'ON':'OFF'); };
+$('#prevSec').onclick=()=>jump(-1); $('#nextSec').onclick=()=>jump(1);
+function jump(dir){let idx=0;let best=1e9;sections.forEach((s,i)=>{let d=Math.abs(s.getBoundingClientRect().top-90);if(d<best){best=d;idx=i}});idx=Math.max(0,Math.min(sections.length-1,idx+dir));sections[idx].scrollIntoView();}
+
+// sign lab
+function updateSign(){
+  const Q=+$('#signQ').value, W=+$('#signW').value, du=Q-W; $('#signDU').textContent=sgn(du)+' J';
+  const qtxt=Q>0?`recebe ${fmt(Math.abs(Q))} J de calor`:Q<0?`cede ${fmt(Math.abs(Q))} J de calor`:'não troca calor líquido';
+  const wtxt=W>0?`realiza ${fmt(Math.abs(W))} J de trabalho`:W<0?`recebe ${fmt(Math.abs(W))} J por trabalho de compressão`:'não realiza trabalho líquido';
+  const dutxt=du>0?`a energia interna aumenta ${fmt(du)} J`:du<0?`a energia interna diminui ${fmt(Math.abs(du))} J`:'a energia interna não varia';
+  $('#signText').textContent=`O gás ${qtxt}, ${wtxt} e ${dutxt}.`;
+}
+$('#signQ').oninput=updateSign; $('#signW').oninput=updateSign; updateSign();
+
+// simulator constants
+const R=8.314, gamma=5/3, Cv=1.5*R;
+const P1=200, V1=2, T1=300; // kPa, L, K
+const n=(P1*V1)/(R*T1); // because kPa*L = J
+let process='isothermal';
+function state(){
+  const slider=+$('#mainSlider').value; let P2,V2,T2,W,Q,dU;
+  if(process==='isochoric'){
+    V2=V1; T2=slider; P2=P1*T2/T1; W=0; dU=n*Cv*(T2-T1); Q=dU;
+  } else {
+    V2=slider;
+    if(process==='isothermal'){
+      T2=T1; P2=P1*V1/V2; W=P1*V1*Math.log(V2/V1); dU=0; Q=W;
+    } else if(process==='isobaric'){
+      P2=P1; T2=T1*V2/V1; W=P1*(V2-V1); dU=n*Cv*(T2-T1); Q=dU+W;
+    } else { // adiabatic
+      P2=P1*Math.pow(V1/V2,gamma); T2=T1*Math.pow(V1/V2,gamma-1); Q=0; dU=n*Cv*(T2-T1); W=-dU;
+    }
+  }
+  return {P2,V2,T2,W,Q,dU};
+}
+function setupProcess(){
+  $$('#processTabs button').forEach(b=>b.classList.toggle('active',b.dataset.p===process));
+  const slider=$('#mainSlider');
+  if(process==='isochoric'){slider.min=180;slider.max=650;slider.step=1;slider.value=450;$('#sliderLabel').textContent='Temperatura final T₂';}
+  else {slider.min=.9;slider.max=5.3;slider.step=.02;slider.value=process==='adiabatic'?4:4;$('#sliderLabel').textContent='Volume final V₂';}
+  updateSim();
+}
+$$('#processTabs button').forEach(b=>b.onclick=()=>{process=b.dataset.p;setupProcess();});
+$('#mainSlider').oninput=updateSim;
+
+function processMeta(){
+  if(process==='isothermal') return ['T = constante → ΔU = 0 → Q = W','Na transformação isotérmica de um gás ideal, a temperatura não muda. Na expansão, o calor recebido repõe exatamente a energia transferida como trabalho.'];
+  if(process==='isobaric') return ['p = constante → W = pΔV → Q = ΔU + W','Na expansão isobárica aquecida, o gás aumenta a energia interna e também realiza trabalho; por isso Q é maior que W.'];
+  if(process==='isochoric') return ['V = constante → W = 0 → ΔU = Q','Em recipiente rígido não há deslocamento da fronteira. Toda troca líquida de calor aparece como variação da energia interna.'];
+  return ['Q = 0 → ΔU = −W → pVᵞ = constante','Na expansão adiabática, o gás realiza trabalho às custas da própria energia interna; a temperatura diminui. Na compressão, ocorre o contrário.'];
+}
+function updateSim(){
+  const st=state();
+  $('#sliderRead').textContent=process==='isochoric'?fmt(st.T2,0)+' K':fmt(st.V2,2)+' L';
+  $('#mP').textContent=fmt(st.P2,0)+' kPa'; $('#mV').textContent=fmt(st.V2,2)+' L'; $('#mT').textContent=fmt(st.T2,0)+' K';
+  $('#mQ').textContent=sgn(st.Q)+' J'; $('#mW').textContent=sgn(st.W)+' J'; $('#mDU').textContent=sgn(st.dU)+' J';
+  const [f,note]=processMeta(); $('#processFormula').innerHTML=f; $('#processNote').textContent=note;
+  drawPiston(st); drawPV(st);
+}
+function tempColor(T){ const t=Math.max(0,Math.min(1,(T-180)/(650-180))); const h=195-180*t; return `hsl(${h} 80% 55%)`; }
+function drawPiston(st){
+  const svg=$('#pistonSvg'); const top=70, bottom=342; const vNorm=Math.max(.8,Math.min(5.5,st.V2)); const y=bottom-(vNorm/5.5)*(bottom-top-25);
+  const gasH=bottom-y; const c=tempColor(st.T2);
+  let particles='';
+  for(let i=0;i<22;i++){ const px=115+((i*73)%170); const frac=((i*47)%100)/100; const py=y+24+frac*Math.max(16,gasH-40); particles+=`<circle cx="${px}" cy="${py}" r="5" fill="#e8fdff" opacity=".88"/>`; }
+  const q=st.Q, w=st.W;
+  const heat=q>5?`<path d="M55 260 C25 235 25 190 55 165" fill="none" stroke="#fb7185" stroke-width="7"/><path d="M49 163 l18 3 -9 15" fill="#fb7185"/><text x="18" y="220" fill="#fda4af" font-size="18" font-weight="800">Q &gt; 0</text>`:q<-5?`<path d="M55 165 C25 190 25 235 55 260" fill="none" stroke="#fb7185" stroke-width="7"/><path d="M48 260 l18 -3 -9 -15" fill="#fb7185"/><text x="18" y="220" fill="#fda4af" font-size="18" font-weight="800">Q &lt; 0</text>`:`<text x="18" y="220" fill="#9fb7c9" font-size="18" font-weight="800">Q = 0</text>`;
+  const work=w>5?`<path d="M326 ${y+3} L326 ${Math.max(42,y-62)}" stroke="#22d3ee" stroke-width="7"/><path d="M326 ${Math.max(38,y-66)} l-11 18 h22z" fill="#22d3ee"/><text x="300" y="34" fill="#89ecf6" font-size="17" font-weight="800">W &gt; 0</text>`:w<-5?`<path d="M326 ${Math.max(40,y-62)} L326 ${y-3}" stroke="#22d3ee" stroke-width="7"/><path d="M326 ${y+2} l-11 -18 h22z" fill="#22d3ee"/><text x="300" y="34" fill="#89ecf6" font-size="17" font-weight="800">W &lt; 0</text>`:`<text x="300" y="34" fill="#9fb7c9" font-size="17" font-weight="800">W = 0</text>`;
+  svg.innerHTML=`<defs><linearGradient id="gSim" x1="0" y1="0" x2="0" y2="1"><stop stop-color="${c}" stop-opacity=".62"/><stop offset="1" stop-color="${c}" stop-opacity=".18"/></linearGradient></defs>
+  <rect x="90" y="50" width="220" height="310" rx="25" fill="#06131f" stroke="#74a5c0" stroke-width="5"/>
+  <rect x="98" y="${y+8}" width="204" height="${Math.max(8,bottom-y)}" rx="10" fill="url(#gSim)"/>
+  <rect x="76" y="${y}" width="248" height="24" rx="7" fill="#d6e5ee"/><rect x="182" y="${y-48}" width="38" height="48" rx="7" fill="#93a8b7"/>
+  ${particles}${heat}${work}
+  <text x="108" y="386" fill="#a7c0d4" font-size="17">P = ${fmt(st.P2,0)} kPa</text><text x="220" y="386" fill="#a7c0d4" font-size="17">T = ${fmt(st.T2,0)} K</text>`;
+}
+function pAt(v){
+  if(process==='isothermal') return P1*V1/v;
+  if(process==='isobaric') return P1;
+  if(process==='adiabatic') return P1*Math.pow(V1/v,gamma);
+  return NaN;
+}
+function drawPV(st){
+  const svg=$('#pvSvg'), W=440,H=390, x0=55,y0=330,xMax=5.6,pMax=520;
+  const X=v=>x0+(v/xMax)*350, Y=p=>y0-(p/pMax)*260;
+  let axes=`<rect width="440" height="390" rx="15" fill="#f5faff"/><line x1="${x0}" y1="${y0}" x2="410" y2="${y0}" stroke="#162d40" stroke-width="2.5"/><line x1="${x0}" y1="${y0}" x2="${x0}" y2="40" stroke="#162d40" stroke-width="2.5"/><text x="402" y="360" fill="#132b3d" font-size="18" font-weight="800">V</text><text x="29" y="48" fill="#132b3d" font-size="18" font-weight="800">p</text>`;
+  [1,2,3,4,5].forEach(v=>axes+=`<line x1="${X(v)}" y1="${y0}" x2="${X(v)}" y2="${y0+5}" stroke="#445b6b"/><text x="${X(v)-5}" y="350" fill="#506577" font-size="12">${v}</text>`);
+  [100,200,300,400,500].forEach(p=>axes+=`<line x1="${x0-5}" y1="${Y(p)}" x2="${x0}" y2="${Y(p)}" stroke="#445b6b"/><text x="8" y="${Y(p)+4}" fill="#506577" font-size="11">${p}</text>`);
+  let path='', area='';
+  if(process==='isochoric'){
+    const xx=X(V1); path=`M ${xx} ${Y(P1)} L ${xx} ${Y(st.P2)}`; area='';
+  }else{
+    const a=V1,b=st.V2,steps=60; const pts=[]; for(let i=0;i<=steps;i++){const v=a+(b-a)*i/steps;pts.push([X(v),Y(pAt(v))]);}
+    path='M '+pts.map(p=>p.join(' ')).join(' L ');
+    area=`M ${X(a)} ${y0} L `+pts.map(p=>p.join(' ')).join(' L ')+` L ${X(b)} ${y0} Z`;
+  }
+  const cur=`${area?`<path d="${area}" fill="#f59e0b" opacity=".22"/>`:''}<path d="${path}" fill="none" stroke="#0284c7" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="${X(V1)}" cy="${Y(P1)}" r="6" fill="#075985"/><circle cx="${X(st.V2)}" cy="${Y(st.P2)}" r="7" fill="#e11d48"/>
+  <text x="${X(V1)+8}" y="${Y(P1)-8}" fill="#0b1728" font-weight="800">1</text><text x="${X(st.V2)+8}" y="${Y(st.P2)-8}" fill="#0b1728" font-weight="800">2</text>`;
+  svg.innerHTML=axes+cur+`<text x="76" y="27" fill="#466276" font-size="14">p em kPa • V em L</text>`;
+}
+setupProcess();
+
+// cycle
+let clockwise=true;
+function drawCycle(){
+  const svg=$('#cycleSvg'); const x0=70,y0=340; const A=[170,270],B=[460,270],C=[460,110],D=[170,110]; const pts=clockwise?[A,D,C,B,A]:[A,B,C,D,A];
+  const color=clockwise?'#22d3ee':'#fb7185'; const poly=pts.map(p=>p.join(',')).join(' ');
+  let arrows=''; for(let i=0;i<4;i++){const [x1,y1]=pts[i],[x2,y2]=pts[i+1],mx=(x1+x2)/2,my=(y1+y2)/2; const ang=Math.atan2(y2-y1,x2-x1); const s=12; const p1=[mx-s*Math.cos(ang-Math.PI/6),my-s*Math.sin(ang-Math.PI/6)]; const p2=[mx-s*Math.cos(ang+Math.PI/6),my-s*Math.sin(ang+Math.PI/6)]; arrows+=`<path d="M ${p1[0]} ${p1[1]} L ${mx} ${my} L ${p2[0]} ${p2[1]}" fill="none" stroke="${color}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`;}
+  svg.innerHTML=`<rect width="620" height="420" rx="18" fill="#f5faff"/><line x1="${x0}" y1="${y0}" x2="570" y2="${y0}" stroke="#152c3e" stroke-width="3"/><line x1="${x0}" y1="${y0}" x2="${x0}" y2="55" stroke="#152c3e" stroke-width="3"/><text x="548" y="372" fill="#10273a" font-size="20" font-weight="800">V</text><text x="38" y="70" fill="#10273a" font-size="20" font-weight="800">p</text><polygon points="${A.join(',')} ${B.join(',')} ${C.join(',')} ${D.join(',')}" fill="#f59e0b" opacity=".22"/><polyline points="${poly}" fill="none" stroke="${color}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>${arrows}<text x="184" y="295" fill="#10273a" font-weight="850">A</text><text x="470" y="295" fill="#10273a" font-weight="850">B</text><text x="470" y="100" fill="#10273a" font-weight="850">C</text><text x="184" y="100" fill="#10273a" font-weight="850">D</text><text x="274" y="205" fill="#a16207" font-size="24" font-weight="900">área = |W|</text>`;
+  $('#cycleW').textContent=(clockwise?'+':'−')+'600 J'; $('#cycleQ').textContent=(clockwise?'+':'−')+'600 J';
+  $('#cycleFormula').innerHTML=clockwise?'W<sub>ciclo</sub> &gt; 0 → Q<sub>ciclo</sub> &gt; 0':'W<sub>ciclo</sub> &lt; 0 → Q<sub>ciclo</sub> &lt; 0';
+  $('#cycleText').textContent=clockwise?'No sentido horário, o trabalho total realizado pelo gás é positivo. Ao final do ciclo, o gás recebeu calor líquido igual a esse trabalho.':'No sentido anti-horário, o trabalho total realizado pelo gás é negativo: o meio externo realiza trabalho líquido sobre o gás. O gás cede calor líquido de igual módulo.';
+  $('#clockBtn').classList.toggle('active',clockwise);$('#counterBtn').classList.toggle('active',!clockwise);
+}
+$('#clockBtn').onclick=()=>{clockwise=true;drawCycle()};$('#counterBtn').onclick=()=>{clockwise=false;drawCycle()};drawCycle();
+
+// examples step reveal
+const stepIndex={1:0,2:0,3:0,4:0};
+$$('.next-step').forEach(btn=>btn.onclick=()=>{const id=btn.dataset.example, list=$$(`.steps[data-example="${id}"] .step`); if(stepIndex[id]<list.length){list[stepIndex[id]].classList.add('show');stepIndex[id]++;}});
+$$('.reset-step').forEach(btn=>btn.onclick=()=>{const id=btn.dataset.example;$$(`.steps[data-example="${id}"] .step`).forEach(s=>s.classList.remove('show'));stepIndex[id]=0;});
+
+// practice lab
+function updateLab(){const Q=+$('#labQ').value,W=+$('#labW').value,du=Q-W;$('#labQv').textContent=sgn(Q)+' J';$('#labWv').textContent=sgn(W)+' J';$('#labDU').textContent=sgn(du)+' J';let txt=[];txt.push(Q>0?'o gás recebe calor':Q<0?'o gás cede calor':'não há troca líquida de calor');txt.push(W>0?'o gás realiza trabalho':W<0?'o meio realiza trabalho sobre o gás':'não há trabalho líquido');txt.push(du>0?'a energia interna aumenta':du<0?'a energia interna diminui':'a energia interna não muda');$('#labInterpret').innerHTML='<strong>Interpretação:</strong> '+txt.join('; ')+'.';}
+$('#labQ').oninput=updateLab;$('#labW').oninput=updateLab;updateLab();
+$$('.accordion button').forEach(b=>b.onclick=()=>{const a=b.parentElement;a.classList.toggle('open');b.querySelector('span').textContent=a.classList.contains('open')?'−':'＋';});
+
+// quiz
+const questions=[
+ {q:'Um gás ideal sofre expansão isotérmica e realiza 300 J de trabalho. Quanto calor ele recebe?',opts:['0 J','150 J','300 J','600 J'],a:2,why:'Isotérmica: ΔU = 0. Logo, Q = W = 300 J.'},
+ {q:'Em uma transformação isocórica, qual grandeza energética é necessariamente nula?',opts:['Q','ΔU','W','Temperatura'],a:2,why:'Volume constante implica ΔV = 0 e, portanto, W = 0.'},
+ {q:'Um gás recebe 500 J de calor e é comprimido de modo que W = −200 J. Qual é ΔU?',opts:['+300 J','+700 J','−300 J','−700 J'],a:1,why:'ΔU = Q − W = 500 − (−200) = 700 J.'},
+ {q:'Numa expansão adiabática de gás ideal, a temperatura tende a:',opts:['aumentar','diminuir','ficar constante','tornar-se zero'],a:1,why:'Q = 0 e W > 0, então ΔU = −W < 0. Para gás ideal, U acompanha T.'},
+ {q:'Num ciclo termodinâmico completo, qual afirmação é correta?',opts:['ΔU > 0 sempre','ΔU = 0','Q = 0 sempre','W = 0 sempre'],a:1,why:'O estado final coincide com o inicial; energia interna é função de estado, logo ΔU = 0.'},
+ {q:'Por que Qp costuma ser maior que Qv para o mesmo ΔT?',opts:['Porque em volume constante há mais trabalho','Porque em pressão constante parte do calor também vira trabalho','Porque Cp = Cv','Porque a energia interna depende do caminho'],a:1,why:'Na isobárica, além de elevar U, o gás realiza trabalho; por isso Qp > Qv.'}
+];
+let score=0, answered=new Set();
+function renderQuiz(){score=0;answered.clear();$('#score').textContent=score;$('#quizArea').innerHTML=questions.map((x,i)=>`<div class="quiz-card" data-i="${i}"><strong>${i+1}. ${x.q}</strong><div class="options">${x.opts.map((o,j)=>`<button class="option" data-j="${j}">${String.fromCharCode(65+j)}) ${o}</button>`).join('')}</div><div class="feedback"></div></div>`).join('');$$('.quiz-card .option').forEach(btn=>btn.onclick=()=>answerQuiz(btn));}
+function answerQuiz(btn){const card=btn.closest('.quiz-card'),i=+card.dataset.i;if(answered.has(i))return;answered.add(i);const j=+btn.dataset.j,q=questions[i];card.querySelectorAll('.option').forEach((b,k)=>{if(k===q.a)b.classList.add('correct');else if(k===j)b.classList.add('wrong');b.disabled=true;});if(j===q.a){score++;$('#score').textContent=score;}card.querySelector('.feedback').textContent=(j===q.a?'Correto. ':'Revise. ')+q.why;}
+$('#resetQuiz').onclick=renderQuiz;renderQuiz();
+</script>
+</body>
+</html>
