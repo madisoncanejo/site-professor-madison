@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="theme-color" content="#07111f" />
+<title>Missão Termodinâmica — Arcade da 1ª Lei</title>
+<style>
+:root{
+  --bg:#07111f; --bg2:#0d1b2f; --panel:#10243f; --ink:#eef7ff; --muted:#a8bfd6;
+  --iso:#22d3ee; --voc:#a78bfa; --iob:#f59e0b; --adi:#fb7185;
+  --line:rgba(255,255,255,.10);
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#eef4fb; --bg2:#dde8f7; --panel:#ffffff; --ink:#0b1728; --muted:#4f657a; --line:rgba(11,23,40,.12);
+  }
+}
+:root[data-theme="dark"]{ --bg:#07111f; --bg2:#0d1b2f; --panel:#10243f; --ink:#eef7ff; --muted:#a8bfd6; --line:rgba(255,255,255,.10); }
+
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent; user-select:none;}
+html,body{margin:0; height:100%; overflow:hidden; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Arial,sans-serif;}
+#app{position:fixed; inset:0; display:flex; flex-direction:column; background:
+  radial-gradient(circle at 15% 0%, rgba(34,211,238,.12), transparent 40%),
+  radial-gradient(circle at 88% 100%, rgba(245,158,11,.10), transparent 45%),
+  linear-gradient(180deg, var(--bg), var(--bg2));}
+
+/* ===== HUD ===== */
+#hud{display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:10px 14px; padding-top:calc(10px + env(safe-area-inset-top));
+  border-bottom:1px solid var(--line); flex:0 0 auto;}
+#hud .stat{display:flex; align-items:center; gap:6px; font-weight:800; font-size:14px;}
+#lives{display:flex; gap:4px;}
+.life{width:14px;height:14px;border-radius:50%;background:var(--adi);box-shadow:0 0 8px rgba(251,113,133,.6);}
+.life.lost{background:transparent; border:1.5px solid var(--line); box-shadow:none;}
+#hud .title{font-size:13px; color:var(--muted); letter-spacing:.06em; text-transform:uppercase; font-weight:800;}
+
+/* ===== PLAY FIELD ===== */
+#field{position:relative; flex:1 1 auto; overflow:hidden;}
+.meteor{
+  position:absolute; top:-80px; width:min(78%, 340px); left:50%; transform:translateX(-50%);
+  padding:14px 12px; border-radius:16px; text-align:center; font-weight:700; font-size:14.5px;
+  line-height:1.32; background:var(--panel); border:1.5px solid var(--line);
+  box-shadow:0 10px 26px rgba(0,0,0,.28); color:var(--ink);
+}
+.meteor::before{
+  content:""; position:absolute; left:50%; top:-9px; transform:translateX(-50%);
+  width:9px; height:9px; border-radius:50%; background:var(--fuse,#f59e0b);
+  box-shadow:0 0 10px var(--fuse,#f59e0b);
+}
+#groundLine{position:absolute; left:0; right:0; height:3px; background:linear-gradient(90deg, transparent, var(--adi), transparent); opacity:.55; bottom:64px;}
+#flashLayer{position:absolute; inset:0; pointer-events:none;}
+.pop{position:absolute; font-weight:900; font-size:22px; animation:popUp .6s ease-out forwards;}
+@keyframes popUp{ from{opacity:1; transform:translateY(0) scale(1);} to{opacity:0; transform:translateY(-40px) scale(1.3);} }
+.shake{animation:shakeAnim .25s;}
+@keyframes shakeAnim{ 0%,100%{transform:translateX(0);} 25%{transform:translateX(-6px);} 75%{transform:translateX(6px);} }
+
+/* ===== CONTROLS ===== */
+#controls{display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:8px; padding:10px 12px;
+  padding-bottom:calc(10px + env(safe-area-inset-bottom)); flex:0 0 auto; border-top:1px solid var(--line);}
+.laneBtn{border:none; border-radius:14px; padding:12px 6px; font-weight:800; font-size:13.5px;
+  color:#03111d; cursor:pointer; touch-action:manipulation; transition:transform .08s;}
+.laneBtn:active{transform:scale(.94);}
+.laneBtn.iso{background:linear-gradient(135deg,var(--iso),#2a9fc7);}
+.laneBtn.voc{background:linear-gradient(135deg,var(--voc),#7c5fd9); color:#0d0a24;}
+.laneBtn.iob{background:linear-gradient(135deg,var(--iob),#c2670f);}
+.laneBtn.adi{background:linear-gradient(135deg,var(--adi),#e0455f); color:#210608;}
+
+/* ===== OVERLAYS ===== */
+.overlay{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  background:rgba(6,9,18,.72); backdrop-filter:blur(6px); z-index:30; padding:22px;}
+.card{background:var(--panel); border:1px solid var(--line); border-radius:22px; padding:26px 22px;
+  max-width:400px; width:100%; text-align:center; box-shadow:0 20px 50px rgba(0,0,0,.4); max-height:88vh; overflow:auto;}
+.card h1{font-size:23px; margin:0 0 6px;}
+.card p{color:var(--muted); font-size:14px; margin:0 0 16px; line-height:1.5;}
+.legend{display:grid; gap:8px; margin:16px 0; text-align:left;}
+.legend div{display:flex; align-items:flex-start; gap:10px; font-size:12.5px; padding:8px 10px;
+  border-radius:10px; background:rgba(255,255,255,.04); border:1px solid var(--line);}
+.dot{width:12px;height:12px;border-radius:50%; flex:0 0 auto; margin-top:2px;}
+.bigBtn{border:none; border-radius:14px; padding:14px 20px; font-weight:900; font-size:16px;
+  background:linear-gradient(135deg,#22d3ee,#60a5fa); color:#03111d; cursor:pointer; width:100%;}
+.ghostBtn{margin-top:10px; border:1px solid var(--line); background:transparent; color:var(--ink);
+  border-radius:12px; padding:10px 16px; font-weight:700; font-size:13px; cursor:pointer; width:100%;}
+.score-line{display:flex; justify-content:space-between; padding:8px 12px; border-radius:10px;
+  background:rgba(255,255,255,.04); font-size:14px; margin-bottom:8px;}
+.installTip{font-size:11px; color:var(--muted); margin-top:14px; line-height:1.5;}
+#installBtn{position:fixed; right:12px; bottom:calc(96px + env(safe-area-inset-bottom)); z-index:40;
+  border:1px solid var(--line); background:var(--panel); color:var(--ink); border-radius:999px;
+  padding:9px 14px; font-size:12px; font-weight:800; box-shadow:0 10px 24px rgba(0,0,0,.3); display:none;}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div id="hud">
+    <div class="stat"><span class="title">Missão Termodinâmica</span></div>
+    <div class="stat">🏆 <span id="scoreVal">0</span></div>
+    <div id="lives"></div>
+  </div>
+
+  <div id="field">
+    <div id="groundLine"></div>
+    <div id="flashLayer"></div>
+  </div>
+
+  <div id="controls">
+    <button class="laneBtn iso" data-cat="iso">🔵 Isotérmica</button>
+    <button class="laneBtn voc" data-cat="voc">🟣 Isocórica</button>
+    <button class="laneBtn iob" data-cat="iob">🟠 Isobárica</button>
+    <button class="laneBtn adi" data-cat="adi">🔴 Adiabática</button>
+  </div>
+
+  <div class="overlay" id="startOverlay">
+    <div class="card">
+      <h1>🔥 Missão Termodinâmica</h1>
+      <p>Afirmações sobre a 1ª Lei da Termodinâmica caem do espaço. Toque no processo certo antes que elas cheguem à linha vermelha.</p>
+      <div class="legend">
+        <div><span class="dot" style="background:var(--iso)"></span> <b>Isotérmica</b> — temperatura constante, ΔU = 0, Q = W</div>
+        <div><span class="dot" style="background:var(--voc)"></span> <b>Isocórica</b> — volume constante, W = 0, ΔU = Q</div>
+        <div><span class="dot" style="background:var(--iob)"></span> <b>Isobárica</b> — pressão constante, parte do calor vira trabalho</div>
+        <div><span class="dot" style="background:var(--adi)"></span> <b>Adiabática</b> — sem troca de calor, Q = 0, ΔU = −W</div>
+      </div>
+      <button class="bigBtn" id="startBtn">Jogar</button>
+      <div class="installTip">📲 Dica: toque em "Compartilhar" (iPhone) ou no menu ⋮ (Android) e escolha <b>Adicionar à Tela de Início</b> para abrir como app.</div>
+    </div>
+  </div>
+
+  <div class="overlay" id="endOverlay" style="display:none;">
+    <div class="card">
+      <h1 id="endTitle">Fim de jogo</h1>
+      <div class="score-line"><span>Pontuação</span><b id="finalScore">0</b></div>
+      <div class="score-line"><span>Recorde</span><b id="bestScore">0</b></div>
+      <p id="endMsg" style="text-align:left"></p>
+      <button class="bigBtn" id="retryBtn">Jogar de novo</button>
+      <button class="ghostBtn" id="reviewBtn">Ver o que errei</button>
+    </div>
+  </div>
+
+  <button id="installBtn">📲 Instalar</button>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var BANK = [
+    // Isotérmica
+    {t:"Temperatura permanece constante durante toda a transformação", c:"iso"},
+    {t:"ΔU = 0, pois a energia interna do gás ideal só depende de T", c:"iso"},
+    {t:"Todo o calor recebido é convertido em trabalho: Q = W", c:"iso"},
+    {t:"O produto P·V permanece constante ao longo do processo", c:"iso"},
+    {t:"Se o gás realiza 300 J de trabalho, ele recebe 300 J de calor", c:"iso"},
+    // Isocórica
+    {t:"O volume do gás não se altera", c:"voc"},
+    {t:"W = 0, pois não há variação de volume", c:"voc"},
+    {t:"ΔU = Q — todo o calor recebido vira energia interna", c:"voc"},
+    {t:"Não existe troca de trabalho com o meio externo", c:"voc"},
+    {t:"É representada por uma reta vertical no diagrama p×V", c:"voc"},
+    // Isobárica
+    {t:"A pressão do gás permanece constante", c:"iob"},
+    {t:"Parte do calor recebido se transforma em trabalho", c:"iob"},
+    {t:"Qp é maior que Qv para o mesmo ΔT", c:"iob"},
+    {t:"É representada por uma reta horizontal no diagrama p×V", c:"iob"},
+    {t:"O trabalho é calculado por W = p · ΔV", c:"iob"},
+    // Adiabática
+    {t:"Não há troca de calor com o meio: Q = 0", c:"adi"},
+    {t:"ΔU = −W (toda variação de energia interna vem do trabalho)", c:"adi"},
+    {t:"Numa expansão adiabática, a temperatura do gás diminui", c:"adi"},
+    {t:"Numa compressão adiabática, a temperatura do gás aumenta", c:"adi"},
+    {t:"Obedece a relação P·V^γ = constante", c:"adi"}
+  ];
+
+  var COLORS = {iso:"var(--iso)", voc:"var(--voc)", iob:"var(--iob)", adi:"var(--adi)"};
+  var NAMES  = {iso:"Isotérmica", voc:"Isocórica", iob:"Isobárica", adi:"Adiabática"};
+
+  var field = document.getElementById("field");
+  var flashLayer = document.getElementById("flashLayer");
+  var scoreVal = document.getElementById("scoreVal");
+  var livesWrap = document.getElementById("lives");
+  var endOverlay = document.getElementById("endOverlay");
+  var startBtn = document.getElementById("startBtn");
+  var retryBtn = document.getElementById("retryBtn");
+  var reviewBtn = document.getElementById("reviewBtn");
+  var finalScoreEl = document.getElementById("finalScore");
+  var bestScoreEl = document.getElementById("bestScore");
+  var endTitle = document.getElementById("endTitle");
+  var endMsg = document.getElementById("endMsg");
+
+  var STORE_KEY = "termo1_arcade_best_v1";
+  var state = null;
+  var rafId = null;
+  var spawnTimer = null;
+  var mistakes = [];
+
+  function safeGetBest(){
+    try{ return parseInt(localStorage.getItem(STORE_KEY) || "0", 10) || 0; }
+    catch(e){ return 0; }
+  }
+  function safeSetBest(v){
+    try{ localStorage.setItem(STORE_KEY, String(v)); }catch(e){}
+  }
+
+  function renderLives(n, total){
+    livesWrap.innerHTML = "";
+    for(var i=0;i<total;i++){
+      var d = document.createElement("div");
+      d.className = "life" + (i < total-n ? " lost" : "");
+      livesWrap.appendChild(d);
+    }
+  }
+
+  function pickItem(prevCat){
+    var item = BANK[Math.floor(Math.random()*BANK.length)];
+    if(prevCat && item.c === prevCat){
+      return pickItem(prevCat);
+    }
+    return item;
+  }
+
+  function groundY(){
+    return field.clientHeight - 64;
+  }
+
+  function spawnMeteor(){
+    if(!state || !state.running) return;
+    var item = pickItem(state.lastCat);
+    state.lastCat = item.c;
+    var el = document.createElement("div");
+    el.className = "meteor";
+    el.style.setProperty("--fuse", COLORS[item.c]);
+    el.style.borderColor = "color-mix(in srgb, "+COLORS[item.c]+" 45%, var(--line))";
+    el.style.left = (10 + Math.random()*20) + "%";
+    el.style.transform = "none";
+    el.textContent = item.t;
+    field.appendChild(el);
+
+    var duration = Math.max(3400, state.fallMs);
+    var startTime = performance.now();
+    var startTop = -80;
+    var endTop = groundY();
+
+    state.metors.push({
+      el: el, cat: item.c, alive: true,
+      startTime: startTime, duration: duration,
+      startTop: startTop, endTop: endTop
+    });
+  }
+
+  function tick(now){
+    if(!state || !state.running) return;
+    for(var i = state.metors.length-1; i>=0; i--){
+      var m = state.metors[i];
+      if(!m.alive) continue;
+      var p = (now - m.startTime) / m.duration;
+      if(p >= 1) p = 1;
+      var y = m.startTop + (m.endTop - m.startTop) * p;
+      m.el.style.top = y + "px";
+      if(p >= 1){
+        missMeteor(m);
+      }
+    }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function removeMeteor(m){
+    m.alive = false;
+    if(m.el && m.el.parentNode) m.el.parentNode.removeChild(m.el);
+    var idx = state.metors.indexOf(m);
+    if(idx >= 0) state.metors.splice(idx,1);
+  }
+
+  function popFx(x, y, text, color){
+    var p = document.createElement("div");
+    p.className = "pop";
+    p.style.left = x + "px";
+    p.style.top = y + "px";
+    p.style.color = color;
+    p.textContent = text;
+    flashLayer.appendChild(p);
+    setTimeout(function(){ if(p.parentNode) p.parentNode.removeChild(p); }, 650);
+  }
+
+  function missMeteor(m){
+    var rect = m.el.getBoundingClientRect();
+    var fieldRect = field.getBoundingClientRect();
+    popFx(rect.left - fieldRect.left + rect.width/2 - 14, rect.top - fieldRect.top, "💥", "#fb7185");
+    mistakes.push({text: m.el.textContent, correct: m.cat, chosen: null});
+    removeMeteor(m);
+    loseLife();
+  }
+
+  function loseLife(){
+    state.lives--;
+    renderLives(state.lives, state.maxLives);
+    field.classList.add("shake");
+    setTimeout(function(){ field.classList.remove("shake"); }, 250);
+    if(state.lives <= 0){
+      endGame();
+    }
+  }
+
+  function handleLane(cat){
+    if(!state || !state.running) return;
+    var target = null;
+    for(var i=0;i<state.metors.length;i++){
+      var m = state.metors[i];
+      if(!m.alive) continue;
+      if(!target || parseFloat(m.el.style.top||0) > parseFloat(target.el.style.top||0)){
+        target = m;
+      }
+    }
+    if(!target) return;
+
+    var rect = target.el.getBoundingClientRect();
+    var fieldRect = field.getBoundingClientRect();
+    var cx = rect.left - fieldRect.left + rect.width/2 - 10;
+    var cy = rect.top - fieldRect.top;
+
+    if(target.cat === cat){
+      state.score += 10;
+      scoreVal.textContent = state.score;
+      popFx(cx, cy, "+10", COLORS[cat]);
+      removeMeteor(target);
+      rampDifficulty();
+    } else {
+      mistakes.push({text: target.el.textContent, correct: target.cat, chosen: cat});
+      popFx(cx, cy, "✗", "#fb7185");
+      removeMeteor(target);
+      loseLife();
+    }
+  }
+
+  function rampDifficulty(){
+    state.spawnMs = Math.max(2600, state.spawnMs - 20);
+    state.fallMs = Math.max(5200, state.fallMs - 25);
+    rescheduleSpawn();
+  }
+
+  function rescheduleSpawn(){
+    clearInterval(spawnTimer);
+    spawnTimer = setInterval(spawnMeteor, state.spawnMs);
+  }
+
+  function startGame(){
+    document.getElementById("startOverlay").style.display = "none";
+    endOverlay.style.display = "none";
+    Array.prototype.slice.call(field.querySelectorAll(".meteor")).forEach(function(e){ e.remove(); });
+    flashLayer.innerHTML = "";
+    mistakes = [];
+
+    state = {
+      running: true, score: 0, lives: 3, maxLives: 3,
+      metors: [], lastCat: null,
+      spawnMs: 3400, fallMs: 8000
+    };
+    scoreVal.textContent = "0";
+    renderLives(state.lives, state.maxLives);
+
+    spawnMeteor();
+    rescheduleSpawn();
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function endGame(){
+    state.running = false;
+    clearInterval(spawnTimer);
+    cancelAnimationFrame(rafId);
+
+    var best = safeGetBest();
+    if(state.score > best){ best = state.score; safeSetBest(best); }
+
+    finalScoreEl.textContent = state.score;
+    bestScoreEl.textContent = best;
+
+    var s = state.score, msg;
+    if(s >= 150) msg = "Domínio sólido dos quatro processos. Você distingue Q, W e ΔU quase automaticamente.";
+    else if(s >= 90) msg = "Muito bom. Reveja a diferença entre Isobárica e Isocórica — é onde mais se erra.";
+    else if(s >= 40) msg = "Base razoável, mas ainda confunde processos. Foque em memorizar qual grandeza é zero em cada um.";
+    else msg = "Antes da próxima rodada, revise: Isotérmica (ΔU=0), Isocórica (W=0), Isobárica (P constante) e Adiabática (Q=0).";
+    endMsg.textContent = msg;
+    endTitle.textContent = state.lives <= 0 ? "💥 Sem vidas!" : "Fim de jogo";
+    endOverlay.style.display = "flex";
+  }
+
+  document.querySelectorAll(".laneBtn").forEach(function(btn){
+    btn.addEventListener("click", function(){ handleLane(btn.getAttribute("data-cat")); });
+  });
+  startBtn.addEventListener("click", startGame);
+  retryBtn.addEventListener("click", startGame);
+  reviewBtn.addEventListener("click", function(){
+    if(mistakes.length === 0){
+      endMsg.textContent = "Nenhum erro registrado nesta rodada. 🎉";
+      return;
+    }
+    var lines = mistakes.slice(-5).map(function(m){
+      return "• \"" + m.text + "\" → correto: " + NAMES[m.correct];
+    });
+    endMsg.innerHTML = "<b>Últimos erros:</b><br>" + lines.join("<br>");
+  });
+
+  var installBtn = document.getElementById("installBtn");
+  var deferredPrompt = null;
+  window.addEventListener("beforeinstallprompt", function(e){
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = "block";
+  });
+  installBtn.addEventListener("click", function(){
+    if(deferredPrompt){ deferredPrompt.prompt(); }
+    else { alert("No Android: toque no menu ⋮ do navegador e escolha \"Adicionar à tela inicial\".\nNo iPhone: toque em Compartilhar e escolha \"Adicionar à Tela de Início\"."); }
+  });
+
+})();
+</script>
+</body>
+</html>
