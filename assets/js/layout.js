@@ -3,20 +3,7 @@
    Site de Física. Controlado por <body data-active="...">
    =========================================================== */
 
-const LOGO_SVG = `
-<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Professor Madison">
-  <defs>
-    <linearGradient id="mgrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#3dffce"/>
-      <stop offset="100%" stop-color="#0fb3c4"/>
-    </linearGradient>
-  </defs>
-  <path d="M18 20 L18 62 Q18 74 30 80" fill="none" stroke="url(#mgrad)" stroke-width="7" stroke-linecap="round"/>
-  <path d="M82 20 L82 62 Q82 74 70 80" fill="none" stroke="url(#mgrad)" stroke-width="7" stroke-linecap="round"/>
-  <path d="M30 22 L50 46 L70 22" fill="none" stroke="url(#mgrad)" stroke-width="7.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M30 22 L30 56" fill="none" stroke="url(#mgrad)" stroke-width="7.5" stroke-linecap="round"/>
-  <path d="M70 22 L70 56" fill="none" stroke="url(#mgrad)" stroke-width="7.5" stroke-linecap="round"/>
-</svg>`;
+const LOGO_SVG = `<img src="/assets/img/logo-mark.png" alt="Professor Madison" width="38" height="32" style="width:100%;height:100%;object-fit:contain;display:block">`;
 
 const SOCIAL_LINKS = {
   youtube: "https://www.youtube.com/@professormadison8575",
