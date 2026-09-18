@@ -11,4 +11,12 @@
      data: "2026-09-10"
    }
 */
-var BLOG_FISICA = [];
+var BLOG_FISICA = [
+  {
+    categoria: "Cosmologia",
+    titulo: "A energia escura está mudando? Novos dados colocam um dos maiores mistérios do Universo em discussão",
+    resumo: "Observações de milhões de galáxias e milhares de supernovas estão testando uma ideia que parecia bem estabelecida: a de que a energia escura se comporta sempre da mesma maneira.",
+    url: "/fisica/blog/energia-escura-variavel-desi.html",
+    data: "2026-09-17"
+  }
+];
