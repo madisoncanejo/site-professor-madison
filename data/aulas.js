@@ -21,5 +21,13 @@ var AULAS = [
     descricao: "Aula completa com simulador de gás ideal, gráficos p×V, transformações (isotérmica, isobárica, isocórica, adiabática), exemplos resolvidos e quiz final.",
     url: "/aulas-html/primeira-lei-termodinamica-interativa.html",
     data: "2026-09-17"
+  },
+  {
+    serie: "2",
+    tema: "Óptica",
+    titulo: "Óptica Geométrica — Laboratório Interativo",
+    descricao: "Introdução à Óptica Geométrica: fontes luminosas, raios, meios materiais, reflexão, refração, cores, sombras, eclipses e câmara escura, com simulações em tempo real e quiz com correção imediata.",
+    url: "/aulas-html/optica-geometrica-interativa.html",
+    data: "2026-09-19"
   }
 ];
