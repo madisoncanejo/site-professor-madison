@@ -29,5 +29,13 @@ var AULAS = [
     descricao: "Introdução à Óptica Geométrica: fontes luminosas, raios, meios materiais, reflexão, refração, cores, sombras, eclipses e câmara escura, com simulações em tempo real e quiz com correção imediata.",
     url: "/aulas-html/optica-geometrica-interativa.html",
     data: "2026-09-19"
+  },
+  {
+    serie: "1",
+    tema: "Astronomia",
+    titulo: "Somos Poeira das Estrelas — Laboratório Interativo",
+    descricao: "Aula interativa (Frente A6) sobre a origem dos elementos químicos, das estrelas ao nosso corpo, com simulações e atividades.",
+    url: "/aulas-html/somos-poeira-das-estrelas.html",
+    data: "2026-09-20"
   }
 ];

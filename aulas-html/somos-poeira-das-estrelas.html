@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frente A6 — Somos Poeira das Estrelas | Laboratório Premium MDC</title>
+<style>
+:root{
+  --bg:#07101d; --bg2:#0b1728; --panel:#0f2036; --panel2:#132942;
+  --ink:#eef6ff; --muted:#a9b9ce; --line:#28415f;
+  --gold:#ffca3a; --cyan:#57d7ff; --blue:#6e8cff; --pink:#ff73b8; --green:#72e0a4;
+  --danger:#ff6b72; --white:#fff; --shadow:0 18px 60px rgba(0,0,0,.28);
+  --radius:22px; --max:1240px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 18% 5%,#142849 0,#081425 34%,#050b14 72%);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.55;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.38;background-image:radial-gradient(circle at 10% 12%,#fff 0 1px,transparent 1.5px),radial-gradient(circle at 63% 17%,#bfe8ff 0 1px,transparent 1.5px),radial-gradient(circle at 84% 42%,#fff 0 1px,transparent 1.5px),radial-gradient(circle at 32% 64%,#fff 0 1px,transparent 1.5px),radial-gradient(circle at 72% 76%,#bfe8ff 0 1px,transparent 1.5px);background-size:190px 190px,260px 260px,320px 320px,240px 240px,420px 420px}
+a{color:inherit}
+button,input,select{font:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+#app{position:relative;z-index:1}
+.wrap{width:min(var(--max),calc(100% - 32px));margin:auto}
+.topbar{position:sticky;top:0;z-index:40;background:rgba(5,11,20,.84);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.08)}
+.topbar .wrap{display:flex;align-items:center;gap:18px;min-height:70px}
+.brand{display:flex;align-items:center;gap:12px;min-width:220px}
+.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(145deg,var(--gold),#f28b22);display:grid;place-items:center;color:#121820;font-weight:900;letter-spacing:-1px;box-shadow:0 8px 24px rgba(255,202,58,.24)}
+.brand b{display:block;font-size:.93rem;letter-spacing:.06em}.brand span{display:block;color:var(--muted);font-size:.76rem}
+.nav{display:flex;gap:6px;overflow:auto;scrollbar-width:none;flex:1}.nav::-webkit-scrollbar{display:none}
+.nav a{white-space:nowrap;text-decoration:none;color:var(--muted);font-size:.85rem;padding:9px 11px;border-radius:999px}.nav a:hover{background:#12233a;color:#fff}
+.progress-shell{width:110px;height:7px;border-radius:99px;background:#1a2e48;overflow:hidden;flex:none}.progress{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--gold))}
+.hero{min-height:680px;display:grid;align-items:center;padding:70px 0 56px;position:relative}
+.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:54px;align-items:center}
+.kicker{display:inline-flex;gap:8px;align-items:center;font-weight:800;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.kicker::before{content:"";width:32px;height:2px;background:var(--gold)}
+h1{font-size:clamp(2.7rem,6vw,6.2rem);line-height:.92;letter-spacing:-.055em;margin:0 0 22px;max-width:760px}
+h1 .accent{background:linear-gradient(90deg,#fff 8%,var(--cyan) 53%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:clamp(1.03rem,1.4vw,1.3rem);color:#c6d5e7;max-width:720px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{border:1px solid var(--line);background:#10243b;color:#fff;padding:12px 16px;border-radius:14px;font-weight:800;box-shadow:none;transition:.2s transform,.2s background}.btn:hover{transform:translateY(-2px);background:#18314e}.btn.primary{background:linear-gradient(135deg,var(--gold),#f39a29);color:#101722;border:0}.btn.ghost{background:transparent}.btn.small{padding:9px 12px;font-size:.88rem;border-radius:12px}
+.hero-visual{position:relative;min-height:520px;display:grid;place-items:center}
+.orbit-art{position:relative;width:min(500px,92vw);aspect-ratio:1;border-radius:50%;filter:drop-shadow(0 30px 45px rgba(0,0,0,.4))}
+.orbit-art .halo{position:absolute;inset:8%;border-radius:50%;border:1px solid rgba(87,215,255,.24);box-shadow:0 0 0 42px rgba(74,115,160,.04),0 0 0 90px rgba(74,115,160,.025)}
+.sun-core{position:absolute;left:50%;top:50%;width:86px;height:86px;translate:-50% -50%;border-radius:50%;background:radial-gradient(circle at 34% 32%,#fffad5 0 8%,#ffd95a 22%,#ff9b22 57%,#f25514 100%);box-shadow:0 0 42px #ffb22d,0 0 100px rgba(255,170,38,.48)}
+.orbit-ring{position:absolute;left:50%;top:50%;translate:-50% -50%;border:1px solid rgba(216,235,255,.26);border-radius:50%}.r1{width:42%;height:32%}.r2{width:61%;height:46%;transform:rotate(-8deg)}.r3{width:80%;height:62%;transform:rotate(7deg)}
+.planet{position:absolute;border-radius:50%;box-shadow:0 0 18px rgba(255,255,255,.2)}.earth-art{width:24px;height:24px;background:radial-gradient(circle at 30% 30%,#87eaff 0 22%,#3d8be5 23% 55%,#1265aa 56%);left:75%;top:48%}.mars-art{width:19px;height:19px;background:#e36d42;left:25%;top:24%}.jupiter-art{width:42px;height:42px;background:repeating-linear-gradient(0deg,#d8b18a 0 6px,#c68e62 6px 11px,#e3c7a4 11px 16px);left:64%;top:74%}
+.dust{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 16% 33%,rgba(255,115,184,.23),transparent 24%),radial-gradient(circle at 74% 22%,rgba(87,215,255,.18),transparent 30%),radial-gradient(circle at 68% 77%,rgba(255,202,58,.12),transparent 22%);filter:blur(3px)}
+.hero-note{position:absolute;right:-12px;bottom:34px;width:min(280px,70vw);padding:15px 16px;border:1px solid rgba(255,255,255,.11);border-radius:16px;background:rgba(8,19,34,.78);backdrop-filter:blur(10px);box-shadow:var(--shadow)}
+.hero-note strong{color:var(--gold)}
+.section{padding:76px 0;border-top:1px solid rgba(255,255,255,.06)}
+.section-head{display:grid;grid-template-columns:180px 1fr;gap:28px;margin-bottom:34px;align-items:start}
+.eyebrow{font-size:.75rem;text-transform:uppercase;letter-spacing:.16em;color:var(--gold);font-weight:900;padding-top:8px}
+.section-head h2{font-size:clamp(2rem,4vw,4rem);line-height:1;letter-spacing:-.04em;margin:0 0 14px}.section-head p{margin:0;color:var(--muted);max-width:840px;font-size:1.04rem}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:linear-gradient(180deg,rgba(18,39,64,.9),rgba(12,26,44,.94));border:1px solid rgba(255,255,255,.09);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);min-width:0}.card.flat{box-shadow:none}.card h3{margin:0 0 10px;font-size:1.2rem}.card h4{margin:16px 0 8px}.muted{color:var(--muted)}.tiny{font-size:.8rem;color:var(--muted)}
+.badges{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}.badge{font-size:.75rem;border:1px solid #31506f;border-radius:999px;padding:5px 9px;color:#cfe0f1;background:#0c1d31}
+.lab{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);gap:20px;align-items:stretch}.lab.single{grid-template-columns:1fr}.sim{background:#050c16;border:1px solid #213a56;border-radius:18px;overflow:hidden;position:relative;min-height:430px}.sim canvas{display:block;width:100%;height:100%;min-height:430px}.sim .sim-label{position:absolute;left:14px;top:14px;z-index:3;background:rgba(5,12,22,.8);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.09);border-radius:999px;padding:6px 10px;color:#d9e9f7;font-size:.78rem;font-weight:800}
+.controls{display:grid;gap:16px}.control{display:grid;gap:8px}.control label{font-size:.87rem;color:#d9e7f6;font-weight:800}.control-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.control output{font-variant-numeric:tabular-nums;color:var(--gold);font-weight:900}
+input[type=range]{width:100%;accent-color:var(--cyan)}
+select,input[type=number]{width:100%;background:#0a1a2b;color:#fff;border:1px solid #34506e;border-radius:12px;padding:11px 12px}
+.metric-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{background:#0a1a2b;border:1px solid #29435f;border-radius:14px;padding:12px}.metric .v{font-size:1.22rem;font-weight:900;color:#fff;font-variant-numeric:tabular-nums}.metric .k{font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.callout{border-left:3px solid var(--gold);padding:14px 16px;background:rgba(255,202,58,.07);border-radius:0 14px 14px 0;color:#e7edf6}.callout.blue{border-color:var(--cyan);background:rgba(87,215,255,.07)}
+.eq{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-size:clamp(1.18rem,2vw,1.6rem);text-align:center;padding:14px 12px;margin:12px 0;border-radius:14px;background:#071425;border:1px solid #213b57;overflow:auto}.eq small{display:block;font-family:inherit;font-size:.72em;color:var(--muted);margin-top:6px}.frac{display:inline-grid;grid-template-rows:auto auto;vertical-align:middle;text-align:center;margin:0 .16em}.frac>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .18em .05em}.frac>span:last-child{padding:.05em .18em 0}
+.timeline{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}.titem{position:relative;padding:18px 14px 16px;border:1px solid #2a445f;border-radius:16px;background:#0a1a2b}.titem .year{color:var(--gold);font-size:.78rem;font-weight:900;letter-spacing:.08em}.titem b{display:block;margin:5px 0}.titem p{margin:0;color:var(--muted);font-size:.88rem}
+.table-wrap{overflow:auto;border:1px solid #29435f;border-radius:16px}table{border-collapse:collapse;width:100%;min-width:620px;background:#091828}th,td{padding:12px 13px;text-align:left;border-bottom:1px solid #223a55}th{font-size:.78rem;color:#a9c3db;text-transform:uppercase;letter-spacing:.08em;background:#0e2239}td{font-variant-numeric:tabular-nums}.ok{color:var(--green)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tab{border:1px solid #29455f;background:#0b1a2b;color:#bcd0e3;padding:9px 12px;border-radius:999px;font-weight:800}.tab.active{background:#173653;color:#fff;border-color:#4f7ca4}
+.panel{display:none}.panel.active{display:block}
+.quiz{display:grid;gap:16px}.q{border:1px solid #29435f;border-radius:18px;padding:18px;background:#0a1a2b}.q legend{font-weight:900;padding:0 6px}.options{display:grid;gap:8px;margin-top:10px}.option{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:12px;background:#0d2137;border:1px solid transparent}.option:has(input:checked){border-color:#48779f;background:#102a45}.option input{margin-top:4px}.feedback{margin-top:10px;padding:10px 12px;border-radius:12px;background:#071524;color:#cde0ef;display:none}.feedback.show{display:block}.feedback.correct{border-left:3px solid var(--green)}.feedback.wrong{border-left:3px solid var(--danger)}
+.challenge{display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:start;padding:18px;border:1px dashed #3f678d;border-radius:18px;background:rgba(87,215,255,.04)}.challenge .num{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:#163754;color:var(--cyan);font-weight:900}.challenge h4{margin:0 0 5px}.challenge p{margin:0;color:#c2d3e3}
+.hr-wrap{position:relative;background:#050c15;border:1px solid #213a56;border-radius:18px;padding:10px;min-height:430px}.hr-wrap svg{display:block;width:100%;height:auto}.hr-tip{position:absolute;right:16px;top:16px;background:rgba(6,14,25,.84);border:1px solid #2b4967;border-radius:12px;padding:10px 12px;max-width:250px;font-size:.82rem;color:#d6e3ef}
+.star-path{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:stretch}.stage{padding:14px;border:1px solid #2a435d;border-radius:14px;background:#0a1a2b;min-height:112px;display:grid;align-content:center;text-align:center}.stage.active{border-color:var(--gold);box-shadow:inset 0 0 0 1px rgba(255,202,58,.35)}.stage .dot{width:34px;height:34px;border-radius:50%;margin:0 auto 8px;background:radial-gradient(circle at 35% 30%,#fff 0 12%,#ffd55d 22%,#f0842e 60%,#a43b28 100%);box-shadow:0 0 18px rgba(255,164,62,.35)}.stage small{color:var(--muted)}
+.nebula-stage{position:relative;min-height:460px;background:radial-gradient(circle at 50% 45%,rgba(255,196,105,.09),transparent 25%),radial-gradient(circle at 42% 52%,rgba(164,95,255,.14),transparent 38%),#050b13;border-radius:18px;border:1px solid #213951;overflow:hidden}.nebula-stage canvas{width:100%;height:460px;display:block}
+.stepper{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.stepper button.active{background:var(--gold);color:#111923;border-color:var(--gold)}
+.footer{padding:48px 0 72px;color:#91a6bc;text-align:center;border-top:1px solid rgba(255,255,255,.07)}
+.notice{font-size:.82rem;color:#92a8bc;margin-top:9px}
+@media(max-width:980px){.hero-grid,.lab,.section-head{grid-template-columns:1fr}.hero{min-height:unset}.hero-visual{min-height:430px}.section-head{gap:8px}.timeline{grid-template-columns:repeat(2,1fr)}.star-path{grid-template-columns:repeat(2,1fr)}.topbar .progress-shell{display:none}}
+@media(max-width:650px){.wrap{width:min(100% - 20px,var(--max))}.topbar .wrap{min-height:62px}.brand{min-width:auto}.brand div:last-child{display:none}.hero{padding-top:44px}.hero-grid{gap:28px}.hero-visual{min-height:360px}.hero-note{right:0;bottom:0}.grid2,.grid3,.metric-grid{grid-template-columns:1fr}.timeline,.star-path{grid-template-columns:1fr}.card{padding:17px}.sim,.sim canvas{min-height:360px}.section{padding:58px 0}h1{font-size:3rem}.nav{font-size:.8rem}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="wrap">
+      <div class="brand"><div class="logo">MDC</div><div><b>LABORATÓRIO PREMIUM</b><span>Física · 1ª Série EM</span></div></div>
+      <nav class="nav" aria-label="Navegação da aula">
+        <a href="#abertura">Abertura</a><a href="#modelos">Sistemas planetários</a><a href="#kepler">Kepler</a><a href="#gravitacao">Gravitação</a><a href="#mares">Marés & g</a><a href="#estrelas">Estrelas</a><a href="#sistema-solar">Sistema Solar</a><a href="#desafios">Desafios</a>
+      </nav>
+      <div class="progress-shell" aria-label="Progresso de leitura"><div class="progress" id="progress"></div></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="abertura">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="kicker">Frente A6 · Mecânica Celeste</div>
+          <h1>Somos <span class="accent">Poeira das Estrelas</span></h1>
+          <p class="lead">Uma viagem interativa da antiga pergunta “como o céu se move?” até a ideia de que os átomos que formam planetas — e nós mesmos — foram produzidos pela história cósmica das estrelas.</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#modelos">Iniciar investigação</a>
+            <button class="btn ghost" id="toggleGuidance" type="button">Modo professor: ligado</button>
+          </div>
+          <div class="badges"><span class="badge">Órbitas</span><span class="badge">Leis de Kepler</span><span class="badge">Gravitação universal</span><span class="badge">Marés</span><span class="badge">Evolução estelar</span></div>
+        </div>
+        <div class="hero-visual" aria-label="Ilustração artística de um sistema planetário, fora de escala">
+          <div class="orbit-art"><div class="dust"></div><div class="halo"></div><div class="orbit-ring r1"></div><div class="orbit-ring r2"></div><div class="orbit-ring r3"></div><div class="sun-core"></div><div class="planet earth-art"></div><div class="planet mars-art"></div><div class="planet jupiter-art"></div></div>
+          <div class="hero-note"><strong>Ideia central</strong><br>As mesmas leis que descrevem uma maçã caindo ajudam a explicar a Lua em órbita, as marés, as trajetórias planetárias e o colapso de nuvens que dão origem a estrelas.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="modelos">
+      <div class="wrap">
+        <div class="section-head"><div class="eyebrow">01 · Observar</div><div><h2>Do céu aparente aos sistemas planetários</h2><p>A observação do Sol, da Lua, das estrelas e dos planetas organizou calendários, navegação e agricultura. O desafio histórico foi construir um modelo capaz de explicar os movimentos aparentes sem confundir aparência com mecanismo físico.</p></div></div>
+        <div class="timeline" aria-label="Linha do tempo dos modelos astronômicos">
+          <div class="titem"><span class="year">Antiguidade</span><b>Eudoxo e Aristóteles</b><p>Esferas concêntricas e Terra imóvel no centro: uma cosmologia geométrica coerente com a experiência cotidiana.</p></div>
+          <div class="titem"><span class="year">séc. II</span><b>Ptolomeu</b><p>Deferentes e epiciclos refinam o geocentrismo e descrevem, inclusive, o movimento retrógrado aparente.</p></div>
+          <div class="titem"><span class="year">1543</span><b>Copérnico</b><p>Reorganiza o sistema com o Sol próximo do centro e a Terra como planeta em movimento.</p></div>
+          <div class="titem"><span class="year">séc. XVII</span><b>Galileu</b><p>Observações telescópicas — como as luas de Júpiter e as fases de Vênus — enfraquecem a ideia de que tudo gira em torno da Terra.</p></div>
+          <div class="titem"><span class="year">1609–1619</span><b>Kepler</b><p>Usa os dados de Tycho Brahe para substituir círculos ideais por leis quantitativas das órbitas elípticas.</p></div>
+        </div>
+
+        <div style="height:22px"></div>
+        <div class="lab">
+          <div class="sim"><div class="sim-label">Laboratório 1 · Por que Marte “volta” no céu?</div><canvas id="retroCanvas" width="820" height="470" aria-label="Simulação do movimento retrógrado aparente de Marte"></canvas></div>
+          <aside class="card flat controls">
+            <div><h3>Movimento retrógrado aparente</h3><p class="muted">A Terra e Marte orbitam o Sol no mesmo sentido. Como a Terra possui órbita menor e período mais curto, ela ultrapassa Marte. Visto da Terra, a direção de Marte contra o fundo de estrelas pode inverter temporariamente.</p></div>
+            <div class="control"><label for="retroSpeed">Velocidade da simulação</label><input id="retroSpeed" type="range" min="0.2" max="3" value="1" step="0.1"><div class="control-row"><output id="retroSpeedOut">1,0×</output><button class="btn small" id="retroPause" type="button">Pausar</button><button class="btn small" id="retroReset" type="button">Reiniciar</button></div></div>
+            <div class="metric-grid"><div class="metric"><div class="k">posição aparente</div><div class="v" id="marsLon">0,0°</div></div><div class="metric"><div class="k">sentido aparente</div><div class="v" id="retroDir">direto</div></div></div>
+            <div class="callout blue teacher-note"><b>Leitura didática:</b> o “laço” no painel inferior não é a órbita real de Marte. É a trajetória aparente na esfera celeste, construída a partir da linha de visada Terra → Marte.</div>
+          </aside>
+        </div>
+        <div style="height:18px"></div>
+        <div class="challenge"><div class="num">?</div><div><h4>Preveja antes de observar</h4><p>Se a Terra orbitasse mais lentamente que Marte, a ultrapassagem ainda ocorreria do mesmo modo? Use a ideia de velocidade angular para justificar antes de alterar mentalmente o modelo.</p></div></div>
+      </div>
+    </section>
+
+    <section class="section" id="kepler">
+      <div class="wrap">
+        <div class="section-head"><div class="eyebrow">02 · Investigar</div><div><h2>As três Leis de Kepler</h2><p>Kepler transformou dados observacionais em relações geométricas e temporais. As leis descrevem <em>como</em> os planetas se movem; mais tarde, Newton explicaria <em>por que</em> essas leis emergem da gravitação.</p></div></div>
+        <div class="tabs" role="tablist" aria-label="Leis de Kepler"><button class="tab active" data-tab="k1" type="button">1ª Lei · Órbitas</button><button class="tab" data-tab="k2" type="button">2ª Lei · Áreas</button><button class="tab" data-tab="k3" type="button">3ª Lei · Períodos</button></div>
+
+        <div class="panel active" id="k1">
+          <div class="lab">
+            <div class="sim"><div class="sim-label">Laboratório 2 · Elipse e foco</div><canvas id="keplerCanvas" width="820" height="470" aria-label="Órbita elíptica com o Sol em um dos focos"></canvas></div>
+            <aside class="card flat controls">
+              <div><h3>1ª Lei — Lei das Órbitas</h3><div class="eq">Cada planeta descreve uma <b>órbita elíptica</b>, com o Sol em um dos focos.</div></div>
+              <div class="control"><label for="planetSelect">Planeta de referência</label><select id="planetSelect"><option value="mercury">Mercúrio</option><option value="venus">Vênus</option><option value="earth" selected>Terra</option><option value="mars">Marte</option><option value="jupiter">Júpiter</option><option value="saturn">Saturno</option><option value="uranus">Urano</option><option value="neptune">Netuno</option></select></div>
+              <div class="control"><label for="eccSlider">Excentricidade e — explore além do planeta escolhido</label><input id="eccSlider" type="range" min="0" max="0.75" value="0.0167" step="0.001"><div class="control-row"><output id="eccOut">e = 0,017</output><button class="btn small" id="keplerPause" type="button">Pausar</button></div></div>
+              <div class="control"><label for="keplerSpeed">Velocidade do tempo orbital</label><input id="keplerSpeed" type="range" min="0.25" max="20" value="1" step="0.25"><output id="keplerSpeedOut">1,00×</output></div>
+              <div class="metric-grid"><div class="metric"><div class="k">periélio rₚ</div><div class="v" id="periOut">0,983 UA</div></div><div class="metric"><div class="k">afélio rₐ</div><div class="v" id="apheOut">1,017 UA</div></div><div class="metric"><div class="k">distância atual r</div><div class="v" id="distOut">—</div></div><div class="metric"><div class="k">velocidade relativa</div><div class="v" id="speedOut">—</div></div></div>
+              <div class="notice"><b>Geometria física:</b> o planeta percorre exatamente a elipse desenhada; o Sol ocupa um foco. O periélio e o afélio são os pontos de menor e maior distância ao Sol. O tamanho da órbita é ajustado à tela, mas as relações geométricas e temporais são preservadas.</div>
+            </aside>
+          </div>
+        </div>
+
+        <div class="panel" id="k2">
+          <div class="grid2">
+            <div class="card"><h3>2ª Lei — Lei das Áreas</h3><div class="eq">Em intervalos de tempo iguais, o segmento que liga o Sol ao planeta varre <b>áreas iguais</b>.</div><p>Isso implica que a velocidade orbital <b>não é constante</b>: o planeta move-se mais rapidamente perto do periélio e mais lentamente perto do afélio. A simulação anterior usa uma parametrização por anomalia média para respeitar essa variação.</p><div class="callout teacher-note"><b>Ponto conceitual:</b> “áreas iguais” não significa arcos de mesmo comprimento. Perto do Sol, o planeta percorre um arco maior no mesmo intervalo de tempo.</div></div>
+            <div class="card"><h3>Experimento rápido</h3><p class="muted">Volte à 1ª Lei, eleve a excentricidade para aproximadamente 0,60 e observe a mudança de velocidade. O efeito existe mesmo em órbitas pouco excêntricas, mas torna-se visualmente mais claro em uma elipse alongada.</p><div class="challenge"><div class="num">2</div><div><h4>Hipótese</h4><p>Em qual região da órbita a velocidade será máxima? Justifique usando conservação de área antes de observar o marcador de velocidade.</p></div></div></div>
+          </div>
+        </div>
+
+        <div class="panel" id="k3">
+          <div class="grid2">
+            <div class="card"><h3>3ª Lei — Lei dos Períodos</h3><div class="eq">T² ∝ a³ <small>Para corpos que orbitam o mesmo astro central: T²/a³ = constante.</small></div><p>Quando a distância média orbital aumenta, o período cresce mais do que proporcionalmente. Para o Sistema Solar, usando <b>T em anos</b> e <b>a em unidades astronômicas (UA)</b>, a constante fica aproximadamente igual a 1.</p><div class="control"><label for="aInput">Semieixo maior a (UA)</label><input id="aInput" type="number" min="0.05" max="100" step="0.01" value="1"></div><div class="metric-grid"><div class="metric"><div class="k">período calculado</div><div class="v" id="periodCalc">1,00 anos</div></div><div class="metric"><div class="k">T²/a³</div><div class="v" id="ratioCalc">1,000</div></div></div></div>
+            <div class="card"><h3>Comparação no Sistema Solar</h3><div class="table-wrap"><table><thead><tr><th>Planeta</th><th>a (UA)</th><th>T (anos)</th><th>T²/a³</th></tr></thead><tbody id="planetTable"></tbody></table></div><p class="notice">Valores arredondados; pequenas diferenças aparecem por arredondamento dos dados.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="gravitacao">
+      <div class="wrap">
+        <div class="section-head"><div class="eyebrow">03 · Matematizar</div><div><h2>Gravitação Universal de Newton</h2><p>Newton unificou fenômenos terrestres e celestes: a força que faz um objeto cair e a interação que mantém a Lua em órbita possuem a mesma natureza gravitacional.</p></div></div>
+        <div class="eq">F = G <span class="frac"><span>m₁m₂</span><span>r²</span></span> <small>G ≈ 6,67 × 10⁻¹¹ N·m²/kg²</small></div>
+        <div class="lab">
+          <div class="sim"><div class="sim-label">Laboratório 3 · Força gravitacional</div><canvas id="gravCanvas" width="820" height="470" aria-label="Dois corpos atraindo-se gravitacionalmente"></canvas></div>
+          <aside class="card flat controls">
+            <div><h3>O que muda a força?</h3><p class="muted">Ela cresce diretamente com cada massa e diminui com o <b>quadrado</b> da distância entre os centros de massa.</p></div>
+            <div class="control"><label for="m1Slider">Massa 1 — log₁₀(m/kg)</label><input id="m1Slider" type="range" min="1" max="25" step="0.1" value="4.4771"><output id="m1Out">3,00 × 10⁴ kg</output></div>
+            <div class="control"><label for="m2Slider">Massa 2 — log₁₀(m/kg)</label><input id="m2Slider" type="range" min="1" max="25" step="0.1" value="4.60206"><output id="m2Out">4,00 × 10⁴ kg</output></div>
+            <div class="control"><label for="rSlider">Distância entre centros</label><input id="rSlider" type="range" min="-1" max="8" step="0.02" value="0"><output id="rOut">1,0 m</output></div>
+            <div class="metric-grid"><div class="metric"><div class="k">força em cada corpo</div><div class="v" id="forceOut">0,080 N</div></div><div class="metric"><div class="k">se r dobrar</div><div class="v" id="doubleOut">0,020 N</div></div></div>
+            <div class="notice"><b>Escala visual da distância:</b> como o controle cobre nove ordens de grandeza, a separação na tela usa escala logarítmica. Mesmo assim, aumentar <i>r</i> sempre afasta os corpos e diminuir <i>r</i> sempre os aproxima.</div>
+            <div class="control-row"><button class="btn small" id="truckPreset" type="button">Exemplo das carretas</button><button class="btn small" id="earthPreset" type="button">Terra + 4 t</button></div>
+            <div class="callout teacher-note"><b>Ação e reação:</b> as forças gravitacionais têm mesmo módulo e sentidos opostos. A massa maior não “puxa com uma força maior”; ela sofre menor aceleração porque F = ma.</div>
+          </aside>
+        </div>
+        <div style="height:18px"></div>
+        <div class="grid3">
+          <div class="card"><h3>Relação com o peso</h3><p>Na superfície de um planeta, o peso pode ser escrito como <b>P = mg</b>. Igualando essa expressão à gravitação, obtemos o campo gravitacional próximo à superfície.</p><div class="eq">g = G <span class="frac"><span>M</span><span>R²</span></span></div></div>
+          <div class="card"><h3>Independência da massa de prova</h3><p>Na expressão de <i>g</i>, a massa do objeto que cai desaparece. Em um mesmo local e desprezando resistência do ar, corpos diferentes possuem a mesma aceleração gravitacional.</p></div>
+          <div class="card"><h3>Limite do modelo</h3><p>O valor 9,8 m/s² é uma aproximação. A gravidade efetiva varia com altitude, latitude, rotação, achatamento e distribuição local de massa.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="mares">
+      <div class="wrap">
+        <div class="section-head"><div class="eyebrow">04 · Aplicar</div><div><h2>Marés e aceleração da gravidade</h2><p>Duas aplicações do mesmo princípio: diferenças do campo gravitacional deformam os oceanos, enquanto o valor local de <i>g</i> depende da massa do astro, do seu raio e da altitude.</p></div></div>
+        <div class="grid2">
+          <div class="card">
+            <h3>Laboratório 4 · Marés</h3>
+            <div class="sim" style="min-height:390px"><canvas id="tideCanvas" width="760" height="400" style="min-height:390px" aria-label="Simulação simplificada de marés conforme a posição da Lua"></canvas></div>
+            <div class="control" style="margin-top:14px"><label for="moonPhase">Posição angular da Lua</label><input id="moonPhase" type="range" min="0" max="360" value="0" step="1"><div class="control-row"><output id="phaseOut">Lua nova · marés de sizígia</output><button class="btn small" id="tidePlay" type="button">Animar</button></div></div>
+            <div class="callout blue teacher-note" style="margin-top:12px"><b>Rigor físico:</b> a maré depende do <em>gradiente</em> da gravidade (efeito diferencial), aproximadamente proporcional a M/r³. Por isso a Lua, embora exerça menor força total que o Sol sobre a Terra, produz um efeito de maré mais forte.</div>
+          </div>
+          <div class="card controls">
+            <h3>Laboratório 5 · Gravidade com altitude</h3>
+            <div class="control"><label for="astroSelect">Astro</label><select id="astroSelect"><option value="sun">Sol</option><option value="jupiter">Júpiter</option><option value="earth" selected>Terra</option><option value="mars">Marte</option><option value="moon">Lua</option></select></div>
+            <div class="control"><label for="altSlider">Altitude acima da superfície (km)</label><input id="altSlider" type="range" min="0" max="50000" step="10" value="0"><output id="altOut">0 km</output></div>
+            <div class="control"><label for="testMass">Massa do objeto (kg)</label><input id="testMass" type="number" min="0.1" max="5000" step="0.1" value="70"></div>
+            <div class="metric-grid"><div class="metric"><div class="k">g no local</div><div class="v" id="gOut">9,81 m/s²</div></div><div class="metric"><div class="k">peso</div><div class="v" id="weightOut">686,7 N</div></div><div class="metric"><div class="k">g/g superfície</div><div class="v" id="gRatioOut">100%</div></div><div class="metric"><div class="k">massa</div><div class="v" id="massSameOut">70,0 kg</div></div></div>
+            <div class="eq">g(h) = G <span class="frac"><span>M</span><span>(R+h)²</span></span></div>
+            <div class="callout teacher-note"><b>Massa ≠ peso:</b> a massa permanece 70 kg; o peso muda com o campo gravitacional.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="estrelas">
+      <div class="wrap">
+        <div class="section-head"><div class="eyebrow">05 · Explicar</div><div><h2>A evolução das estrelas</h2><p>Estrelas nascem quando regiões de nuvens de gás e poeira colapsam gravitacionalmente, aquecem e atingem condições para fusão nuclear. A massa inicial é decisiva para sua luminosidade, tempo de vida e destino final.</p></div></div>
+        <div class="grid2">
+          <div class="card">
+            <h3>Laboratório 6 · Caminho de uma estrela</h3>
+            <div class="control"><label for="starMass">Massa inicial (massas solares)</label><input id="starMass" type="range" min="0.05" max="40" value="1" step="0.05"><output id="starMassOut">1,00 M☉</output></div>
+            <div class="star-path" id="starPath" style="margin-top:16px"></div>
+            <div class="metric-grid" style="margin-top:14px"><div class="metric"><div class="k">classe simplificada</div><div class="v" id="starClass">tipo solar</div></div><div class="metric"><div class="k">vida na sequência principal</div><div class="v" id="starLife">~10 bilhões de anos</div></div></div>
+            <div class="notice">Os limites de massa são aproximados e dependem de composição química, rotação e perda de massa. A sequência foi simplificada para fins de Ensino Médio.</div>
+          </div>
+          <div class="card">
+            <h3>Da massa à energia</h3><p>No núcleo estelar, a fusão converte parte da massa do sistema em energia. Em estrelas como o Sol, hidrogênio é transformado principalmente em hélio durante a sequência principal.</p>
+            <div class="eq">E = Δm c²</div>
+            <p>O equilíbrio de uma estrela resulta da competição entre <b>gravidade</b>, que tende a comprimir, e pressão associada à matéria quente e à energia produzida no interior, que sustenta o astro.</p>
+            <div class="callout"><b>Não confunda:</b> estrelas não “queimam” como fogo químico. Sua fonte dominante de energia é nuclear.</div>
+          </div>
+        </div>
+        <div style="height:20px"></div>
+        <div class="grid2">
+          <div class="hr-wrap"><svg id="hrSvg" viewBox="0 0 760 500" role="img" aria-label="Diagrama Hertzsprung-Russell simplificado"></svg><div class="hr-tip" id="hrTip">Toque/click em uma região para explorar o diagrama H–R.</div></div>
+          <div class="card"><h3>Diagrama H–R</h3><p>O diagrama relaciona <b>luminosidade</b> e <b>temperatura superficial</b>. A temperatura diminui da esquerda para a direita, uma convenção histórica. A maioria das estrelas ocupa a sequência principal.</p><ul><li><b>Sequência principal:</b> fase de fusão de hidrogênio no núcleo.</li><li><b>Gigantes e supergigantes:</b> grande raio e alta luminosidade.</li><li><b>Anãs brancas:</b> remanescentes quentes, pequenos e pouco luminosos.</li></ul><div class="challenge"><div class="num">★</div><div><h4>Interpretação</h4><p>Uma estrela pode ser muito quente e ainda assim pouco luminosa? Sim: uma anã branca tem alta temperatura superficial, mas área emissora pequena.</p></div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="sistema-solar">
+      <div class="wrap">
+        <div class="section-head"><div class="eyebrow">06 · Integrar</div><div><h2>Como se forma um sistema planetário?</h2><p>O material-base descreve a formação do Sistema Solar a partir de uma grande nuvem de gás e poeira. O colapso gravitacional, a rotação, a formação de um disco e a acreção de planetesimais conectam mecânica celeste e evolução estelar.</p></div></div>
+        <div class="lab">
+          <div class="nebula-stage"><canvas id="nebulaCanvas" width="820" height="460" aria-label="Animação esquemática da formação de um sistema planetário"></canvas></div>
+          <aside class="card flat controls">
+            <h3>Laboratório 7 · Da nebulosa aos planetas</h3>
+            <div id="nebulaText" class="callout blue">1. Nuvem molecular: gás e poeira ocupam um grande volume. Uma perturbação pode favorecer o colapso de regiões mais densas.</div>
+            <div class="stepper" id="nebulaStepper"><button class="btn small active" data-step="0" type="button">1 · Nuvem</button><button class="btn small" data-step="1" type="button">2 · Colapso</button><button class="btn small" data-step="2" type="button">3 · Disco</button><button class="btn small" data-step="3" type="button">4 · Planetesimais</button><button class="btn small" data-step="4" type="button">5 · Planetas</button></div>
+            <div class="callout teacher-note"><b>Por que o disco?</b> Durante o colapso, a conservação do momento angular aumenta a rotação. Colisões entre partículas dissipam movimentos fora do plano, favorecendo uma estrutura achatada.</div>
+            <div><h4>“Poeira das estrelas”</h4><p class="muted">Elementos como carbono, oxigênio, silício e ferro foram produzidos e reciclados por gerações estelares. O Sistema Solar incorporou esse material em planetas, asteroides e, mais tarde, na matéria que compõe a vida.</p></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="desafios">
+      <div class="wrap">
+        <div class="section-head"><div class="eyebrow">07 · Aplicar</div><div><h2>Desafios de aprendizagem</h2><p>Questões inspiradas nos temas e no tipo de raciocínio presentes no material-base: interpretação de modelos, Leis de Kepler, gravitação, marés, aceleração da gravidade e evolução estelar.</p></div></div>
+        <form class="quiz" id="quizForm">
+          <fieldset class="q" data-answer="b"><legend>1. Em um modelo heliocêntrico simples, qual explicação descreve corretamente o movimento retrógrado aparente de Marte?</legend><div class="options"><label class="option"><input type="radio" name="q1" value="a"> Marte realmente inverte o sentido de sua órbita por alguns dias.</label><label class="option"><input type="radio" name="q1" value="b"> A Terra, em uma órbita interna e mais rápida, ultrapassa Marte e altera temporariamente sua direção aparente contra o fundo de estrelas.</label><label class="option"><input type="radio" name="q1" value="c"> O Sol muda de posição para o outro foco da órbita de Marte.</label><label class="option"><input type="radio" name="q1" value="d"> A gravidade da Lua empurra Marte para trás.</label></div><div class="feedback"></div></fieldset>
+
+          <fieldset class="q" data-answer="c"><legend>2. Pela 1ª Lei de Kepler, a posição do Sol na órbita de um planeta é:</legend><div class="options"><label class="option"><input type="radio" name="q2" value="a"> no centro geométrico da elipse.</label><label class="option"><input type="radio" name="q2" value="b"> em um dos vértices da elipse.</label><label class="option"><input type="radio" name="q2" value="c"> em um dos focos da elipse.</label><label class="option"><input type="radio" name="q2" value="d"> fora do plano orbital.</label></div><div class="feedback"></div></fieldset>
+
+          <fieldset class="q" data-answer="a"><legend>3. Um planeta está passando pelo periélio. Comparado ao afélio, sua velocidade orbital é:</legend><div class="options"><label class="option"><input type="radio" name="q3" value="a"> maior.</label><label class="option"><input type="radio" name="q3" value="b"> menor.</label><label class="option"><input type="radio" name="q3" value="c"> necessariamente zero.</label><label class="option"><input type="radio" name="q3" value="d"> exatamente igual, pois a órbita é periódica.</label></div><div class="feedback"></div></fieldset>
+
+          <fieldset class="q" data-answer="d"><legend>4. Para dois planetas que orbitam o mesmo Sol, se o semieixo maior de um deles é 4 UA, seu período orbital idealizado é aproximadamente:</legend><div class="options"><label class="option"><input type="radio" name="q4" value="a"> 2 anos.</label><label class="option"><input type="radio" name="q4" value="b"> 4 anos.</label><label class="option"><input type="radio" name="q4" value="c"> 6 anos.</label><label class="option"><input type="radio" name="q4" value="d"> 8 anos.</label></div><div class="feedback"></div></fieldset>
+
+          <fieldset class="q" data-answer="b"><legend>5. Mantendo as massas constantes, se a distância entre dois corpos dobra, a força gravitacional passa a ser:</legend><div class="options"><label class="option"><input type="radio" name="q5" value="a"> metade.</label><label class="option"><input type="radio" name="q5" value="b"> um quarto.</label><label class="option"><input type="radio" name="q5" value="c"> o dobro.</label><label class="option"><input type="radio" name="q5" value="d"> quatro vezes maior.</label></div><div class="feedback"></div></fieldset>
+
+          <fieldset class="q" data-answer="c"><legend>6. Dois caminhões atraem-se gravitacionalmente. Sobre as forças que um exerce no outro:</legend><div class="options"><label class="option"><input type="radio" name="q6" value="a"> o mais pesado exerce força maior.</label><label class="option"><input type="radio" name="q6" value="b"> o mais leve exerce força maior.</label><label class="option"><input type="radio" name="q6" value="c"> têm o mesmo módulo e sentidos opostos.</label><label class="option"><input type="radio" name="q6" value="d"> são nulas fora da superfície terrestre.</label></div><div class="feedback"></div></fieldset>
+
+          <fieldset class="q" data-answer="a"><legend>7. As marés de sizígia tendem a ocorrer quando:</legend><div class="options"><label class="option"><input type="radio" name="q7" value="a"> Sol, Terra e Lua estão aproximadamente alinhados, nas fases nova ou cheia.</label><label class="option"><input type="radio" name="q7" value="b"> a Lua está em quarto crescente ou minguante.</label><label class="option"><input type="radio" name="q7" value="c"> a Lua está no ponto mais alto do céu ao meio-dia, independentemente da fase.</label><label class="option"><input type="radio" name="q7" value="d"> a Terra entra na sombra da Lua.</label></div><div class="feedback"></div></fieldset>
+
+          <fieldset class="q" data-answer="d"><legend>8. Um astronauta leva uma balança para um local onde o valor de g é menor. Qual grandeza do astronauta permanece essencialmente a mesma?</legend><div class="options"><label class="option"><input type="radio" name="q8" value="a"> peso.</label><label class="option"><input type="radio" name="q8" value="b"> força gravitacional.</label><label class="option"><input type="radio" name="q8" value="c"> aceleração de queda.</label><label class="option"><input type="radio" name="q8" value="d"> massa.</label></div><div class="feedback"></div></fieldset>
+
+          <fieldset class="q" data-answer="b"><legend>9. Em uma estrela semelhante ao Sol, a principal fonte de energia durante a sequência principal é:</legend><div class="options"><label class="option"><input type="radio" name="q9" value="a"> combustão química de gases.</label><label class="option"><input type="radio" name="q9" value="b"> fusão nuclear de hidrogênio, formando principalmente hélio.</label><label class="option"><input type="radio" name="q9" value="c"> fissão espontânea de ferro.</label><label class="option"><input type="radio" name="q9" value="d"> atrito com o meio interestelar.</label></div><div class="feedback"></div></fieldset>
+
+          <fieldset class="q" data-answer="c"><legend>10. A expressão “somos poeira das estrelas” está ligada ao fato de que:</legend><div class="options"><label class="option"><input type="radio" name="q10" value="a"> toda matéria humana veio diretamente do Sol atual.</label><label class="option"><input type="radio" name="q10" value="b"> planetas são estrelas que esfriaram completamente.</label><label class="option"><input type="radio" name="q10" value="c"> muitos elementos químicos presentes em planetas e seres vivos foram produzidos ou reciclados em gerações anteriores de estrelas.</label><label class="option"><input type="radio" name="q10" value="d"> o Universo é formado apenas por poeira sólida.</label></div><div class="feedback"></div></fieldset>
+
+          <div class="control-row"><button class="btn primary" type="submit">Corrigir respostas</button><button class="btn" id="resetQuiz" type="button">Limpar</button><div class="metric" style="min-width:180px"><div class="k">resultado</div><div class="v" id="quizScore">—</div></div></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer"><div class="wrap"><b>Laboratório Premium MDC · Professor Madison</b><br><span>Frente A6 — Somos Poeira das Estrelas · 1ª Série do Ensino Médio</span><div class="notice">Simulações didáticas com escalas visuais adaptadas. Sempre que uma representação não estiver em escala real, isso é indicado no próprio material.</div></div></footer>
+</div>
+<script>
+(()=>{
+'use strict';
+const $=(s,p=document)=>p.querySelector(s), $$=(s,p=document)=>[...p.querySelectorAll(s)];
+const G=6.67e-11, AU=1.495978707e11;
+const fmt=(n,d=2)=>Number(n).toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
+const sci=(n,d=2)=>{if(!isFinite(n)||n===0)return '0';const e=Math.floor(Math.log10(Math.abs(n))),m=n/10**e,map={'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};return `${fmt(m,d)} × 10${String(e).split('').map(ch=>map[ch]||ch).join('')}`};
+
+// leitura/progresso
+const progress=$('#progress');
+const updateProgress=()=>{const h=document.documentElement; const denom=h.scrollHeight-h.clientHeight; progress.style.width=(denom?100*h.scrollTop/denom:0)+'%'};
+document.addEventListener('scroll',updateProgress,{passive:true}); updateProgress();
+let teacher=true; $('#toggleGuidance').addEventListener('click',()=>{teacher=!teacher; $$('.teacher-note').forEach(x=>x.style.display=teacher?'':'none'); $('#toggleGuidance').textContent=`Modo professor: ${teacher?'ligado':'desligado'}`});
+
+// util canvas
+function fitCanvas(c){const r=c.getBoundingClientRect(), dpr=Math.min(2,window.devicePixelRatio||1); const w=Math.max(300,Math.floor(r.width*dpr)), h=Math.max(300,Math.floor(r.height*dpr)); if(c.width!==w||c.height!==h){c.width=w;c.height=h} const ctx=c.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); return {ctx,w:r.width,h:r.height}}
+function starfield(ctx,w,h,count=130){ctx.fillStyle='#050b14';ctx.fillRect(0,0,w,h); let seed=17; const rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280}; for(let i=0;i<count;i++){const x=rnd()*w,y=rnd()*h,r=.25+rnd()*1.25,a=.25+rnd()*.7;ctx.fillStyle=`rgba(220,240,255,${a})`;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill()}}
+
+// movimento retrógrado
+const rc=$('#retroCanvas'), retroSpeed=$('#retroSpeed'), retroSpeedOut=$('#retroSpeedOut'), marsLon=$('#marsLon'), retroDir=$('#retroDir');
+let rt=0, retroPaused=false, prevLon=null, track=[];
+function unwrapDelta(a,b){let d=a-b; while(d>Math.PI)d-=2*Math.PI;while(d<-Math.PI)d+=2*Math.PI;return d}
+function drawRetro(dt){const {ctx,w,h}=fitCanvas(rc);starfield(ctx,w,h,150); const split=h*.64, cx=w*.34, cy=split*.49; const scale=Math.min(w*.22,split*.34); const s=Number(retroSpeed.value); if(!retroPaused)rt+=dt*.00018*s;
+ const earthAng=rt*2*Math.PI/1; const marsAng=rt*2*Math.PI/1.881 + .65;
+ const Re=scale*.64,Rm=scale; const ex=cx+Re*Math.cos(earthAng),ey=cy+Re*Math.sin(earthAng);const mx=cx+Rm*Math.cos(marsAng),my=cy+Rm*Math.sin(marsAng);
+ ctx.strokeStyle='rgba(164,198,231,.27)';ctx.lineWidth=1;[Re,Rm].forEach(r=>{ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke()});
+ const grd=ctx.createRadialGradient(cx-5,cy-5,2,cx,cy,20);grd.addColorStop(0,'#fffbd5');grd.addColorStop(.35,'#ffd85c');grd.addColorStop(1,'#ff8b21');ctx.fillStyle=grd;ctx.beginPath();ctx.arc(cx,cy,15,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#45a7f0';ctx.beginPath();ctx.arc(ex,ey,8,0,Math.PI*2);ctx.fill();ctx.fillStyle='#e66f45';ctx.beginPath();ctx.arc(mx,my,7,0,Math.PI*2);ctx.fill();
+ ctx.strokeStyle='rgba(255,210,79,.85)';ctx.setLineDash([6,5]);ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(mx,my);ctx.stroke();ctx.setLineDash([]);
+ ctx.font='12px system-ui';ctx.fillStyle='#d7e7f5';ctx.fillText('Terra',ex+10,ey-8);ctx.fillText('Marte',mx+10,my-8);ctx.fillText('Sol',cx+20,cy+4);
+ const lon=Math.atan2(my-ey,mx-ex); const d=prevLon===null?0:unwrapDelta(lon,prevLon); prevLon=lon; const dir=d<-.00003?'retrógrado':'direto'; retroDir.textContent=dir;retroDir.style.color=dir==='retrógrado'?'#ffca3a':'#72e0a4';marsLon.textContent=fmt((lon*180/Math.PI+360)%360,1)+'°';
+ if(!retroPaused){track.push({t:performance.now(),lon});if(track.length>380)track.shift()}
+ ctx.strokeStyle='rgba(255,255,255,.12)';ctx.beginPath();ctx.moveTo(0,split);ctx.lineTo(w,split);ctx.stroke();ctx.fillStyle='#a9bed1';ctx.fillText('posição aparente de Marte no céu (longitude relativa)',14,split+22);
+ // plot unfolded relative longitude history
+ if(track.length>2){let un=[0];for(let i=1;i<track.length;i++)un[i]=un[i-1]+unwrapDelta(track[i].lon,track[i-1].lon);let min=Math.min(...un),max=Math.max(...un),span=Math.max(.25,max-min);ctx.strokeStyle=dir==='retrógrado'?'#ffca3a':'#57d7ff';ctx.lineWidth=2;ctx.beginPath();un.forEach((v,i)=>{const x=18+i/(track.length-1)*(w-36),y=split+42+(1-(v-min)/span)*(h-split-58);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke()}
+}
+retroSpeed.addEventListener('input',()=>retroSpeedOut.textContent=fmt(retroSpeed.value,1)+'×');$('#retroPause').addEventListener('click',()=>{retroPaused=!retroPaused;$('#retroPause').textContent=retroPaused?'Continuar':'Pausar'});$('#retroReset').addEventListener('click',()=>{rt=0;track=[];prevLon=null});
+
+// Kepler
+const planets={
+ mercury:{name:'Mercúrio',a:.387,e:.2056,T:.2408},venus:{name:'Vênus',a:.723,e:.0068,T:.6152},earth:{name:'Terra',a:1,e:.0167,T:1},mars:{name:'Marte',a:1.524,e:.0934,T:1.8808},jupiter:{name:'Júpiter',a:5.203,e:.0489,T:11.862},saturn:{name:'Saturno',a:9.537,e:.0565,T:29.457},uranus:{name:'Urano',a:19.191,e:.0472,T:84.016},neptune:{name:'Netuno',a:30.07,e:.0086,T:164.79}
+};
+let kt=0,kPaused=false,currentPlanet=planets.earth; const kc=$('#keplerCanvas');
+function solveE(M,e){let E=M; for(let i=0;i<10;i++){const den=1-e*Math.cos(E);if(Math.abs(den)<1e-9)break;E-=(E-e*Math.sin(E)-M)/den}return E}
+function updateKStats(){const e=Number($('#eccSlider').value),a=currentPlanet.a;$('#eccOut').textContent='e = '+fmt(e,3);$('#periOut').textContent=fmt(a*(1-e),3)+' UA';$('#apheOut').textContent=fmt(a*(1+e),3)+' UA'}
+function orbitPoint(cx,cy,A,B,E){return {x:cx-A*Math.cos(E),y:cy-B*Math.sin(E)}}
+function drawMarkerLabel(ctx,x,y,label,value,align){
+ ctx.save();ctx.fillStyle='#ffca3a';ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill();ctx.font='700 12px system-ui';ctx.textAlign=align;ctx.fillStyle='#f4f8fc';const dx=align==='left'?10:-10;ctx.fillText(label,x+dx,y-11);ctx.font='11px system-ui';ctx.fillStyle='#9fb9ce';ctx.fillText(value,x+dx,y+6);ctx.restore();
+}
+function drawKepler(dt){
+ const {ctx,w,h}=fitCanvas(kc);starfield(ctx,w,h,120);
+ const speed=Number($('#keplerSpeed').value)||1;
+ // 1× corresponde a 1 ano simulado a cada 12 s. O período real selecionado determina a fase orbital.
+ if(!kPaused)kt+=dt/12000*speed;
+ const e=Number($('#eccSlider').value),a=currentPlanet.a,T=currentPlanet.T;
+ const A=Math.min(w*.35,h*.34),B=A*Math.sqrt(1-e*e),c=A*e,cx=w*.5,cy=h*.52,sx=cx-c,fx2=cx+c;
+ ctx.strokeStyle='rgba(141,196,235,.48)';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(cx,cy,A,B,0,0,Math.PI*2);ctx.stroke();
+ // eixo maior e focos ajudam a ler a geometria sem confundir foco com centro.
+ ctx.strokeStyle='rgba(255,255,255,.09)';ctx.lineWidth=1;ctx.setLineDash([5,7]);ctx.beginPath();ctx.moveTo(cx-A,cy);ctx.lineTo(cx+A,cy);ctx.stroke();ctx.setLineDash([]);
+ ctx.fillStyle='rgba(255,255,255,.35)';ctx.beginPath();ctx.arc(fx2,cy,3,0,Math.PI*2);ctx.fill();
+ const M=((kt/T)*2*Math.PI)%(2*Math.PI),E=solveE((M+2*Math.PI)%(2*Math.PI),e),pos=orbitPoint(cx,cy,A,B,E),x=pos.x,y=pos.y,r=a*(1-e*Math.cos(E));
+ // Pela 2ª Lei, intervalos iguais de anomalia média representam tempos iguais e, portanto, áreas iguais.
+ const dM=2*Math.PI/10,Mstart=M-dM;
+ ctx.fillStyle='rgba(255,202,58,.13)';ctx.strokeStyle='rgba(255,202,58,.58)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(sx,cy);
+ const steps=44;for(let i=0;i<=steps;i++){let mm=Mstart+dM*i/steps;mm=(mm%(2*Math.PI)+2*Math.PI)%(2*Math.PI);const ee=solveE(mm,e),p=orbitPoint(cx,cy,A,B,ee);ctx.lineTo(p.x,p.y)}ctx.closePath();ctx.fill();ctx.stroke();
+ const grd=ctx.createRadialGradient(sx-4,cy-4,2,sx,cy,20);grd.addColorStop(0,'#fffbd7');grd.addColorStop(.35,'#ffd65a');grd.addColorStop(1,'#f26a22');ctx.fillStyle=grd;ctx.beginPath();ctx.arc(sx,cy,14,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#5ad7ff';ctx.beginPath();ctx.arc(x,y,8,0,Math.PI*2);ctx.fill();ctx.strokeStyle='rgba(255,255,255,.35)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(sx,cy);ctx.lineTo(x,y);ctx.stroke();
+ // periélio e afélio pertencem à órbita e são definidos pela distância ao foco ocupado pelo Sol.
+ const periX=cx-A,apheX=cx+A,rp=a*(1-e),ra=a*(1+e);
+ drawMarkerLabel(ctx,periX,cy,'periélio',`rₚ = ${fmt(rp,3)} UA`,'left');
+ drawMarkerLabel(ctx,apheX,cy,'afélio',`rₐ = ${fmt(ra,3)} UA`,'right');
+ ctx.fillStyle='#dbeaf7';ctx.font='12px system-ui';ctx.textAlign='center';ctx.fillText('Sol (foco)',sx,cy+36);ctx.fillStyle='#9fb9ce';ctx.fillText('foco vazio',fx2,cy+24);ctx.textAlign='left';
+ // vis-viva relativa à velocidade circular de raio a: v/v_circ(a)=sqrt(2a/r-1).
+ const vrel=Math.sqrt(Math.max(0,2*a/r-1));$('#distOut').textContent=fmt(r,3)+' UA';$('#speedOut').textContent=fmt(vrel,2)+' × v_circ(a)';
+ ctx.fillStyle='#9fb9ce';ctx.font='11px system-ui';ctx.fillText(`${currentPlanet.name}: T = ${fmt(T,3)} ano${T===1?'':'s'} · tempo simulado = ${fmt(kt,2)} anos`,14,h-18);
+}
+$('#planetSelect').addEventListener('change',e=>{currentPlanet=planets[e.target.value];$('#eccSlider').value=currentPlanet.e;updateKStats();kt=0});
+$('#eccSlider').addEventListener('input',()=>{updateKStats();kt=0});
+$('#keplerSpeed').addEventListener('input',()=>{$('#keplerSpeedOut').textContent=fmt(Number($('#keplerSpeed').value),2)+'×'});
+$('#keplerPause').addEventListener('click',()=>{kPaused=!kPaused;$('#keplerPause').textContent=kPaused?'Continuar':'Pausar'});updateKStats();
+$$('.tab').forEach(b=>b.addEventListener('click',()=>{$$('.tab').forEach(x=>x.classList.toggle('active',x===b));$$('.panel').forEach(p=>p.classList.toggle('active',p.id===b.dataset.tab))}));
+const ptable=$('#planetTable');Object.values(planets).forEach(p=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${p.name}</td><td>${fmt(p.a,3)}</td><td>${fmt(p.T,3)}</td><td class="ok">${fmt(p.T*p.T/(p.a**3),3)}</td>`;ptable.appendChild(tr)});
+function calcPeriod(){let a=Math.max(.05,Math.min(100,Number($('#aInput').value)||1));let T=Math.sqrt(a**3);$('#periodCalc').textContent=fmt(T,2)+' anos';$('#ratioCalc').textContent=fmt(T*T/a**3,3)}$('#aInput').addEventListener('input',calcPeriod);calcPeriod();
+
+// gravitação
+const gc=$('#gravCanvas');
+function gravVals(){const m1=10**Number($('#m1Slider').value),m2=10**Number($('#m2Slider').value),r=10**Number($('#rSlider').value);return {m1,m2,r,F:G*m1*m2/r**2}}
+function updateGrav(){const {m1,m2,r,F}=gravVals();$('#m1Out').textContent=sci(m1)+' kg';$('#m2Out').textContent=sci(m2)+' kg';$('#rOut').textContent=(r<1000?fmt(r,r<10?2:1)+' m':sci(r,2)+' m');$('#forceOut').textContent=sci(F,2)+' N';$('#doubleOut').textContent=sci(F/4,2)+' N'}
+['m1Slider','m2Slider','rSlider'].forEach(id=>$('#'+id).addEventListener('input',updateGrav));
+function drawGrav(){
+ const {ctx,w,h}=fitCanvas(gc);starfield(ctx,w,h,70);const {m1,m2,r,F}=gravVals();const y=h*.53;
+ const log1=Math.log10(m1),log2=Math.log10(m2),rad1=20+(log1-1)/24*48,rad2=20+(log2-1)/24*48;
+ // O controle cobre 10^-1 a 10^8 m; por isso a distância visual é logarítmica, mas monotônica.
+ const lr=Number($('#rSlider').value),t=Math.max(0,Math.min(1,(lr-(-1))/(8-(-1))));
+ const minSep=rad1+rad2+42,maxSep=Math.max(minSep+20,w-2*Math.max(rad1,rad2)-90),sep=Math.min(maxSep,minSep+t*(maxSep-minSep));
+ const cx=w*.5,x1=cx-sep/2,x2=cx+sep/2;
+ ctx.fillStyle='#4da6e8';ctx.beginPath();ctx.arc(x1,y,rad1,0,Math.PI*2);ctx.fill();ctx.fillStyle='#e78d55';ctx.beginPath();ctx.arc(x2,y,rad2,0,Math.PI*2);ctx.fill();
+ // linha centro a centro e marcadores de centro
+ ctx.strokeStyle='rgba(255,255,255,.26)';ctx.setLineDash([6,6]);ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x1,y);ctx.lineTo(x2,y);ctx.stroke();ctx.setLineDash([]);
+ ctx.fillStyle='rgba(255,255,255,.55)';ctx.beginPath();ctx.arc(x1,y,3,0,Math.PI*2);ctx.arc(x2,y,3,0,Math.PI*2);ctx.fill();
+ // setas de ação e reação: mesmo módulo, sentidos opostos, dirigidas ao centro do outro corpo.
+ const fScale=Math.max(0,Math.min(1,(Math.log10(Math.max(F,1e-30))+20)/45)),available=Math.max(18,sep-rad1-rad2-16),arrow=Math.max(16,Math.min(available*.42,24+fScale*70));
+ ctx.lineWidth=5;ctx.strokeStyle='#ffca3a';ctx.fillStyle='#ffca3a';
+ function ar(x,dir){ctx.beginPath();ctx.moveTo(x,y-2);ctx.lineTo(x+dir*arrow,y-2);ctx.stroke();ctx.beginPath();ctx.moveTo(x+dir*arrow,y-2);ctx.lineTo(x+dir*(arrow-12),y-10);ctx.lineTo(x+dir*(arrow-12),y+6);ctx.closePath();ctx.fill()}
+ ar(x1+rad1,1);ar(x2-rad2,-1);
+ ctx.fillStyle='#d8e8f6';ctx.font='13px system-ui';ctx.textAlign='center';ctx.fillText(`m₁ = ${sci(m1,1)} kg`,x1,y+rad1+28);ctx.fillText(`m₂ = ${sci(m2,1)} kg`,x2,y+rad2+28);
+ ctx.fillStyle='#ffdc70';ctx.font='700 16px system-ui';ctx.fillText(`F = ${sci(F,2)} N`,w*.5,h*.2);
+ ctx.fillStyle='#a9bed0';ctx.font='12px system-ui';ctx.fillText(`distância real entre centros: ${r<1000?fmt(r,r<10?2:1)+' m':sci(r,2)+' m'}`,w*.5,h*.2+24);
+ ctx.font='11px system-ui';ctx.fillStyle='#718ba1';ctx.fillText('separação visual em escala logarítmica',w*.5,h*.2+42);ctx.textAlign='left';
+}
+$('#truckPreset').addEventListener('click',()=>{$('#m1Slider').value=Math.log10(3e4);$('#m2Slider').value=Math.log10(4e4);$('#rSlider').value=0;updateGrav()});$('#earthPreset').addEventListener('click',()=>{$('#m1Slider').value=Math.log10(6e24);$('#m2Slider').value=Math.log10(4e3);$('#rSlider').value=Math.log10(6.4e6);updateGrav()});updateGrav();
+
+// marés
+const tc=$('#tideCanvas');let tideAnim=false,tideAngle=0;
+function phaseName(deg){const a=(deg%360+360)%360;if(a<22.5||a>=337.5)return 'Lua nova · marés de sizígia';if(a<67.5)return 'crescente';if(a<112.5)return 'quarto crescente · marés de quadratura';if(a<157.5)return 'gibosa crescente';if(a<202.5)return 'Lua cheia · marés de sizígia';if(a<247.5)return 'gibosa minguante';if(a<292.5)return 'quarto minguante · marés de quadratura';return 'minguante'}
+function drawTide(dt){const {ctx,w,h}=fitCanvas(tc);starfield(ctx,w,h,90);if(tideAnim){tideAngle=(tideAngle+dt*.025)%360;$('#moonPhase').value=tideAngle} else tideAngle=Number($('#moonPhase').value);$('#phaseOut').textContent=phaseName(tideAngle);const cx=w*.45,cy=h*.52,th=tideAngle*Math.PI/180;const sunX=w*.86,sunY=cy,moonR=Math.min(w,h)*.29,mx=cx+moonR*Math.cos(th),my=cy+moonR*Math.sin(th);
+ // tidal bulge as sum of quadrupole axes approximated visually
+ const spring=Math.abs(Math.cos(2*th));const amp=10+12*spring;ctx.save();ctx.translate(cx,cy);ctx.rotate(th*.45);ctx.fillStyle='rgba(68,164,230,.26)';ctx.beginPath();ctx.ellipse(0,0,47+amp,47-amp*.18,0,0,Math.PI*2);ctx.fill();ctx.restore();ctx.fillStyle='#2f8fd0';ctx.beginPath();ctx.arc(cx,cy,42,0,Math.PI*2);ctx.fill();ctx.fillStyle='#72c56b';ctx.beginPath();ctx.arc(cx-10,cy-5,10,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(cx+15,cy+8,9,0,Math.PI*2);ctx.fill();
+ const sg=ctx.createRadialGradient(sunX-4,sunY-4,1,sunX,sunY,26);sg.addColorStop(0,'#fffad6');sg.addColorStop(.4,'#ffd44e');sg.addColorStop(1,'#f07824');ctx.fillStyle=sg;ctx.beginPath();ctx.arc(sunX,sunY,22,0,Math.PI*2);ctx.fill();ctx.fillStyle='#d9e4ef';ctx.beginPath();ctx.arc(mx,my,11,0,Math.PI*2);ctx.fill();ctx.strokeStyle='rgba(255,255,255,.16)';ctx.setLineDash([5,5]);ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(sunX,sunY);ctx.moveTo(cx,cy);ctx.lineTo(mx,my);ctx.stroke();ctx.setLineDash([]);ctx.font='12px system-ui';ctx.fillStyle='#d7e5f2';ctx.fillText('Terra',cx-16,cy+67);ctx.fillText('Lua',mx+13,my-4);ctx.fillText('Sol',sunX-10,sunY+42);ctx.fillStyle=spring>.72?'#ffca3a':'#57d7ff';ctx.font='700 15px system-ui';ctx.fillText(spring>.72?'efeitos de maré reforçados':'efeitos parcialmente compensados',14,26)}
+$('#moonPhase').addEventListener('input',()=>{tideAngle=Number($('#moonPhase').value)});$('#tidePlay').addEventListener('click',()=>{tideAnim=!tideAnim;$('#tidePlay').textContent=tideAnim?'Pausar':'Animar'});
+
+// g
+const bodies={sun:{name:'Sol',M:1.989e30,R:6.957e8},jupiter:{name:'Júpiter',M:1.898e27,R:6.9911e7},earth:{name:'Terra',M:5.972e24,R:6.371e6},mars:{name:'Marte',M:6.417e23,R:3.3895e6},moon:{name:'Lua',M:7.342e22,R:1.7374e6}};
+function updateG(){const b=bodies[$('#astroSelect').value],h=Number($('#altSlider').value)*1000,m=Math.max(.1,Number($('#testMass').value)||70);const g=G*b.M/(b.R+h)**2,g0=G*b.M/b.R**2;$('#altOut').textContent=Number($('#altSlider').value).toLocaleString('pt-BR')+' km';$('#gOut').textContent=fmt(g,2)+' m/s²';$('#weightOut').textContent=fmt(m*g,1)+' N';$('#gRatioOut').textContent=fmt(100*g/g0,1)+'%';$('#massSameOut').textContent=fmt(m,1)+' kg'};['astroSelect','altSlider','testMass'].forEach(id=>$('#'+id).addEventListener('input',updateG));updateG();
+
+// evolução estelar
+function lifetime(M){if(M<.08)return null; if(M<.5)return 10*(M**-2.2); return 10*(M**-2.5)}
+function starInfo(M){if(M<.08)return {cls:'subestelar',life:'não sustenta fusão estável de H',stages:[['Nuvem','colapso'],['Protoestrela','aquecimento'],['Anã marrom','sem fusão sustentada']]};if(M<.5)return {cls:'anã vermelha',life:'muito maior que a idade atual do Universo',stages:[['Nuvem','colapso'],['Protoestrela','contração'],['Anã vermelha','sequência principal'],['Remanescente','evolução muito lenta']]};if(M<8)return {cls:'estrela de baixa/intermediária massa',life:`~${fmt(lifetime(M),2)} bilhões de anos`,stages:[['Nuvem','colapso'],['Protoestrela','contração'],['Sequência principal','H → He'],['Gigante vermelha','camadas externas expandem'],['Nebulosa planetária','ejeção de camadas'],['Anã branca','remanescente']]};if(M<25)return {cls:'estrela massiva',life:`~${fmt(Math.max(.003,lifetime(M)),3)} bilhões de anos`,stages:[['Nuvem','colapso'],['Protoestrela','contração'],['Sequência principal','muito luminosa'],['Supergigante','fusão avançada'],['Supernova','colapso do núcleo'],['Estrela de nêutrons','remanescente provável']]};return {cls:'estrela muito massiva',life:`~${fmt(Math.max(.004,lifetime(M)),3)} bilhões de anos`,stages:[['Nuvem','colapso'],['Protoestrela','contração'],['Sequência principal','muito luminosa'],['Supergigante','forte perda de massa'],['Colapso / supernova','evento energético'],['Buraco negro','remanescente possível']]}}
+function updateStar(){const M=Number($('#starMass').value),info=starInfo(M);$('#starMassOut').textContent=fmt(M,2)+' M☉';$('#starClass').textContent=info.cls;$('#starLife').textContent=info.life;const p=$('#starPath');p.innerHTML='';info.stages.forEach((s,i)=>{const d=document.createElement('div');d.className='stage'+(i===2?' active':'');d.innerHTML=`<div class="dot"></div><b>${s[0]}</b><small>${s[1]}</small>`;p.appendChild(d)})}$('#starMass').addEventListener('input',updateStar);updateStar();
+
+// H-R
+function drawHR(){const svg=$('#hrSvg'),NS='http://www.w3.org/2000/svg';svg.innerHTML='';const add=(tag,a,p=svg)=>{const e=document.createElementNS(NS,tag);Object.entries(a).forEach(([k,v])=>e.setAttribute(k,v));p.appendChild(e);return e};add('rect',{x:0,y:0,width:760,height:500,fill:'#050c15'});for(let i=0;i<6;i++){add('line',{x1:88,y1:60+i*65,x2:720,y2:60+i*65,stroke:'#17314a','stroke-width':1});add('text',{x:20,y:65+i*65,fill:'#8fa9bf','font-size':12},svg).textContent=['10⁶','10⁴','10²','1','10⁻²','10⁻⁴'][i]}for(let i=0;i<5;i++){const x=110+i*145;add('line',{x1:x,y1:55,x2:x,y2:410,stroke:'#122a40','stroke-width':1});add('text',{x:x-18,y:440,fill:'#8fa9bf','font-size':12},svg).textContent=['30 000','15 000','10 000','6 000','3 000'][i]}
+ add('text',{x:310,y:480,fill:'#bcd0e0','font-size':14},svg).textContent='Temperatura superficial (K) — diminui →';const yl=add('text',{x:18,y:270,fill:'#bcd0e0','font-size':14,transform:'rotate(-90 18 270)'},svg);yl.textContent='Luminosidade (Sol = 1)';
+ // sequence
+ const seq=[[120,85,19,'#6e8cff'],[190,115,17,'#72cfff'],[280,160,14,'#eaf2ff'],[360,215,13,'#fff0aa'],[445,270,12,'#ffd064'],[535,330,11,'#ff9a56'],[625,380,10,'#ff6b5f']];seq.forEach(([x,y,r,c])=>add('circle',{cx:x,cy:y,r,fill:c,opacity:.9,class:'hrpoint','data-info':'Sequência principal: fusão de hidrogênio no núcleo.'}));
+ [[490,140,26,'#ffd465','Gigantes: grande raio, alta luminosidade.'],[610,95,34,'#ff754f','Supergigantes: enorme raio e luminosidade; estrelas evoluídas de alta massa.'],[175,350,9,'#d9efff','Anãs brancas: quentes, pequenas e pouco luminosas.']].forEach(([x,y,r,c,info])=>add('circle',{cx:x,cy:y,r,fill:c,opacity:.92,class:'hrpoint','data-info':info}));
+ add('text',{x:260,y:190,fill:'#d6e4ef','font-size':14,transform:'rotate(31 260 190)'},svg).textContent='Sequência principal';add('text',{x:470,y:110,fill:'#d6e4ef','font-size':13},svg).textContent='Gigantes';add('text',{x:565,y:54,fill:'#d6e4ef','font-size':13},svg).textContent='Supergigantes';add('text',{x:112,y:385,fill:'#d6e4ef','font-size':13},svg).textContent='Anãs brancas';
+ $$('.hrpoint',svg).forEach(p=>{p.style.cursor='pointer';p.addEventListener('click',()=>$('#hrTip').textContent=p.dataset.info)})}drawHR();
+
+// Nebulosa
+const nc=$('#nebulaCanvas');let nebStep=0,particles=[];function initParticles(){particles=[];let seed=3;const rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280};for(let i=0;i<260;i++)particles.push({a:rnd()*Math.PI*2,r:.08+rnd()*.9,z:(rnd()-.5),s:.5+rnd()*1.5})}initParticles();const texts=[
+'1. Nuvem molecular: gás e poeira ocupam um grande volume. Uma perturbação pode favorecer o colapso de regiões mais densas.',
+'2. Colapso gravitacional: a nuvem contrai; sua densidade e temperatura aumentam. A rotação torna-se mais evidente.',
+'3. Protoestrela + disco: o centro aquece e concentra massa, enquanto o material restante forma um disco protoplanetário.',
+'4. Acreção: grãos colidem, aderem e formam corpos maiores — planetesimais e protoplanetas.',
+'5. Sistema jovem: o Sol entra em sequência principal; remanescentes do disco originam planetas, asteroides e outros pequenos corpos.'
+];
+function setNeb(s){nebStep=s;$('#nebulaText').textContent=texts[s];$$('#nebulaStepper button').forEach((b,i)=>b.classList.toggle('active',i===s))}$$('#nebulaStepper button').forEach(b=>b.addEventListener('click',()=>setNeb(Number(b.dataset.step))));
+function drawNebula(t){const {ctx,w,h}=fitCanvas(nc);starfield(ctx,w,h,150);const cx=w*.5,cy=h*.5,scale=Math.min(w,h)*.43;particles.forEach((p,i)=>{const collapse=[1, .78,.60,.48,.42][nebStep],flat=[1,.8,.36,.20,.13][nebStep],rot=t*.00012*(1+nebStep*.35);const rr=p.r*scale*collapse;const x=cx+rr*Math.cos(p.a+rot*p.s),y=cy+rr*Math.sin(p.a+rot*p.s)*flat+p.z*scale*.22*flat;ctx.fillStyle=i%7===0?'rgba(255,202,58,.8)':i%3===0?'rgba(119,161,255,.55)':'rgba(226,235,244,.38)';ctx.beginPath();ctx.arc(x,y,nebStep>=3&&i%12===0?2.7:1.2,0,Math.PI*2);ctx.fill()});if(nebStep>=2){const r=nebStep===2?18:nebStep===3?22:25;const g=ctx.createRadialGradient(cx-5,cy-5,2,cx,cy,r);g.addColorStop(0,'#fffce1');g.addColorStop(.35,'#ffd25a');g.addColorStop(1,'#ed6d21');ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fill()}if(nebStep===4){[.27,.38,.52,.68,.82].forEach((f,j)=>{const a=t*.00025/(f+.25)+j;ctx.strokeStyle='rgba(181,205,227,.12)';ctx.beginPath();ctx.ellipse(cx,cy,scale*f,scale*f*.13,0,0,Math.PI*2);ctx.stroke();ctx.fillStyle=['#aab4bd','#dcab71','#4e98d5','#d87847','#d6ba94'][j];ctx.beginPath();ctx.arc(cx+scale*f*Math.cos(a),cy+scale*f*.13*Math.sin(a),3+j*1.1,0,Math.PI*2);ctx.fill()})}}
+
+// quiz
+const explanations={q1:'A inversão é aparente: surge da geometria relativa das órbitas quando a Terra ultrapassa Marte.',q2:'A elipse possui dois focos; o Sol ocupa um deles, não o centro geométrico.',q3:'Pela 2ª Lei de Kepler, o planeta precisa percorrer um arco maior perto do Sol para varrer a mesma área no mesmo tempo.',q4:'T² = a³ → T = √(4³) = √64 = 8 anos.',q5:'Como F ∝ 1/r², dobrar r reduz a força a 1/2² = 1/4.',q6:'É um par de ação e reação: mesmo módulo, sentidos opostos, atuando em corpos diferentes.',q7:'Nas luas nova e cheia, os efeitos de maré lunar e solar tendem a reforçar-se: marés de sizígia.',q8:'A massa é propriedade do corpo; o peso é uma força e depende de g.',q9:'A sequência principal é sustentada por fusão nuclear, predominantemente H → He em estrelas como o Sol.',q10:'Muitos elementos pesados presentes no Sistema Solar resultam de nucleossíntese e reciclagem em gerações anteriores de estrelas.'};
+$('#quizForm').addEventListener('submit',e=>{e.preventDefault();let score=0;$$('.q').forEach((q,i)=>{const chosen=$(`input[name=q${i+1}]:checked`,q),fb=$('.feedback',q),ok=chosen&&chosen.value===q.dataset.answer;if(ok)score++;fb.className='feedback show '+(ok?'correct':'wrong');fb.textContent=(ok?'Correto. ':'Revise. ')+explanations['q'+(i+1)]});$('#quizScore').textContent=`${score}/10 · ${score*10}%`});$('#resetQuiz').addEventListener('click',()=>{$('#quizForm').reset();$$('.feedback').forEach(f=>{f.className='feedback';f.textContent=''});$('#quizScore').textContent='—'});
+
+// animação principal
+let last=performance.now();function loop(now){const dt=Math.min(50,now-last);last=now;drawRetro(dt);drawKepler(dt);drawGrav();drawTide(dt);drawNebula(now);requestAnimationFrame(loop)}requestAnimationFrame(loop);
+window.addEventListener('resize',()=>{drawHR()});
+})();
+</script>
+</body>
+</html>
