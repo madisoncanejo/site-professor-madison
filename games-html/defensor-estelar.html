@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="description" content="Defensor Estelar — jogo educativo de Mecânica Celeste (Somos Poeira das Estrelas). Destrua naves, acerte as respostas e avance por 8 estágios.">
+<title>Defensor Estelar — Somos Poeira das Estrelas</title>
+<style>
+:root{--ink:#eef6ff;--gold:#ffca3a;--cyan:#57d7ff;--green:#72e0a4;--danger:#ff6b72}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#02060c;color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+body{display:grid;place-items:center}
+#stage{position:relative;width:min(100vw,calc(100vh*720/820));aspect-ratio:720/820;background:#050b14;overflow:hidden}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#qbar{position:absolute;left:2%;right:2%;top:4.7%;padding:.5em .8em;background:rgba(8,20,36,.93);border:1px solid #2f5a80;border-left:4px solid var(--gold);border-radius:.7em;font-size:1.02em;line-height:1.3;display:none;pointer-events:none}
+#qbar small{display:block;font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:.64em;margin-bottom:.15em}
+#ov{position:absolute;inset:0;display:none;place-items:center;background:rgba(3,8,16,.8);backdrop-filter:blur(3px);padding:3.5%}
+#ov.show{display:grid}
+.card{width:100%;max-height:100%;overflow:auto;background:linear-gradient(180deg,#12294a,#0b1a2f);border:1px solid #33567c;border-radius:1.1em;padding:1.2em 1.35em;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:left}
+.card h1{font-size:2.1em;line-height:1;margin:.1em 0 .25em;letter-spacing:-.03em}
+.card h1 span{background:linear-gradient(90deg,#fff,var(--cyan),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.card h2{font-size:1.45em;margin:.1em 0 .4em}
+.card h3{margin:.8em 0 .2em;font-size:1em}
+.card p{margin:.4em 0;color:#d4e2f2;line-height:1.42}
+.kick{color:var(--gold);font-weight:800;font-size:.72em;letter-spacing:.16em;text-transform:uppercase}
+.ok{color:var(--green)}.bad{color:var(--danger)}.dim{color:#a9b9ce;font-size:.85em}
+.btn{font:inherit;font-weight:800;border-radius:.8em;padding:.65em 1.05em;margin:.3em .3em 0 0;cursor:pointer;background:#173653;color:#fff;border:1px solid #4f7ca4}
+.btn.primary{background:linear-gradient(135deg,var(--gold),#f39a29);color:#111923;border:0}
+.btn.sel{outline:3px solid var(--cyan)}
+.btn:hover:not(:disabled){filter:brightness(1.15)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:.4em .8em;font-size:.88em;margin:.5em 0}
+.stg{display:grid;grid-template-columns:repeat(4,1fr);gap:.4em;margin:.4em 0}
+.stg button{margin:0;padding:.5em .2em;font-size:.85em;line-height:1.25;text-align:center}
+.stg small{display:block;font-weight:600;font-size:.72em;opacity:.85}
+.row{display:flex;align-items:center;gap:.6em;margin:.25em 0;font-size:.86em}
+.row .nm{width:11em;flex:none}
+.bar{flex:1;height:.7em;background:#0a1a2b;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%}
+.miss{border-left:3px solid var(--danger);background:#0a1a2b;border-radius:.5em;padding:.5em .7em;margin:.5em 0;font-size:.84em}
+.miss b{color:var(--gold)}
+.key{border:1px solid #4f7ca4;border-radius:.35em;padding:0 .4em;background:#0a1a2b;font-size:.85em}
+.stars{font-size:2em;letter-spacing:.1em;color:var(--gold)}
+.hz{display:inline-block;background:#0a1a2b;border:1px solid #33567c;border-radius:99px;padding:.15em .6em;margin:.15em .2em 0 0;font-size:.8em}
+.tb{position:absolute;top:.8%;z-index:5;background:rgba(8,20,36,.7);border:1px solid #33567c;color:#fff;border-radius:.6em;font-size:.85em;padding:.2em .5em;cursor:pointer}
+#mute{right:1.5%}#fs{right:9%}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="cv"></canvas>
+  <div id="qbar"></div>
+  <button id="fs" class="tb" title="Tela cheia">⛶</button>
+  <button id="mute" class="tb" title="Som (M)">🔊</button>
+  <div id="ov"><div class="card" id="card"></div></div>
+</div>
+
+<script>
+'use strict';
+/* =====================================================================
+   DEFENSOR ESTELAR — Frente A · Cap. 6 · Mecânica Celeste
+   Arquivo único, sem dependências externas: pode ser publicado em qualquer
+   site (ou incorporado com <iframe>). Progresso salvo no navegador do aluno.
+   Para liberar todos os estágios (uso do professor): adicione ?livre=1 ao link.
+   ===================================================================== */
+
+/* ============================ ESTÁGIOS ============================ */
+const STAGES=[
+ {nome:'Sistemas Planetários',cor:'#ffca3a',boss:'Epiciclo Gigante',sub:'Eudoxo, Ptolomeu, Copérnico, Galileu e o movimento retrógrado.'},
+ {nome:'Leis de Kepler',cor:'#57d7ff',boss:'Cometa Halley',sub:'Órbitas elípticas, lei das áreas e a lei dos períodos (T²/R³).'},
+ {nome:'Gravitação Universal',cor:'#8ea6ff',boss:'Maçã de Newton',sub:'F = G·m₁m₂/d², ação e reação, força peso e Cavendish.'},
+ {nome:'Marés',cor:'#72e0a4',boss:'Onda Gigante',sub:'Sizígia, quadratura e o efeito da diferença de forças.'},
+ {nome:'Aceleração da Gravidade',cor:'#ff9b3d',boss:'Buraco Negro',sub:'g = GM/R², massa × peso e a tabela dos astros.'},
+ {nome:'Evolução das Estrelas',cor:'#ff6f91',boss:'Gigante Vermelha',sub:'Big Bang, fusão nuclear, E = Δm·c², diagrama H–R e supernovas.'},
+ {nome:'Formação do Sistema Solar',cor:'#c78bff',boss:'Protoplaneta',sub:'Nebulosa, planetesimais, planetas e a poeira das estrelas.'},
+ {nome:'Chefão Final: Supernova',cor:'#ff5a5f',boss:'Supernova',final:true,sub:'Todos os temas em perguntas difíceis. Derrote a estrela e prove que somos poeira das estrelas!'}
+];
+const TIER=['','Aquecimento','Intermediária','Desafio'];
+
+/* ============================ BANCO DE PERGUNTAS ============================
+   Q(estágio, nível, pergunta, resposta certa, [3 erradas], explicação)
+   Baseado nas páginas 45–68 do capítulo (Bernoulli) e no HTML interativo. */
+const QS=[];
+const Q=(s,t,q,ok,bad,ex)=>QS.push({s,t,q,ok,bad,ex});
+
+// ---- 0 · Sistemas planetários
+Q(0,1,'No sistema geocêntrico de Eudoxo e Aristóteles, o que ocupava o centro do Universo?','A Terra, imóvel',['O Sol','A Lua','A estrela polar'],'Estrelas, Sol, Lua e planetas ficavam em esferas concêntricas girando em torno da Terra imóvel.');
+Q(0,1,'Quem propôs, no início do séc. XVI, um sistema com o Sol no centro e a Terra em movimento?','Nicolau Copérnico',['Cláudio Ptolomeu','Eudoxo','Tycho Brahe'],'Copérnico propôs o modelo heliocêntrico, mais simples que o de Ptolomeu.');
+Q(0,1,'Ptolomeu explicou o movimento retrógrado dos planetas com:','Pequenos círculos (epiciclos) sobre órbitas circulares ao redor da Terra',['Órbitas elípticas com o Sol no foco','Esferas fixas sem movimento','A força gravitacional do Sol'],'No sistema de Ptolomeu (início do séc. II), os planetas giravam em epiciclos centrados em grandes órbitas ao redor da Terra.');
+Q(0,1,'O que Galileu observou com sua luneta?','Crateras na Lua e luas girando em torno de Júpiter',['Que a Lua era uma esfera perfeita','Que todos os astros giravam em torno da Terra','Anéis em Marte'],'As crateras mostraram que a Lua não é perfeita, e as luas de Júpiter provaram que nem tudo gira em torno da Terra.');
+Q(0,1,'A luz do Sol leva cerca de quanto tempo para chegar à Terra?','8 minutos',['8 segundos','8 horas','8 dias'],'A distância Terra–Sol equivale a cerca de 8 minutos-luz.');
+Q(0,1,'Como os antigos chamavam os astros que "vagavam" pelo céu, sem repetir o desenho das constelações?','Estrelas errantes (os futuros planetas)',['Constelações','Cometas','Nebulosas'],'As "estrelas errantes" não emitiam luz própria e refletiam a luz do Sol: foram nomeadas planetas.');
+Q(0,2,'Por que vemos as estrelas descreverem círculos em torno da estrela polar durante a noite?','Pela rotação da Terra: o movimento das estrelas é aparente',['As estrelas realmente giram em torno da Terra','A estrela polar gira em torno das outras','O Sol puxa as estrelas'],'A Terra gira de oeste para leste, então as estrelas parecem girar de leste para oeste em torno do eixo polar.');
+Q(0,2,'Como os antigos navegantes usavam a estrela polar?','Como referência fixa para se orientar em direção ao Norte',['Para medir a velocidade do barco','Para prever as marés','Para calcular a massa da Terra'],'A estrela polar fica quase sobre o eixo de rotação da Terra, praticamente parada no céu.');
+Q(0,2,'Qual sistema NÃO conseguia explicar o movimento retrógrado de Marte?','O de Eudoxo (esferas concêntricas simples)',['O de Ptolomeu (epiciclos)','O de Copérnico (heliocêntrico)','Todos o explicavam'],'Ptolomeu explicou com epiciclos e Copérnico com a ultrapassagem entre planetas; o modelo de Eudoxo não.');
+Q(0,2,'Além da alternância entre dia e noite, a rotação da Terra explicou, para Copérnico:','O giro aparente das estrelas em círculos no céu',['As fases da Lua','As marés','Os eclipses solares'],'Copérnico esclareceu dois fenômenos: a alternância dia/noite e o movimento aparente das estrelas.');
+Q(0,2,'No modelo de Copérnico, a Lua é:','Satélite da Terra, que por sua vez orbita o Sol',['Planeta que orbita diretamente o Sol','Estrela fixa','Parte da esfera das estrelas'],'O conjunto Terra–Lua gira em torno do Sol; a Lua orbita a Terra.');
+Q(0,2,'Por que Galileu precisou negar publicamente suas ideias?','Para evitar uma condenação (o geocentrismo era muito difundido)',['Porque suas medidas estavam erradas','Porque a luneta quebrou','Porque Copérnico o proibiu'],'Para evitar uma condenação fatal, Galileu negou publicamente suas ideias e viveu retirado em seu castelo.');
+Q(0,3,'No modelo heliocêntrico, o movimento retrógrado de Marte visto da Terra acontece quando:','A Terra ultrapassa Marte por ter maior velocidade orbital',['Marte inverte o sentido da órbita','Marte para de orbitar o Sol','A Terra fica parada'],'Como carros em uma rodovia: ao ultrapassar, o outro parece recuar. O laço é aparente.');
+Q(0,3,'Por que barcos e aviões usam navegação baseada no modelo geocêntrico?','Porque a Terra é um referencial conveniente para o observador',['Porque o heliocêntrico é falso','Porque o Sol realmente gira ao redor da Terra','Porque não há gravidade no espaço'],'Tudo depende do referencial: o movimento dos astros fica mais simples de explicar com o Sol, mas a navegação usa a Terra como referência.');
+Q(0,3,'A Via Láctea tem cerca de 100 mil anos-luz de diâmetro. Isso significa que a luz leva, para atravessá-la:','Cerca de 100 mil anos',['Cerca de 100 anos','Cerca de 8 minutos','Um dia'],'Um ano-luz é a distância que a luz percorre em um ano.');
+
+// ---- 1 · Kepler
+Q(1,1,'Pela 1ª Lei de Kepler, a órbita de um planeta é:','Uma elipse com o Sol em um dos focos',['Um círculo com o Sol no centro','Uma espiral rumo ao Sol','Uma reta'],'Lei das Órbitas: cada planeta gira em órbita elíptica, com o Sol em um dos focos.');
+Q(1,1,'Quem forneceu a Kepler as medidas precisas das órbitas dos planetas?','Tycho Brahe',['Galileu','Newton','Copérnico'],'Brahe fez milhares de medições por quase 40 anos, com quadrantes e sextantes, sem luneta.');
+Q(1,1,'O ponto de menor distância entre o planeta e o Sol chama-se:','Periélio',['Afélio','Perigeu','Apogeu'],'Periélio: mais próximo do Sol. Afélio: mais afastado.');
+Q(1,1,'A 2ª Lei de Kepler é conhecida como Lei das:','Áreas',['Órbitas','Períodos','Forças'],'O segmento Sol–planeta varre áreas iguais em intervalos de tempo iguais.');
+Q(1,1,'A 3ª Lei de Kepler relaciona:','O período orbital e o raio médio da órbita (T²/R³ = k)',['Massa e volume do planeta','Temperatura e brilho','Área e velocidade da luz'],'O quadrado do período é proporcional ao cubo do raio orbital médio.');
+Q(1,2,'Em qual ponto da órbita a velocidade do planeta é mínima?','No afélio',['No periélio','No centro da elipse','Em nenhum: é constante'],'Longe do Sol o planeta é mais lento; ao se aproximar, acelera até o máximo no periélio.');
+Q(1,2,'Por que planetas mais distantes do Sol levam mais tempo para completar uma volta?','O caminho é maior e a velocidade orbital é menor',['Porque são mais pesados','Porque o Sol os atrai mais','Porque são mais frios'],'Netuno, por exemplo, leva cerca de 165 anos: percorre uma órbita enorme, lentamente.');
+Q(1,2,'A unidade astronômica (UA) corresponde a:','Distância média entre a Terra e o Sol',['Distância Terra–Lua','Um ano-luz','Diâmetro do Sol'],'1 UA ≈ 150 milhões de km. Marte está a 1,5 UA e Netuno a cerca de 30 UA.');
+Q(1,2,'Por que T²/R³ tem o mesmo valor para todos os planetas do Sistema Solar?','Porque todos orbitam a mesma estrela (o Sol)',['Porque têm a mesma massa','Porque têm a mesma velocidade','Porque têm o mesmo tamanho'],'A constante k depende do astro central. Em torno de outro astro (ex.: a Terra), k é diferente.');
+Q(1,2,'Segundo o texto, qual planeta tem órbita bem excêntrica, enquanto as demais são quase circulares?','Mercúrio',['Vênus','Terra','Netuno'],'Por isso a dificuldade histórica de provar que as órbitas são elípticas.');
+Q(1,2,'As Leis de Kepler também se aplicam a:','Satélites naturais, satélites artificiais e cometas',['Só ao Sol','Só a planetas gasosos','Só a estrelas'],'Vale para qualquer corpo que orbite um astro central; só muda a constante k.');
+Q(1,3,'Um planeta tem raio orbital médio de 4 UA. Pela 3ª Lei (T² = R³), seu período é:','8 anos',['2 anos','4 anos','16 anos'],'T² = 4³ = 64 ⇒ T = 8 anos.');
+Q(1,3,'Um planeta com R = 9 UA tem período de:','27 anos',['3 anos','9 anos','81 anos'],'T² = 9³ = 729 ⇒ T = 27 anos.');
+Q(1,3,'Um corpo com R = 16 UA orbitando o Sol tem período de:','64 anos',['4 anos','16 anos','256 anos'],'T² = 16³ = 4096 ⇒ T = 64 anos.');
+Q(1,3,'O cometa Halley tem período de 75 anos e sua última passagem foi em 1986. A próxima será em:','2061',['2036','2050','2100'],'1986 + 75 = 2061.');
+Q(1,3,'Um cometa tem afélio a 70 UA e periélio a 2 UA. Seu raio orbital médio é:','36 UA',['72 UA','68 UA','140 UA'],'R = (p + a)/2 = (2 + 70)/2 = 36 UA.');
+Q(1,3,'O cometa da questão anterior tem R = 36 UA. Seu período é (T² = R³):','216 anos',['36 anos','72 anos','1 296 anos'],'T² = 36³ = 46 656 ⇒ T = 216 anos.');
+Q(1,3,'A Lua leva 28 dias para orbitar a Terra. Um satélite a 1/4 dessa distância leva:','3,5 dias',['7 dias','14 dias','1,75 dia'],'T² ∝ R³: (1/4)³ = 1/64 ⇒ T é 1/8 de 28 dias = 3,5 dias.');
+Q(1,3,'Para o Halley: periélio p = 0,59 UA e R = 17,8 UA. Pela relação R = (p + a)/2, o afélio a vale cerca de:','35 UA',['18 UA','9 UA','70 UA'],'a = 2R − p = 35,6 − 0,59 ≈ 35 UA, além da órbita de Netuno.');
+
+// ---- 2 · Gravitação
+Q(2,1,'Segundo Newton, matéria atrai matéria na razão:','Direta das massas e inversa do quadrado da distância',['Inversa das massas e direta da distância','Direta da distância','Inversa da distância (sem quadrado)'],'F = G·m₁·m₂/d².');
+Q(2,1,'Ao imaginar a maçã caindo, Newton supôs que a força da Terra sobre a Lua tinha:','A mesma natureza da atração Terra–maçã',['Natureza totalmente diferente','Natureza elétrica','Valor nulo, pois a Lua está longe'],'Uma teoria única explicaria o movimento dos corpos celestes e a queda dos corpos na Terra.');
+Q(2,1,'O valor da constante gravitacional G é:','Muito pequeno (6,67×10⁻¹¹ N·m²/kg²)',['Muito grande (6,67×10¹¹)','Igual a 9,8','Igual a 1'],'Por isso a força gravitacional só é notável quando ao menos uma das massas é enorme.');
+Q(2,1,'As Leis de Kepler eram empíricas. Newton, com a gravitação:','Explicou por que as órbitas têm esse comportamento',['Provou que estavam erradas','Ignorou as leis','Substituiu a elipse por círculos'],'As leis de Kepler foram justificadas pela Gravitação Universal.');
+Q(2,1,'Que fenômeno, sem explicação na época, a gravitação de Newton ajudou a explicar?','A precessão do periélio de Mercúrio',['A existência de buracos negros','O Big Bang','A fusão nuclear'],'Citado no texto como exemplo de fenômeno explicado pela teoria de Newton.');
+Q(2,2,'Se a distância entre dois corpos dobra, a força gravitacional entre eles:','Fica 4 vezes menor',['Fica pela metade','Dobra','Fica 4 vezes maior'],'F ∝ 1/d²: (1/2)² = 1/4.');
+Q(2,2,'Duas carretas (30 t e 40 t) a 1 m se atraem com ~0,08 N. Por que não percebemos essa atração?','Porque a força é muito pequena comparada às demais do cotidiano',['Porque não há gravidade na Terra','Porque uma anula a outra','Porque a carreta maior atrai mais'],'Com G tão pequeno, a atração entre objetos comuns é desprezível na maioria dos problemas.');
+Q(2,2,'A força que a carreta branca (maior) faz na azul, comparada à da azul na branca, é:','Igual em módulo e de sentido oposto',['Maior','Menor','Nula'],'Ação e reação: a de maior massa não faz força de maior intensidade.');
+Q(2,2,'O peso de um objeto na superfície da Terra corresponde:','À força de atração gravitacional da Terra sobre ele',['À massa do objeto','À força centrífuga','Ao volume do objeto'],'Força gravitacional = força peso.');
+Q(2,2,'O que faz a Terra não seguir em linha reta (MRU) e orbitar o Sol?','A atração gravitacional do Sol, que faz o papel de força centrípeta',['A rotação da Terra','A pressão da luz do Sol','O campo magnético da Lua'],'Sem essa força, os planetas sairiam pela tangente em movimento retilíneo uniforme.');
+Q(2,2,'Se a atração do Sol sobre a Terra fosse muito pequena, a Terra:','Seguiria uma trajetória quase retilínea',['Cairia sobre o Sol','Ficaria parada','Orbitaria mais rápido'],'Se fosse grande demais, a Terra se aproximaria do Sol até colidir. A órbita é estável.');
+Q(2,2,'Ao calcular o peso (P = mg) e a força gravitacional, os resultados coincidem. Isso mostra que:','Massa inercial e massa gravitacional representam a mesma coisa',['A gravidade não existe','Peso e massa são iguais','G vale 9,8'],'Conclusão do livro após comparar P = mg com F = G·M·m/R².');
+Q(2,2,'Em 1798, Henry Cavendish usou uma balança de torção para determinar:','O valor da constante G',['A massa do Sol','A velocidade da luz','O raio da Terra'],'Com G conhecido, é possível obter a massa da Terra: por isso Cavendish "pesou a Terra".');
+Q(2,3,'Se a massa da Terra dobrasse (mesma distância), a força gravitacional do Sol sobre ela seria:','O dobro',['A metade','O quádruplo','A mesma'],'F é diretamente proporcional a cada massa. Original: 3,6×10²² N ⇒ 7,2×10²² N.');
+Q(2,3,'A força Sol–Terra vale 3,6×10²² N. Se a distância dobrasse, seria:','0,9×10²² N',['7,2×10²² N','1,8×10²² N','14,4×10²² N'],'Distância ×2 ⇒ força ÷4: 3,6/4 = 0,9.');
+Q(2,3,'Duas carretas a 1 m se atraem com 0,08 N. A 2 m de distância, a força seria:','0,02 N',['0,04 N','0,16 N','0,32 N'],'0,08 / 2² = 0,02 N.');
+Q(2,3,'Duas carretas a 1 m se atraem com 0,08 N. A 0,5 m, a força seria:','0,32 N',['0,16 N','0,04 N','0,64 N'],'Distância ÷2 ⇒ força ×4: 0,08 × 4 = 0,32 N.');
+Q(2,3,'A massa de um corpo triplica e a distância entre eles dobra. A força fica multiplicada por:','3/4',['3/2','6','12'],'Fator: 3 · (1/2)² = 3/4.');
+
+// ---- 3 · Marés
+Q(3,1,'As marés de sizígia (maiores) ocorrem quando a Lua está na fase:','Nova ou cheia',['Crescente ou minguante','Apenas cheia','Apenas em eclipse'],'Sol, Terra e Lua ficam alinhados e os efeitos se somam.');
+Q(3,1,'As marés de quadratura ocorrem quando a Lua está na fase:','Crescente ou minguante',['Nova ou cheia','Sempre no perigeu','Apenas em eclipse'],'As atrações do Sol e da Lua são ortogonais e tendem a se anular parcialmente.');
+Q(3,1,'Em cidades litorâneas, em um dia observam-se, em geral:','Duas marés altas e duas baixas',['Uma alta e uma baixa','Quatro altas e quatro baixas','Duas altas e nenhuma baixa'],'O ciclo de quatro marés ocorre em cerca de 24 h 50 min.');
+Q(3,1,'O fenômeno das marés é explicado pela Lei da Gravitação Universal e pela ação de:','Lua e Sol',['Somente do Sol','Ventos e correntes marinhas','Terremotos'],'Newton explicou as marés pela atração gravitacional da Lua e do Sol sobre as águas.');
+Q(3,1,'Quando o efeito das marés é máximo, Sol, Terra e Lua estão:','Alinhados',['Em ângulo reto','Sem relação de posição','Sempre em eclipse'],'É o que ocorre nas marés de sizígia.');
+Q(3,2,'Por que se formam duas marés altas em lados opostos da Terra?','A atração da Lua é diferente em cada lado, alongando o oceano nos dois sentidos',['A Lua empurra a água para longe','A Terra tem dois polos','O Sol aquece só um lado'],'Forças de intensidades diferentes deformam o corpo; forças iguais só o acelerariam. É como o balão de ar sendo esticado.');
+Q(3,2,'O intervalo aproximado entre uma maré alta e a baixa seguinte é de:','6 h 12,5 min',['12 h','3 h','24 h'],'Duas altas e duas baixas em 24 h 50 min: intervalo médio de 6 h 12,5 min.');
+Q(3,2,'Por que as marés não ocorrem exatamente à mesma hora todos os dias?','O ciclo completo dura 24 h 50 min, não 24 h',['A Terra gira mais devagar em alguns dias','O Sol muda de lugar','Os oceanos têm inércia variável'],'A cada dia o horário se atrasa cerca de 50 minutos.');
+Q(3,2,'A atração do Sol sobre a Terra é ~180 vezes maior que a da Lua, mas a maré solar é menor porque:','As forças do Sol nos lados opostos da Terra são quase iguais (pouca deformação)',['O Sol está mais frio','O Sol atrai só a terra firme','A Lua é maior que o Sol'],'A maré depende da diferença entre as forças em cada lado, e o Sol está muito distante.');
+Q(3,2,'Na quadratura, os efeitos de maré do Sol e da Lua:','Tendem a se anular parcialmente (ficam ortogonais)',['Se somam','Desaparecem por completo','Só o Sol age'],'Os oceanos sofrem menor variação, as chamadas marés de quadratura.');
+Q(3,2,'Uma Superlua ocorre quando a Lua cheia está próxima do:','Perigeu (ponto mais próximo da Terra)',['Apogeu','Periélio','Afélio'],'A órbita da Lua é elíptica: no perigeu ela parece maior e mais brilhante.');
+Q(3,3,'Se a maré alta ocorre às 6h00, a próxima maré alta será aproximadamente às:','18h25',['12h00','18h00','24h00'],'Entre duas marés altas, cerca de 12 h 25 min (2 × 6 h 12,5 min).');
+Q(3,3,'Se hoje há maré alta às 6h00, a primeira maré alta de amanhã será por volta de:','6h50',['6h00','5h10','7h30'],'O ciclo é de 24 h 50 min: o horário atrasa cerca de 50 min por dia.');
+Q(3,3,'Se forças IGUAIS e de mesmo sentido agem nos dois lados de um objeto deformável, ele:','Acelera sem se deformar',['Se deforma bastante','Fica parado','Se parte ao meio'],'Só forças de intensidades diferentes deformam. Por isso a diferença de força importa nas marés.');
+Q(3,3,'Sol, Terra e Lua alinhados, com a Lua no perigeu. As marés tendem a ser:','Ainda maiores que as de sizígia comuns',['Menores que as de quadratura','Inexistentes','Iguais às de quadratura'],'Alinhamento (sizígia) reforça o efeito, e a Lua mais próxima intensifica a diferença de forças.');
+
+// ---- 4 · Aceleração da gravidade
+Q(4,1,'Na superfície da Terra, o valor médio de g é aproximadamente:','9,8 m/s²',['98 m/s²','0,98 m/s²','6,67 m/s²'],'Média de 9,81 m/s², com pequenas variações.');
+Q(4,1,'Na superfície de um astro, a aceleração da gravidade depende:','Da massa e do raio do astro (g = GM/R²)',['Da massa do objeto que cai','Da cor do astro','Da velocidade do objeto'],'g é proporcional a M e inversamente proporcional a R².');
+Q(4,1,'Ao viajar de um planeta a outro, o que muda: massa ou peso?','O peso (a massa permanece)',['A massa','Os dois igualmente','Nenhum dos dois'],'P = m·g: g muda, m não.');
+Q(4,1,'Na equação g = GM/R², qual grandeza se cancelou?','A massa do objeto que cai',['A massa do planeta','O raio do planeta','A constante G'],'Por isso, no mesmo local, corpos diferentes caem com a mesma aceleração (Galileu).');
+Q(4,1,'Segundo a tabela do livro, onde g é maior?','No Sol (274 m/s²)',['Em Júpiter (22,9 m/s²)','Na Terra (9,81 m/s²)','Na Lua (1,67 m/s²)'],'Sol 274 · Júpiter 22,9 · Terra 9,81 · Marte 3,72 · Lua 1,67 (m/s²).');
+Q(4,2,'Entre Terra, Marte, Júpiter e Lua, onde g é menor?','Na Lua (1,67 m/s²)',['Em Marte (3,72 m/s²)','Na Terra (9,81 m/s²)','Em Júpiter (22,9 m/s²)'],'A Lua tem massa pequena (7,4×10²² kg) e raio menor.');
+Q(4,2,'Na Terra, g é um pouco maior:','Nos polos',['No Equador','No topo de montanhas','É igual em todo lugar'],'Pelo achatamento, o raio polar é menor que o equatorial.');
+Q(4,2,'Por que g é menor em cidades elevadas, como Belo Horizonte (9,78 m/s²)?','Porque estão mais distantes do centro da Terra',['Porque o objeto tem menos massa','Por causa do clima mais frio','Porque a Terra gira mais rápido lá'],'g = GM/(R + h)²: aumentar h diminui g.');
+Q(4,2,'Um buraco negro tem campo gravitacional enorme porque possui:','Massa muito grande concentrada em raio muito pequeno',['Massa muito pequena','Raio muito grande','Rotação muito lenta'],'g = GM/R²: M enorme e R minúsculo resultam em g gigantesco.');
+Q(4,2,'Quem foi o primeiro a medir G com precisão e, assim, "pesar" a Terra?','Henry Cavendish',['Galileu','Newton','Kepler'],'Newton conhecia o valor de g, mas foi Cavendish quem determinou G e a massa da Terra.');
+Q(4,2,'O valor de g na Terra é constante em toda a superfície?','Não: varia com latitude e altitude',['Sim, sempre 9,8 m/s²','Só varia com a hora do dia','Só varia com a massa do objeto'],'9,8 m/s² é uma aproximação; o valor local depende da latitude e da altitude.');
+Q(4,3,'Um objeto de 10 kg tem, em Marte (g = 3,72 m/s²), peso de:','37,2 N',['98 N','3,72 N','16,7 N'],'P = m·g = 10 × 3,72 = 37,2 N.');
+Q(4,3,'Um astronauta de 70 kg vai à Lua (g = 1,67 m/s²). Seu peso lá é cerca de:','117 N',['686 N','7 N','420 N'],'P = 70 × 1,67 ≈ 117 N (na Terra: ≈ 686 N).');
+Q(4,3,'Qual é a massa desse astronauta na Lua?','70 kg',['11,7 kg','117 kg','686 kg'],'A massa não muda; só o peso muda.');
+Q(4,3,'Dois planetas têm a mesma massa, mas o raio do primeiro é o dobro do segundo. O g do primeiro é:','1/4 do g do segundo',['Metade','O dobro','O quádruplo'],'g ∝ 1/R²: (2)² = 4 ⇒ g fica dividido por 4.');
+Q(4,3,'Dois planetas têm o mesmo raio, mas a massa do primeiro é o dobro. O g do primeiro é:','O dobro',['A metade','O quádruplo','Igual'],'g é diretamente proporcional a M.');
+Q(4,3,'Um objeto de 1 kg tem, na superfície do Sol (g = 274 m/s²), peso de:','274 N',['9,8 N','27,4 N','2 740 N'],'P = 1 × 274 = 274 N.');
+Q(4,3,'Um corpo em órbita rasante da Terra (v = √(GM/R), com G, M e R do livro) tem velocidade da ordem de:','8 km/s',['80 m/s','800 km/s','8 m/s'],'v = √(6,7×10⁻¹¹ · 6×10²⁴ / 6×10⁶) ≈ 8 000 m/s.');
+Q(4,3,'Em órbita rasante, trocar uma bola de beisebol por uma de boliche faz a velocidade orbital:','Ficar igual (independe da massa do objeto)',['Dobrar','Cair pela metade','Ficar nula'],'v = √(GM/R) não contém a massa do corpo em órbita.');
+
+// ---- 5 · Evolução estelar
+Q(5,1,'O Universo surgiu há cerca de 14 bilhões de anos, num evento conhecido como:','Big Bang',['Supernova','Precessão','Eclipse'],'Após o Big Bang, o Universo se expandiu e esfriou.');
+Q(5,1,'Os primeiros átomos formados no Universo foram principalmente de:','Hidrogênio',['Ferro','Carbono','Oxigênio'],'Núcleos leves como o hidrogênio surgiram primeiro; os elementos pesados vieram das estrelas.');
+Q(5,1,'Uma estrela nasce quando uma nuvem de gás colapsa pela gravidade e:','Atinge temperatura suficiente para iniciar a fusão nuclear',['Explode em supernova','Esfria até apagar','Vira buraco negro'],'A compressão aumenta a temperatura, como o ar em uma bomba de encher pneu.');
+Q(5,1,'No núcleo de uma estrela como o Sol ocorre a fusão de:','Hidrogênio formando hélio',['Ferro formando ouro','Carbono formando hidrogênio','Água formando gelo'],'A fusão ocorre a cerca de 15 milhões de kelvins.');
+Q(5,1,'Quem propôs em 1905 a equivalência entre massa e energia (E = Δm·c²)?','Albert Einstein',['Isaac Newton','Niels Bohr','Galileu Galilei'],'Essa relação permitiu entender de onde vem a energia das estrelas.');
+Q(5,1,'O equilíbrio de uma estrela ocorre entre:','A gravidade (para dentro) e a pressão do gás quente (para fora)',['Fusão e fissão do ferro','Marés e rotação','Poeira e gelo'],'Esse equilíbrio pode durar bilhões de anos.');
+Q(5,2,'De onde vem a energia liberada na fusão nuclear estelar?','Da diferença de massa entre o hidrogênio inicial e o hélio formado',['Da queima química de gases','Do atrito entre partículas','Do vento solar'],'A massa do núcleo de hélio é menor que a dos núcleos de hidrogênio que o formaram; a diferença vira energia.');
+Q(5,2,'A cada segundo, o Sol converte em energia cerca de:','4 milhões de toneladas de massa',['4 quilogramas','4 mil toneladas','4 bilhões de toneladas'],'Cerca de 654 milhões de t de H formam 650 milhões de t de He; a diferença é a energia emitida.');
+Q(5,2,'Qual a temperatura aproximada necessária no núcleo para a fusão de hidrogênio em hélio?','15 milhões de kelvins',['5 mil kelvins','15 mil kelvins','100 bilhões de kelvins'],'Assim nascem as estrelas.');
+Q(5,2,'Quando o hidrogênio do núcleo acaba e o hélio passa a fundir, a estrela vira uma:','Gigante vermelha',['Anã branca','Nebulosa','Estrela de nêutrons'],'A fusão de hélio (~100 milhões de K) forma carbono e oxigênio, e a estrela se expande.');
+Q(5,2,'No diagrama H–R, a temperatura superficial:','Diminui da esquerda para a direita',['Aumenta da esquerda para a direita','É constante','Só depende da massa'],'Os eixos são luminosidade e temperatura da superfície, com a temperatura decrescendo para a direita.');
+Q(5,2,'A explosão de uma supernova espalha pelo espaço:','Poeira de carbono, oxigênio e outros átomos pesados',['Somente hidrogênio','Somente luz','Somente hélio'],'Esses átomos se unem e, depois de esfriar, originam estruturas como os planetas.');
+Q(5,2,'Estrelas de massa muito grande terminam sua vida:','Explodindo como supernovas',['Como anãs vermelhas','Sem mudar','Virando planetas'],'Estrelas com muitas massas solares podem explodir, gerando uma supernova.');
+Q(5,2,'O Sol, no diagrama H–R, encontra-se:','Na sequência principal',['Entre as anãs brancas','Entre as supergigantes','Entre as gigantes'],'A maioria das estrelas, incluindo o Sol, está na sequência principal.');
+Q(5,3,'Uma anã branca é quente, mas tem luminosidade muito baixa porque:','Sua área superficial é muito pequena',['Está fria por dentro','Está muito longe do Sol','Só emite luz infravermelha'],'Luminosidade depende da temperatura e da área emissora.');
+Q(5,3,'Uma estrela fria (~3 000 K) e muito luminosa, no H–R, é:','Uma gigante/supergigante vermelha: grande área emissora',['Uma anã branca','Uma estrela da sequência principal de baixa massa','Um planeta'],'Baixa temperatura, mas raio enorme ⇒ luminosidade alta.');
+Q(5,3,'O Sol perde ~4 milhões de toneladas por segundo. Em 1 hora (3 600 s) perde:','1,4×10¹⁰ toneladas',['1,4×10⁷ toneladas','4×10⁶ toneladas','1,4×10¹³ toneladas'],'4×10⁶ × 3,6×10³ = 1,44×10¹⁰ t.');
+Q(5,3,'Se a massa convertida em energia (Δm) dobrar, a energia liberada (E = Δm·c²):','Dobra',['Quadruplica','Cai à metade','Não muda'],'E é diretamente proporcional a Δm.');
+Q(5,3,'Os Pilares da Criação já foram desintegrados, mas ainda vemos suas imagens porque:','A luz leva muito tempo para chegar até nós',['A luz não tem velocidade','Os telescópios criam imagens falsas','As nebulosas são eternas'],'Vemos o passado: a luz percorre enormes distâncias antes de nos alcançar.');
+
+// ---- 6 · Formação do Sistema Solar
+Q(6,1,'Os "berços" dos sistemas solares são:','As nebulosas (nuvens de gás e poeira)',['Os cometas','Os buracos negros','Os asteroides'],'De forma geral, duas forças atuam nas nebulosas gerando equilíbrio.');
+Q(6,1,'Por que a nuvem gira mais rápido ao se contrair (como uma bailarina que encolhe os braços)?','Conservação do momento angular',['Aumento da massa','Ação das marés','Fusão nuclear'],'Ao diminuir de tamanho, a velocidade angular aumenta.');
+Q(6,1,'Os fragmentos da nebulosa que se tornam visíveis a 2 000–3 000 K são chamados:','Protoestrelas',['Planetesimais','Cometas','Asteroides'],'Nosso Sol foi uma protoestrela.');
+Q(6,1,'Depois dos planetesimais vêm os protoplanetas, que se juntaram formando:','Os 8 planetas do Sistema Solar',['Os cometas','As estrelas','Os buracos negros'],'Grãos → planetesimais → protoplanetas → planetas.');
+Q(6,1,'Quais são os planetas rochosos do Sistema Solar?','Mercúrio, Vênus, Terra e Marte',['Júpiter, Saturno, Urano e Netuno','Terra, Marte, Júpiter e Saturno','Vênus, Urano, Netuno e Marte'],'São formados por materiais rochosos e metais.');
+Q(6,1,'A parte da nebulosa que se concentrou no centro deu origem:','Ao Sol',['À Lua','A Júpiter','Ao cinturão de asteroides'],'O restante formou um disco achatado de gás e poeira.');
+Q(6,2,'O cinturão de asteroides fica entre as órbitas de:','Marte e Júpiter',['Vênus e Terra','Saturno e Urano','Netuno e Plutão'],'Os asteroides são remanescentes da formação do Sistema Solar.');
+Q(6,2,'A formação dos planetas durou aproximadamente:','100 milhões de anos',['100 anos','1 milhão de anos','10 bilhões de anos'],'Um tempo imenso para nós, mas pequeno para a Astronomia.');
+Q(6,2,'Os asteroides que caem na Terra permitem estimar que o Sistema Solar tem cerca de:','4,5 bilhões de anos',['4,5 milhões de anos','45 mil anos','14 bilhões de anos'],'Essa é a idade próxima à formação do próprio Sol.');
+Q(6,2,'Os planetas gasosos (Júpiter, Saturno, Urano, Netuno) formaram-se:','Nas regiões mais frias e distantes do Sol',['Bem perto do Sol','Dentro do cinturão de asteroides','Depois de explodirem em supernovas'],'Materiais não sólidos foram expulsos para partes de menor temperatura da nebulosa.');
+Q(6,2,'A estrutura típica de um planeta gigante gasoso é:','Núcleo rochoso, camada de gelo e extensa camada de gás (H e He)',['Somente rocha','Somente água líquida','Somente ferro'],'Formados principalmente por hidrogênio e hélio.');
+Q(6,2,'Por que os planetas gigantes conseguem manter seus gases ao redor da massa sólida?','Sua grande massa gera uma intensa força gravitacional',['Por causa do campo magnético do Sol','Porque giram devagar','Porque estão longe da Terra'],'É o caso de Saturno e Júpiter.');
+Q(6,2,'Saturno "flutuaria" em uma piscina gigante porque:','Sua densidade é menor que a da água',['Tem pouca massa','É oco','É feito só de gelo'],'Seus anéis são formados por gelo, como arenas de patinação.');
+Q(6,3,'A expressão "somos poeira das estrelas" se baseia no fato de que:','Elementos como carbono e oxigênio foram produzidos em estrelas e espalhados por supernovas',['Viemos do Sol atual','Os planetas são estrelas frias','O Universo é só poeira'],'A origem do Sistema Solar (e da humanidade) é a combinação da poeira das estrelas.');
+Q(6,3,'Segundo o "Tá na Mídia", o último estágio da vida de estrelas de grande massa é:','O buraco negro',['A anã branca','A nebulosa planetária','A gigante vermelha'],'Estrelas de massa muito grande podem terminar como buracos negros.');
+Q(6,3,'Por que os planetas rochosos ficam na parte interna do Sistema Solar e os gasosos na externa?','Perto do Sol só materiais rochosos e metálicos resistem ao calor; longe, gelo e gases se acumularam',['Porque os gasosos são mais leves e flutuaram','Porque a Lua os empurrou','Porque os rochosos são mais novos'],'Materiais não sólidos foram expulsos para regiões de menor temperatura.');
+Q(6,3,'Onde são produzidos elementos mais pesados que o hélio, como carbono e oxigênio?','No interior das estrelas e nas supernovas',['Na Lua','Em nebulosas frias apenas','No Big Bang, todos'],'O Big Bang produziu núcleos leves; os pesados vieram das estrelas.');
+Q(6,3,'Por que o disco protoplanetário é achatado?','A rotação (momento angular) e as colisões entre partículas concentram o material num plano',['Porque o Sol o esmagou','Porque a Lua o puxou','Porque não havia gravidade'],'Colisões dissipam movimentos fora do plano da rotação.');
+
+/* ============================ ESTADO ============================ */
+const W=720,H=820,DPR=2;
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+cv.width=W*DPR;cv.height=H*DPR;
+const stageEl=document.getElementById('stage'),qbar=document.getElementById('qbar'),ov=document.getElementById('ov'),card=document.getElementById('card'),muteBtn=document.getElementById('mute'),fsBtn=document.getElementById('fs');
+const DIFFS={facil:{nome:'Fácil',shield:6,speed:.78,need:5,mult:.8},normal:{nome:'Normal',shield:4,speed:1,need:4,mult:1},dificil:{nome:'Difícil',shield:3,speed:1.25,need:3,mult:1.3}};
+let diff='normal',state='title',g=null,muted=false,last=0,keys={},pointerOn=false,tx=W/2,ty=740,time=0;
+const LIVRE=/[?&]livre=1/.test(location.search);
+let save={u:0,s:[],best:0,d:'normal'};
+try{const o=JSON.parse(localStorage.getItem('defensorEstelar2')||'null');if(o)save=Object.assign(save,o)}catch(e){}
+diff=DIFFS[save.d]?save.d:'normal';
+function persist(){try{localStorage.setItem('defensorEstelar2',JSON.stringify(save))}catch(e){}}
+const unlocked=()=>LIVRE?STAGES.length-1:Math.min(save.u,STAGES.length-1);
+const rnd=(a,b)=>a+Math.random()*(b-a),pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const stars=[];for(let i=0;i<130;i++)stars.push({x:rnd(0,W),y:rnd(0,H),z:pick([1,1,2,3]),tw:rnd(0,6)});
+
+/* ============================ ÁUDIO ============================ */
+let ac=null;
+function tone(f,d,type='square',vol=.05,slide=0){
+  if(muted)return;try{
+    ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+    const o=ac.createOscillator(),gn=ac.createGain();o.type=type;o.frequency.setValueAtTime(f,ac.currentTime);
+    if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(30,f+slide),ac.currentTime+d);
+    gn.gain.setValueAtTime(vol,ac.currentTime);gn.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+d);
+    o.connect(gn).connect(ac.destination);o.start();o.stop(ac.currentTime+d);
+  }catch(e){}
+}
+const sfx={shot:()=>tone(880,.06,'square',.015,-400),boom:()=>tone(150,.25,'sawtooth',.06,-100),hit:()=>tone(300,.05,'triangle',.04),
+  ok:()=>{tone(523,.12,'triangle',.07);setTimeout(()=>tone(784,.2,'triangle',.07),110)},no:()=>tone(220,.25,'sawtooth',.07,-120),
+  pup:()=>{tone(660,.08,'sine',.06);setTimeout(()=>tone(990,.12,'sine',.06),80)},hurt:()=>tone(120,.3,'sawtooth',.08,-60),
+  win:()=>[523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,.22,'triangle',.07),i*130))};
+muteBtn.onclick=e=>{muted=!muted;muteBtn.textContent=muted?'🔇':'🔊';e.stopPropagation()};
+fsBtn.onclick=e=>{e.stopPropagation();try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(_){}};
+
+/* ============================ PROGRESSÃO ============================
+   Nível de dificuldade L = índice do estágio (0..7). A cada estágio:
+   inimigos mais rápidos e numerosos, mais naves atiradoras, cápsulas caindo
+   mais rápido, mini-chefes mais fortes e novos perigos:
+     L≥1 cometas · L≥2 poço gravitacional · L≥3 marés e naves blindadas */
+const HAZ=[[],['☄ Cometas'],['☄ Cometas','● Poço gravitacional'],['☄ Cometas','● Poço gravitacional','≈ Marés (empurrão lateral)','▣ Naves blindadas'],
+ ['☄ Cometas','● Poço gravitacional','≈ Marés','▣ Blindadas'],['☄ Cometas','● Poço gravitacional','≈ Marés','▣ Blindadas'],['☄ Cometas','● Poço gravitacional','≈ Marés','▣ Blindadas'],['☄ Cometas','● Poço gravitacional','≈ Marés','▣ Blindadas']];
+const STEPS=['w','q','w','q','w','q','boss','q','w','q'];
+const STEPS_FINAL=['w','q','w','q','boss','q','w','q','w','q','w','q'];
+
+function buildPlan(s){
+  const tiers=STAGES[s].final?[2,2,3,3,3,3]:[1,1,2,2,3];
+  const used=new Set(),out=[];
+  for(const t of tiers){
+    let pool=QS.map((q,i)=>i).filter(i=>!used.has(i)&&(STAGES[s].final?QS[i].t>=t:QS[i].s===s&&QS[i].t===t));
+    if(!pool.length)pool=QS.map((q,i)=>i).filter(i=>!used.has(i)&&(STAGES[s].final?true:QS[i].s===s));
+    const i=pick(pool);used.add(i);out.push(i);
+  }
+  return out;
+}
+function newRun(startStage){
+  g={stage:startStage,L:startStage,shield:0,maxShield:DIFFS[diff].shield,score:0,combo:0,bestCombo:0,
+     stats:STAGES.map(()=>({r:0,n:0})),missed:[],qi:0,si:0,steps:[],plan:[],
+     bullets:[],enemies:[],ebullets:[],caps:[],parts:[],pups:[],floats:[],boss:null,well:null,
+     p:{x:W/2,y:740,cd:0,inv:0,tri:0,slow:0},spawn:0,waveT:0,cometT:6,shake:0,flash:0,q:null,progress:0};
+  startStage_(startStage);
+}
+function startStage_(s){
+  g.stage=s;g.L=s;g.plan=buildPlan(s);g.steps=STAGES[s].final?STEPS_FINAL:STEPS;g.si=-1;g.qi=0;
+  g.shield=g.maxShield;g.combo=0;g.progress=0;g.okN=0;
+  g.snap={score:g.score,stats:JSON.parse(JSON.stringify(g.stats)),missed:g.missed.length,bestCombo:g.bestCombo};
+  g.bullets=[];g.enemies=[];g.ebullets=[];g.caps=[];g.pups=[];g.boss=null;g.p.inv=0;g.p.tri=0;g.p.slow=0;g.p.x=W/2;g.p.y=740;tx=W/2;ty=740;
+  g.well=g.L>=2?{x:W*.3,y:560,vx:45}:null;
+  const st=STAGES[s];state='intro';hideQ();
+  const haz=HAZ[s].length?HAZ[s].map(h=>`<span class="hz">${h}</span>`).join(''):'<span class="hz">Céu limpo (por enquanto…)</span>';
+  show(`<div class="kick">Estágio ${s+1} de ${STAGES.length} · Nível de perigo ${'▮'.repeat(s+1)}${'▯'.repeat(STAGES.length-1-s)}</div>
+   <h2 style="color:${st.cor}">${st.nome}</h2><p>${st.sub}</p>
+   <p class="dim"><b>Missão:</b> ${g.plan.length} perguntas (das mais fáceis às mais difíceis) e o mini-chefe <b style="color:${st.cor}">${st.boss}</b>.<br><b>Perigos:</b> ${haz}</p>
+   <p class="dim">Atire ${DIFFS[diff].need} vezes na cápsula com a resposta certa. Cuidado: cada cápsula atingida acumula tiros!</p>
+   <button class="btn primary" id="go">Decolar ▶</button>`);
+  document.getElementById('go').onclick=()=>{hide();nextStep()};
+}
+function nextStep(){
+  g.si++;
+  if(g.si>=g.steps.length)return stageClear();
+  const k=g.steps[g.si];
+  if(k==='w'){state='wave';g.waveT=3.2;g.spawn=0}
+  else if(k==='q')spawnQuestion();
+  else spawnBoss();
+}
+const tierStars=t=>'★'.repeat(t)+'☆'.repeat(3-t);
+
+/* ---------- perguntas ---------- */
+function spawnQuestion(){
+  const q=QS[g.plan[g.qi]],d=DIFFS[diff];
+  const opts=shuffle([{t:q.ok,ok:true},...q.bad.map(t=>({t,ok:false}))]);
+  const cw=165,gap=10,x0=(W-4*cw-3*gap)/2;
+  g.caps=opts.map((o,i)=>({x:x0+i*(cw+gap),y:150,w:cw,h:124,text:o.t,ok:o.ok,hits:0,need:d.need,flash:0,dead:false,wob:rnd(0,6)}));
+  g.q=q;state='question';
+  qbar.innerHTML=`<small style="color:${STAGES[g.stage].cor}">${STAGES[g.stage].nome} · pergunta ${g.qi+1}/${g.plan.length} · ${tierStars(q.t)} ${TIER[q.t]}</small>${esc(q.q)}`;
+  qbar.style.display='block';
+}
+function hideQ(){qbar.style.display='none'}
+function resolve(cap,timeout){
+  if(state!=='question')return;
+  state='feedback';const q=g.q,correct=!!(cap&&cap.ok);
+  g.stats[q.s].n++;
+  if(correct){
+    g.stats[q.s].r++;g.okN++;g.combo++;g.bestCombo=Math.max(g.bestCombo,g.combo);
+    const bonus=Math.max(0,Math.round((760-cap.y)/6));
+    const pts=Math.round((100*q.t+bonus)*(1+Math.min(g.combo-1,5)*.25)*DIFFS[diff].mult);
+    g.score+=pts;g.floats.push({x:cap.x+cap.w/2,y:cap.y,t:'+'+pts,c:'#72e0a4',life:1.4});
+    burst(cap.x+cap.w/2,cap.y+cap.h/2,'#72e0a4',40,260);sfx.ok();
+  }else{g.combo=0;hurt(1,true);g.missed.push(q);sfx.no();if(cap)burst(cap.x+cap.w/2,cap.y+cap.h/2,'#ff6b72',30,200)}
+  g.caps.forEach(c=>{if(c!==cap&&!c.ok)burst(c.x+c.w/2,c.y+c.h/2,'#57d7ff',14,150)});
+  g.caps.forEach(c=>c.dead=true);g.qi++;
+  hideQ();
+  const title=correct?'<span class="ok">✔ Correto!</span>':timeout?'<span class="bad">⏱ A resposta escapou!</span>':'<span class="bad">✖ Não foi dessa vez</span>';
+  show(`<div class="kick">${STAGES[g.stage].nome} · ${TIER[q.t]}</div><h2>${title}</h2>
+    <p><b>Resposta certa:</b> ${esc(q.ok)}</p><p>${esc(q.ex)}</p>
+    ${g.combo>1?`<p class="ok">🔥 Sequência: ${g.combo} acertos seguidos</p>`:''}
+    <button class="btn primary" id="go">Continuar ▶</button>`);
+  document.getElementById('go').onclick=afterFeedback;g.lock=time+.6;
+}
+function afterFeedback(){
+  if(state!=='feedback'||time<g.lock)return;
+  hide();if(g.shield<=0)return gameOver();
+  nextStep();
+}
+
+/* ---------- mini-chefes ---------- */
+function spawnBoss(){
+  const L=g.L,st=STAGES[g.stage];
+  const max=st.final?110:28+L*9;
+  g.boss={x:W/2,y:-80,r:st.final?62:52,hp:max,max,t:0,cd:1.5,pat:0,hit:0,dead:0,cor:st.cor,nome:st.boss,enter:true};
+  state='boss';g.spawn=2;
+}
+function bossFire(b){
+  const L=g.L,sp=(165+L*12)*DIFFS[diff].speed,pt=b.pat++%3;
+  const px=g.p.x,py=g.p.y;
+  if(pt===0){const a0=Math.atan2(py-b.y,px-b.x);for(let i=-1;i<=1;i++){const a=a0+i*.22;g.ebullets.push({x:b.x,y:b.y+30,vx:Math.cos(a)*sp*1.15,vy:Math.sin(a)*sp*1.15})}}
+  else if(pt===1){const n=5+Math.min(L,4);for(let i=0;i<n;i++){const a=Math.PI*(.25+.5*i/(n-1));g.ebullets.push({x:b.x,y:b.y+30,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp})}}
+  else{const n=10+L;const o=rnd(0,6);for(let i=0;i<n;i++){const a=o+i/n*6.283;g.ebullets.push({x:b.x,y:b.y,vx:Math.cos(a)*sp*.7,vy:Math.sin(a)*sp*.7})}}
+  tone(200,.15,'sawtooth',.04,-80);
+}
+function bossDown(b){
+  b.dead=1.3;burst(b.x,b.y,b.cor,90,380);burst(b.x,b.y,'#fff',40,300);sfx.win();g.shake=.7;g.flash=.4;
+  g.score+=Math.round((300+100*g.L)*DIFFS[diff].mult);g.floats.push({x:b.x,y:b.y,t:'CHEFE DERROTADO!',c:'#ffca3a',life:2});
+  g.pups.push({x:b.x,y:b.y+40,vy:70,type:'shield'});g.ebullets=[];state='bossdead';
+}
+
+/* ---------- dano / fim ---------- */
+function hurt(n,silentInv){
+  const p=g.p;if(!silentInv&&p.inv>0)return;
+  g.shield=Math.max(0,g.shield-n);p.inv=1.6;g.shake=.35;g.flash=.3;sfx.hurt();burst(p.x,p.y,'#ff6b72',24,220);
+  if(g.shield<=0&&!silentInv&&state!=='dying'){state='dying';hideQ();setTimeout(()=>{if(state==='dying')gameOver()},900)}
+}
+function stagePanel(win){
+  const s=g.stage,ok=g.stats[s].r-g.snap.stats[s].r;
+  let bars=STAGES.slice(0,7).map((t,i)=>{
+    const st=g.stats[i];if(!st.n)return '';const pc=Math.round(100*st.r/st.n);
+    return `<div class="row"><span class="nm">${t.nome}</span><div class="bar"><i style="width:${pc}%;background:${t.cor}"></i></div><span>${st.r}/${st.n}</span></div>`}).join('');
+  const seen=[...new Set(g.missed.slice(g.snap.missed))];
+  const miss=seen.length?`<h3>📚 Para revisar</h3>`+seen.map(q=>`<div class="miss">${esc(q.q)}<br><b>Resposta:</b> ${esc(q.ok)}<br><span class="dim">${esc(q.ex)}</span></div>`).join(''):'<p class="ok"><b>Nenhum erro neste estágio — excelente!</b></p>';
+  return {bars,miss,ok};
+}
+function gameOver(){
+  state='over';hideQ();
+  const s=g.stage,pn=stagePanel();
+  show(`<div class="kick">Estágio ${s+1} · ${STAGES[s].nome}</div><h2>💥 Nave destruída</h2>
+    <p>Não desista! Revise os pontos abaixo e tente de novo — as perguntas serão sorteadas novamente.</p>
+    <p>Pontuação: <b style="color:var(--gold)">${g.score}</b></p>${pn.miss}
+    <button class="btn primary" id="again">Tentar o estágio de novo</button><button class="btn" id="menu">Menu</button>`);
+  document.getElementById('again').onclick=()=>{g.score=g.snap.score;g.stats=JSON.parse(JSON.stringify(g.snap.stats));g.missed.length=g.snap.missed;hide();startStage_(s)};
+  document.getElementById('menu').onclick=titleScreen;
+}
+function stageClear(){
+  state='clear';hideQ();const s=g.stage,total=g.plan.length,ok=g.okN;
+  const acc=ok/total,n=acc>=.8?3:acc>=.6?2:1;
+  const bonus=Math.round(g.shield*120*DIFFS[diff].mult);g.score+=bonus;
+  save.s[s]=Math.max(save.s[s]||0,n);if(s+1>save.u)save.u=s+1;const rec=g.score>save.best;if(rec)save.best=g.score;persist();sfx.win();
+  const pn=stagePanel(),final=STAGES[s].final;
+  show(`<div class="kick">${final?'Missão cumprida':'Estágio concluído'}</div>
+    <h2>${final?'🌟 Você é poeira de estrelas!':'✔ '+STAGES[s].nome}</h2>
+    <div class="stars">${'★'.repeat(n)}<span style="opacity:.3">${'★'.repeat(3-n)}</span></div>
+    <p>Acertos: <b>${ok}/${total}</b> · Bônus de escudo: <b>+${bonus}</b> · Pontuação: <b style="color:var(--gold)">${g.score}</b> ${rec?'· 🏆 novo recorde!':'· recorde: '+save.best}</p>
+    ${final?`<h3>Seu desempenho por tema</h3>${pn.bars}`:''}${pn.miss}
+    ${final?'':`<button class="btn primary" id="next">Próximo estágio ▶</button>`}<button class="btn" id="menu">Menu</button>`);
+  const nx=document.getElementById('next');if(nx)nx.onclick=()=>{hide();startStage_(s+1)};
+  document.getElementById('menu').onclick=titleScreen;
+}
+function titleScreen(){
+  state='title';hideQ();const u=unlocked();
+  const btns=STAGES.map((t,i)=>{const lock=i>u,n=save.s[i]||0;
+    return `<button class="btn" data-s="${i}" ${lock?'disabled':''} style="border-color:${t.cor}">${lock?'🔒':(i===7?'☀':i+1)}<small>${lock?'—':'<span style="color:#ffca3a">'+'★'.repeat(n)+'</span>'+'☆'.repeat(3-n)}</small></button>`}).join('');
+  show(`<div class="kick">Frente A · Cap. 6 · Mecânica Celeste</div>
+   <h1><span>Defensor Estelar</span></h1>
+   <p><b>Somos Poeira das Estrelas — o jogo.</b> Pilote sua nave, abata invasores e <b>acerte com seus tiros a cápsula da resposta correta</b>. São 8 estágios com dificuldade crescente: perguntas mais difíceis, inimigos mais rápidos, novos perigos e um mini-chefe em cada fase.</p>
+   <div class="grid"><div>🖱️ Mouse / dedo: <b>arraste</b> a nave</div><div><span class="key">←</span><span class="key">→</span><span class="key">↑</span><span class="key">↓</span> ou <span class="key">WASD</span></div>
+   <div>🔫 Disparo <b>automático</b></div><div><span class="key">P</span> pausa · <span class="key">M</span> som</div></div>
+   <p class="dim">Power-ups: <b style="color:#ffca3a">▲</b> tiro triplo · <b style="color:#72e0a4">✚</b> escudo · <b style="color:#57d7ff">⏳</b> tempo lento nas cápsulas.</p>
+   <h3>Dificuldade</h3>
+   <div id="dif">${Object.entries(DIFFS).map(([k,v])=>`<button class="btn ${k===diff?'sel':''}" data-d="${k}">${v.nome}</button>`).join('')}</div>
+   <h3>Estágios</h3><div class="stg">${btns}</div>
+   <button class="btn primary" id="start" style="margin-top:.5em">${u>0?'Continuar campanha (estágio '+(u+1)+') ▶':'Iniciar missão ▶'}</button>
+   <p class="dim">Recorde: ${save.best}${LIVRE?' · modo livre ativado':''}</p>`);
+  card.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{diff=b.dataset.d;save.d=diff;persist();card.querySelectorAll('[data-d]').forEach(x=>x.classList.toggle('sel',x===b))});
+  card.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{hide();newRun(+b.dataset.s)});
+  document.getElementById('start').onclick=()=>{hide();newRun(u)};
+}
+function show(html){card.innerHTML=html;ov.classList.add('show');card.scrollTop=0}
+function hide(){ov.classList.remove('show')}
+
+/* ============================ ENTRADA ============================ */
+addEventListener('keydown',e=>{
+  const k=e.key.toLowerCase();keys[k]=true;
+  if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k))e.preventDefault();
+  if(k==='m')muteBtn.click();
+  if(k==='p'||k==='escape'){
+    if(['wave','question','boss'].includes(state)){g.prev=state;state='paused';show('<h2>⏸ Pausado</h2><button class="btn primary" id="go">Continuar</button>');document.getElementById('go').onclick=unpause}
+    else if(state==='paused')unpause();
+  }
+  if((k==='enter'||k===' ')&&state==='feedback')afterFeedback();
+  else if(k==='enter'&&(state==='intro'||state==='title')){const b=document.getElementById('go')||document.getElementById('start');b&&b.click()}
+});
+function unpause(){state=g.prev;hide()}
+addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
+addEventListener('blur',()=>keys={});
+function ptr(e){const r=cv.getBoundingClientRect();tx=(e.clientX-r.left)/r.width*W;ty=(e.clientY-r.top)/r.height*H-(e.pointerType==='touch'?70:0);pointerOn=true}
+cv.addEventListener('pointerdown',e=>{ptr(e);try{cv.setPointerCapture(e.pointerId)}catch(_){}});
+cv.addEventListener('pointermove',ptr);
+function burst(x,y,c,n,sp){for(let i=0;i<n;i++){const a=rnd(0,6.28),s=rnd(30,sp);g.parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:rnd(.35,.9),max:.9,c,r:rnd(1.5,3.5)})}}
+
+/* ============================ ATUALIZAÇÃO ============================ */
+function spawnEnemy(){
+  const L=g.L,d=DIFFS[diff];
+  const ufo=Math.random()<.10+L*.045;
+  const armor=L>=3&&!ufo&&Math.random()<.16+(L-3)*.04;
+  const r=ufo?18:armor?25:rnd(14,25);
+  g.enemies.push({x:rnd(30,W-30),y:-30,vx:rnd(-40,40),vy:rnd(60,105)*(1+L*.08)*d.speed,r,
+    hp:ufo?(L>=5?3:2):armor?4:(r>21?2:1),ufo,armor,rot:rnd(0,6),vr:rnd(-2,2),sh:rnd(.8,2),t:rnd(0,6),shape:Array.from({length:9},()=>rnd(.75,1.15))});
+}
+function spawnComet(){
+  const L=g.L;g.enemies.push({comet:true,x:rnd(80,W-80),y:-20,vx:pick([-1,1])*rnd(70,150),vy:rnd(300,380)*(1+L*.03),r:11,hp:1,rot:0,vr:0,sh:99,t:0,shape:[]});
+}
+function dropPup(x,y){if(Math.random()>.15)return;g.pups.push({x,y,vy:90,type:pick(['tri','shield','slow'])})}
+function update(dt){
+  time+=dt;
+  stars.forEach(s=>{s.y+=s.z*22*dt;if(s.y>H){s.y=0;s.x=rnd(0,W)}});
+  g.parts.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt});g.parts=g.parts.filter(p=>p.life>0);
+  g.floats.forEach(f=>{f.y-=40*dt;f.life-=dt});g.floats=g.floats.filter(f=>f.life>0);
+  g.shake=Math.max(0,g.shake-dt);g.flash=Math.max(0,g.flash-dt);
+  if(!['wave','question','boss','bossdead'].includes(state))return;
+  const p=g.p,L=g.L,d=DIFFS[diff];
+  p.inv=Math.max(0,p.inv-dt);p.tri=Math.max(0,p.tri-dt);p.slow=Math.max(0,p.slow-dt);
+
+  // movimento
+  const sp=420;let moved=false;
+  if(keys.arrowleft||keys.a){p.x-=sp*dt;moved=true}if(keys.arrowright||keys.d){p.x+=sp*dt;moved=true}
+  if(keys.arrowup||keys.w){p.y-=sp*dt;moved=true}if(keys.arrowdown||keys.s){p.y+=sp*dt;moved=true}
+  if(moved){tx=p.x;ty=p.y;pointerOn=false}
+  else if(pointerOn){const k=Math.min(1,dt*16);p.x+=(tx-p.x)*k;p.y+=(ty-p.y)*k}
+  // perigos ambientais
+  if(L>=3){const push=Math.sin(time*.8)*(60+L*8)*dt;p.x+=push;if(pointerOn)tx+=push}
+  if(g.well){
+    const w=g.well;w.x+=w.vx*dt;if(w.x<80||w.x>W-80)w.vx*=-1;
+    const dx=w.x-p.x,dy=w.y-p.y,dd=Math.hypot(dx,dy);
+    if(dd<250&&dd>1){const f=(90+L*14)*(1-dd/250)*dt*3;p.x+=dx/dd*f;p.y+=dy/dd*f;if(pointerOn){tx+=dx/dd*f;ty+=dy/dd*f}}
+    if(dd<24&&p.inv<=0)hurt(1);
+  }
+  p.x=Math.max(22,Math.min(W-22,p.x));p.y=Math.max(430,Math.min(H-34,p.y));
+
+  // tiro automático (parado durante a morte do chefe? não: continua)
+  p.cd-=dt;
+  if(p.cd<=0){p.cd=.17;sfx.shot();g.bullets.push({x:p.x,y:p.y-22,vx:0,vy:-760});
+    if(p.tri>0){g.bullets.push({x:p.x-10,y:p.y-14,vx:-90,vy:-740});g.bullets.push({x:p.x+10,y:p.y-14,vx:90,vy:-740})}}
+  g.bullets.forEach(b=>{b.x+=b.vx*dt;b.y+=b.vy*dt});g.bullets=g.bullets.filter(b=>b.y>-20&&b.x>-20&&b.x<W+20);
+
+  // inimigos
+  if(state!=='bossdead'){
+    g.spawn-=dt;
+    const base=state==='wave'?Math.max(.4,.9-L*.06):state==='boss'?Math.max(2.2,3.6-L*.15):Math.max(1.3,2.6-L*.17);
+    if(g.spawn<=0){g.spawn=base*rnd(.7,1.3);spawnEnemy()}
+    if(L>=1){g.cometT-=dt;if(g.cometT<=0){g.cometT=Math.max(3,rnd(5,8)-L*.5);spawnComet()}}
+  }
+  g.enemies.forEach(e=>{
+    e.t+=dt;e.x+=(e.vx+(e.ufo?Math.sin(e.t*2)*70:0))*dt;e.y+=e.vy*dt;e.rot+=e.vr*dt;
+    if(!e.comet&&(e.x<20||e.x>W-20))e.vx*=-1;
+    if(e.ufo&&e.y>0&&e.y<600){e.sh-=dt;if(e.sh<=0){
+      e.sh=rnd(1.4,2.6)/(1+L*.09);const a=Math.atan2(p.y-e.y,p.x-e.x),bs=(170+L*14)*d.speed;
+      g.ebullets.push({x:e.x,y:e.y+10,vx:Math.cos(a)*bs,vy:Math.sin(a)*bs});
+      if(L>=4){g.ebullets.push({x:e.x,y:e.y+10,vx:Math.cos(a+.3)*bs,vy:Math.sin(a+.3)*bs})}}}
+  });
+  g.ebullets.forEach(b=>{b.x+=b.vx*dt;b.y+=b.vy*dt});
+  g.ebullets=g.ebullets.filter(b=>b.y<H+20&&b.y>-40&&b.x>-40&&b.x<W+40);
+  g.pups.forEach(u=>u.y+=u.vy*dt);g.pups=g.pups.filter(u=>u.y<H+20);
+
+  // chefe
+  const b=g.boss;
+  if(b){
+    b.t+=dt;b.hit=Math.max(0,b.hit-dt);
+    if(b.dead>0){b.dead-=dt;if(b.dead<=0){g.boss=null;nextStep();return}}
+    else{
+      const tgtY=160+Math.sin(b.t*1.3)*18;if(b.enter){b.y+=(tgtY-b.y)*Math.min(1,dt*2);if(Math.abs(tgtY-b.y)<6)b.enter=false}else b.y=tgtY;
+      b.x=W/2+Math.sin(b.t*(.6+L*.05))*230;
+      if(!b.enter){b.cd-=dt;if(b.cd<=0){b.cd=Math.max(.7,1.5-L*.09);bossFire(b)}}
+      for(const bl of g.bullets)if(Math.hypot(bl.x-b.x,bl.y-b.y)<b.r+4){bl.y=-99;b.hp--;b.hit=.08;if(Math.random()<.4)burst(bl.x,bl.y,b.cor,2,90);sfx.hit();if(b.hp<=0){bossDown(b);break}}
+      if(b.dead<=0&&p.inv<=0&&Math.hypot(p.x-b.x,p.y-b.y)<b.r+10)hurt(1);
+    }
+  }
+
+  // tiros × inimigos
+  for(const bl of g.bullets)for(const e of g.enemies){
+    if(e.hp>0&&Math.hypot(bl.x-e.x,bl.y-e.y)<e.r+4){
+      bl.y=-99;e.hp--;sfx.hit();
+      if(e.hp<=0){g.score+=Math.round((e.ufo?30:e.armor?25:e.comet?20:15)*d.mult);burst(e.x,e.y,e.ufo?'#ff73b8':e.comet?'#9be7ff':'#c9a37a',18,200);sfx.boom();dropPup(e.x,e.y)}
+      else burst(bl.x,bl.y,'#fff',4,80);
+      break;
+    }
+  }
+  g.enemies=g.enemies.filter(e=>e.hp>0&&e.y<H+60&&e.x>-80&&e.x<W+80);
+
+  // cápsulas
+  if(state==='question'){
+    const slow=p.slow>0?.4:1;let chosen=null;
+    g.caps.forEach(c=>{
+      c.y+=24*d.speed*(1+L*.05)*slow*dt;c.flash=Math.max(0,c.flash-dt);
+      for(const bl of g.bullets)if(bl.x>c.x&&bl.x<c.x+c.w&&bl.y>c.y&&bl.y<c.y+c.h){bl.y=-99;c.hits++;c.flash=.12;c.y-=3;sfx.hit();burst(bl.x,bl.y,'#57d7ff',3,90)}
+      if(c.hits>=c.need&&!chosen)chosen=c;
+    });
+    if(chosen)return resolve(chosen,false);
+    if(g.caps.some(c=>c.y+c.h>H-70))return resolve(null,true);
+  }else if(state==='wave'){g.waveT-=dt;if(g.waveT<=0)nextStep()}
+
+  // jogador × perigos
+  if(p.inv<=0){
+    for(const e of g.enemies){if(Math.hypot(p.x-e.x,p.y-e.y)<e.r+12){e.hp=0;burst(e.x,e.y,'#ffca3a',20,220);hurt(1);break}}
+    for(const eb of g.ebullets){if(Math.hypot(p.x-eb.x,p.y-eb.y)<14){eb.y=H+99;hurt(1);break}}
+  }
+  for(const u of g.pups)if(Math.hypot(p.x-u.x,p.y-u.y)<28){
+    u.y=H+99;sfx.pup();
+    if(u.type==='tri')p.tri=12;else if(u.type==='slow')p.slow=9;else if(g.shield<g.maxShield)g.shield++;
+    g.floats.push({x:p.x,y:p.y-30,t:u.type==='tri'?'Tiro triplo!':u.type==='slow'?'Tempo lento!':'+1 escudo',c:'#ffca3a',life:1.2});
+  }
+}
+
+/* ============================ DESENHO ============================ */
+function roundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+function wrap(text,x,y,maxW,lh,font){
+  ctx.font=font;const words=text.split(' ');let line='',lines=[];
+  for(const w of words){const t=line?line+' '+w:w;if(ctx.measureText(t).width>maxW&&line){lines.push(line);line=w}else line=t}
+  lines.push(line);const y0=y-(lines.length-1)*lh/2;lines.forEach((l,i)=>ctx.fillText(l,x,y0+i*lh));
+}
+function drawBg(){
+  const s=g?Math.min(g.stage,7):0,tcol=STAGES[s].cor;
+  const gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#050b14');gr.addColorStop(1,'#0b1730');ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);
+  const ng=ctx.createRadialGradient(W*.7,H*.35,10,W*.7,H*.35,380);ng.addColorStop(0,tcol+'33');ng.addColorStop(1,'transparent');ctx.fillStyle=ng;ctx.fillRect(0,0,W,H);
+  stars.forEach(s=>{ctx.globalAlpha=.4+.4*Math.sin(time*2+s.tw);ctx.fillStyle=s.z>2?'#bfe8ff':'#fff';ctx.fillRect(s.x,s.y,s.z*.9,s.z*.9)});ctx.globalAlpha=1;
+  if(g&&g.stage===7&&g.si>=0){ // supernova ao fundo, enfraquece a cada acerto
+    const k=1-(g.stats.reduce((a,x)=>a+x.r,0)-(g.snap?g.snap.stats.reduce((a,x)=>a+x.r,0):0))/6*.6;
+    const r=(90+Math.sin(time*3)*6)*k;const sg=ctx.createRadialGradient(W/2,470,4,W/2,470,r*2.6);
+    sg.addColorStop(0,'#fff7c2');sg.addColorStop(.25,'#ffb22d');sg.addColorStop(.55,'rgba(242,85,20,.3)');sg.addColorStop(1,'transparent');
+    ctx.fillStyle=sg;ctx.beginPath();ctx.arc(W/2,470,r*2.6,0,7);ctx.fill();
+  }
+}
+function drawShip(x,y,inv){
+  if(inv>0&&Math.floor(time*16)%2)return;
+  ctx.save();ctx.translate(x,y);const fl=6+Math.random()*8;
+  ctx.fillStyle='#ff9b22';ctx.beginPath();ctx.moveTo(-6,14);ctx.lineTo(0,14+fl+8);ctx.lineTo(6,14);ctx.fill();
+  ctx.fillStyle='#ffe58a';ctx.beginPath();ctx.moveTo(-3,14);ctx.lineTo(0,14+fl);ctx.lineTo(3,14);ctx.fill();
+  ctx.fillStyle='#57d7ff';ctx.beginPath();ctx.moveTo(0,-26);ctx.lineTo(9,4);ctx.lineTo(24,20);ctx.lineTo(8,14);ctx.lineTo(0,18);ctx.lineTo(-8,14);ctx.lineTo(-24,20);ctx.lineTo(-9,4);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#0d3a5c';ctx.beginPath();ctx.ellipse(0,-4,4,9,0,0,7);ctx.fill();ctx.fillStyle='#ffca3a';ctx.fillRect(-2,-22,4,8);ctx.restore();
+}
+function drawEnemy(e){
+  ctx.save();ctx.translate(e.x,e.y);
+  if(e.comet){
+    const a=Math.atan2(e.vy,e.vx);ctx.rotate(a-Math.PI/2);
+    const tg=ctx.createLinearGradient(0,0,0,-70);tg.addColorStop(0,'rgba(155,231,255,.8)');tg.addColorStop(1,'transparent');
+    ctx.fillStyle=tg;ctx.beginPath();ctx.moveTo(-8,0);ctx.lineTo(0,-75);ctx.lineTo(8,0);ctx.fill();
+    ctx.fillStyle='#e8f8ff';ctx.beginPath();ctx.arc(0,0,e.r*.8,0,7);ctx.fill();
+  }else if(e.ufo){
+    ctx.fillStyle='#8a4bb8';ctx.beginPath();ctx.ellipse(0,4,e.r+6,e.r*.5,0,0,7);ctx.fill();
+    ctx.fillStyle='#ff73b8';ctx.beginPath();ctx.ellipse(0,-2,e.r*.55,e.r*.55,0,Math.PI,0);ctx.fill();
+    for(let i=-1;i<=1;i++){ctx.fillStyle=Math.floor(time*6+i)%2?'#ffca3a':'#fff';ctx.beginPath();ctx.arc(i*12,5,2.5,0,7);ctx.fill()}
+  }else{
+    ctx.rotate(e.rot);ctx.fillStyle=e.armor?'#5d6b7a':e.hp>1?'#8a7260':'#a48a72';ctx.strokeStyle=e.armor?'#9fc3e6':'#d9c1a5';ctx.lineWidth=e.armor?3:1.5;ctx.beginPath();
+    e.shape.forEach((s,i)=>{const a=i/e.shape.length*6.283,px=Math.cos(a)*e.r*s,py=Math.sin(a)*e.r*s;i?ctx.lineTo(px,py):ctx.moveTo(px,py)});
+    ctx.closePath();ctx.fill();ctx.stroke();ctx.fillStyle='rgba(0,0,0,.25)';ctx.beginPath();ctx.arc(e.r*.25,-e.r*.2,e.r*.25,0,7);ctx.fill();
+  }
+  ctx.restore();
+}
+function drawBoss(b){
+  ctx.save();ctx.translate(b.x,b.y);
+  if(b.dead>0){ctx.globalAlpha=Math.max(0,b.dead/1.3)}
+  const gl=ctx.createRadialGradient(0,0,4,0,0,b.r*1.8);gl.addColorStop(0,b.cor+'aa');gl.addColorStop(1,'transparent');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(0,0,b.r*1.8,0,7);ctx.fill();
+  ctx.fillStyle=b.hit>0?'#fff':'#16263f';ctx.strokeStyle=b.cor;ctx.lineWidth=4;ctx.beginPath();ctx.arc(0,0,b.r,0,7);ctx.fill();ctx.stroke();
+  for(let k=0;k<3;k++){ctx.save();ctx.rotate(time*(.5+k*.4)*(k%2?-1:1)+k);ctx.strokeStyle=b.cor+'99';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,0,b.r*(1.25+k*.15),b.r*.45,0,0,7);ctx.stroke();
+    ctx.fillStyle=b.cor;ctx.beginPath();ctx.arc(b.r*(1.25+k*.15),0,5,0,7);ctx.fill();ctx.restore()}
+  const a=Math.atan2(g.p.y-b.y,g.p.x-b.x);
+  for(const s of[-1,1]){ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(s*b.r*.36,-b.r*.1,b.r*.2,0,7);ctx.fill();ctx.fillStyle='#ff3b4d';ctx.beginPath();ctx.arc(s*b.r*.36+Math.cos(a)*5,-b.r*.1+Math.sin(a)*5,b.r*.09,0,7);ctx.fill()}
+  ctx.strokeStyle='#ff3b4d';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(-b.r*.3,b.r*.4);ctx.lineTo(b.r*.3,b.r*.4);ctx.stroke();
+  ctx.restore();ctx.globalAlpha=1;
+  if(b.dead<=0){ // barra de vida
+    const w=440,x=(W-w)/2,y=44;ctx.fillStyle='#071524';roundRect(x,y,w,14,7);ctx.fill();
+    ctx.fillStyle=b.cor;roundRect(x,y,Math.max(0,w*b.hp/b.max),14,7);ctx.fill();
+    ctx.fillStyle='#fff';ctx.font='800 12px Inter,Arial,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('MINI-CHEFE · '+b.nome.toUpperCase(),W/2,y+7);
+  }
+}
+function drawCap(c){
+  if(c.dead)return;
+  const t=STAGES[g.stage].cor,prog=c.hits/c.need,bob=Math.sin(time*2+c.wob)*2;
+  ctx.save();ctx.translate(0,bob);
+  const gl=ctx.createLinearGradient(0,c.y,0,c.y+c.h);gl.addColorStop(0,c.flash>0?'#3f7db5':'#163a5f');gl.addColorStop(1,'#0c2038');
+  ctx.shadowColor=t;ctx.shadowBlur=c.flash>0?22:10;ctx.fillStyle=gl;roundRect(c.x,c.y,c.w,c.h,16);ctx.fill();
+  ctx.shadowBlur=0;ctx.lineWidth=2;ctx.strokeStyle=t;ctx.stroke();
+  ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';
+  const len=c.text.length,fs=len>70?11.5:len>52?12.5:len>36?13.5:15;
+  wrap(c.text,c.x+c.w/2,c.y+c.h/2-7,c.w-18,fs+3,`600 ${fs}px Inter,Segoe UI,Arial,sans-serif`);
+  ctx.fillStyle='#071524';roundRect(c.x+12,c.y+c.h-14,c.w-24,7,3.5);ctx.fill();
+  if(prog>0){ctx.fillStyle='#ffca3a';roundRect(c.x+12,c.y+c.h-14,(c.w-24)*Math.min(1,prog),7,3.5);ctx.fill()}
+  ctx.restore();
+}
+function drawWell(w){
+  const gr=ctx.createRadialGradient(w.x,w.y,2,w.x,w.y,60);gr.addColorStop(0,'#000');gr.addColorStop(.35,'#12061f');gr.addColorStop(.6,'rgba(160,80,255,.35)');gr.addColorStop(1,'transparent');
+  ctx.fillStyle=gr;ctx.beginPath();ctx.arc(w.x,w.y,60,0,7);ctx.fill();
+  ctx.strokeStyle='rgba(190,130,255,.5)';ctx.lineWidth=1.5;for(let k=0;k<3;k++){ctx.beginPath();ctx.arc(w.x,w.y,28+((time*30+k*22)%66),0,7);ctx.globalAlpha=1-((time*30+k*22)%66)/66;ctx.stroke()}ctx.globalAlpha=1;
+}
+function drawHUD(){
+  ctx.fillStyle='rgba(5,11,20,.85)';ctx.fillRect(0,0,W,34);
+  ctx.textBaseline='middle';ctx.textAlign='left';ctx.font='700 15px Inter,Arial,sans-serif';
+  for(let i=0;i<g.maxShield;i++){ctx.fillStyle=i<g.shield?'#ff6b72':'#2a3d55';ctx.fillText('♥',10+i*19,18)}
+  ctx.fillStyle='#ffca3a';ctx.textAlign='center';ctx.fillText('★ '+g.score+(g.combo>1?'   🔥×'+g.combo:''),W/2,18);
+  ctx.textAlign='right';ctx.fillStyle=STAGES[g.stage].cor;ctx.font='700 13px Inter,Arial,sans-serif';
+  ctx.fillText('Estágio '+(g.stage+1)+' · '+STAGES[g.stage].nome,W-100,18);
+  ctx.textAlign='left';ctx.font='700 13px Inter,Arial,sans-serif';let y=H-16;
+  if(g.p.tri>0){ctx.fillStyle='#ffca3a';ctx.fillText('▲▲▲ '+g.p.tri.toFixed(0)+'s',10,y);y-=18}
+  if(g.p.slow>0){ctx.fillStyle='#57d7ff';ctx.fillText('⏳ '+g.p.slow.toFixed(0)+'s',10,y)}
+  if(g.L>=3){ctx.textAlign='right';ctx.fillStyle='rgba(87,215,255,.55)';const dir=Math.cos(time*.8)>0?'MARÉ ⟶':'⟵ MARÉ';ctx.fillText(dir,W-10,H-16);
+    ctx.strokeStyle='rgba(87,215,255,.25)';ctx.lineWidth=2;ctx.beginPath();for(let x=0;x<=W;x+=12){const yy=H-4+Math.sin(x*.03+time*3)*3;x?ctx.lineTo(x,yy):ctx.moveTo(x,yy)}ctx.stroke()}
+  if(state==='wave'){ctx.textAlign='center';ctx.font='800 20px Inter,Arial,sans-serif';ctx.fillStyle='rgba(255,255,255,'+(.5+.3*Math.sin(time*6))+')';
+    const nx=g.steps[g.si+1];ctx.fillText(nx==='boss'?'⚠ MINI-CHEFE SE APROXIMANDO ⚠':g.qi===0?'PREPARE-SE…':'PRÓXIMA PERGUNTA CHEGANDO…',W/2,120)}
+}
+function draw(){
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  let sx=0,sy=0;if(g&&g.shake>0){sx=rnd(-4,4);sy=rnd(-4,4)}
+  ctx.save();ctx.translate(sx,sy);drawBg();
+  if(g&&state!=='title'){
+    if(g.well)drawWell(g.well);
+    g.pups.forEach(u=>{const col=u.type==='tri'?'#ffca3a':u.type==='slow'?'#57d7ff':'#72e0a4';
+      ctx.fillStyle='#0a1a2b';ctx.strokeStyle=col;ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(u.x,u.y,14,0,7);ctx.fill();ctx.stroke();
+      ctx.fillStyle=col;ctx.font='800 14px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(u.type==='tri'?'▲':u.type==='slow'?'⏳':'✚',u.x,u.y+1)});
+    g.enemies.forEach(drawEnemy);if(g.boss)drawBoss(g.boss);g.caps.forEach(drawCap);
+    ctx.fillStyle='#ffe58a';g.bullets.forEach(b=>ctx.fillRect(b.x-2,b.y-9,4,14));
+    ctx.fillStyle='#ff5a8a';g.ebullets.forEach(b=>{ctx.beginPath();ctx.arc(b.x,b.y,5,0,7);ctx.fill()});
+    if(state!=='dying'&&state!=='over'&&g.shield>0)drawShip(g.p.x,g.p.y,g.p.inv);
+    g.parts.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life/p.max);ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,7);ctx.fill()});ctx.globalAlpha=1;
+    g.floats.forEach(f=>{ctx.globalAlpha=Math.min(1,f.life);ctx.fillStyle=f.c;ctx.font='800 20px Inter,Arial';ctx.textAlign='center';ctx.fillText(f.t,f.x,f.y)});ctx.globalAlpha=1;
+    drawHUD();
+    if(g.flash>0){ctx.fillStyle='rgba(255,80,90,'+g.flash*.6+')';ctx.fillRect(0,0,W,H)}
+  }
+  ctx.restore();
+}
+
+/* ============================ LOOP ============================ */
+function fit(){stageEl.style.fontSize=(stageEl.clientWidth/720*16)+'px'}
+addEventListener('resize',fit);fit();
+function loop(t){
+  const dt=Math.min(.05,(t-last)/1000||0);last=t;
+  if(g&&state!=='title'&&state!=='paused'&&state!=='intro')update(dt);
+  else{time+=dt;stars.forEach(s=>{s.y+=s.z*10*dt;if(s.y>H){s.y=0;s.x=rnd(0,W)}})}
+  draw();requestAnimationFrame(loop);
+}
+g={stage:0,L:0,si:-1,steps:[],shield:0,maxShield:0,score:0,combo:0,p:{x:W/2,y:740,inv:0,tri:0,slow:0},bullets:[],enemies:[],ebullets:[],caps:[],parts:[],pups:[],floats:[],shake:0,flash:0,boss:null,well:null,stats:STAGES.map(()=>({r:0,n:0}))};
+titleScreen();requestAnimationFrame(loop);
+</script>
+</body>
+</html>
