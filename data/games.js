@@ -36,5 +36,15 @@ var GAMES = [
     aulaUrl: "/aulas-html/primeira-lei-termodinamica-interativa.html",
     url: "/games-html/termo1-arcade.html",
     data: "2026-09-17"
+  },
+  {
+    serie: "2",
+    tema: "Óptica",
+    titulo: "Caça-Luz — Missão Óptica",
+    descricao: "Game sobre Óptica Geométrica: raios de luz, reflexão, refração e propagação da luz.",
+    aulaTitulo: "Óptica Geométrica — estudo interativo da 2ª Série do Ensino Médio",
+    aulaUrl: "/aulas-html/optica-geometrica-interativa.html",
+    url: "/games-html/caca-luz-optica.html",
+    data: "2026-09-21"
   }
 ];

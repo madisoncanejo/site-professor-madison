@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Caça-Luz — Óptica Geométrica</title>
+<style>
+:root{--ink:#eef6ff;--gold:#ffca3a;--cyan:#57d7ff;--green:#72e0a4;--danger:#ff6b72}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#02060c;color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+body{display:grid;place-items:center}
+#stage{position:relative;width:min(100vw,calc(100vh*720/820));aspect-ratio:720/820;background:#050b14;overflow:hidden;cursor:crosshair}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#qbar{position:absolute;left:2%;right:2%;top:4.7%;padding:.5em .8em;background:rgba(8,20,36,.93);border:1px solid #2f5a80;border-left:4px solid var(--gold);border-radius:.7em;font-size:1.0em;line-height:1.3;display:none;pointer-events:none}
+#qbar small{display:block;font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:.64em;margin-bottom:.15em}
+#ov{position:absolute;inset:0;display:none;place-items:center;background:rgba(3,8,16,.82);backdrop-filter:blur(3px);padding:3.5%;cursor:default}
+#ov.show{display:grid}
+.card{width:100%;max-height:100%;overflow:auto;background:linear-gradient(180deg,#12294a,#0b1a2f);border:1px solid #33567c;border-radius:1.1em;padding:1.2em 1.35em;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:left}
+.card h1{font-size:2.1em;line-height:1;margin:.1em 0 .25em;letter-spacing:-.03em}
+.card h1 span{background:linear-gradient(90deg,#fff,var(--cyan),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.card h2{font-size:1.45em;margin:.1em 0 .4em}
+.card h3{margin:.8em 0 .2em;font-size:1em}
+.card p{margin:.4em 0;color:#d4e2f2;line-height:1.42}
+.kick{color:var(--gold);font-weight:800;font-size:.72em;letter-spacing:.16em;text-transform:uppercase}
+.ok{color:var(--green)}.bad{color:var(--danger)}.dim{color:#a9b9ce;font-size:.85em}
+.btn{font:inherit;font-weight:800;border-radius:.8em;padding:.65em 1.05em;margin:.3em .3em 0 0;cursor:pointer;background:#173653;color:#fff;border:1px solid #4f7ca4}
+.btn.primary{background:linear-gradient(135deg,var(--gold),#f39a29);color:#111923;border:0}
+.btn.sel{outline:3px solid var(--cyan)}
+.btn:hover:not(:disabled){filter:brightness(1.15)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:.4em .8em;font-size:.88em;margin:.5em 0}
+.stg{display:grid;grid-template-columns:repeat(4,1fr);gap:.4em;margin:.4em 0}
+.stg button{margin:0;padding:.5em .2em;font-size:.85em;line-height:1.25;text-align:center}
+.stg small{display:block;font-weight:600;font-size:.72em;opacity:.85}
+.miss{border-left:3px solid var(--danger);background:#0a1a2b;border-radius:.5em;padding:.5em .7em;margin:.5em 0;font-size:.84em}
+.miss b{color:var(--gold)}
+.key{border:1px solid #4f7ca4;border-radius:.35em;padding:0 .4em;background:#0a1a2b;font-size:.85em}
+.stars{font-size:2em;letter-spacing:.1em;color:var(--gold)}
+.tb{position:absolute;top:.8%;z-index:5;background:rgba(8,20,36,.7);border:1px solid #33567c;color:#fff;border-radius:.6em;font-size:.85em;padding:.2em .5em;cursor:pointer}
+#mute{right:1.5%}#fs{right:9%}
+#lamps{position:absolute;left:0;right:0;bottom:10%;display:none;justify-content:center;gap:1.4em;z-index:6}
+.lamp{width:5em;height:5em;border-radius:50%;border:3px solid #fff5;color:#fff;font-weight:900;font-size:1em;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:.55;cursor:pointer;touch-action:none}
+.lamp small{font-size:.6em;font-weight:600}
+.lamp.on{opacity:1;box-shadow:0 0 26px currentColor;border-color:#fff}
+#lr{background:#c81e2b;color:#ff6b72}#lg{background:#12984a;color:#72e0a4}#lb{background:#2447d6;color:#6e8cff}
+.lamp span{color:#fff}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="cv"></canvas>
+  <div id="qbar"></div>
+  <div id="lamps"><div class="lamp" id="lr"><span>R</span><small>vermelha</small></div><div class="lamp" id="lg"><span>G</span><small>verde</small></div><div class="lamp" id="lb"><span>B</span><small>azul</small></div></div>
+  <button id="fs" class="tb" title="Tela cheia">⛶</button>
+  <button id="mute" class="tb" title="Som (M)">🔊</button>
+  <div id="ov"><div class="card" id="card"></div></div>
+</div>
+<script>
+'use strict';
+const MODE='A';const VEST=MODE==='B';
+document.title=VEST?'Caça-Luz — Revisão Vestibular (Óptica Geométrica)':'Caça-Luz — Missão Óptica (Óptica Geométrica)';
+
+/* ====== BANCOS DE ITENS (rodadas de classificação) ====== */
+const BANKS={
+ fonte:{names:{lum:'corpo LUMINOSO (fonte primária: emite luz própria)',ilu:'corpo ILUMINADO (fonte secundária: só reenvia luz)'},
+  goals:{lum:'Corpos LUMINOSOS (emitem luz própria)',ilu:'Corpos ILUMINADOS (só reenviam a luz recebida)'},
+  items:[['☀️','Sol','lum'],['⭐','Estrela','lum'],['🕯️','Vela acesa','lum'],['💡','Lâmpada acesa','lum'],['🔦','Lanterna acesa','lum'],['🌙','Lua','ilu'],['🧱','Parede','ilu'],['👕','Roupa','ilu'],['🪞','Espelho','ilu'],['📖','Livro','ilu'],['🪐','Planeta','ilu'],['🗽','Estátua','ilu']]},
+ meio:{names:{tra:'meio TRANSPARENTE (visão nítida)',tns:'meio TRANSLÚCIDO (a luz passa, sem nitidez)',opa:'meio OPACO (não deixa a luz passar)'},
+  goals:{tra:'Meios TRANSPARENTES',tns:'Meios TRANSLÚCIDOS',opa:'Meios OPACOS'},
+  items:[['🪟','Vidro comum','tra'],['🌬️','Ar','tra'],['💧','Água (fina camada)','tra'],['🧊','Vidro fosco','tns'],['📜','Papel vegetal','tns'],['🗒️','Papel de seda','tns'],['🪵','Madeira','opa'],['🏗️','Concreto','opa'],['🔩','Metal','opa'],['🧱','Tijolo','opa']]},
+ fenom:{names:{rr:'reflexão REGULAR (superfície plana e polida)',rd:'reflexão DIFUSA (superfície irregular)',rf:'REFRAÇÃO (a luz passa a outro meio)',ab:'ABSORÇÃO (a energia luminosa é absorvida)'},
+  goals:{rr:'REFLEXÃO REGULAR',rd:'REFLEXÃO DIFUSA',rf:'REFRAÇÃO',ab:'ABSORÇÃO'},
+  items:[['🪞','Espelho plano','rr'],['🥄','Metal polido','rr'],['🧱','Parede fosca','rd'],['📄','Folha de papel','rd'],['👕','Camisa branca','rd'],['🏊','Luz entrando na água','rf'],['🔍','Lente de vidro','rf'],['🔺','Prisma de vidro','rf'],['⬛','Corpo negro','ab'],['🛣️','Asfalto escuro','ab']]},
+ cor:{names:{mono:'luz MONOCROMÁTICA (uma só cor)',poli:'luz POLICROMÁTICA (mistura de cores)'},
+  goals:{mono:'Luz MONOCROMÁTICA (uma só cor)',poli:'Luz POLICROMÁTICA (mistura de cores)'},
+  items:[['🟡','Lâmpada de sódio','mono'],['🔴','Laser vermelho','mono'],['🟢','Laser verde','mono'],['☀️','Luz do Sol','poli'],['💡','Lâmpada incandescente','poli'],['🔆','Lâmpada branca','poli'],['⚪','Luz branca','poli']]},
+ princ:{names:{ret:'propagação RETILÍNEA da luz',rev:'REVERSIBILIDADE dos raios',ind:'INDEPENDÊNCIA dos raios'},
+  goals:{ret:'Exemplos de PROPAGAÇÃO RETILÍNEA',rev:'Exemplos de REVERSIBILIDADE dos raios',ind:'Exemplos de INDEPENDÊNCIA dos raios'},
+  items:[['🌑','Sombra nítida','ret'],['📦','Câmara escura','ret'],['🌘','Eclipse','ret'],['🌫️','Feixe reto na fumaça','ret'],['🚗','Retrovisor','rev'],['👀','Se A vê B, B vê A','rev'],['↩️','Raio: ida e volta','rev'],['🎭','Holofotes cruzados','ind'],['✴️','Dois lasers se cruzam','ind'],['🌈','Feixes cruzados','ind']]}
+};
+
+/* ====== PERGUNTAS — VERSÃO A (baseadas no texto do capítulo) ====== */
+const QA=[],QV=[];
+const QaA=(s,t,q,ok,bad,ex)=>QA.push({s,t,q,ok,bad,ex});
+// 0 · Fontes de luz
+QaA(0,1,'O que é um raio de luz?','Linha orientada que representa a direção e o sentido de propagação da luz',['Um feixe colorido de luz','A energia transportada pela luz','A velocidade da luz no vácuo'],'Raios de luz são linhas orientadas; um conjunto deles forma um feixe (convergente, divergente ou paralelo).');
+QaA(0,1,'Um feixe cujos raios se afastam a partir de um ponto é:','Divergente',['Convergente','Paralelo','Monocromático'],'Feixes de luz podem ser convergentes, divergentes ou paralelos.');
+QaA(0,1,'A Lua é um corpo:','Iluminado (fonte secundária)',['Luminoso (fonte primária)','Pontual','Monocromático'],'A Lua apenas reenvia a luz recebida do Sol.');
+QaA(0,2,'Uma estrela muito distante pode ser considerada:','Fonte pontual',['Fonte extensa','Corpo iluminado','Fonte secundária'],'Se as dimensões da fonte são desprezíveis frente às distâncias, ela é pontual. O Sol, por estar mais perto, é fonte extensa.');
+QaA(0,2,'A luz branca do Sol é:','Policromática: superposição de luzes de várias cores',['Monocromática','De cor amarela pura','Uma luz sem cores'],'Um prisma separa as luzes monocromáticas que compõem a luz branca.');
+QaA(0,2,'No vácuo, a velocidade de propagação da luz é aproximadamente:','300 000 km/s',['30 000 km/s','3 000 000 km/s','300 km/s'],'Qualquer luz monocromática tem a mesma velocidade no vácuo; em meios materiais é menor.');
+QaA(0,3,'Um ano-luz é uma unidade de:','Distância (cerca de 9,5×10¹² km)',['Tempo','Velocidade','Luminosidade'],'É a distância que a luz percorre no vácuo em um ano.');
+QaA(0,3,'Uma estrela está a 15 anos-luz. Essa distância, em km, vale cerca de:','1,4×10¹⁴ km',['1,4×10¹² km','9,5×10¹² km','1,4×10¹⁶ km'],'15 × 9,5×10¹² ≈ 1,4×10¹⁴ km.');
+QaA(0,3,'A luz de uma estrela a 1 bilhão de anos-luz que recebemos hoje foi emitida:','Há 1 bilhão de anos',['Ontem','Há 1 bilhão de km','Há 1 ano'],'Vemos a estrela como ela era quando a luz partiu.');
+QaA(0,3,'Roemer estimou a velocidade da luz observando eclipses de Io. Com Δt = 1 000 s para atravessar 3×10⁸ km, obtém-se:','300 000 km/s',['3 000 km/s','30 000 km/s','3 000 000 km/s'],'v = Δs/Δt = 3×10⁸ km / 1 000 s = 3×10⁵ km/s.');
+QaA(0,3,'Se o Sol "se apagasse" de repente, 24 h depois, no céu noturno sem nuvens, ainda veríamos:','Somente estrelas',['A Lua e as estrelas','Somente a Lua','Nada'],'Lua e planetas são corpos iluminados: só brilham refletindo a luz do Sol.');
+// 1 · Meios e fenômenos
+QaA(1,1,'O papel vegetal é um meio:','Translúcido',['Transparente','Opaco','Luminoso'],'Meios translúcidos deixam passar a luz, mas sem permitir visão nítida.');
+QaA(1,1,'Vidro comum, ar e água em pequenas camadas são meios:','Transparentes',['Opacos','Translúcidos','Luminosos'],'Neles vemos os objetos com nitidez.');
+QaA(1,1,'Madeira e concreto são meios:','Opacos',['Transparentes','Translúcidos','Refratores'],'Meios opacos não permitem a propagação da luz.');
+QaA(1,2,'Ao atravessar um meio translúcido, os raios paralelos:','Seguem trajetórias irregulares (a visão perde a nitidez)',['Continuam paralelos','São totalmente absorvidos','Mudam de cor'],'Nos meios transparentes as trajetórias são regulares; nos translúcidos, irregulares.');
+QaA(1,2,'A reflexão regular ocorre, por exemplo, em:','Uma superfície plana e polida (espelho)',['Uma parede rugosa','Um papel amassado','Um corpo negro'],'Raios paralelos incidentes continuam paralelos após a reflexão regular.');
+QaA(1,2,'Vemos uma parede porque ela:','Reflete a luz de modo difuso, em todas as direções',['Emite luz própria','Absorve toda a luz','Reflete a luz regularmente'],'A difusão ocorre por causa das irregularidades da superfície.');
+QaA(1,2,'Na miopia, a imagem se forma:','Antes da retina (olho mais alongado)',['Depois da retina','Exatamente na retina','Na córnea'],'Na hipermetropia é o contrário: olho mais curto, imagem depois da retina.');
+QaA(1,3,'Reflexão, refração e absorção:','Podem ocorrer simultaneamente, com intensidades diferentes',['Nunca ocorrem juntas','Só ocorrem em espelhos','Só ocorrem no vácuo'],'Em um corpo preto predomina a absorção; em um branco, a difusão; num metal polido, a reflexão regular.');
+QaA(1,3,'Se não existisse a reflexão difusa, veríamos:','Apenas os corpos luminosos',['Todos os corpos normalmente','Somente os espelhos','Nada, nem o Sol'],'Corpos iluminados só são vistos porque difundem a luz que recebem.');
+QaA(1,3,'Quando a luz passa do ar para a água lisa de uma piscina, ocorre:','Refração regular (por isso vemos o fundo)',['Absorção total','Reflexão difusa','Reflexão regular apenas'],'A luz atravessa a superfície e passa a se propagar no outro meio.');
+// 2 · Cores
+QaA(2,1,'As cores primárias da luz são:','Vermelho, verde e azul',['Amarelo, ciano e magenta','Vermelho, amarelo e azul','Branco, preto e cinza'],'Amarelo, magenta e ciano são as cores secundárias.');
+QaA(2,1,'Vermelho + verde (luz) produz:','Amarelo',['Magenta','Ciano','Branco'],'Vermelho + azul = magenta; verde + azul = ciano; as três = branco.');
+QaA(2,1,'Vermelho + verde + azul (luz, mesma intensidade) produz:','Branco',['Preto','Cinza','Amarelo'],'Superpondo as três primárias obtém-se luz branca.');
+QaA(2,2,'Cores complementares (juntas formam branco) são:','Amarelo e azul',['Vermelho e verde','Azul e ciano','Magenta e vermelho'],'Também são complementares: ciano e vermelho; magenta e verde.');
+QaA(2,2,'Um corpo azul, sob luz branca, parece azul porque:','Reflete difusamente a luz azul e absorve as demais',['Emite luz azul','Absorve a luz azul','Reflete todas as cores'],'A cor por reflexão é determinada pela luz refletida difusamente.');
+QaA(2,2,'O céu é azul porque, na atmosfera:','As componentes de menor comprimento de onda (violeta e azul) são mais difundidas',['A luz vermelha é mais difundida','O ar é azul','O oceano reflete o céu'],'Por isso a luz difundida chega aos nossos olhos com predomínio de azul.');
+QaA(2,2,'O Sol e o céu ficam avermelhados no nascer e no pôr do sol porque:','A luz atravessa uma camada maior de atmosfera e o azul é difundido pelo caminho',['O Sol esfria ao anoitecer','A Terra absorve o azul','As nuvens emitem luz vermelha'],'Sobra a componente vermelha, menos difundida.');
+QaA(2,2,'As nuvens são brancas porque:','As gotas, de vários tamanhos, difundem todas as componentes da luz solar',['Absorvem todas as cores','Refletem só o azul','Emitem luz branca'],'A soma de todas as cores difundidas resulta em branco.');
+QaA(2,3,'Um disco branco e um disco azul são iluminados por luz vermelha. Eles parecem, respectivamente:','Vermelho e preto',['Branco e azul','Vermelho e azul','Preto e vermelho'],'O branco difunde o vermelho; o azul absorve o vermelho e parece preto.');
+QaA(2,3,'Um corpo verde, iluminado só por luz monocromática vermelha, parece:','Preto',['Verde','Vermelho','Branco'],'Ele só reflete o verde, que não existe na luz incidente.');
+QaA(2,3,'A Lua fica avermelhada num eclipse lunar total porque:','A atmosfera terrestre desvia para a Lua a luz vermelha (o azul é difundido)',['A Lua esquenta','A Terra emite luz vermelha','A Lua emite luz própria'],'As cores azul, anil e violeta são mais difundidas que a vermelha.');
+// 3 · Sombra e penumbra
+QaA(3,1,'O princípio da propagação retilínea diz que, em meios homogêneos e transparentes, a luz:','Se propaga em linha reta',['Se propaga em curvas','Se propaga só no vácuo','Não se propaga'],'A semelhança geométrica entre sombra e objeto evidencia esse princípio.');
+QaA(3,1,'A região que não recebe luz da fonte é a:','Sombra',['Penumbra','Área iluminada','Refração'],'Sombra: nenhuma luz da fonte chega. Penumbra: chega luz de parte da fonte.');
+QaA(3,2,'Com uma fonte extensa, a região iluminada apenas por parte da fonte é a:','Penumbra',['Sombra','Região totalmente iluminada','Região refratada'],'Somente alguns pontos da fonte iluminam a penumbra.');
+QaA(3,2,'Uma fonte pontual, iluminando um obstáculo opaco, produz:','Sombra nítida, sem penumbra',['Sombra e penumbra','Só penumbra','Nenhuma sombra'],'A penumbra só aparece com fontes extensas.');
+QaA(3,2,'Quanto mais próximo o objeto está do anteparo, a sombra fica:','Mais nítida',['Mais borrada','Maior','Desaparece'],'Como nas fotos da girafa: perto do anteparo a sombra é mais definida.');
+QaA(3,3,'Uma placa quadrada de 10 cm de lado está a 1,0 m de uma fonte pontual e 2,0 m do anteparo (além da placa). A área da sombra é:','900 cm²',['100 cm²','300 cm²','200 cm²'],'A sombra tem lado 10 × (3/1) = 30 cm; área = 900 cm².');
+QaA(3,3,'A penumbra que se vê na sombra de um pilar deve-se:','Ao fato de a fonte de luz não ser pontual',['À difração','À refração no ar','À absorção do pilar'],'Fonte extensa ⇒ sombra e penumbra.');
+QaA(3,3,'Um muro de 2 m projeta sombra de 60 cm. No mesmo instante, um prédio projeta sombra de 15 m. Altura do prédio:','50 m',['30 m','45 m','18 m'],'Triângulos semelhantes: H/2 = 15/0,6 ⇒ H = 50 m.');
+// 4 · Eclipses
+QaA(4,1,'O eclipse solar ocorre quando:','A Lua se interpõe entre o Sol e a Terra (sombra ou penumbra da Lua atinge a Terra)',['A Terra fica entre o Sol e a Lua','O Sol se apaga','A Lua fica atrás do Sol'],'Sombra e penumbra da Lua interceptam a superfície terrestre.');
+QaA(4,1,'O eclipse lunar ocorre quando:','A Lua penetra a região de sombra da Terra',['A Lua passa entre Terra e Sol','A Terra entra na sombra do Sol','A Lua entra na penumbra do Sol'],'A Terra fica entre o Sol e a Lua.');
+QaA(4,2,'Quem está na região de sombra da Lua vê:','Um eclipse solar total',['Um eclipse parcial','Um eclipse lunar','Nenhum eclipse'],'O Sol é totalmente encoberto; só resta a coroa solar visível.');
+QaA(4,2,'Quem está na região de penumbra da Lua vê:','Um eclipse solar parcial',['Um eclipse total','Um eclipse anular','Nenhum eclipse'],'Parte do Sol fica encoberta.');
+QaA(4,2,'O eclipse anular do Sol ocorre quando:','O prolongamento do cone de sombra da Lua intercepta a Terra e se vê um anel solar',['A Lua está em quarto crescente','A Terra está no periélio','O Sol está no zênite'],'A Lua encobre a parte central do Sol, e resta um anel luminoso.');
+QaA(4,3,'No eclipse solar total, Sol, Lua e Terra atuam, respectivamente, como:','Fonte, obstáculo e anteparo',['Obstáculo, fonte e anteparo','Anteparo, fonte e obstáculo','Fonte, anteparo e obstáculo'],'A Lua bloqueia a luz do Sol e a sombra se projeta na Terra.');
+QaA(4,3,'Eclipses totais da Lua se repetem a cada ~18 anos em um mesmo ponto da Terra. O fenômeno evidencia:','A propagação retilínea da luz',['A refração da luz','A independência dos raios','A absorção da luz'],'As sombras se formam porque a luz segue em linha reta.');
+// 5 · Câmara escura / ângulo visual
+QaA(5,1,'A imagem formada numa câmara escura de orifício é:','Invertida (cima↔baixo e direita↔esquerda)',['Direita e do mesmo tamanho','Direita e ampliada','Invisível'],'Os raios que passam pelo orifício se cruzam.');
+QaA(5,1,'Na câmara escura, a relação m/n = a/b vem:','Da semelhança dos triângulos formados pelo objeto e pela imagem',['Da refração','Da absorção','Da difração'],'m = altura do objeto, n = altura da imagem, a = distância objeto–orifício, b = comprimento da câmara.');
+QaA(5,2,'Aumentar o diâmetro do orifício da câmara escura:','Aumenta a luminosidade, mas diminui a nitidez',['Aumenta a nitidez','Não muda nada','Inverte a imagem'],'Cada ponto do objeto passa a corresponder a uma mancha luminosa.');
+QaA(5,2,'Quanto maior a distância do objeto ao observador, o ângulo visual é:','Menor',['Maior','Igual','Nulo'],'Por isso objetos distantes parecem menores.');
+QaA(5,2,'O Sol e a Lua são vistos da Terra sob um ângulo visual da ordem de:','Meio grau',['30 graus','5 graus','1 segundo'],'Por isso a Lua consegue encobrir o Sol num eclipse.');
+QaA(5,3,'O limite de acuidade visual do olho humano é da ordem de:','1 minuto (de arco)',['1 grau','1 hora','10 graus'],'É o menor ângulo visual sob o qual o observador vê dois pontos separados.');
+QaA(5,3,'Uma pessoa a 15 m do orifício de uma câmara escura tem imagem de 5 cm. Para a imagem ter 10 cm, ela deve:','Aproximar-se 7,5 m da câmara',['Afastar-se 7,5 m','Aproximar-se 5,0 m','Aproximar-se 10 m'],'Altura da imagem é inversamente proporcional à distância: dobrar a imagem ⇒ distância cai à metade (7,5 m).');
+QaA(5,3,'Uma pessoa a 10 m de uma câmara escura tem imagem de 20 cm. Ao se aproximar 2 m, a imagem:','Aumenta 25%',['Aumenta 20%','Diminui 25%','Fica igual'],'20 × 10/8 = 25 cm.');
+// 6 · Princípios
+QaA(6,1,'O princípio da reversibilidade diz que:','A trajetória da luz independe do sentido de propagação',['A luz só vai em um sentido','A luz muda de cor ao voltar','A luz não pode refletir'],'Se o raio AB reflete em BC, um raio vindo de C reflete em BA.');
+QaA(6,1,'O princípio da independência diz que, quando raios se cruzam:','Cada um segue seu trajeto como se os outros não existissem',['Eles se somam em um só','Eles se anulam','Eles mudam de cor'],'Feixes de holofotes cruzados seguem adiante sem se alterar.');
+QaA(6,2,'O motorista vê o passageiro do banco de trás pelo retrovisor e vice-versa. Princípio envolvido:','Reversibilidade dos raios de luz',['Independência dos raios','Absorção','Propagação curvilínea'],'Se a luz vai do passageiro ao espelho e ao motorista, o caminho inverso também vale.');
+QaA(6,2,'Duas fontes iluminam A e B. Ligando as duas ao mesmo tempo, A e B continuam iluminados. Princípio:','Independência dos raios de luz',['Reversibilidade','Reflexão difusa','Refração'],'Os raios se cruzam sem interferir.');
+QaA(6,2,'A formação de sombra é uma evidência de que:','A luz se propaga em linha reta',['A luz é uma onda mecânica','A luz sofre refração','A luz depende do referencial'],'Princípio da propagação retilínea.');
+QaA(6,3,'O professor alterna a posição da fonte e do observador e mostra que o caminho da luz é o mesmo. Isso demonstra:','O princípio da reversibilidade',['O princípio da independência','A reflexão difusa','A absorção'],'A trajetória seguida pela luz independe do sentido.');
+QaA(6,3,'Em qual situação a luz NÃO se propaga em linha reta?','Ao passar de um meio para outro (refração)',['No vácuo','No ar homogêneo','Num meio transparente e homogêneo'],'A propagação retilínea vale para meios homogêneos e transparentes.');
+QaA(6,3,'Dois feixes de laser se cruzam. Depois do cruzamento:','Cada feixe segue como se o outro não existisse',['Os feixes se fundem','Um deles some','Ambos mudam de direção'],'Independência dos raios de luz.');
+
+/* ====== PERGUNTAS — VERSÃO B (questões de exercícios e testes do capítulo, adaptadas) ====== */
+const QaV=(s,t,src,q,ok,bad,ex)=>QV.push({s,t,q,ok,bad,ex,src});
+// 0 · Ano-luz e fontes
+QaV(0,1,'UFMG (adaptada)','Por que é mais conveniente dar as distâncias entre estrelas em anos-luz do que em metros?','Porque as distâncias são enormes: em metros seriam números gigantescos',['Porque o ano-luz mede tempo','Porque a luz não tem velocidade','Porque o metro não existe no espaço'],'O ano-luz é uma unidade de distância adequada às escalas astronômicas.');
+QaV(0,1,'Enem (adaptada)','Na Física, o ano-luz é uma unidade de:','Distância',['Tempo','Velocidade','Aceleração'],'Ano-luz é a distância percorrida pela luz no vácuo em um ano (≈ 9,5×10¹² km).');
+QaV(0,2,'Fuvest-SP (adaptada)','Uma estrela a 1 bilhão de anos-luz emitiu radiação captada hoje por um telescópio. Isso significa que:','A radiação foi emitida há 1 bilhão de anos',['A estrela está a 1 bilhão de km','A radiação foi emitida hoje','A radiação é mais velha que a estrela'],'Vemos a estrela como era quando a luz partiu.');
+QaV(0,2,'Fuvest-SP (adaptada)','Um planeta orbita a estrela Vega, a cerca de 26 anos-luz da Terra. Essa distância, em metros, é da ordem de:','10¹⁷ m',['10⁸ m','10⁷ m','10⁵ m'],'26 × 9,5×10¹⁵ m ≈ 2,5×10¹⁷ m.');
+QaV(0,2,'Adaptada','Uma estrela está a 15 anos-luz. Em km, a distância é cerca de:','1,4×10¹⁴ km',['1,4×10¹² km','9,5×10¹² km','1,4×10¹⁶ km'],'15 × 9,5×10¹² km ≈ 1,4×10¹⁴ km.');
+QaV(0,3,'Unicamp-SP (adaptada)','Um planeta está a 4,3 anos-luz da Terra. Uma nave que viajasse à velocidade da luz levaria, na ida e volta:','8,6 anos',['4,3 anos','2,15 anos','17,2 anos'],'Cada trecho leva 4,3 anos; ida e volta = 8,6 anos.');
+QaV(0,3,'Fuvest-SP (adaptada)','Se o Sol "morresse" de repente, 24 h depois, no céu noturno sem nuvens, um sobrevivente veria:','Somente estrelas',['A Lua e as estrelas','Somente a Lua','Somente os planetas'],'Lua e planetas são iluminados; só estrelas são fontes primárias.');
+QaV(0,3,'Roemer (texto do capítulo)','Roemer notou uma diferença de 1 000 s entre eclipses de Io, correspondente ao diâmetro da órbita terrestre (3×10⁸ km). A velocidade da luz obtida é:','300 000 km/s',['30 000 km/s','3 000 km/s','3 000 000 km/s'],'v = Δs/Δt = 3×10⁸ / 1 000 = 3×10⁵ km/s.');
+// 1 · Meios e fenômenos
+QaV(1,1,'UFPel-RS (adaptada)','Um feixe de raios paralelos incide em uma superfície opaca não polida. Podemos afirmar que:','Os raios refletidos não serão paralelos (reflexão difusa)',['Os raios refletidos serão paralelos','Não haverá reflexão','Haverá apenas absorção'],'Superfícies irregulares difundem a luz em todas as direções.');
+QaV(1,2,'FEI-SP (adaptada)','A luz solar atravessa um meio translúcido. O que acontece com os raios?','Entram paralelos e saem em direções variadas',['Saem paralelos e nítidos','Nenhum raio atravessa','Só os raios azuis atravessam'],'Em meios translúcidos, as trajetórias são irregulares.');
+QaV(1,2,'FGV-SP (adaptada)','Qual afirmação é INCORRETA?','Reflexão, refração e absorção nunca ocorrem simultaneamente',['Um corpo preto fosco absorve predominantemente','Feixes de luz podem ser paralelos, convergentes ou divergentes','Em meios homogêneos e transparentes a luz se propaga em linha reta'],'Os três fenômenos ocorrem juntos, com intensidades diferentes.');
+QaV(1,3,'Adaptada','Numa superfície metálica bem polida predomina:','A reflexão regular',['A reflexão difusa','A absorção','A refração'],'O metal polido reflete regularmente; um corpo branco, difusamente.');
+QaV(1,3,'Abertura do capítulo','No olho míope, a imagem de objetos distantes se forma:','Antes da retina',['Depois da retina','Exatamente na retina','Na córnea'],'O olho míope é mais longo que o normal; a hipermetropia é o oposto.');
+// 2 · Cores
+QaV(2,1,'Adaptada','Superpondo luzes vermelha, verde e azul de mesma intensidade obtém-se:','Luz branca',['Luz preta','Luz amarela','Luz magenta'],'As três primárias somadas dão branco.');
+QaV(2,1,'Adaptada','Duas luzes coloridas que, superpostas, produzem luz branca são chamadas:','Complementares (ex.: amarelo e azul)',['Primárias','Monocromáticas','Difusas'],'Amarelo+azul, ciano+vermelho e magenta+verde.');
+QaV(2,2,'Adaptada (P. 211)','Um corpo azul, sob luz solar, aparece azul. Iluminado apenas por luz monocromática vermelha, aparecerá:','Preto',['Azul','Vermelho','Branco'],'Ele só reflete azul, que não existe na luz vermelha.');
+QaV(2,2,'Adaptada (P. 212)','Sob luz branca, o corpo A parece vermelho, B verde e C branco. Iluminados só por luz vermelha, veremos A, B e C, respectivamente:','Vermelho, preto e vermelho',['Vermelho, verde e branco','Preto, verde e preto','Todos vermelhos'],'A reflete vermelho; B absorve vermelho (preto); C, branco, difunde o vermelho.');
+QaV(2,2,'Exercício resolvido (adaptada)','Um disco branco e um azul estão sob luz vermelha. Eles parecem, respectivamente:','Vermelho e preto',['Branco e azul','Preto e vermelho','Vermelho e azul'],'O branco difunde o vermelho; o azul o absorve.');
+QaV(2,3,'OBF (adaptada)','Um papel é visto vermelho. Qual situação NÃO explicaria isso?','Papel azul iluminado por luz vermelha',['Papel vermelho sob luz branca','Papel branco sob luz vermelha','Papel vermelho sob luz vermelha'],'Papel azul, sob luz vermelha, seria visto preto.');
+QaV(2,3,'Bandeira (adaptada)','Numa bandeira, a faixa central é branca e o lema é verde. Sob luz monocromática AMARELA, aparecem:','Faixa amarela e lema preto',['Faixa branca e lema verde','Ambos amarelos','Ambos pretos'],'O branco difunde o amarelo; o verde (cor pura) absorve o amarelo.');
+QaV(2,3,'Bandeira (adaptada, P. 213)','A bandeira do Brasil (retângulo verde, losango amarelo, círculo azul, faixa branca) sob luz monocromática VERDE mostra, nessa ordem:','Verde, preto, preto e verde',['Verde, amarelo, azul e branco','Todos verdes','Todos pretos'],'Só corpos que refletem verde (ou branco, que reflete tudo) aparecem iluminados.');
+// 3 · Sombra e penumbra
+QaV(3,1,'UFRO (adaptada)','A formação de sombra evidencia que:','A luz se propaga em linha reta',['A luz sofre refração','A luz é corpuscular','A luz depende do referencial'],'Princípio da propagação retilínea.');
+QaV(3,2,'PUC-MG (adaptada)','Numa sala, uma fonte luminosa projeta a luz de um pilar numa parede. A penumbra que se observa deve-se:','Ao fato de a fonte de luz não ser pontual',['À difração','À refração','À absorção'],'Fonte extensa produz sombra e penumbra.');
+QaV(3,2,'Enem (adaptada)','Uma pessoa de 1,80 m tem sombra de 60 cm. No mesmo instante, um poste tem sombra de 2,00 m. Mais tarde, a sombra do poste diminui 50 cm. A sombra da pessoa passa a medir:','45 cm',['30 cm','50 cm','90 cm'],'Poste: 6 m. Sombra 1,5 m ⇒ razão 4 ⇒ pessoa: 1,8/4 = 0,45 m.');
+QaV(3,3,'Adaptada (P. 216)','Um muro de 2 m projeta sombra de 60 cm; no mesmo instante um prédio projeta sombra de 15 m. A altura do prédio é:','50 m',['30 m','45 m','18 m'],'H/2 = 15/0,6 ⇒ H = 50 m.');
+QaV(3,3,'PUC-MG (adaptada)','Uma placa quadrada de 10 cm de lado, entre uma fonte pontual e um anteparo, está a 1,0 m da fonte e a 2,0 m do anteparo. A área da sombra é:','900 cm²',['100 cm²','200 cm²','300 cm²'],'Fator de ampliação 3 ⇒ lado 30 cm ⇒ 900 cm².');
+QaV(3,3,'Adaptada (P. 218)','Fonte pontual a 20 cm de um disco de raio 10 cm; o anteparo está a 50 cm do disco. O raio da sombra é:','35 cm',['25 cm','30 cm','50 cm'],'A distância fonte–anteparo é 70 cm: 10 × 70/20 = 35 cm.');
+QaV(3,3,'Exercício resolvido (adaptado)','Uma haste de 50 cm projeta sombra de 0,80 m. No mesmo instante um edifício projeta sombra de 30 m. Altura do edifício:','18,75 m',['15 m','24 m','37,5 m'],'H/0,5 = 30/0,8 ⇒ H = 18,75 m.');
+// 4 · Eclipses
+QaV(4,1,'UEL-PR (adaptada)','Durante um eclipse solar, um observador na região de penumbra da Lua vê:','Um eclipse solar parcial',['Um eclipse solar total','Um eclipse lunar','Nenhum eclipse'],'Na penumbra parte do Sol é encoberta.');
+QaV(4,2,'Vunesp (adaptada)','No eclipse solar total, Sol, Lua e Terra fazem o papel, respectivamente, de:','Fonte, obstáculo e anteparo',['Obstáculo, fonte e anteparo','Anteparo, obstáculo e fonte','Fonte, anteparo e obstáculo'],'O Sol emite, a Lua bloqueia e a Terra recebe a sombra.');
+QaV(4,2,'PUC-SP (adaptada)','Um eclipse total da Lua é possível graças à propriedade de a luz:','Propagar-se em linha reta',['Sofrer refração','Ser absorvida pela Lua','Ter cor'],'A Lua entra na sombra da Terra porque a luz segue em linha reta.');
+QaV(4,2,'Adaptada','O eclipse lunar ocorre quando:','A Lua penetra a região de sombra da Terra',['A Terra entra na sombra da Lua','A Lua passa entre o Sol e a Terra','O Sol passa entre a Terra e a Lua'],'A Terra fica entre o Sol e a Lua.');
+QaV(4,3,'Texto do capítulo','No eclipse anular do Sol, o observador vê:','Um anel de luz solar em torno da Lua',['Escuridão total','Só a coroa solar','A Lua avermelhada'],'O prolongamento do cone de sombra da Lua atinge a Terra.');
+QaV(4,3,'Texto do capítulo','A Lua fica avermelhada no eclipse lunar total porque:','A atmosfera terrestre desvia para a Lua a luz vermelha',['A Lua emite luz vermelha','A Lua esquenta','A Terra reflete luz vermelha'],'Azul, anil e violeta são mais difundidos que o vermelho.');
+// 5 · Câmara escura
+QaV(5,1,'Adaptada (T. 224)','A parede oposta ao orifício de uma câmara escura é de papel vegetal. Olhando o Cruzeiro do Sul por essa parede, o observador vê a imagem:','Invertida em relação ao céu',['Idêntica ao céu','Somente ampliada','Impossível de ver'],'A imagem é invertida (cima↔baixo e direita↔esquerda).');
+QaV(5,2,'Cesgranrio (adaptada)','Numa câmara escura, a altura i da imagem, em função da distância p do objeto ao orifício, é:','Inversamente proporcional a p',['Diretamente proporcional a p','Constante','Uma reta decrescente'],'i = m·b/p: quanto maior p, menor i.');
+QaV(5,2,'Exercício resolvido (adaptado)','Uma câmara escura tem 40 cm de comprimento. Uma árvore de 5 m produz imagem de 25 cm. A árvore está a:','8 m',['5 m','12,5 m','4 m'],'5/0,25 = a/0,40 ⇒ a = 8 m.');
+QaV(5,3,'Unifor-CE (adaptada)','Uma pessoa a 15 m de uma câmara escura tem imagem de 5,0 cm. Para a imagem ter 10 cm, ela deve:','Aproximar-se 7,5 m',['Afastar-se 7,5 m','Aproximar-se 5,0 m','Afastar-se 5,0 m'],'i é inversamente proporcional à distância: 15 → 7,5 m.');
+QaV(5,3,'Cefet-CE (adaptada)','A 10 m de uma câmara escura a imagem tem 20 cm. Ao se aproximar 2 m, a imagem cresce:','25%',['20%','10%','50%'],'20 × 10/8 = 25 cm.');
+QaV(5,3,'UFRO (adaptada)','A imagem de um prédio numa câmara escura tem 6,0 cm. Afastando-se 20 m, a imagem passa a 4,0 cm. A distância inicial era:','40 m',['20 m','60 m','30 m'],'6a = 4(a + 20) ⇒ a = 40 m.');
+QaV(5,3,'Adaptada (P. 221)','Uma escala milimetrada a 60 cm do olho, 10 cm de extensão, cobre 8 andares de 3 m cada. A distância ao edifício é:','144 m',['72 m','240 m','96 m'],'0,10/0,60 = 24/d ⇒ d = 144 m.');
+// 6 · Princípios
+QaV(6,1,'Adaptada (P. 223)','O motorista vê o passageiro do banco de trás pelo espelho retrovisor e vice-versa. Princípio da Óptica:','Reversibilidade dos raios de luz',['Independência dos raios','Absorção','Refração'],'O caminho da luz independe do sentido de propagação.');
+QaV(6,2,'Adaptada (P. 225)','Duas fontes F₁ e F₂ iluminam A e B. Ligadas ao mesmo tempo, ambos os pontos ficam iluminados. Princípio:','Independência dos raios de luz',['Reversibilidade','Propagação retilínea','Reflexão difusa'],'Raios que se cruzam não interferem.');
+QaV(6,2,'Unirio-RJ (adaptada)','O professor troca as posições da fonte e do observador e o trajeto da luz se mantém. Isso ilustra:','Reversibilidade dos raios de luz',['Independência dos raios','Reflexão difusa','Absorção'],'A trajetória seguida pela luz independe do sentido.');
+QaV(6,3,'Adaptada','Um raio AB reflete em S segundo BC. Um raio enviado de C até B seguirá por:','BA',['BD','Uma direção qualquer','Será absorvido'],'Reversibilidade: o caminho inverso é o mesmo.');
+QaV(6,3,'Adaptada','Dois feixes de luz se cruzam. Após o cruzamento, cada feixe:','Segue como se o outro não existisse',['Se funde com o outro','Some','Muda de cor'],'Independência dos raios de luz.');
+
+/* ====== GERADORES DE PROBLEMAS (com diagrama) ====== */
+const nf=(x,d=2)=>(+x.toFixed(d)).toLocaleString('pt-BR',{maximumFractionDigits:d});
+function uniqOpts(ok,cands,fmt){
+  const seen=new Set([fmt(ok)]),out=[];
+  for(const c of cands){if(c>0&&isFinite(c)&&!seen.has(fmt(c))){seen.add(fmt(c));out.push(fmt(c));if(out.length===3)break}}
+  let k=1.3;while(out.length<3){const v=ok*k;k+=.4;if(!seen.has(fmt(v))){seen.add(fmt(v));out.push(fmt(v))}}
+  return out;
+}
+const pick2=a=>a[Math.floor(Math.random()*a.length)];
+const GEN={
+ shadow(){
+  const h=pick2([0.5,1,1.5,2]),s=pick2([0.4,0.5,0.8,1]),k=pick2([10,15,20,25,30,50]);
+  const S=+(s*k).toFixed(2),H=+(h*k).toFixed(2),f=x=>nf(x)+' m';
+  return{s:3,t:3,src:'Problema gerado',q:`No mesmo instante, uma haste vertical de ${nf(h)} m projeta sombra de ${nf(s)} m e um prédio projeta sombra de ${nf(S)} m. Qual é a altura do prédio?`,
+   ok:f(H),bad:uniqOpts(H,[H/2,H*2,H+S-s,h*S,S-s],f),ex:`Raios solares paralelos formam triângulos semelhantes: H/h = S/s ⇒ H = ${nf(h)} · ${nf(S)} / ${nf(s)} = ${nf(H)} m.`,
+   draw:{k:'shadow',h,s,S}};
+ },
+ cam(){
+  const T=pick2([[8,40,25,5],[10,40,20,5],[20,40,10,5],[12,30,10,4],[6,20,10,3],[15,30,10,5],[10,20,4,2],[4,20,10,2]]);
+  const [a,b,n,m]=T,ask=pick2(['n','a','m']);
+  let q,ok,cands,fmt,ex;
+  if(ask==='n'){fmt=x=>nf(x)+' cm';ok=n;cands=[m*a/b*100,n*2,n/2,b*a/m];q=`Uma árvore de ${nf(m)} m está a ${nf(a)} m do orifício de uma câmara escura de ${nf(b)} cm de comprimento. Qual a altura da imagem?`;ex=`m/n = a/b ⇒ n = m·b/a = ${nf(m)}·${nf(b)}/${nf(a)} m·cm/m = ${nf(n)} cm.`}
+  else if(ask==='a'){fmt=x=>nf(x)+' m';ok=a;cands=[a*2,a/2,m*b/n/2,b*n/m];q=`Numa câmara escura de ${nf(b)} cm de comprimento, um objeto de ${nf(m)} m produz imagem de ${nf(n)} cm. A que distância do orifício está o objeto?`;ex=`m/n = a/b ⇒ a = m·b/n = ${nf(a)} m.`}
+  else{fmt=x=>nf(x)+' m';ok=m;cands=[m*2,m/2,n*a/b,m+1];q=`Uma câmara escura de ${nf(b)} cm forma imagem de ${nf(n)} cm de um objeto a ${nf(a)} m do orifício. Qual a altura do objeto?`;ex=`m = n·a/b = ${nf(n)}·${nf(a)}/${nf(b)} = ${nf(m)} m.`}
+  return{s:5,t:3,src:'Problema gerado',q,ok:fmt(ok),bad:uniqOpts(ok,cands,fmt),ex,draw:{k:'cam',a,b,n,m,ask}};
+ },
+ point(){
+  const l=pick2([10,20]),d1=pick2([0.5,1,2]),f2=pick2([1,2,3]),d2=d1*f2,r=(d1+d2)/d1,side=l*r,ask=pick2(['side','area']);
+  const fmt=ask==='side'?(x=>nf(x)+' cm'):(x=>nf(x)+' cm²'),ok=ask==='side'?side:side*side;
+  const cands=ask==='side'?[l*d2/d1,l*r*r,l*(r+1),l*d2]:[side*2,l*l*r,l*l*(r+1),(l*r)*(l*r)*2];
+  return{s:3,t:3,src:'Problema gerado',q:`Uma placa quadrada de ${nf(l)} cm de lado está a ${nf(d1)} m de uma fonte pontual e a ${nf(d2)} m do anteparo (além da placa). ${ask==='side'?'Qual o lado':'Qual a área'} da sombra no anteparo?`,
+   ok:fmt(ok),bad:uniqOpts(ok,cands,fmt),ex:`Distância fonte–anteparo: ${nf(d1+d2)} m. Fator de ampliação = ${nf(r)} ⇒ lado da sombra = ${nf(side)} cm${ask==='area'?`, área = ${nf(side*side)} cm²`:''}.`,
+   draw:{k:'point',l,d1,d2}};
+ }
+};
+
+/* ============================ ESTÁGIOS ============================ */
+const QS=VEST?QV:QA;
+const CLR=['#ffca3a','#57d7ff','#ff6f91','#72e0a4','#ff9b3d','#8ea6ff','#c78bff','#ff5a5f'];
+const ST_A=[
+ {nome:'Fontes de Luz',sub:'Raios e feixes, corpos luminosos e iluminados, luz mono e policromática, ano-luz.',
+  r:[{k:'cls',b:'fonte',g:'lum'},{k:'cls',b:'fonte',g:'ilu'},{k:'cls',b:'cor'},{k:'quiz',t:1},{k:'quiz',t:2},{k:'quiz',t:3,boss:1}]},
+ {nome:'Meios e Fenômenos Ópticos',sub:'Transparente, translúcido e opaco; reflexão regular e difusa, refração e absorção.',
+  r:[{k:'cls',b:'meio',g:'tra'},{k:'cls',b:'meio',g:'tns'},{k:'cls',b:'fenom'},{k:'cls',b:'fenom'},{k:'quiz',t:1},{k:'quiz',t:2},{k:'quiz',t:3,boss:1}]},
+ {nome:'A Cor dos Corpos',sub:'Cores primárias, secundárias e complementares; cor por reflexão; o azul do céu.',
+  r:[{k:'pred'},{k:'make'},{k:'pred'},{k:'quiz',t:1},{k:'quiz',t:2},{k:'quiz',t:3,boss:1}]},
+ {nome:'Sombra e Penumbra',sub:'Propagação retilínea, fontes pontuais e extensas, semelhança de triângulos.',
+  r:[{k:'region',th:'lab'},{k:'region',th:'lab'},{k:'quiz',t:1},{k:'quiz',t:2},{k:'quiz',gen:'shadow'},{k:'quiz',t:3,boss:1}]},
+ {nome:'Eclipses',sub:'Sombra e penumbra da Lua e da Terra: eclipses solar (total, parcial, anular) e lunar.',
+  r:[{k:'region',th:'solar'},{k:'region',th:'lunar'},{k:'region',th:'solar'},{k:'quiz',t:1},{k:'quiz',t:2},{k:'quiz',t:3,boss:1}]},
+ {nome:'Câmara Escura e Ângulo Visual',sub:'Imagem invertida, m/n = a/b, ângulo visual e acuidade visual.',
+  r:[{k:'quiz',t:1},{k:'quiz',t:2},{k:'quiz',gen:'cam'},{k:'quiz',gen:'cam'},{k:'quiz',t:3},{k:'quiz',gen:'point',boss:1}]},
+ {nome:'Princípios da Óptica Geométrica',sub:'Propagação retilínea, reversibilidade e independência dos raios de luz.',
+  r:[{k:'cls',b:'princ',g:'ret'},{k:'cls',b:'princ',g:'rev'},{k:'cls',b:'princ',g:'ind'},{k:'quiz',t:1},{k:'quiz',t:2},{k:'quiz',t:3,boss:1}]},
+ {nome:'Chefão Final: Eclipse Total',final:1,sub:'Todos os temas, rodadas difíceis. Derrote o eclipse!',
+  r:[{k:'region',th:'solar'},{k:'pred'},{k:'cls',b:'fenom'},{k:'quiz',gen:'cam'},{k:'quiz',t:3},{k:'region',th:'lunar'},{k:'quiz',t:3,boss:1}]}
+];
+const ST_V=[
+ {nome:'Ano-luz e Fontes',sub:'Questões de vestibular e Enem sobre ano-luz, fontes de luz e velocidade da luz.',r:[{k:'quiz',t:1},{k:'quiz',t:1},{k:'quiz',t:2},{k:'quiz',t:2},{k:'quiz',t:3},{k:'quiz',t:3,boss:1}]},
+ {nome:'Meios e Fenômenos',sub:'Reflexão, difusão, refração e absorção nos vestibulares.',r:[{k:'quiz',t:1},{k:'quiz',t:2},{k:'quiz',t:2},{k:'quiz',t:3},{k:'quiz',t:3},{k:'quiz',t:3,boss:1}]},
+ {nome:'Cor dos Corpos',sub:'Luz colorida sobre corpos coloridos: bandeiras, discos e papéis.',r:[{k:'quiz',t:1},{k:'quiz',t:1},{k:'quiz',t:2},{k:'quiz',t:2},{k:'quiz',t:3},{k:'quiz',t:3,boss:1}]},
+ {nome:'Sombra e Penumbra',sub:'Semelhança de triângulos: sombras de prédios, placas e discos.',r:[{k:'quiz',t:1},{k:'quiz',t:2},{k:'quiz',gen:'shadow'},{k:'quiz',t:3},{k:'quiz',gen:'point'},{k:'quiz',t:3,boss:1}]},
+ {nome:'Eclipses',sub:'Papéis de fonte, obstáculo e anteparo; eclipses solar e lunar.',r:[{k:'region',th:'solar'},{k:'quiz',t:1},{k:'quiz',t:2},{k:'quiz',t:2},{k:'quiz',t:3},{k:'quiz',t:3,boss:1}]},
+ {nome:'Câmara Escura',sub:'Imagem invertida e proporções: quanto muda a imagem quando o objeto se move?',r:[{k:'quiz',t:1},{k:'quiz',t:2},{k:'quiz',gen:'cam'},{k:'quiz',t:3},{k:'quiz',gen:'cam'},{k:'quiz',t:3,boss:1}]},
+ {nome:'Princípios da Óptica',sub:'Reversibilidade e independência dos raios em questões de prova.',r:[{k:'quiz',t:1},{k:'quiz',t:2},{k:'quiz',t:2},{k:'quiz',t:3},{k:'quiz',t:3},{k:'quiz',t:3,boss:1}]},
+ {nome:'Simulado Final',final:1,sub:'Só questões difíceis de todos os temas. Boa sorte!',r:[{k:'quiz',t:3},{k:'quiz',gen:'cam'},{k:'quiz',t:3},{k:'quiz',gen:'shadow'},{k:'quiz',t:3},{k:'quiz',gen:'point'},{k:'quiz',t:3,boss:1}]}
+];
+const STAGES=(VEST?ST_V:ST_A).map((s,i)=>Object.assign(s,{cor:CLR[i]}));
+const TIER=['','Aquecimento','Intermediária','Desafio'];
+const tierStars=t=>'★'.repeat(t)+'☆'.repeat(3-t);
+
+/* ============================ ESTADO ============================ */
+const W=720,H=820,DPR=2;
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+cv.width=W*DPR;cv.height=H*DPR;
+const stageEl=document.getElementById('stage'),qbar=document.getElementById('qbar'),ov=document.getElementById('ov'),card=document.getElementById('card'),muteBtn=document.getElementById('mute'),fsBtn=document.getElementById('fs'),lampsEl=document.getElementById('lamps');
+const DIFFS={facil:{nome:'Fácil',hearts:8,speed:.8,time:1.3,mult:.8},normal:{nome:'Normal',hearts:6,speed:1,time:1,mult:1},dificil:{nome:'Difícil',hearts:4,speed:1.2,time:.8,mult:1.3}};
+let diff='normal',state='title',g=null,muted=false,last=0,time=0,cx=W/2,cy=400,keys={};
+const LIVRE=/[?&]livre=1/.test(location.search);
+const KEY='cacaluz_'+MODE;
+let save={u:0,s:[],best:0,d:'normal'};
+try{const o=JSON.parse(localStorage.getItem(KEY)||'null');if(o)save=Object.assign(save,o)}catch(e){}
+diff=DIFFS[save.d]?save.d:'normal';
+const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(save))}catch(e){}};
+const unlocked=()=>LIVRE?STAGES.length-1:Math.min(save.u,STAGES.length-1);
+const rnd=(a,b)=>a+Math.random()*(b-a),pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const bgStars=[];for(let i=0;i<110;i++)bgStars.push({x:rnd(0,W),y:rnd(0,H),z:pick([1,1,2,3]),tw:rnd(0,6)});
+
+/* ---- áudio ---- */
+let ac=null;
+function tone(f,d,type='square',vol=.05,slide=0){
+  if(muted)return;try{
+    ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+    const o=ac.createOscillator(),gn=ac.createGain();o.type=type;o.frequency.setValueAtTime(f,ac.currentTime);
+    if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(30,f+slide),ac.currentTime+d);
+    gn.gain.setValueAtTime(vol,ac.currentTime);gn.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+d);
+    o.connect(gn).connect(ac.destination);o.start();o.stop(ac.currentTime+d);
+  }catch(e){}
+}
+const sfx={shot:()=>tone(1200,.09,'sawtooth',.03,-700),ok:()=>{tone(523,.1,'triangle',.07);setTimeout(()=>tone(784,.18,'triangle',.07),100)},
+  no:()=>tone(200,.25,'sawtooth',.07,-100),hurt:()=>tone(120,.3,'sawtooth',.08,-60),pop:()=>tone(600,.08,'sine',.06,300),
+  win:()=>[523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,.22,'triangle',.07),i*130))};
+muteBtn.onclick=e=>{muted=!muted;muteBtn.textContent=muted?'🔇':'🔊';e.stopPropagation()};
+fsBtn.onclick=e=>{e.stopPropagation();try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(_){}};
+
+/* ============================ FLUXO DA CAMPANHA ============================ */
+function newRun(s){
+  g={stage:s,L:s,shield:0,maxShield:DIFFS[diff].hearts,score:0,combo:0,mist:0,ri:-1,rd:null,used:new Set(),review:[],
+     lamps:0,parts:[],floats:[],beams:[],msg:null,cool:0,shake:0,flash:0,gap:null,snapScore:0};
+  startStage(s);
+}
+function startStage(s){
+  const st=STAGES[s];
+  g.stage=s;g.L=s;g.ri=-1;g.rd=null;g.mist=0;g.shield=g.maxShield;g.combo=0;g.review=[];g.used=new Set();g.snapScore=g.score;g.lamps=0;g.msg=null;
+  state='intro';hideQ();lampsEl.style.display='none';
+  show(`<div class="kick">Estágio ${s+1} de ${STAGES.length} · Nível de perigo ${'▮'.repeat(s+1)}${'▯'.repeat(STAGES.length-1-s)}</div>
+   <h2 style="color:${st.cor}">${st.nome}</h2><p>${st.sub}</p>
+   <p class="dim"><b>Missão:</b> ${st.r.length} rodadas, da mais simples à rodada-chefe final. Mire com o ${'mouse/dedo'} e <b>atire só quando tiver certeza</b>: cada tiro errado custa energia.</p>
+   <button class="btn primary" id="go">Iniciar ▶</button>`);
+  document.getElementById('go').onclick=()=>{hide();nextRound()};
+}
+function nextRound(){
+  g.ri++;const st=STAGES[g.stage];
+  if(g.ri>=st.r.length)return stageClear();
+  const d=st.r[g.ri];g.rd=buildRound(d);g.rd.n=g.ri+1;g.rd.of=st.r.length;
+  setPrompt();
+  g.gap={t:1.1,text:`RODADA ${g.ri+1}/${st.r.length}${d.boss?' · RODADA-CHEFE':''}`};state='gap';
+  lampsEl.style.display=g.rd.type==='make'?'flex':'none';
+  if(g.rd.type==='make')syncLamps();
+}
+function setPrompt(){
+  const rd=g.rd,st=STAGES[g.stage];
+  const tag=rd.type==='quiz'?`${tierStars(rd.q.t)} ${TIER[rd.q.t]}${rd.q.src?' · '+rd.q.src:''}`:rd.label;
+  qbar.innerHTML=`<small style="color:${st.cor}">${st.nome} · rodada ${rd.n}/${rd.of}${rd.boss?' · CHEFE':''} · ${tag}</small><span id="ptxt">${rd.prompt}</span>`;
+  qbar.style.display='block';
+}
+function hideQ(){qbar.style.display='none'}
+function say(text,col,life){g.msg={text,col:col||'#fff',life:life||2.4}}
+function hurt(n,why){
+  g.shield=Math.max(0,g.shield-n);g.mist++;g.combo=0;g.shake=.3;g.flash=.25;sfx.hurt();
+  if(why&&!g.review.includes(why))g.review.push(why);
+  if(g.shield<=0&&state!=='feedback'&&state!=='dying'){state='dying';hideQ();lampsEl.style.display='none';setTimeout(()=>{if(state==='dying')gameOver()},900)}
+}
+function addScore(p,x,y){const v=Math.round(p*DIFFS[diff].mult*(1+Math.min(g.combo,5)*.15));g.score+=v;g.floats.push({x,y,t:'+'+v,c:'#72e0a4',life:1.2})}
+function burst(x,y,c,n,sp){for(let i=0;i<n;i++){const a=rnd(0,6.28),s=rnd(30,sp);g.parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:rnd(.35,.9),max:.9,c,r:rnd(1.5,3.5)})}}
+function finishRound(ok){
+  if(state==='dying'||state==='over')return;
+  const rd=g.rd;if(rd.fin)return;rd.fin=true;
+  const perfect=rd.mist===0&&ok;
+  if(perfect&&g.shield<g.maxShield&&g.shield>0){g.shield++;g.floats.push({x:360,y:120,t:'+1 ♥ rodada perfeita',c:'#ff6b72',life:1.6})}
+  if(ok){sfx.win();g.score+=Math.round((rd.boss?200:80)*DIFFS[diff].mult)}
+  g.gap={t:1.0,text:'',after:1};state='gap';
+}
+/* ---- perguntas de múltipla escolha ---- */
+function pickQ(d){
+  if(d.gen)return GEN[d.gen]();
+  const st=STAGES[g.stage],U=g.used;let pool;
+  const fin=!!st.final;
+  const f1=q=>!U.has(q)&&(fin?q.t>=3:(q.s===g.stage&&q.t===d.t));
+  const f2=q=>!U.has(q)&&(fin?q.t>=2:q.s===g.stage);
+  pool=QS.filter(f1);if(!pool.length)pool=QS.filter(f2);
+  if(!pool.length)pool=QS.filter(q=>!U.has(q)&&q.t>=d.t);
+  if(!pool.length){U.clear();pool=QS.filter(q=>fin?q.t>=3:q.s===g.stage)}
+  const q=pick(pool);U.add(q);return q;
+}
+function resolveQuiz(b,timeout){
+  const rd=g.rd;if(state!=='round'||rd.fin)return;
+  state='feedback';rd.fin=true;const q=rd.q,ok=!!(b&&b.ok);
+  if(ok){g.combo++;const bonus=Math.round(Math.max(0,rd.t)/rd.tmax*60);addScore((rd.boss?2:1)*(80*q.t+bonus),b.x+b.w/2,b.y);burst(b.x+b.w/2,b.y+b.h/2,'#72e0a4',40,260);sfx.ok()}
+  else{hurt(1,`${q.q} → ${q.ok}`);sfx.no();if(b)burst(b.x+b.w/2,b.y+b.h/2,'#ff6b72',30,200)}
+  hideQ();
+  const title=ok?'<span class="ok">✔ Correto!</span>':timeout?'<span class="bad">⏱ Tempo esgotado!</span>':'<span class="bad">✖ Não foi dessa vez</span>';
+  show(`<div class="kick">${STAGES[g.stage].nome} · ${TIER[q.t]}${q.src?' · '+esc(q.src):''}</div><h2>${title}</h2>
+    <p><b>Resposta certa:</b> ${esc(q.ok)}</p><p>${esc(q.ex)}</p>
+    ${g.combo>1?`<p class="ok">🔥 Sequência: ${g.combo} acertos seguidos</p>`:''}
+    <button class="btn primary" id="go">Continuar ▶</button>`);
+  document.getElementById('go').onclick=afterFeedback;g.lock=time+.5;
+}
+function afterFeedback(){
+  if(state!=='feedback'||time<g.lock)return;
+  hide();if(g.shield<=0)return gameOver();
+  g.rd.fin=false;nextRound();
+}
+/* ---- fim de estágio / jogo ---- */
+function reviewHtml(){
+  if(!g.review.length)return '<p class="ok"><b>Nenhum erro neste estágio — excelente!</b></p>';
+  return '<h3>📚 Para revisar</h3>'+g.review.map(t=>`<div class="miss">${esc(t)}</div>`).join('');
+}
+function gameOver(){
+  state='over';hideQ();lampsEl.style.display='none';const s=g.stage;
+  show(`<div class="kick">Estágio ${s+1} · ${STAGES[s].nome}</div><h2>💥 Energia esgotada</h2>
+    <p>Revise os pontos abaixo e tente de novo — as rodadas serão sorteadas novamente.</p>
+    <p>Pontuação: <b style="color:var(--gold)">${g.score}</b></p>${reviewHtml()}
+    <button class="btn primary" id="again">Tentar o estágio de novo</button><button class="btn" id="menu">Menu</button>`);
+  document.getElementById('again').onclick=()=>{g.score=g.snapScore;hide();startStage(s)};
+  document.getElementById('menu').onclick=titleScreen;
+}
+function stageClear(){
+  state='clear';hideQ();lampsEl.style.display='none';const s=g.stage;
+  const n=g.mist<=1?3:g.mist<=3?2:1,bonus=Math.round(g.shield*100*DIFFS[diff].mult);g.score+=bonus;
+  save.s[s]=Math.max(save.s[s]||0,n);if(s+1>save.u)save.u=s+1;const rec=g.score>save.best;if(rec)save.best=g.score;persist();sfx.win();
+  const final=!!STAGES[s].final;
+  show(`<div class="kick">${final?'Missão cumprida':'Estágio concluído'}</div><h2>${final?'🌟 Óptica dominada!':'✔ '+STAGES[s].nome}</h2>
+    <div class="stars">${'★'.repeat(n)}<span style="opacity:.3">${'★'.repeat(3-n)}</span></div>
+    <p>Erros: <b>${g.mist}</b> · Bônus de energia: <b>+${bonus}</b> · Pontuação: <b style="color:var(--gold)">${g.score}</b> ${rec?'· 🏆 novo recorde!':'· recorde: '+save.best}</p>
+    ${reviewHtml()}
+    ${final?'':`<button class="btn primary" id="next">Próximo estágio ▶</button>`}<button class="btn" id="menu">Menu</button>`);
+  const nx=document.getElementById('next');if(nx)nx.onclick=()=>{hide();startStage(s+1)};
+  document.getElementById('menu').onclick=titleScreen;
+}
+function titleScreen(){
+  state='title';hideQ();lampsEl.style.display='none';const u=unlocked();
+  const btns=STAGES.map((t,i)=>{const lock=i>u,n=save.s[i]||0;
+    return `<button class="btn" data-s="${i}" ${lock?'disabled':''} style="border-color:${t.cor}">${lock?'🔒':(i===STAGES.length-1?'☀':i+1)}<small>${lock?'—':'<span style="color:#ffca3a">'+'★'.repeat(n)+'</span>'+'☆'.repeat(3-n)}</small></button>`}).join('');
+  show(`<div class="kick">Óptica Geométrica · ${VEST?'Revisão Vestibular':'Missão Óptica'}</div>
+   <h1><span>Caça-Luz</span></h1>
+   <p>${VEST?'<b>Revisão para vestibular e Enem.</b> Mire com seu feixe de luz nas respostas certas de questões adaptadas de provas, com cálculos de sombra, câmara escura e ano-luz.':'<b>Um rail shooter de luz.</b> Você é um canhão de luz: mire e atire nos alvos certos — fontes de luz, meios, cores, sombras, eclipses e mais.'} São ${STAGES.length} estágios com dificuldade crescente e uma rodada-chefe em cada um.</p>
+   <div class="grid"><div>🖱️ <b>Mouse ou dedo:</b> mire e clique/toque para atirar</div><div>⌨️ <span class="key">←↑↓→</span> movem a mira · <span class="key">ESPAÇO</span> atira</div>
+   <div>🎨 Na fase das cores, ligue as lâmpadas <span class="key">R</span> <span class="key">G</span> <span class="key">B</span></div><div><span class="key">P</span> pausa · <span class="key">M</span> som</div></div>
+   <h3>Dificuldade</h3>
+   <div>${Object.entries(DIFFS).map(([k,v])=>`<button class="btn ${k===diff?'sel':''}" data-d="${k}">${v.nome}</button>`).join('')}</div>
+   <h3>Estágios</h3><div class="stg">${btns}</div>
+   <button class="btn primary" id="start" style="margin-top:.5em">${u>0?'Continuar campanha (estágio '+(u+1)+') ▶':'Iniciar missão ▶'}</button>
+   <p class="dim">Recorde: ${save.best}${LIVRE?' · modo livre ativado':''}</p>`);
+  card.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{diff=b.dataset.d;save.d=diff;persist();card.querySelectorAll('[data-d]').forEach(x=>x.classList.toggle('sel',x===b))});
+  card.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{hide();newRun(+b.dataset.s)});
+  document.getElementById('start').onclick=()=>{hide();newRun(u)};
+}
+function show(html){card.innerHTML=html;ov.classList.add('show');card.scrollTop=0}
+function hide(){ov.classList.remove('show')}
+
+/* ============================ RODADAS ============================ */
+const LCSS={0:'#15181f',1:'#ff3b3b',2:'#30d060',4:'#3b6bff',3:'#ffe03b',5:'#ff3bd0',6:'#3bf0ff',7:'#ffffff'};
+const LNAME={0:'nenhuma',1:'vermelha',2:'verde',4:'azul',3:'amarela',5:'magenta',6:'ciano',7:'branca'};
+const ONAME={0:'preto',1:'vermelho',2:'verde',4:'azul',3:'amarelo',5:'magenta',6:'ciano',7:'branco'};
+const OPLUR={0:'PRETOS',1:'VERMELHOS',2:'VERDES',4:'AZUIS',3:'AMARELOS',5:'MAGENTA',6:'CIANO',7:'BRANCOS'};
+const strip=h=>h.replace(/<[^>]+>/g,'');
+
+function buildRound(d){
+  const D=DIFFS[diff],L=g.L,base={boss:!!d.boss,mist:0,fin:false};
+  let rd;
+  if(d.k==='cls')rd=buildCls(d,base,D,L);
+  else if(d.k==='pred')rd=buildPred(d,base,D,L);
+  else if(d.k==='make')rd=buildMake(d,base,D,L);
+  else if(d.k==='region')rd=buildRegion(d,base,D,L);
+  else rd=buildQuiz(d,base,D,L);
+  rd.t=rd.tmax;return rd;
+}
+function layoutRails(items,L){
+  const rows=items.length>8?4:3,ys=rows===4?[235,350,465,580]:[250,390,530];
+  items.forEach((it,i)=>{const r=i%rows,dir=r%2?-1:1;it.y=ys[r];it.vx=dir*(42+L*13+rnd(0,18));it.x=rnd(60,W-60)+i*13;it.w=98;it.h=106;it.dead=false;it.flash=0});
+  // separa itens da mesma trilha
+  for(let r=0;r<rows;r++){const row=items.filter((_,i)=>i%rows===r);row.forEach((it,k)=>{it.x=(k+.5)*(W/row.length)+rnd(-20,20)})}
+}
+function buildCls(d,base,D,L){
+  const B=BANKS[d.b],goal=d.g||pick(Object.keys(B.goals));
+  const okAll=B.items.filter(i=>i[2]===goal),noAll=B.items.filter(i=>i[2]!==goal);
+  const nOk=Math.min(okAll.length,3+(L>=4?1:0)),nNo=Math.min(noAll.length,3+Math.floor(L/2));
+  const items=shuffle([...shuffle(okAll).slice(0,nOk),...shuffle(noAll).slice(0,nNo)]).map(i=>({emoji:i[0],label:i[1],ok:i[2]===goal,why:`${i[1]}: ${B.names[i[2]]}.`}));
+  layoutRails(items,L);
+  const prompt=`Atire só nos alvos que são: <b>${B.goals[goal]}</b>`;
+  return Object.assign(base,{type:'cls',label:'Classificação',prompt,plain:strip(prompt),items,tmax:Math.max(12,28-L*1.5)*D.time*(base.boss?.85:1)});
+}
+function buildPred(d,base,D,L){
+  const lights=L<2?[1,2,4]:[1,2,4,3,5,6];let lamp,goal,items;
+  for(let tries=0;tries<50;tries++){
+    lamp=pick(lights);const cnt={};[0,1,2,3,4,5,6,7].forEach(b=>{const p=lamp&b;cnt[p]=(cnt[p]||0)+1});
+    const goals=Object.keys(cnt).filter(k=>cnt[k]>=2&&cnt[k]<=4).map(Number);
+    if(goals.length){goal=pick(goals);break}
+  }
+  items=shuffle([0,1,2,3,4,5,6,7]).map(b=>{const p=lamp&b;return{body:b,label:ONAME[b],ok:p===goal,
+    why:`Sob luz ${LNAME[lamp]}, o objeto ${ONAME[b]} fica ${ONAME[p]}.`}});
+  layoutRails(items,L);items.forEach(it=>{it.w=92;it.h=100});
+  const prompt=`Sob luz <b style="color:${LCSS[lamp]}">${LNAME[lamp].toUpperCase()}</b>, atire nos objetos que ficarão <b>${OPLUR[goal]}</b>`;
+  return Object.assign(base,{type:'cls',variant:'pred',label:'Cor dos corpos',prompt,plain:strip(prompt),items,lamp,tmax:Math.max(14,30-L*1.5)*D.time*(base.boss?.85:1)});
+}
+function buildMake(d,base,D,L){
+  const direct=[['AMARELA',3],['MAGENTA',5],['CIANO',6],['BRANCA',7]],comp=[['complementar do AZUL',3],['complementar do VERMELHO',6],['complementar do VERDE',5],['complementar do CIANO',1],['complementar do AMARELO',4],['complementar do MAGENTA',2]];
+  const asks=(L<3?shuffle(direct).slice(0,3):[...shuffle(direct).slice(0,1),...shuffle(comp).slice(0,2)]).map(a=>({name:a[0],need:a[1]}));
+  const rd=Object.assign(base,{type:'make',label:'Misture as luzes',asks,ai:0,scr:{x:170,y:230,w:380,h:230},tmax:55*D.time});
+  rd.prompt=makePrompt(asks[0]);rd.plain='Misture as luzes';return rd;
+}
+const makePrompt=a=>`Ligue as lâmpadas para produzir a luz <b>${a.name}</b> e atire no anteparo${/compl/.test(a.name)?' (juntas, as duas dariam luz branca)':''}`;
+
+/* ---- região (sombra, penumbra, eclipses) ---- */
+const YC=400,REGN={
+ lab:{umb:'SOMBRA (não recebe luz da fonte)',pen:'PENUMBRA (recebe luz de parte da fonte)',lit:'região totalmente ILUMINADA'},
+ solar:{umb:'sombra da Lua → eclipse solar TOTAL',pen:'penumbra da Lua → eclipse solar PARCIAL',lit:'fora da sombra e da penumbra → sem eclipse'},
+ lunar:{umb:'sombra da Terra → eclipse lunar TOTAL',pen:'penumbra da Terra → Lua pouco escurecida',lit:'Lua plenamente iluminada → sem eclipse'}};
+function buildRegion(d,base,D,L){
+  const th=d.th;let P;
+  if(th==='lab'){const pont=Math.random()<.35;P={s:pont?0:pick([40,50]),h:pick([50,60]),x0:110,x1:380,x2:560,src:pont?'Fonte puntiforme':'Fonte extensa',occ:'Obstáculo',scr:'Anteparo'}}
+  else if(th==='solar')P={s:60,h:30,x0:100,x1:440,x2:590,src:'Sol',occ:'Lua',scr:'Terra'};
+  else P={s:60,h:46,x0:100,x1:330,x2:590,src:'Sol',occ:'Terra',scr:'Órbita da Lua'};
+  const k=(P.x2-P.x0)/(P.x1-P.x0);P.U=Math.max(0,P.s+(P.h-P.s)*k);P.P=-P.s+(P.h+P.s)*k;P.hasPen=P.P>P.U+3;
+  const regs=['umb',...(P.hasPen?['pen']:[]),'lit'],target=pick(regs);
+  const letters=shuffle(['A','B','C','D']).slice(0,regs.length);
+  const sg=()=>Math.random()<.5?-1:1;
+  const markers=regs.map((r,i)=>{let y;
+    if(r==='umb')y=rnd(-.55,.55)*P.U;else if(r==='pen')y=sg()*(P.U+(P.P-P.U)*rnd(.3,.7));else y=sg()*(P.P+(215-P.P)*rnd(.3,.7));
+    return{r,y,letter:letters[i],flash:0,dead:false}});
+  const N=REGN[th];let prompt;
+  if(th==='lab')prompt=P.s?`Fonte extensa: atire no ponto do anteparo que está ${target==='umb'?'na <b>SOMBRA</b>':target==='pen'?'na <b>PENUMBRA</b>':'<b>totalmente iluminado</b>'}`:`Fonte puntiforme: atire no ponto do anteparo que está ${target==='umb'?'na <b>SOMBRA</b>':'<b>iluminado</b>'}`;
+  else if(th==='solar')prompt=target==='umb'?'Em qual ponto da Terra o observador vê um eclipse solar <b>TOTAL</b>?':target==='pen'?'Em qual ponto o observador vê um eclipse solar <b>PARCIAL</b>?':'Em qual ponto <b>não há eclipse</b> do Sol?';
+  else prompt=target==='umb'?'Em qual posição a Lua sofre <b>eclipse lunar total</b> (na sombra da Terra)?':target==='pen'?'Em qual posição a Lua está na <b>penumbra</b> da Terra?':'Em qual posição a Lua <b>não sofre eclipse</b>?';
+  return Object.assign(base,{type:'region',th,P,markers,target,wrong:0,label:th==='lab'?'Sombra e penumbra':'Eclipses',prompt,plain:strip(prompt),names:N,tmax:Math.max(14,26-L)*D.time*(base.boss?.85:1)});
+}
+/* ---- pergunta de múltipla escolha ---- */
+function buildQuiz(d,base,D,L){
+  const q=pickQ(d),hasD=!!q.draw;
+  const opts=shuffle([{t:q.ok,ok:true},...q.bad.map(t=>({t,ok:false}))]);
+  const w=328,h=hasD?112:140,xs=[18,374],ys=hasD?[430,556]:[280,440];
+  const bubbles=opts.map((o,i)=>({x:xs[i%2],y:ys[Math.floor(i/2)],w,h,ox:0,text:o.t,ok:o.ok,flash:0,ph:rnd(0,6),sp:rnd(.7,1.3),amp:6+L*2,dead:false}));
+  const tmax=Math.max(16,(44-L*2-(base.boss?8:0))*D.time*(VEST?1.1:1));
+  return Object.assign(base,{type:'quiz',q,prompt:esc(q.q),plain:q.q,bubbles,tmax,label:''});
+}
+
+/* ============================ TIRO E COLISÃO ============================ */
+function lampCss(m){return LCSS[m]||'#556'}
+function fire(){
+  if(state!=='round'||g.cool>0||g.rd.fin)return;g.cool=.2;
+  g.beams.push({x:cx,y:cy,t:.16,col:g.rd.type==='make'&&g.lamps?lampCss(g.lamps):'#dff6ff'});sfx.shot();
+  handleShot(cx,cy);
+}
+function itemAt(x,y){const it=g.rd.items;for(let i=it.length-1;i>=0;i--){const a=it[i];if(!a.dead&&Math.abs(x-a.x)<a.w/2&&Math.abs(y-a.y)<a.h/2)return a}return null}
+function handleShot(x,y){
+  const rd=g.rd;
+  if(rd.type==='cls'){
+    const it=itemAt(x,y);if(!it)return;
+    if(it.ok){it.dead=true;g.combo++;addScore(50+L4(),it.x,it.y);burst(it.x,it.y,'#72e0a4',26,220);sfx.pop();say('✔ '+it.why,'#72e0a4');
+      if(!rd.items.some(a=>a.ok&&!a.dead))setTimeout(()=>{if(g.rd===rd)finishRound(true)},350)}
+    else{it.flash=.7;rd.mist++;say('✖ '+it.why,'#ff6b72',3.2);hurt(1,`${rd.plain} → ${it.why}`);burst(it.x,it.y,'#ff6b72',16,160)}
+  }else if(rd.type==='make'){
+    const s=rd.scr;if(x<s.x||x>s.x+s.w||y<s.y||y>s.y+s.h)return;
+    if(!g.lamps){say('Ligue ao menos uma lâmpada (R, G ou B) antes de atirar.','#ffca3a');return}
+    const a=rd.asks[rd.ai];
+    if(g.lamps===a.need){rd.ai++;g.combo++;addScore(120,x,y);burst(x,y,LCSS[g.lamps],30,240);sfx.ok();say(`✔ Luz ${LNAME[g.lamps]} = ${['','vermelha','verde','vermelha+verde','azul','vermelha+azul','verde+azul','vermelha+verde+azul'][g.lamps]}`,'#72e0a4',3);
+      if(rd.ai>=rd.asks.length)setTimeout(()=>{if(g.rd===rd)finishRound(true)},450);else{rd.prompt=makePrompt(rd.asks[rd.ai]);const p=document.getElementById('ptxt');if(p)p.innerHTML=rd.prompt}}
+    else{rd.mist++;const t=`Você produziu luz ${LNAME[g.lamps]}, mas o pedido era luz ${a.name}.`;say('✖ '+t,'#ff6b72',3.2);hurt(1,`Cores: ${t}`)}
+  }else if(rd.type==='region'){
+    const P=rd.P;for(const m of rd.markers){
+      if(Math.hypot(x-(P.x2+8),y-(YC-m.y))<27){
+        if(m.r===rd.target){m.ok=true;g.combo++;addScore(120,x,y);burst(x,y,'#72e0a4',30,240);sfx.ok();say(`✔ Ponto ${m.letter}: ${rd.names[m.r]}.`,'#72e0a4',3.4);setTimeout(()=>{if(g.rd===rd)finishRound(true)},700);rd.fin2=true}
+        else{m.flash=.8;rd.mist++;rd.wrong++;const t=`Ponto ${m.letter}: ${rd.names[m.r]}.`;say('✖ '+t,'#ff6b72',3.4);hurt(1,`${rd.plain} → ${t}`);
+          if(rd.wrong>=3&&!rd.fin)setTimeout(()=>{if(g.rd===rd)finishRound(false)},700)}
+        return}}
+  }else if(rd.type==='quiz'){
+    for(const b of rd.bubbles)if(x>b.x+b.ox&&x<b.x+b.ox+b.w&&y>b.y&&y<b.y+b.h){b.x+=b.ox;b.ox=0;resolveQuiz(b,false);return}
+  }
+}
+const L4=()=>g.L*4;
+function syncLamps(){[['lr',1],['lg',2],['lb',4]].forEach(([id,m])=>document.getElementById(id).classList.toggle('on',!!(g.lamps&m)))}
+[['lr',1],['lg',2],['lb',4]].forEach(([id,m])=>{document.getElementById(id).addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();if(g&&state==='round'||state==='gap'){g.lamps^=m;syncLamps()}})});
+
+/* ============================ ATUALIZAÇÃO ============================ */
+function moveRound(dt){
+  const rd=g.rd;if(!rd)return;
+  if(rd.type==='cls')rd.items.forEach(a=>{a.x+=a.vx*dt*DIFFS[diff].speed;a.flash=Math.max(0,a.flash-dt);if(a.vx>0&&a.x>W+70)a.x=-70;if(a.vx<0&&a.x<-70)a.x=W+70});
+  if(rd.type==='quiz')rd.bubbles.forEach(b=>{b.ox=Math.sin(time*b.sp+b.ph)*b.amp;b.flash=Math.max(0,b.flash-dt)});
+  if(rd.type==='region')rd.markers.forEach(m=>m.flash=Math.max(0,m.flash-dt));
+}
+function update(dt){
+  time+=dt;g.cool=Math.max(0,g.cool-dt);
+  bgStars.forEach(s=>{s.y+=s.z*8*dt;if(s.y>H){s.y=0;s.x=rnd(0,W)}});
+  g.parts.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt});g.parts=g.parts.filter(p=>p.life>0);
+  g.floats.forEach(f=>{f.y-=40*dt;f.life-=dt});g.floats=g.floats.filter(f=>f.life>0);
+  g.beams.forEach(b=>b.t-=dt);g.beams=g.beams.filter(b=>b.t>0);
+  g.shake=Math.max(0,g.shake-dt);g.flash=Math.max(0,g.flash-dt);
+  if(g.msg){g.msg.life-=dt;if(g.msg.life<=0)g.msg=null}
+  if(state==='gap'||state==='round'){
+    const sp=480;if(keys.arrowleft||keys.a)cx-=sp*dt;if(keys.arrowright||keys.d)cx+=sp*dt;if(keys.arrowup||keys.w)cy-=sp*dt;if(keys.arrowdown||keys.s)cy+=sp*dt;
+    cx=Math.max(0,Math.min(W,cx));cy=Math.max(40,Math.min(H-60,cy));
+    moveRound(dt);
+  }
+  if(state==='gap'){g.gap.t-=dt;if(g.gap.t<=0){if(g.gap.after){g.gap=null;nextRound()}else{g.gap=null;state='round'}}}
+  else if(state==='round'){
+    const rd=g.rd;if(rd.fin)return;rd.t=(rd.t===undefined?rd.tmax:rd.t);
+    rd.t-=dt;
+    if(rd.t<=0){
+      if(rd.type==='quiz')return resolveQuiz(null,true);
+      rd.mist++;hurt(1,`Tempo esgotado: ${rd.plain}`);say('⏱ Tempo esgotado!','#ff6b72');finishRound(false);
+    }
+  }
+}
+
+/* ============================ DESENHO ============================ */
+function roundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+function wrap(text,x,y,maxW,lh,font){
+  ctx.font=font;const words=text.split(' ');let line='',lines=[];
+  for(const w of words){const t=line?line+' '+w:w;if(ctx.measureText(t).width>maxW&&line){lines.push(line);line=w}else line=t}
+  lines.push(line);const y0=y-(lines.length-1)*lh/2;lines.forEach((l,i)=>ctx.fillText(l,x,y0+i*lh));
+}
+function drawBg(){
+  const s=g?Math.min(g.stage,STAGES.length-1):0,tc=STAGES[s].cor;
+  const gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#050b14');gr.addColorStop(1,'#0b1730');ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);
+  const ng=ctx.createRadialGradient(W*.75,H*.3,10,W*.75,H*.3,380);ng.addColorStop(0,tc+'2a');ng.addColorStop(1,'transparent');ctx.fillStyle=ng;ctx.fillRect(0,0,W,H);
+  bgStars.forEach(st=>{ctx.globalAlpha=.3+.4*Math.sin(time*2+st.tw);ctx.fillStyle=st.z>2?'#bfe8ff':'#fff';ctx.fillRect(st.x,st.y,st.z*.9,st.z*.9)});ctx.globalAlpha=1;
+  if(g&&g.rd&&g.rd.variant==='pred'&&g.rd.lamp){ctx.fillStyle=LCSS[g.rd.lamp]+'22';ctx.fillRect(0,0,W,H)}
+}
+function swatch(x,y,body,i){
+  ctx.save();ctx.translate(x,y);ctx.fillStyle=LCSS[body];ctx.strokeStyle=body===0?'#8896a8':'#ffffffaa';ctx.lineWidth=2.5;ctx.beginPath();
+  const k=i%4;
+  if(k===0)ctx.arc(0,0,27,0,7);else if(k===1)roundRect(-25,-25,50,50,6);
+  else if(k===2){ctx.moveTo(0,-30);ctx.lineTo(28,0);ctx.lineTo(0,30);ctx.lineTo(-28,0);ctx.closePath()}
+  else{for(let j=0;j<10;j++){const a=-1.57+j*.628,r=j%2?13:28;j?ctx.lineTo(Math.cos(a)*r,Math.sin(a)*r):ctx.moveTo(Math.cos(a)*r,Math.sin(a)*r)}ctx.closePath()}
+  ctx.fill();ctx.stroke();ctx.restore();
+}
+function drawCls(rd){
+  rd.items.forEach((a,i)=>{
+    if(a.dead)return;
+    ctx.save();ctx.translate(a.x,a.y);
+    ctx.fillStyle=a.flash>0?'#4a1a24':'#0f2540';ctx.strokeStyle=a.flash>0?'#ff6b72':'#3d6c9c';ctx.lineWidth=2;
+    ctx.shadowColor=a.flash>0?'#ff6b72':STAGES[g.stage].cor;ctx.shadowBlur=8;roundRect(-a.w/2,-a.h/2,a.w,a.h,14);ctx.fill();ctx.shadowBlur=0;ctx.stroke();
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    if(a.body!==undefined)swatch(0,-12,a.body,i);else{ctx.font='38px "Segoe UI Emoji","Apple Color Emoji",sans-serif';ctx.fillStyle='#fff';ctx.fillText(a.emoji,0,-14)}
+    ctx.fillStyle='#e5f1fb';wrap(a.label,0,a.h/2-20,a.w-10,13,'600 12px Inter,Segoe UI,Arial,sans-serif');
+    ctx.restore();
+  });
+}
+function drawMake(rd){
+  const s=rd.scr;
+  ctx.fillStyle='#1a1d24';roundRect(s.x,s.y,s.w,s.h,14);ctx.fill();
+  ctx.save();roundRect(s.x,s.y,s.w,s.h,14);ctx.clip();ctx.globalCompositeOperation='lighter';
+  [[1,s.x+s.w*.36,s.y+s.h*.42],[2,s.x+s.w*.64,s.y+s.h*.42],[4,s.x+s.w*.5,s.y+s.h*.66]].forEach(([m,x,y])=>{
+    if(g.lamps&m){const r=ctx.createRadialGradient(x,y,4,x,y,118);r.addColorStop(0,LCSS[m]+'ff');r.addColorStop(.7,LCSS[m]+'cc');r.addColorStop(1,LCSS[m]+'00');ctx.fillStyle=r;ctx.beginPath();ctx.arc(x,y,118,0,7);ctx.fill()}});
+  ctx.restore();
+  ctx.strokeStyle='#8fb4d9';ctx.lineWidth=3;roundRect(s.x,s.y,s.w,s.h,14);ctx.stroke();
+  ctx.fillStyle='#ffffff99';ctx.font='700 13px Inter,Arial';ctx.textAlign='center';ctx.fillText('ANTEPARO BRANCO',s.x+s.w/2,s.y+s.h+22);
+  ctx.fillStyle='#ffca3a';ctx.font='800 15px Inter,Arial';ctx.fillText(`Luz ${rd.ai+1}/${rd.asks.length}`,s.x+s.w/2,s.y-12);
+}
+function drawRegion(rd){
+  const P=rd.P,U=P.U,Pn=P.P,y=v=>YC-v;
+  // luz entre fonte e obstáculo
+  ctx.fillStyle='rgba(255,236,150,.10)';ctx.beginPath();ctx.moveTo(P.x0,y(P.s));ctx.lineTo(P.x1,y(P.h));ctx.lineTo(P.x1,y(-P.h));ctx.lineTo(P.x0,y(-P.s));ctx.closePath();ctx.fill();
+  // região iluminada além (fundo claro)
+  ctx.fillStyle='rgba(255,236,150,.10)';ctx.fillRect(P.x1,YC-230,P.x2-P.x1,460);
+  // penumbra
+  ctx.fillStyle='rgba(60,70,100,.75)';ctx.beginPath();ctx.moveTo(P.x1,y(P.h));ctx.lineTo(P.x2,y(Pn));ctx.lineTo(P.x2,y(-Pn));ctx.lineTo(P.x1,y(-P.h));ctx.closePath();ctx.fill();
+  // sombra
+  if(U>0){ctx.fillStyle='rgba(0,0,0,.92)';ctx.beginPath();ctx.moveTo(P.x1,y(P.h));ctx.lineTo(P.x2,y(U));ctx.lineTo(P.x2,y(-U));ctx.lineTo(P.x1,y(-P.h));ctx.closePath();ctx.fill()}
+  // raios
+  ctx.strokeStyle='rgba(255,230,120,.5)';ctx.lineWidth=1.3;
+  [[P.s,P.h],[P.s,-P.h],[-P.s,P.h],[-P.s,-P.h]].forEach(([a,b])=>{if(P.s===0&&a!==0)return;ctx.beginPath();ctx.moveTo(P.x0,y(a));ctx.lineTo(P.x2,y(a+(b-a)*(P.x2-P.x0)/(P.x1-P.x0)));ctx.stroke()});
+  // fonte
+  if(rd.th==='lab'){
+    if(P.s>0){ctx.shadowColor='#ffe58a';ctx.shadowBlur=18;ctx.fillStyle='#ffe58a';roundRect(P.x0-7,y(P.s),14,P.s*2,6);ctx.fill();ctx.shadowBlur=0}
+    else{ctx.shadowColor='#ffe58a';ctx.shadowBlur=20;ctx.fillStyle='#fff6c0';ctx.beginPath();ctx.arc(P.x0,YC,7,0,7);ctx.fill();ctx.shadowBlur=0}
+    ctx.fillStyle='#4b5c72';ctx.strokeStyle='#9fb6cf';ctx.lineWidth=2;roundRect(P.x1-9,y(P.h),18,P.h*2,4);ctx.fill();ctx.stroke();
+  }else{
+    const g1=ctx.createRadialGradient(P.x0,YC,4,P.x0,YC,P.s*1.7);g1.addColorStop(0,'#fff7c2');g1.addColorStop(.5,'#ffb22d');g1.addColorStop(1,'transparent');
+    ctx.fillStyle=g1;ctx.beginPath();ctx.arc(P.x0,YC,P.s*1.7,0,7);ctx.fill();ctx.fillStyle='#ffd45a';ctx.beginPath();ctx.arc(P.x0,YC,P.s,0,7);ctx.fill();
+    ctx.fillStyle=rd.th==='solar'?'#c9ccd4':'#3d8be5';ctx.beginPath();ctx.arc(P.x1,YC,P.h,0,7);ctx.fill();
+  }
+  // anteparo (faixa)
+  const seg=[[-230,-Pn,'lit'],[-Pn,-U,'pen'],[-U,U,'umb'],[U,Pn,'pen'],[Pn,230,'lit']];
+  seg.forEach(([a,b,r])=>{if(b<=a)return;ctx.fillStyle=r==='lit'?'#f5e9a8':r==='pen'?'#6b7794':'#000';ctx.fillRect(P.x2,y(b),16,b-a)});
+  ctx.strokeStyle='#cfe0f2';ctx.lineWidth=2;ctx.strokeRect(P.x2,YC-230,16,460);
+  ctx.fillStyle='#cfe0f2';ctx.font='700 13px Inter,Arial';ctx.textAlign='center';
+  ctx.fillText(P.src,P.x0,YC+P.s+(rd.th==='lab'?26:22));
+  ctx.fillText(P.occ,P.x1,YC+P.h+22);ctx.fillText(P.scr,P.x2+8,YC+250);
+  // marcadores
+  rd.markers.forEach(m=>{
+    const mx=P.x2+8,my=y(m.y);
+    ctx.fillStyle=m.flash>0?'#ff6b72':m.ok?'#72e0a4':'#ffca3a';ctx.strokeStyle='#111';ctx.lineWidth=3;ctx.beginPath();ctx.arc(mx,my,20,0,7);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#111';ctx.font='900 18px Inter,Arial';ctx.textBaseline='middle';ctx.fillText(m.letter,mx,my+1);
+  });
+}
+function drawQuiz(rd){
+  if(rd.q.draw)drawDiagram(rd.q.draw);
+  rd.bubbles.forEach(b=>{
+    ctx.save();const bx=b.x+b.ox;
+    const gl=ctx.createLinearGradient(0,b.y,0,b.y+b.h);gl.addColorStop(0,b.flash>0?'#3f7db5':'#163a5f');gl.addColorStop(1,'#0c2038');
+    ctx.shadowColor=STAGES[g.stage].cor;ctx.shadowBlur=12;ctx.fillStyle=gl;roundRect(bx,b.y,b.w,b.h,18);ctx.fill();ctx.shadowBlur=0;ctx.lineWidth=2;ctx.strokeStyle=STAGES[g.stage].cor;ctx.stroke();
+    ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';
+    const len=b.text.length,fs=len>70?13:len>50?14.5:len>30?16:19;
+    wrap(b.text,bx+b.w/2,b.y+b.h/2,b.w-26,fs+4,`700 ${fs}px Inter,Segoe UI,Arial,sans-serif`);ctx.restore();
+  });
+}
+function arrow(x1,y1,x2,y2,col){ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();const a=Math.atan2(y2-y1,x2-x1);[0,1].forEach(k=>{const px=k?x1:x2,py=k?y1:y2,d=k?a+Math.PI:a;ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px-9*Math.cos(d-.4),py-9*Math.sin(d-.4));ctx.lineTo(px-9*Math.cos(d+.4),py-9*Math.sin(d+.4));ctx.closePath();ctx.fill()})}
+function drawDiagram(dr){
+  ctx.save();ctx.fillStyle='rgba(10,26,43,.75)';roundRect(20,166,680,246,14);ctx.fill();ctx.strokeStyle='#2f5a80';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.font='700 14px Inter,Arial';ctx.textAlign='center';ctx.textBaseline='middle';
+  if(dr.k==='shadow'){
+    const gy=385;ctx.strokeStyle='#7f93a8';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(40,gy);ctx.lineTo(680,gy);ctx.stroke();
+    ctx.fillStyle='#ffd45a';ctx.beginPath();ctx.arc(70,200,22,0,7);ctx.fill();
+    const hp=62,hx=230,bx=470,bh=170,r=70/60,sl=hp*r,sb=bh*r;
+    ctx.strokeStyle='rgba(255,230,120,.7)';ctx.lineWidth=1.5;[[hx,gy-hp,hx+sl,gy],[bx,gy-bh,bx+sb,gy]].forEach(([x1,y1,x2,y2])=>{ctx.beginPath();ctx.moveTo(x1-(x2-x1)*1.3,y1-(y2-y1)*1.3);ctx.lineTo(x2,y2);ctx.stroke()});
+    ctx.fillStyle='#3c8f5a';ctx.fillRect(hx-3,gy-hp,6,hp);ctx.fillStyle='#4b6f9a';ctx.fillRect(bx-24,gy-bh,48,bh);
+    ctx.fillStyle='rgba(0,0,0,.55)';ctx.fillRect(hx,gy-3,sl,6);ctx.fillRect(bx,gy-3,sb,6);
+    ctx.fillStyle='#fff';ctx.fillText(`h = ${nf(dr.h)} m`,hx-52,gy-hp/2);ctx.fillText(`s = ${nf(dr.s)} m`,hx+sl/2,gy+18);
+    ctx.fillText('H = ?',bx-52,gy-bh/2);ctx.fillText(`S = ${nf(dr.S)} m`,bx+sb/2,gy+18);
+    ctx.fillStyle='#9fb6cf';ctx.font='600 12px Inter,Arial';ctx.fillText('raios solares paralelos · figura fora de escala',360,190);
+  }else if(dr.k==='cam'){
+    const ax=290,by0=235,by1=345,ox=290,oy=290,rx=560;
+    ctx.strokeStyle='#9fb6cf';ctx.lineWidth=3;ctx.strokeRect(ax,by0,rx-ax,by1-by0);ctx.fillStyle='#0b1524';ctx.fillRect(ax+1,by0+1,rx-ax-2,by1-by0-2);
+    ctx.fillStyle='#ffca3a';ctx.beginPath();ctx.arc(ox,oy,4,0,7);ctx.fill();ctx.fillText('O',ox-12,oy-2);
+    arrow(120,340,120,240,'#72e0a4');ctx.fillStyle='#72e0a4';ctx.fillText(dr.ask==='m'?'m = ?':`m = ${nf(dr.m)} m`,120,225);
+    ctx.strokeStyle='rgba(87,215,255,.8)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(120,240);ctx.lineTo(rx,330);ctx.moveTo(120,340);ctx.lineTo(rx,250);ctx.stroke();
+    arrow(rx,326,rx,254,'#ff9b3d');ctx.fillStyle='#ff9b3d';ctx.fillText(dr.ask==='n'?'n = ?':`n = ${nf(dr.n)} cm`,rx+40,290);
+    arrow(120,372,ax,372,'#cfe0f2');ctx.fillStyle='#cfe0f2';ctx.fillText(dr.ask==='a'?'a = ?':`a = ${nf(dr.a)} m`,205,388);
+    arrow(ax,372,rx,372,'#cfe0f2');ctx.fillText(`b = ${nf(dr.b)} cm`,425,388);
+  }else if(dr.k==='point'){
+    const sx=90,sy=295,px=280,qx=600,r=(dr.d1+dr.d2)/dr.d1,ph=26,qh=Math.min(120,ph*r);
+    ctx.shadowColor='#ffe58a';ctx.shadowBlur=16;ctx.fillStyle='#fff6c0';ctx.beginPath();ctx.arc(sx,sy,7,0,7);ctx.fill();ctx.shadowBlur=0;
+    ctx.strokeStyle='rgba(255,230,120,.7)';ctx.lineWidth=1.5;[-1,1].forEach(sg=>{ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(qx,sy+sg*qh);ctx.stroke()});
+    ctx.fillStyle='#4b5c72';ctx.fillRect(px-5,sy-ph,10,ph*2);ctx.fillStyle='#0a0a0a';ctx.fillRect(qx-4,sy-qh,8,qh*2);ctx.strokeStyle='#cfe0f2';ctx.strokeRect(qx-4,sy-qh,8,qh*2);
+    ctx.fillStyle='#fff';ctx.fillText('fonte',sx,sy+24);ctx.fillText(`placa (lado ${nf(dr.l)} cm)`,px,sy+ph+18);ctx.fillText('lado da sombra = ?',qx-10,sy-qh-16);
+    arrow(sx,372,px,372,'#cfe0f2');ctx.fillStyle='#cfe0f2';ctx.fillText(`${nf(dr.d1)} m`,(sx+px)/2,388);arrow(px,372,qx,372,'#cfe0f2');ctx.fillText(`${nf(dr.d2)} m`,(px+qx)/2,388);
+  }
+  ctx.restore();
+}
+function drawHUD(){
+  ctx.fillStyle='rgba(5,11,20,.88)';ctx.fillRect(0,0,W,34);
+  ctx.textBaseline='middle';ctx.textAlign='left';ctx.font='700 15px Inter,Arial,sans-serif';
+  for(let i=0;i<g.maxShield;i++){ctx.fillStyle=i<g.shield?'#ff6b72':'#2a3d55';ctx.fillText('♥',10+i*17,18)}
+  ctx.fillStyle='#ffca3a';ctx.textAlign='center';ctx.fillText('★ '+g.score+(g.combo>1?'   🔥×'+g.combo:''),W/2+30,18);
+  ctx.textAlign='right';ctx.fillStyle=STAGES[g.stage].cor;ctx.font='700 12px Inter,Arial,sans-serif';let nm=STAGES[g.stage].nome;if(nm.length>22)nm=nm.slice(0,21)+'…';ctx.fillText((g.stage+1)+'/'+STAGES.length+' · '+nm,W-128,18);
+  const rd=g.rd;if(rd&&rd.tmax&&(state==='round'||state==='gap')){
+    const f=Math.max(0,(rd.t===undefined?rd.tmax:rd.t)/rd.tmax);ctx.fillStyle='#0a1a2b';ctx.fillRect(0,34,W,5);ctx.fillStyle=f<.25?'#ff6b72':STAGES[g.stage].cor;ctx.fillRect(0,34,W*f,5);
+  }
+}
+function drawTurret(){
+  ctx.save();const ang=Math.atan2(cy-782,cx-W/2)+Math.PI/2;ctx.translate(W/2,790);
+  ctx.fillStyle='#22364f';ctx.strokeStyle='#57d7ff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,10,34,Math.PI,0);ctx.fill();ctx.stroke();
+  ctx.rotate(Math.max(-1.3,Math.min(1.3,ang)));ctx.fillStyle='#57d7ff';roundRect(-9,-38,18,48,5);ctx.fill();ctx.fillStyle='#fff';ctx.fillRect(-4,-40,8,6);ctx.restore();
+}
+function draw(){
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  let sx=0,sy=0;if(g&&g.shake>0){sx=rnd(-4,4);sy=rnd(-4,4)}
+  ctx.save();ctx.translate(sx,sy);drawBg();
+  if(g&&g.rd&&state!=='title'){
+    const rd=g.rd;
+    if(rd.type==='cls')drawCls(rd);else if(rd.type==='make')drawMake(rd);else if(rd.type==='region')drawRegion(rd);else if(rd.type==='quiz')drawQuiz(rd);
+    g.beams.forEach(b=>{const a=Math.max(0,b.t/.16);ctx.globalAlpha=a;ctx.strokeStyle=b.col;ctx.shadowColor=b.col;ctx.shadowBlur=16;ctx.lineWidth=2+6*a;ctx.beginPath();ctx.moveTo(W/2,770);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.shadowBlur=0;ctx.globalAlpha=1});
+    g.parts.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life/p.max);ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,7);ctx.fill()});ctx.globalAlpha=1;
+    drawTurret();drawHUD();
+    g.floats.forEach(f=>{ctx.globalAlpha=Math.min(1,f.life);ctx.fillStyle=f.c;ctx.font='800 20px Inter,Arial';ctx.textAlign='center';ctx.fillText(f.t,f.x,f.y)});ctx.globalAlpha=1;
+    if(g.msg&&(state==='round'||state==='gap')){ctx.font='700 15px Inter,Arial';const w=Math.min(680,ctx.measureText(g.msg.text).width+30);ctx.fillStyle='rgba(5,11,20,.88)';roundRect(W/2-w/2,140,w,32,10);ctx.fill();ctx.fillStyle=g.msg.col;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(g.msg.text,W/2,156)}
+    if(state==='gap'&&g.gap&&g.gap.text){ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='900 34px Inter,Arial';ctx.fillStyle='rgba(255,255,255,'+Math.min(1,g.gap.t*2)+')';ctx.fillText(g.gap.text,W/2,H/2+20)}
+    if(state==='round'||state==='gap'){ // mira
+      const col=rd.type==='make'&&g.lamps?LCSS[g.lamps]:'#ffffff';ctx.strokeStyle=col;ctx.lineWidth=2.5;ctx.shadowColor=col;ctx.shadowBlur=8;
+      ctx.beginPath();ctx.arc(cx,cy,17,0,7);ctx.moveTo(cx-27,cy);ctx.lineTo(cx-8,cy);ctx.moveTo(cx+8,cy);ctx.lineTo(cx+27,cy);ctx.moveTo(cx,cy-27);ctx.lineTo(cx,cy-8);ctx.moveTo(cx,cy+8);ctx.lineTo(cx,cy+27);ctx.stroke();ctx.shadowBlur=0;
+    }
+    if(g.flash>0){ctx.fillStyle='rgba(255,80,90,'+g.flash*.5+')';ctx.fillRect(0,0,W,H)}
+  }
+  ctx.restore();
+}
+
+/* ============================ ENTRADA E LOOP ============================ */
+addEventListener('keydown',e=>{
+  const k=e.key.toLowerCase();keys[k]=true;
+  if(['arrowup','arrowdown','arrowleft','arrowright',' '].includes(k))e.preventDefault();
+  if(k==='m')muteBtn.click();
+  if(k===' '){if(state==='feedback')afterFeedback();else fire()}
+  if(k==='enter'){const b=document.getElementById('go')||document.getElementById('start');if(b&&ov.classList.contains('show'))b.click()}
+  if(g&&g.rd&&g.rd.type==='make'&&(state==='round'||state==='gap')){const m={r:1,g:2,b:4,'1':1,'2':2,'3':4}[k];if(m){g.lamps^=m;syncLamps()}}
+  if(k==='p'||k==='escape'){
+    if(state==='round'){g.prevState=state;state='paused';show('<h2>⏸ Pausado</h2><button class="btn primary" id="go">Continuar</button>');document.getElementById('go').onclick=unpause}
+    else if(state==='paused')unpause();
+  }
+});
+function unpause(){state=g.prevState;hide()}
+addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
+addEventListener('blur',()=>keys={});
+function ptr(e){const r=cv.getBoundingClientRect();cx=(e.clientX-r.left)/r.width*W;cy=(e.clientY-r.top)/r.height*H}
+cv.addEventListener('pointermove',ptr);
+cv.addEventListener('pointerdown',e=>{ptr(e);fire()});
+cv.addEventListener('contextmenu',e=>e.preventDefault());
+function fit(){stageEl.style.fontSize=(stageEl.clientWidth/720*16)+'px'}
+addEventListener('resize',fit);fit();
+function loop(t){
+  const dt=Math.min(.05,(t-last)/1000||0);last=t;
+  if(g&&state!=='title'&&state!=='paused'&&state!=='intro')update(dt);
+  else{time+=dt;bgStars.forEach(s=>{s.y+=s.z*8*dt;if(s.y>H){s.y=0;s.x=rnd(0,W)}})}
+  draw();requestAnimationFrame(loop);
+}
+g={stage:0,L:0,shield:0,maxShield:0,score:0,combo:0,rd:null,parts:[],floats:[],beams:[],msg:null,cool:0,shake:0,flash:0,gap:null,lamps:0};
+titleScreen();requestAnimationFrame(loop);
+</script>
+</body>
+</html>
