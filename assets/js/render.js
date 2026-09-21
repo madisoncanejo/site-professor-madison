@@ -176,30 +176,38 @@ function renderAulas() {
 }
 
 /* ---------- Games em HTML ---------- */
-function renderGames() {
-  const el = document.getElementById("lista-games");
-  if (!el) return;
-  const items = window.GAMES || [];
-  if (items.length === 0) {
-    emptyState(el, "🎮", "Nenhum game publicado ainda", "Os games interativos em HTML aparecerão aqui.");
-    return;
-  }
-  el.innerHTML = items
-    .map(
-      (item) => `
-      <article class="item-card">
-        <div class="body">
-          ${item.tema ? `<span class="tag">${item.tema}</span>` : ""}
-          <h3>${item.titulo}</h3>
-          <p>${item.descricao || ""}</p>
-          <span class="meta">${formatDateBR(item.data)}</span>
-          <div class="actions">
-            <a class="btn btn-primary" href="${item.url}" target="_blank" rel="noopener">Jogar →</a>
-          </div>
+function gameCard(item) {
+  const aviso = item.aulaUrl
+    ? `<div class="ref-note">
+         <span>📖 Este game faz referência à aula interativa <strong>${item.aulaTitulo}</strong>.</span>
+         <span>Estude o conteúdo primeiro e depois jogue.</span>
+         <a href="${item.aulaUrl}" target="_blank" rel="noopener">Estudar a aula →</a>
+       </div>`
+    : "";
+  return `
+    <article class="item-card">
+      <div class="body">
+        ${item.tema ? `<span class="tag">${item.tema}</span>` : ""}
+        <h3>${item.titulo}</h3>
+        <p>${item.descricao || ""}</p>
+        ${aviso}
+        <span class="meta">${formatDateBR(item.data)}</span>
+        <div class="actions">
+          <a class="btn btn-primary" href="${item.url}" target="_blank" rel="noopener">Jogar →</a>
         </div>
-      </article>`
-    )
-    .join("");
+      </div>
+    </article>`;
+}
+
+function renderGames() {
+  const items = window.GAMES || [];
+  renderGroupedBySerie(
+    "lista-games",
+    items,
+    gameCard,
+    "🎮",
+    "Nenhum game publicado para esta série ainda."
+  );
 }
 
 /* ---------- Blog ---------- */

@@ -32,7 +32,7 @@ um objeto no formato mostrado no comentário do próprio arquivo:
 | Games                   | `data/games.js`         | `games-html/`                        |
 | Blog                    | `data/blog-fisica.js`  | `fisica/blog/` (copie `fisica/post-modelo.html`) |
 
-**Vídeo-aulas, Listas de exercícios e Aulas interativas** são divididas por série do Ensino
+**Vídeo-aulas, Listas de exercícios, Aulas interativas e Games** são divididas por série do Ensino
 Médio. Cada item nesses três arquivos de dados precisa de um campo `serie` com o valor `"1"`,
 `"2"`, `"3"` (1ª, 2ª ou 3ª série) ou `"enem"`, que determina em qual subseção da página ele
 aparece.

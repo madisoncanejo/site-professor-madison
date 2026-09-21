@@ -153,6 +153,14 @@ ul{ margin:0; padding:0; list-style:none; }
   font-size:1.05rem; font-weight:700; color:var(--teal);
   border-bottom:1px solid var(--border-soft); padding-bottom:10px; margin-bottom:20px;
 }
+.ref-note{
+  display:flex; flex-direction:column; gap:4px; font-size:.85rem; color:var(--text-dim);
+  background:var(--teal-soft); border:1px solid var(--border); border-left:3px solid var(--teal);
+  border-radius:var(--radius-sm); padding:10px 12px;
+}
+.ref-note strong{ color:var(--text); }
+.ref-note a{ color:var(--teal); font-weight:700; }
+.ref-note a:hover{ text-decoration:underline; }
 .tema-group{ margin-bottom:28px; }
 .tema-group:last-child{ margin-bottom:0; }
 .tema-title{

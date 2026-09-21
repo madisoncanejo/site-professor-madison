@@ -43,12 +43,17 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .hz{display:inline-block;background:#0a1a2b;border:1px solid #33567c;border-radius:99px;padding:.15em .6em;margin:.15em .2em 0 0;font-size:.8em}
 .tb{position:absolute;top:.8%;z-index:5;background:rgba(8,20,36,.7);border:1px solid #33567c;color:#fff;border-radius:.6em;font-size:.85em;padding:.2em .5em;cursor:pointer}
 #mute{right:1.5%}#fs{right:9%}
+#fire{position:absolute;right:3%;bottom:6%;width:6.2em;height:6.2em;border-radius:50%;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:6;background:radial-gradient(circle at 35% 30%,#ff8a7a,#e0303f 70%);border:3px solid #ffd0d0;color:#fff;font-weight:900;font-size:.95em;letter-spacing:.05em;box-shadow:0 0 22px rgba(255,80,90,.55);opacity:.82;touch-action:none;cursor:pointer}
+#fire small{font-size:.6em;font-weight:600;opacity:.8;letter-spacing:.1em;text-transform:uppercase}
+#fire.on{transform:scale(.92);opacity:1;filter:brightness(1.25)}
+@media (hover:none){#fire small{display:none}}
 </style>
 </head>
 <body>
 <div id="stage">
   <canvas id="cv"></canvas>
   <div id="qbar"></div>
+  <div id="fire" role="button" aria-label="Atirar">ATIRAR<small>espaço</small></div>
   <button id="fs" class="tb" title="Tela cheia">⛶</button>
   <button id="mute" class="tb" title="Som (M)">🔊</button>
   <div id="ov"><div class="card" id="card"></div></div>
@@ -414,7 +419,8 @@ function titleScreen(){
    <h1><span>Defensor Estelar</span></h1>
    <p><b>Somos Poeira das Estrelas — o jogo.</b> Pilote sua nave, abata invasores e <b>acerte com seus tiros a cápsula da resposta correta</b>. São 8 estágios com dificuldade crescente: perguntas mais difíceis, inimigos mais rápidos, novos perigos e um mini-chefe em cada fase.</p>
    <div class="grid"><div>🖱️ Mouse / dedo: <b>arraste</b> a nave</div><div><span class="key">←</span><span class="key">→</span><span class="key">↑</span><span class="key">↓</span> ou <span class="key">WASD</span></div>
-   <div>🔫 Disparo <b>automático</b></div><div><span class="key">P</span> pausa · <span class="key">M</span> som</div></div>
+   <div>🔫 Atirar: segure <span class="key">ESPAÇO</span>, clique do mouse ou o botão <b>ATIRAR</b> (celular)</div><div><span class="key">P</span> pausa · <span class="key">M</span> som</div></div>
+   <p class="dim">A nave <b>só atira quando você manda</b>: leia a pergunta com calma e mire antes de atirar!</p>
    <p class="dim">Power-ups: <b style="color:#ffca3a">▲</b> tiro triplo · <b style="color:#72e0a4">✚</b> escudo · <b style="color:#57d7ff">⏳</b> tempo lento nas cápsulas.</p>
    <h3>Dificuldade</h3>
    <div id="dif">${Object.entries(DIFFS).map(([k,v])=>`<button class="btn ${k===diff?'sel':''}" data-d="${k}">${v.nome}</button>`).join('')}</div>
@@ -425,7 +431,7 @@ function titleScreen(){
   card.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{hide();newRun(+b.dataset.s)});
   document.getElementById('start').onclick=()=>{hide();newRun(u)};
 }
-function show(html){card.innerHTML=html;ov.classList.add('show');card.scrollTop=0}
+function show(html){btnFire=false;mouseFire=false;card.innerHTML=html;ov.classList.add('show');card.scrollTop=0}
 function hide(){ov.classList.remove('show')}
 
 /* ============================ ENTRADA ============================ */
@@ -442,10 +448,17 @@ addEventListener('keydown',e=>{
 });
 function unpause(){state=g.prev;hide()}
 addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
-addEventListener('blur',()=>keys={});
+addEventListener('blur',()=>{keys={};btnFire=false;mouseFire=false});
 function ptr(e){const r=cv.getBoundingClientRect();tx=(e.clientX-r.left)/r.width*W;ty=(e.clientY-r.top)/r.height*H-(e.pointerType==='touch'?70:0);pointerOn=true}
-cv.addEventListener('pointerdown',e=>{ptr(e);try{cv.setPointerCapture(e.pointerId)}catch(_){}});
+let btnFire=false,mouseFire=false;
+cv.addEventListener('pointerdown',e=>{ptr(e);if(e.pointerType==='mouse')mouseFire=true;try{cv.setPointerCapture(e.pointerId)}catch(_){}});
 cv.addEventListener('pointermove',ptr);
+['pointerup','pointercancel'].forEach(ev=>cv.addEventListener(ev,()=>{mouseFire=false}));
+const fireEl=document.getElementById('fire');
+fireEl.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();btnFire=true;fireEl.classList.add('on');try{fireEl.setPointerCapture(e.pointerId)}catch(_){}});
+['pointerup','pointercancel','lostpointercapture'].forEach(ev=>fireEl.addEventListener(ev,()=>{btnFire=false;fireEl.classList.remove('on')}));
+fireEl.addEventListener('contextmenu',e=>e.preventDefault());
+cv.addEventListener('contextmenu',e=>e.preventDefault());
 function burst(x,y,c,n,sp){for(let i=0;i<n;i++){const a=rnd(0,6.28),s=rnd(30,sp);g.parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:rnd(.35,.9),max:.9,c,r:rnd(1.5,3.5)})}}
 
 /* ============================ ATUALIZAÇÃO ============================ */
@@ -489,7 +502,7 @@ function update(dt){
 
   // tiro automático (parado durante a morte do chefe? não: continua)
   p.cd-=dt;
-  if(p.cd<=0){p.cd=.17;sfx.shot();g.bullets.push({x:p.x,y:p.y-22,vx:0,vy:-760});
+  if(p.cd<=0&&(keys[' ']||btnFire||mouseFire)){p.cd=.17;sfx.shot();g.bullets.push({x:p.x,y:p.y-22,vx:0,vy:-760});
     if(p.tri>0){g.bullets.push({x:p.x-10,y:p.y-14,vx:-90,vy:-740});g.bullets.push({x:p.x+10,y:p.y-14,vx:90,vy:-740})}}
   g.bullets.forEach(b=>{b.x+=b.vx*dt;b.y+=b.vy*dt});g.bullets=g.bullets.filter(b=>b.y>-20&&b.x>-20&&b.x<W+20);
 
@@ -685,6 +698,7 @@ function loop(t){
   const dt=Math.min(.05,(t-last)/1000||0);last=t;
   if(g&&state!=='title'&&state!=='paused'&&state!=='intro')update(dt);
   else{time+=dt;stars.forEach(s=>{s.y+=s.z*10*dt;if(s.y>H){s.y=0;s.x=rnd(0,W)}})}
+  fireEl.style.display=['wave','question','boss','bossdead'].includes(state)?'flex':'none';
   draw();requestAnimationFrame(loop);
 }
 g={stage:0,L:0,si:-1,steps:[],shield:0,maxShield:0,score:0,combo:0,p:{x:W/2,y:740,inv:0,tri:0,slow:0},bullets:[],enemies:[],ebullets:[],caps:[],parts:[],pups:[],floats:[],shake:0,flash:0,boss:null,well:null,stats:STAGES.map(()=>({r:0,n:0}))};
