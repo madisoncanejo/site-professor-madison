@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<script>/* Professor Madison: respeita a opção "Reduzir animações" do site e a configuração do aparelho */
+(function(){try{var m=localStorage.getItem("pm_motion");var os=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+window.PM_RM=(m==="reduce")||(m!=="full"&&os);
+if(window.PM_RM){var s=document.createElement("style");s.textContent="*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}";document.head.appendChild(s)}}catch(e){window.PM_RM=false}})();
+</script>
+
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Óptica Geométrica — Laboratório Interativo MDC</title>

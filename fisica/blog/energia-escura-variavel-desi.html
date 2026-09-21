@@ -58,6 +58,30 @@
 .pdf-cta p{margin:0 0 6px;color:var(--text-dim)}
 .pdf-cta p:first-child{font-weight:700;color:var(--text);font-size:1.05rem}
 .pdf-cta .btn{margin-top:14px}
+/* Leitor escolheu tema escuro/suave: adapta o papel da matéria (padrão continua claro) */
+html[data-chosen][data-theme="dark"] .post-article{
+  --ink:#e3e8ee; --page:#0f1620; --paper:#151d29; --accent:#3fd6b0; --accent-soft:#1a2836; --line:#2b3746;
+  --h:#f2f6fa; --hh:#dbe5ef; --dek:#b6c0cb; --lnk:#6fd0ff; --box:#111a25; --th:#1c2836;
+}
+html[data-chosen][data-theme="soft"] .post-article{
+  --ink:#cfd5dc; --page:#121519; --paper:#171b21; --accent:#5cbfa3; --accent-soft:#1d242b; --line:#2c343d;
+  --h:#dfe4ea; --hh:#c8d0d8; --dek:#a3acb6; --lnk:#84bfe0; --box:#14181d; --th:#1f262e;
+}
+html[data-chosen]:is([data-theme="dark"],[data-theme="soft"]) .post-article h1{color:var(--h)}
+html[data-chosen]:is([data-theme="dark"],[data-theme="soft"]) .post-article h2,
+html[data-chosen]:is([data-theme="dark"],[data-theme="soft"]) .post-article h3{color:var(--hh)}
+html[data-chosen]:is([data-theme="dark"],[data-theme="soft"]) .post-article .dek{color:var(--dek)}
+html[data-chosen]:is([data-theme="dark"],[data-theme="soft"]) .post-article a{color:var(--lnk)}
+html[data-chosen]:is([data-theme="dark"],[data-theme="soft"]) .post-article .math-box{background:var(--box);border-color:var(--line)}
+html[data-chosen]:is([data-theme="dark"],[data-theme="soft"]) .post-article th{background:var(--th);color:var(--hh)}
+html[data-chosen]:is([data-theme="dark"],[data-theme="soft"]) .post-article th,
+html[data-chosen]:is([data-theme="dark"],[data-theme="soft"]) .post-article td{border-color:var(--line)}
+html[data-chosen]:is([data-theme="dark"],[data-theme="soft"]) .post-article .formula-img{filter:invert(1)}
+html[data-chosen]:is([data-theme="dark"],[data-theme="soft"]) .post-tag{color:#5fe0bd}
+@media print{
+  html[data-chosen] .post-article{--ink:#1e2530;--page:#fff;--paper:#fff;--accent:#153b62;--accent-soft:#f1f5f8;--line:#d8e0e8;--h:#13253a;--hh:#17324f;--dek:#465160;--lnk:#163d64;--box:#f8fbfe;--th:#eaf1f7}
+  html[data-chosen] .post-article .formula-img{filter:none}
+}
 @media (max-width:760px){
   .post-article .article-shell{padding:0}
   .post-article .article{box-shadow:none;padding:34px 22px 48px;border-top-width:5px}

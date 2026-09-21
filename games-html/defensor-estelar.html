@@ -1,6 +1,12 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
+<script>/* Professor Madison: respeita a opção "Reduzir animações" do site e a configuração do aparelho */
+(function(){try{var m=localStorage.getItem("pm_motion");var os=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+window.PM_RM=(m==="reduce")||(m!=="full"&&os);
+if(window.PM_RM){var s=document.createElement("style");s.textContent="*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}";document.head.appendChild(s)}}catch(e){window.PM_RM=false}})();
+</script>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="description" content="Defensor Estelar — jogo educativo de Mecânica Celeste (Somos Poeira das Estrelas). Destrua naves, acerte as respostas e avance por 8 estágios.">
@@ -672,7 +678,7 @@ function drawHUD(){
 }
 function draw(){
   ctx.setTransform(DPR,0,0,DPR,0,0);
-  let sx=0,sy=0;if(g&&g.shake>0){sx=rnd(-4,4);sy=rnd(-4,4)}
+  let sx=0,sy=0;if(g&&g.shake>0&&!window.PM_RM){sx=rnd(-4,4);sy=rnd(-4,4)}
   ctx.save();ctx.translate(sx,sy);drawBg();
   if(g&&state!=='title'){
     if(g.well)drawWell(g.well);
@@ -686,7 +692,7 @@ function draw(){
     g.parts.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life/p.max);ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,7);ctx.fill()});ctx.globalAlpha=1;
     g.floats.forEach(f=>{ctx.globalAlpha=Math.min(1,f.life);ctx.fillStyle=f.c;ctx.font='800 20px Inter,Arial';ctx.textAlign='center';ctx.fillText(f.t,f.x,f.y)});ctx.globalAlpha=1;
     drawHUD();
-    if(g.flash>0){ctx.fillStyle='rgba(255,80,90,'+g.flash*.6+')';ctx.fillRect(0,0,W,H)}
+    if(g.flash>0&&!window.PM_RM){ctx.fillStyle='rgba(255,80,90,'+g.flash*.6+')';ctx.fillRect(0,0,W,H)}
   }
   ctx.restore();
 }

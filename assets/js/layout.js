@@ -20,6 +20,119 @@ const NAV = [
   { href: "/fisica/blog.html", label: "Blog", key: "blog" }
 ];
 
+
+/* ---------- Acessibilidade: preferências salvas no navegador ---------- */
+const A11Y = { theme: "pm_theme", motion: "pm_motion", font: "pm_font" };
+
+function a11yGet(key) {
+  try { return localStorage.getItem(key); } catch (e) { return null; }
+}
+function a11ySet(key, value) {
+  try {
+    if (value === null) localStorage.removeItem(key); else localStorage.setItem(key, value);
+  } catch (e) {}
+}
+function osPrefersReducedMotion() {
+  return window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function a11yApply() {
+  const root = document.documentElement;
+  const pref = a11yGet(A11Y.theme);
+  let theme = "dark";
+  if (pref === "light" || pref === "soft" || pref === "dark") theme = pref;
+  else if (pref === "auto") theme = matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  root.dataset.theme = theme;
+  if (pref) root.dataset.chosen = "1"; else delete root.dataset.chosen;
+
+  const motion = a11yGet(A11Y.motion);
+  if (motion === "reduce" || motion === "full") root.dataset.motion = motion; else delete root.dataset.motion;
+
+  const font = a11yGet(A11Y.font);
+  if (font === "lg" || font === "xl") root.dataset.font = font; else delete root.dataset.font;
+}
+a11yApply();
+if (window.matchMedia) {
+  matchMedia("(prefers-color-scheme: light)").addEventListener("change", a11yApply);
+}
+
+const A11Y_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>`;
+
+function a11yPanelHtml() {
+  const pref = a11yGet(A11Y.theme) || "dark";
+  const font = a11yGet(A11Y.font) || "normal";
+  const motionPref = a11yGet(A11Y.motion);
+  const reduce = motionPref === "reduce" || (motionPref !== "full" && osPrefersReducedMotion());
+  const themes = [
+    ["dark", "Escuro", "padrão do site"],
+    ["soft", "Suave", "menos brilho e contraste"],
+    ["light", "Claro", ""],
+    ["auto", "Automático", "segue o seu aparelho"]
+  ];
+  const fonts = [["normal", "A"], ["lg", "A+"], ["xl", "A++"]];
+  return `
+    <h2 id="a11yTitle">Opções de acessibilidade</h2>
+    <fieldset>
+      <legend>Tema</legend>
+      ${themes.map(([v, l, d]) => `
+        <label class="a11y-opt"><input type="radio" name="a11yTheme" value="${v}" ${pref === v ? "checked" : ""}>
+        <span>${l}${d ? ` <small>— ${d}</small>` : ""}</span></label>`).join("")}
+    </fieldset>
+    <fieldset>
+      <legend>Movimento</legend>
+      <label class="a11y-opt"><input type="checkbox" id="a11yMotion" ${reduce ? "checked" : ""}>
+      <span>Reduzir animações e efeitos</span></label>
+    </fieldset>
+    <fieldset>
+      <legend>Tamanho do texto</legend>
+      <div class="a11y-font">
+        ${fonts.map(([v, l]) => `<label><input type="radio" name="a11yFont" value="${v}" ${font === v ? "checked" : ""}><span>${l}</span></label>`).join("")}
+      </div>
+    </fieldset>
+    <button type="button" class="a11y-reset" id="a11yReset">Restaurar padrão</button>
+  `;
+}
+
+function setupA11yPanel() {
+  const btn = document.getElementById("a11yBtn");
+  const panel = document.getElementById("a11yPanel");
+  if (!btn || !panel) return;
+
+  function render() { panel.innerHTML = a11yPanelHtml(); bind(); }
+
+  function open() {
+    render();
+    panel.hidden = false;
+    btn.setAttribute("aria-expanded", "true");
+    const first = panel.querySelector("input:checked") || panel.querySelector("input");
+    if (first) first.focus();
+  }
+  function close(returnFocus) {
+    panel.hidden = true;
+    btn.setAttribute("aria-expanded", "false");
+    if (returnFocus) btn.focus();
+  }
+
+  function bind() {
+    panel.querySelectorAll('input[name="a11yTheme"]').forEach((el) =>
+      el.addEventListener("change", () => { a11ySet(A11Y.theme, el.value); a11yApply(); }));
+    panel.querySelectorAll('input[name="a11yFont"]').forEach((el) =>
+      el.addEventListener("change", () => { a11ySet(A11Y.font, el.value === "normal" ? null : el.value); a11yApply(); }));
+    const motion = panel.querySelector("#a11yMotion");
+    motion.addEventListener("change", () => { a11ySet(A11Y.motion, motion.checked ? "reduce" : "full"); a11yApply(); });
+    panel.querySelector("#a11yReset").addEventListener("click", () => {
+      a11ySet(A11Y.theme, null); a11ySet(A11Y.motion, null); a11ySet(A11Y.font, null);
+      a11yApply(); render();
+    });
+  }
+
+  btn.addEventListener("click", () => (panel.hidden ? open() : close(true)));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !panel.hidden) close(true); });
+  document.addEventListener("click", (e) => {
+    if (!panel.hidden && !panel.contains(e.target) && !btn.contains(e.target)) close(false);
+  });
+}
+
 function socialIcon(name) {
   const icons = {
     youtube: '<svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.5V8.5L15.8 12Z"/></svg>',
@@ -47,6 +160,12 @@ function renderHeader() {
           <span class="m">MADISON</span>
         </span>
       </a>
+      <div class="a11y-wrap">
+        <button type="button" class="a11y-btn" id="a11yBtn" aria-expanded="false" aria-controls="a11yPanel" aria-label="Opções de acessibilidade">
+          ${A11Y_ICON}<span class="a11y-label">Acessibilidade</span>
+        </button>
+        <div class="a11y-panel" id="a11yPanel" role="group" aria-labelledby="a11yTitle" hidden></div>
+      </div>
       <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">☰</button>
       <nav class="main-nav" id="mainNav">${navHtml}</nav>
     </div>
@@ -57,6 +176,7 @@ function renderHeader() {
   if (toggle && nav) {
     toggle.addEventListener("click", () => nav.classList.toggle("open"));
   }
+  setupA11yPanel();
 }
 
 function renderFooter() {
