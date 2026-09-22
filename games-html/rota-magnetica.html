@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="description" content="Rota Magnética — jogo educativo de Campos Magnéticos. Guie a bússola, preveja o campo e avance por 8 estágios.">
+<title>Rota Magnética — Campos Magnéticos</title>
+<style>
+:root{--ink:#eef7ff;--gold:#ffc247;--cyan:#52d8ff;--green:#65e6a6;--danger:#ff6b6b;--blue:#6ca8ff}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#02060c;color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+body{display:grid;place-items:center}
+#stage{position:relative;width:min(100vw,calc(100vh*720/820));aspect-ratio:720/820;background:#050b14;overflow:hidden;cursor:pointer}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#qbar{position:absolute;left:2%;right:2%;top:4.7%;padding:.5em .8em;background:rgba(8,20,36,.93);border:1px solid #2f5a80;border-left:4px solid var(--gold);border-radius:.7em;font-size:1.0em;line-height:1.3;display:none;pointer-events:none}
+#qbar small{display:block;font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:.64em;margin-bottom:.15em}
+#ov{position:absolute;inset:0;display:none;place-items:center;background:rgba(3,8,16,.82);backdrop-filter:blur(3px);padding:3.5%;cursor:default}
+#ov.show{display:grid}
+.card{width:100%;max-height:100%;overflow:auto;background:linear-gradient(180deg,#12294a,#0b1a2f);border:1px solid #33567c;border-radius:1.1em;padding:1.2em 1.35em;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:left}
+.card h1{font-size:2.1em;line-height:1;margin:.1em 0 .25em;letter-spacing:-.03em}
+.card h1 span{background:linear-gradient(90deg,#fff,var(--cyan),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.card h2{font-size:1.45em;margin:.1em 0 .4em}
+.card h3{margin:.8em 0 .2em;font-size:1em}
+.card p{margin:.4em 0;color:#d4e2f2;line-height:1.42}
+.kick{color:var(--gold);font-weight:800;font-size:.72em;letter-spacing:.16em;text-transform:uppercase}
+.ok{color:var(--green)}.bad{color:var(--danger)}.dim{color:#a9b9ce;font-size:.85em}
+.btn{font:inherit;font-weight:800;border-radius:.8em;padding:.65em 1.05em;margin:.3em .3em 0 0;cursor:pointer;background:#173653;color:#fff;border:1px solid #4f7ca4}
+.btn.primary{background:linear-gradient(135deg,var(--gold),#f39a29);color:#111923;border:0}
+.btn.sel{outline:3px solid var(--cyan)}
+.btn:hover:not(:disabled){filter:brightness(1.15)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:.4em .8em;font-size:.88em;margin:.5em 0}
+.stg{display:grid;grid-template-columns:repeat(4,1fr);gap:.4em;margin:.4em 0}
+.stg button{margin:0;padding:.5em .2em;font-size:.85em;line-height:1.25;text-align:center}
+.stg small{display:block;font-weight:600;font-size:.72em;opacity:.85}
+.miss{border-left:3px solid var(--danger);background:#0a1a2b;border-radius:.5em;padding:.5em .7em;margin:.5em 0;font-size:.84em}
+.miss b{color:var(--gold)}
+.key{border:1px solid #4f7ca4;border-radius:.35em;padding:0 .4em;background:#0a1a2b;font-size:.85em}
+.stars{font-size:2em;letter-spacing:.1em;color:var(--gold)}
+.tb{position:absolute;top:.8%;z-index:5;background:rgba(8,20,36,.7);border:1px solid #33567c;color:#fff;border-radius:.6em;font-size:.85em;padding:.2em .5em;cursor:pointer}
+#mute{right:1.5%}#fs{right:9%}
+</style>
+</head>
+<body>
+<div id="stage">
+  <canvas id="cv"></canvas>
+  <div id="qbar"></div>
+  <button id="fs" class="tb" title="Tela cheia">⛶</button>
+  <button id="mute" class="tb" title="Som (M)">🔊</button>
+  <div id="ov"><div class="card" id="card"></div></div>
+</div>
+<script>
+'use strict';
+
+/* ============================ FÍSICA (mesmas convenções da aula) ============================ */
+function dipoleField(px,py,nx,ny,sxx,sy){ // campo de um ímã de barra: N em (nx,ny), S em (sxx,sy)
+  const e=30,dx1=px-nx,dy1=py-ny,dx2=px-sxx,dy2=py-sy;
+  const r1=Math.pow(dx1*dx1+dy1*dy1+e,1.5),r2=Math.pow(dx2*dx2+dy2*dy2+e,1.5);
+  return{x:dx1/r1-dx2/r2,y:dy1/r1-dy2/r2};
+}
+function pairField(px,py,poles){ // poles: [{x,y,q}], q=+1 tipo N, q=-1 tipo S (modelo do material)
+  let fx=0,fy=0;
+  for(const p of poles){const dx=px-p.x,dy=py-p.y,r2=dx*dx+dy*dy+900,r3=Math.pow(r2,1.5);fx+=p.q*dx/r3;fy+=p.q*dy/r3}
+  return{x:fx,y:fy};
+}
+function wireField(px,py,wx,wy,I){ // campo tangencial ao redor de um fio; I>0 = sentido anti-horário (visto de frente)
+  if(!I)return{x:0,y:0};
+  const dx=px-wx,dy=py-wy,r2=dx*dx+dy*dy+30,sg=I>=0?1:-1;
+  const tx=dy*sg,ty=-dx*sg,m=Math.hypot(tx,ty)||1,mag=Math.abs(I)/r2*520;
+  return{x:tx/m*mag,y:ty/m*mag};
+}
+function uniformField(deg,str){const a=deg*Math.PI/180;return{x:Math.cos(a)*(str||1),y:Math.sin(a)*(str||1)}}
+function angNorm(a){return(a%360+360)%360}
+function angDiff(a,b){const d=Math.abs(angNorm(a)-angNorm(b));return Math.min(d,360-d)}
+function vAngle(f){return angNorm(Math.atan2(f.y,f.x)*180/Math.PI)}
+
+/* ============================ BANCO DE QUESTÕES (quiz) ============================ */
+const QZ=[],Qz=(s,t,q,ok,bad,ex,draw)=>QZ.push({s,t,q,ok,bad,ex,draw});
+// 0 · Ímãs e polos
+Qz(0,1,'Todo ímã apresenta, no mínimo:','Um polo norte e um polo sul',['Só um polo norte','Só um polo sul','Nenhum polo definido'],'Os polos são as regiões de interação magnética mais intensa do ímã.');
+Qz(0,1,'Polos de mesmo nome, aproximados:','Se repelem',['Se atraem','Não interagem','Se anulam'],'Polos iguais se repelem; polos diferentes se atraem.');
+Qz(0,1,'Polos de nomes diferentes, aproximados:','Se atraem',['Se repelem','Não interagem','Se anulam'],'N atrai S; N repele N; S repele S.');
+Qz(0,1,'Um ímã suspenso livremente, sem outros campos por perto, tende a se orientar:','Aproximadamente na direção norte–sul geográfica',['Sempre na direção leste–oeste','Na vertical','Aleatoriamente'],'É esse comportamento que torna a bússola um instrumento de orientação.');
+Qz(0,2,'Ao cortar um ímã em barra ao meio, obtêm-se:','Dois novos ímãs, cada um com polo N e S',['Um pedaço só com polo N e outro só com S','Dois pedaços sem magnetismo','Um ímã e um pedaço de metal comum'],'Os polos magnéticos são inseparáveis: não existe monopolo magnético isolado.');
+Qz(0,2,'Se um ímã em barra for cortado em 4 pedaços iguais, o resultado é:','4 ímãs menores, cada um com N e S',['1 ímã grande com 2 polos e 3 pedaços neutros','4 pedaços, só 2 com polos','Um ímã sem polos'],'Cada fragmento, por menor que seja, continua tendo os dois polos.');
+Qz(0,3,'Dois ímãs idênticos são aproximados pelos polos N. A força entre eles é de:','Repulsão',['Atração','Nula','Depende só da distância, nunca do tipo de polo'],'N-N são polos iguais: repulsão.');
+Qz(0,3,'Um ímã é aproximado de uma barra de ferro não imantada. O que ocorre?','Atração, pois o ferro é magnetizado por indução e passa a se comportar como ímã',['Nada, pois o ferro não tem polos','Repulsão sempre','Atração só se a barra já for um ímã'],'Materiais ferromagnéticos são atraídos mesmo sem serem previamente imantados.');
+// 1 · Linhas de indução (conceitual, sem diagrama pontual — os de diagrama vão como 'aim')
+Qz(1,1,'Por convenção, fora do ímã, as linhas de indução:','Saem do polo norte e chegam ao polo sul',['Saem do polo sul e chegam ao norte','Não têm sentido definido','Formam sempre círculos fechados dentro do ímã, nunca saem dele'],'Essa é a convenção usada para desenhar o campo externo de um ímã.');
+Qz(1,1,'O vetor campo magnético B, em um ponto do espaço, é:','Tangente à linha de indução que passa por esse ponto',['Sempre perpendicular à linha de indução','Sempre vertical','Igual em todos os pontos do espaço'],'A linha de indução é, por definição, tangente ao vetor B em cada ponto.');
+Qz(1,2,'A extremidade norte da agulha de uma bússola aponta:','No sentido do vetor campo magnético B do local',['Sempre para o polo norte geográfico, não importa o que mais exista por perto','No sentido oposto a B','Aleatoriamente'],'A bússola é, por definição, um pequeno ímã que se alinha ao campo local.');
+Qz(1,2,'Perto dos polos de um ímã, as linhas de indução ficam:','Mais próximas entre si (campo mais intenso)',['Mais afastadas (campo mais fraco)','Sempre paralelas','Inexistentes'],'Quanto mais concentradas as linhas, mais intenso é o campo na região.');
+Qz(1,3,'Duas bússolas são colocadas perto de um mesmo ímã, uma perto do polo e outra longe. A bússola mais próxima do polo tende a girar:','Mais rapidamente para se alinhar, pois o campo ali é mais intenso',['Mais lentamente','Da mesma forma, pois a intensidade do campo não afeta a resposta da bússola','Não gira, pois só o campo terrestre importa'],'Quanto mais intenso o campo local, mais forte a tendência de alinhamento da agulha.');
+// 3 · Campo uniforme
+Qz(2,1,'Em uma região de campo magnético uniforme, o vetor B:','Mantém a mesma direção, sentido e intensidade em todos os pontos',['Muda de direção de ponto a ponto','Tem intensidade zero','Só existe nas bordas da região'],'Uniforme = constante em todos os pontos da região considerada.');
+Qz(2,1,'As linhas de indução de um campo uniforme são representadas por:','Retas paralelas e igualmente espaçadas',['Retas que se cruzam no centro','Círculos concêntricos','Linhas curvas irregulares'],'O espaçamento igual indica que a intensidade de B é a mesma em toda a região.');
+Qz(2,2,'Uma bússola é colocada em uma região de campo uniforme e depois liberada para girar livremente. Ao atingir o equilíbrio, ela fica:','Alinhada com a direção de B',['Perpendicular a B','Sempre apontando para cima','Girando continuamente'],'A tendência de alinhamento com o campo local é o comportamento fundamental da agulha magnética.');
+Qz(2,3,'Uma bússola está a 110° e o campo uniforme aponta a 20°. Girando pelo caminho mais curto, ela precisa girar:','90°',['110°','20°','180°'],'A diferença angular pelo caminho mais curto é |110−20| = 90°.');
+Qz(2,3,'Dobrar a intensidade de um campo uniforme, mantendo sua direção, faz a bússola alinhada a ele:','Continuar alinhada na mesma direção (só a "força" de alinhamento aumenta)',['Girar 90°','Girar 180°','Parar de responder ao campo'],'A intensidade afeta o quão "forte" a bússola tende ao alinhamento, não a direção de equilíbrio.');
+// 3 · Oersted
+Qz(3,1,'O experimento de Oersted mostrou que:','Uma corrente elétrica produz campo magnético ao seu redor',['Só ímãs produzem campo magnético','Corrente elétrica nunca afeta uma bússola','Um fio sem corrente também desvia a bússola'],'Foi a primeira evidência experimental de que eletricidade e magnetismo estão ligados.');
+Qz(3,1,'No circuito do laboratório, com a chave aberta, a corrente no circuito é:','Zero (o circuito está interrompido)',['Máxima','Igual à da chave fechada','Depende só da lâmpada'],'Chave aberta = circuito aberto = sem corrente.');
+Qz(3,1,'Fechando a chave de um circuito com pilha e resistência, a corrente pode ser calculada por:','I = V/R',['I = V·R','I = V + R','I = R/V'],'É a Lei de Ohm aplicada ao circuito simplificado do laboratório.');
+Qz(3,2,'Ao inverter a polaridade da pilha em um circuito fechado, o campo magnético criado pelo fio na bússola:','Inverte de sentido',['Não muda','Fica nulo','Dobra de intensidade, sem mudar de sentido'],'Inverter a corrente inverte o sentido do campo magnético que ela produz.');
+Qz(3,2,'Se a resistência total do circuito aumenta (mesma tensão da pilha), a corrente:','Diminui',['Aumenta','Fica igual','Fica negativa'],'Pela Lei de Ohm, I = V/R: aumentando R, I diminui.');
+Qz(3,3,'Um circuito tem pilha de 6,0 V e resistência total de 4 Ω. A corrente é:','1,5 A',['24 A','0,67 A','10 A'],'I = V/R = 6,0/4 = 1,5 A.');
+Qz(3,3,'Um circuito tem pilha de 9,0 V e resistência de 3 Ω. Dobrando a distância do fio à bússola (mesma corrente), o campo do fio na bússola:','Cai à metade',['Dobra','Fica igual','Cai a um quarto'],'B do fio é inversamente proporcional à distância r (B ∝ 1/r).');
+// 4 · Fio retilíneo
+Qz(4,1,'Para um fio retilíneo longo percorrido por corrente I, a expressão do campo a uma distância r é:','B = μ₀I/(2πr)',['B = μ₀I·r/(2π)','B = μ₀I²/(2πr)','B = 2πr/(μ₀I)'],'É o resultado da Lei de Biot–Savart para o caso do fio longo.');
+Qz(4,1,'A regra usada para achar o sentido do campo ao redor de um fio é a regra:','Da mão direita (polegar na corrente, dedos indicam o sentido de B)',['Da mão esquerda','Do parafuso invertido','Da bússola dupla'],'Polegar no sentido da corrente; os dedos curvos indicam o sentido das linhas de campo.');
+Qz(4,2,'Mantendo I constante, se a distância r ao fio dobra, o campo B:','Cai à metade',['Dobra','Cai a um quarto','Fica igual'],'B ∝ 1/r: dependência inversa e não quadrática (diferente da gravitação).');
+Qz(4,2,'Mantendo r constante, se a corrente I triplica, o campo B:','Triplica',['Fica igual','Cai a um terço','Aumenta 9 vezes'],'B é diretamente proporcional a I.');
+Qz(4,2,'Inverter o sentido da corrente em um fio retilíneo faz o campo magnético ao redor dele:','Inverter de sentido, mantendo a mesma intensidade',['Dobrar de intensidade','Anular-se','Não se alterar'],'O sentido de B depende diretamente do sentido de I (regra da mão direita).');
+Qz(4,3,'Um fio conduz 8 A. A 4 cm de distância, B ≈ 40 µT. Se a corrente cair para 4 A (mesma distância), B será cerca de:','20 µT',['80 µT','10 µT','40 µT'],'B ∝ I: reduzindo a corrente à metade, B também cai à metade.');
+Qz(4,3,'Um fio conduz 10 A. A 5 cm, B vale certo valor. A que distância B terá metade desse valor (mesma corrente)?','10 cm',['2,5 cm','20 cm','7,5 cm'],'B ∝ 1/r: para B cair à metade, a distância deve dobrar.');
+Qz(4,3,'Dois fios paralelos conduzem correntes de mesmo sentido. A força entre eles é de:','Atração',['Repulsão','Nula','Depende só da distância'],'Fios com correntes de mesmo sentido se atraem; sentidos opostos se repelem (consequência da interação dos campos).');
+// 5 · Espira circular
+Qz(5,1,'No centro de uma espira circular de raio R percorrida por corrente I, o campo magnético vale:','B = μ₀I/(2R)',['B = μ₀I/(2πR)','B = μ₀IR/2','B = 2πR/(μ₀I)'],'É o resultado da Lei de Biot–Savart aplicado ao centro da espira circular.');
+Qz(5,1,'Empilhando N espiras idênticas bem próximas, o campo no centro:','Fica N vezes maior (B = μ₀NI/2R)',['Não muda','Fica N vezes menor','Depende só do raio, nunca de N'],'No modelo ideal, os campos de cada espira se somam no centro.');
+Qz(5,2,'Mantendo R e N, se a corrente I dobra, o campo no centro da espira:','Dobra',['Fica igual','Cai à metade','Quadruplica'],'B é diretamente proporcional a I, na expressão B = μ₀NI/(2R).');
+Qz(5,2,'Mantendo I e N, se o raio R da espira dobra, o campo no centro:','Cai à metade',['Dobra','Fica igual','Cai a um quarto'],'B é inversamente proporcional a R nessa expressão.');
+Qz(5,2,'Uma espira percorrida por corrente se comporta magneticamente como:','Um ímã, com uma face norte e uma face sul',['Um corpo sem propriedades magnéticas','Um campo elétrico puro','Uma fonte de luz'],'Por isso se fala em "face norte" e "face sul" de uma espira ou bobina.');
+Qz(5,3,'Uma espira de 5 cm de raio com 10 A no centro produz B. Trocando por outra de 10 cm de raio com a mesma corrente, o novo B é:','Metade do valor original',['O dobro','O mesmo','Um quarto'],'B ∝ 1/R: dobrando o raio, B cai à metade.');
+Qz(5,3,'Uma bobina de 4 espiras produz campo B no centro. Para obter 3B no centro (mesma corrente e raio), o número de espiras deve ser:','12',['8','16','6'],'B ∝ N: para triplicar B, é preciso triplicar N (4 × 3 = 12).');
+// 6 · integrado (chefão usa t>=3 daqui e dos outros)
+Qz(6,1,'Uma bússola próxima de um fio SEM corrente e longe de qualquer ímã aponta para onde?','Para o campo magnético terrestre local (aproximadamente norte–sul)',['Para o centro do fio','Aleatoriamente, sem padrão','Sempre para cima'],'Sem corrente, não há campo do fio: só resta o campo terrestre como referência.');
+Qz(6,2,'Quando dois campos magnéticos de fontes diferentes atuam sobre uma mesma bússola, o resultado é:','A bússola se alinha com o vetor soma dos dois campos',['A bússola ignora um dos dois campos','A bússola gira infinitamente','Os dois campos se cancelam sempre'],'Campos magnéticos se somam vetorialmente, como qualquer campo vetorial.');
+Qz(6,3,'Perto de um fio com corrente forte e de um ímã fraco, uma bússola tende a se alinhar principalmente com:','O campo resultante, com maior influência da fonte mais intensa naquele ponto',['Sempre só o campo do ímã, não importa a intensidade','Sempre só o campo do fio, não importa a intensidade','Nenhum dos dois'],'A fonte mais intensa domina o vetor soma, mas ambas contribuem.');
+
+/* ============================ RODADAS "AIM": ler a direção do campo ============================ */
+function makeOptions(trueA,n,minSep){
+  const angs=[trueA];let tries=0;
+  while(angs.length<n&&tries<300){tries++;const a=rnd(0,360);if(angs.every(x=>angDiff(x,a)>=minSep))angs.push(a)}
+  while(angs.length<n)angs.push(angNorm(angs[angs.length-1]+360/n+rnd(10,30)));
+  const tagged=angs.map((a,i)=>({a,ok:i===0}));
+  return shuffle(tagged);
+}
+const AIMGEN={
+ dipole(L,D){
+  const w=720,h=820,cx=w*.5,cy=380,mw=170,mh=64,flip=Math.random()<.5;
+  const nx=flip?cx+mw/2:cx-mw/2,sxp=flip?cx-mw/2:cx+mw/2;
+  let px,py;do{px=rnd(90,w-90);py=rnd(160,600)}while(Math.abs(px-cx)<mw*.65&&Math.abs(py-cy)<mh*.9);
+  const f=dipoleField(px,py,nx,cy,sxp,cy),trueA=vAngle(f);
+  const n=L>=4?4:3,minSep=Math.max(38,70-L*5);
+  return{kind:'dipole',flip,cx,cy,mw,mh,px,py,trueA,opts:makeOptions(trueA,n,minSep),
+   prompt:'Para onde a extremidade norte da bússola vai apontar no ponto marcado?',
+   ex:'A extremidade norte da agulha aponta no sentido do vetor B local, que é tangente à linha de indução que passa pelo ponto.'};
+ },
+ pair(L,D){
+  const w=720,cx=w*.5,cy=380,mw=140,mh=58,sep=rnd(170,260);
+  const x1=cx-sep/2-mw,x2=cx+sep/2,ori=pick(['NS','SN']);
+  const poles=[{x:x1,y:cy,q:1},{x:x1+mw,y:cy,q:-1},{x:x2,y:cy,q:ori[0]==='N'?1:-1},{x:x2+mw,y:cy,q:ori[1]==='N'?1:-1}];
+  let px,py;do{px=rnd(90,w-90);py=rnd(160,600)}while((Math.abs(px-(x1+mw/2))<mw*.7&&Math.abs(py-cy)<mh)||(Math.abs(px-(x2+mw/2))<mw*.7&&Math.abs(py-cy)<mh));
+  const f=pairField(px,py,poles),trueA=vAngle(f);
+  const n=L>=4?4:3,minSep=Math.max(36,66-L*5);
+  return{kind:'pair',x1,x2,mw,mh,cy,ori,px,py,trueA,opts:makeOptions(trueA,n,minSep),
+   prompt:'Com os dois ímãs nessa posição, para onde aponta a bússola no ponto marcado?',
+   ex:'O campo resultante em cada ponto é a soma vetorial das contribuições dos dois ímãs — perto de cada polo, a contribuição dele domina.'};
+ },
+ oersted(L,D){
+  const V=pick([3,4.5,6,7.5,9]),R=pick([2,3,4,5,6]),on=Math.random()<.82,pol=pick([1,-1]),dist=pick([15,20,30,40]),BE=pick([25,35,45]);
+  const I=on?pol*V/R:0,wx=340,wy=300,by=440;
+  const wF=wireField(wx,by,wx,wy,I*26),eF={x:0,y:-BE*1.4};
+  const f={x:wF.x+eF.x,y:wF.y+eF.y},trueA=vAngle(f);
+  const n=L>=4?4:3,minSep=Math.max(40,72-L*5);
+  return{kind:'oersted',V,R,on,pol,dist,BE,I,wx,wy,by,trueA,opts:makeOptions(trueA,n,minSep),
+   prompt:`Chave ${on?'FECHADA':'ABERTA'} · pilha ${V.toFixed(1)} V · R = ${R} Ω${on?(pol<0?' · polaridade invertida':''):''}. Para onde a bússola aponta?`,
+   ex:on?`I = V/R = ${V.toFixed(1)}/${R} ≈ ${(V/R).toFixed(2)} A. O campo do fio se soma ao campo terrestre; o resultado é a direção mostrada.`:'Com a chave aberta não há corrente, então só resta o campo magnético terrestre, apontando para cima no diagrama.'};
+ },
+ loop(L,D){
+  const I=pick([1,-1])*pick([6,8,10,12,15]);
+  const trueA=I>=0?0:180; // 0 = "sai da tela" (⊙), 180 = "entra na tela" (⊗) — usados só como tags internas
+  const outOpt={a:0,ok:I>=0,label:'⊙ Sai da tela (para você)'},inOpt={a:180,ok:I<0,label:'⊗ Entra na tela (para longe)'};
+  return{kind:'loop',I,trueA,opts:shuffle([outOpt,inOpt]),
+   prompt:'Com a corrente circulando nesse sentido, para onde aponta o campo no CENTRO da espira?',
+   ex:`Regra da mão direita: dedos acompanhando o sentido da corrente, o polegar aponta o sentido de B no centro. Corrente ${I>=0?'anti-horária':'horária'} (vista de frente) ⇒ B ${I>=0?'sai da tela (face N)':'entra na tela (face S)'}.`};
+ },
+ mix(L,D){
+  const w=720,cx=w*.34,cy=300,mw=130,mh=52,flip=Math.random()<.5;
+  const nx=flip?cx+mw/2:cx-mw/2,sxp=flip?cx-mw/2:cx+mw/2;
+  const wx=w*.74,wy=480,I=pick([1,-1])*pick([8,10,14]);
+  let px,py;do{px=rnd(90,w-90);py=rnd(150,620)}while((Math.abs(px-cx)<mw*.7&&Math.abs(py-cy)<mh)||Math.hypot(px-wx,py-wy)<40);
+  const f1=dipoleField(px,py,nx,cy,sxp,cy),f2=wireField(px,py,wx,wy,I*22),f={x:f1.x*38000+f2.x,y:f1.y*38000+f2.y},trueA=vAngle(f);
+  const n=4,minSep=Math.max(34,58-L*4);
+  return{kind:'mix',flip,cx,cy,mw,mh,wx,wy,I,px,py,trueA,opts:makeOptions(trueA,n,minSep),
+   prompt:'Ímã e fio juntos: para onde aponta a bússola no ponto marcado (campo resultante)?',
+   ex:'Quando há mais de uma fonte, o campo em cada ponto é a soma vetorial de todas as contribuições — aqui, a do ímã e a do fio.'};
+ }
+};
+
+/* ============================ ESTÁGIOS ============================ */
+const CLR=['#ffc247','#52d8ff','#6ca8ff','#65e6a6','#ff9b6e','#c78bff','#ff8fd0','#ff5a5f'];
+const STAGES=[
+ {nome:'Ímãs e Polos',sub:'Polos norte e sul, atração, repulsão e inseparabilidade dos polos.',r:[{k:'quiz',t:1},{k:'quiz',t:1},{k:'aim',g:'pair'},{k:'quiz',t:2},{k:'aim',g:'pair'},{k:'quiz',t:3,boss:1}]},
+ {nome:'Linhas de Indução',sub:'Leia o campo com a bússola: a agulha é sempre tangente à linha de indução.',r:[{k:'quiz',t:1},{k:'aim',g:'dipole'},{k:'aim',g:'dipole'},{k:'quiz',t:2},{k:'aim',g:'dipole'},{k:'aim',g:'dipole',boss:1}]},
+ {nome:'Campo Uniforme',sub:'Um campo constante em direção, sentido e intensidade em toda a região.',r:[{k:'quiz',t:1},{k:'quiz',t:1},{k:'quiz',t:2},{k:'quiz',t:2},{k:'quiz',t:3},{k:'quiz',t:3,boss:1}]},
+ {nome:'Experimento de Oersted',sub:'Corrente elétrica produz campo magnético: leia o circuito e preveja o desvio da bússola.',r:[{k:'quiz',t:1},{k:'aim',g:'oersted'},{k:'quiz',t:2},{k:'aim',g:'oersted'},{k:'aim',g:'oersted'},{k:'aim',g:'oersted',boss:1}]},
+ {nome:'Fio Retilíneo',sub:'B = μ₀I/(2πr): a intensidade do campo de um fio longo.',r:[{k:'quiz',t:1},{k:'quiz',t:2},{k:'quiz',t:2},{k:'quiz',t:3},{k:'quiz',t:3},{k:'quiz',t:3,boss:1}]},
+ {nome:'Espira Circular',sub:'B = μ₀NI/(2R): o campo no centro de uma espira, e sua face norte ou sul.',r:[{k:'quiz',t:1},{k:'quiz',t:2},{k:'aim',g:'loop'},{k:'quiz',t:2},{k:'aim',g:'loop'},{k:'quiz',t:3,boss:1}]},
+ {nome:'Campos Combinados',sub:'Quando duas fontes atuam juntas, a bússola aponta na direção da soma vetorial.',r:[{k:'quiz',t:1},{k:'aim',g:'mix'},{k:'aim',g:'mix'},{k:'quiz',t:2},{k:'aim',g:'mix'},{k:'aim',g:'mix',boss:1}]},
+ {nome:'Chefão Final: Tempestade Magnética',final:1,sub:'Todos os temas, com fontes mais fortes e prazos mais curtos.',r:[{k:'quiz',t:3},{k:'aim',g:'mix'},{k:'quiz',t:3},{k:'aim',g:'oersted'},{k:'aim',g:'loop'},{k:'quiz',t:3},{k:'aim',g:'mix',boss:1}]}
+].map((s,i)=>Object.assign(s,{cor:CLR[i]}));
+const TIER=['','Aquecimento','Intermediária','Desafio'];
+const tierStars=t=>'★'.repeat(t)+'☆'.repeat(3-t);
+
+/* ============================ ESTADO ============================ */
+const W=720,H=820,DPR=2;
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+cv.width=W*DPR;cv.height=H*DPR;
+const stageEl=document.getElementById('stage'),qbar=document.getElementById('qbar'),ov=document.getElementById('ov'),card=document.getElementById('card'),muteBtn=document.getElementById('mute'),fsBtn=document.getElementById('fs');
+const DIFFS={facil:{nome:'Fácil',hearts:8,time:1.35,mult:.8},normal:{nome:'Normal',hearts:6,time:1,mult:1},dificil:{nome:'Difícil',hearts:4,time:.8,mult:1.3}};
+let diff='normal',state='title',g=null,muted=false,last=0,time=0,keys={};
+const LIVRE=/[?&]livre=1/.test(location.search);
+const KEY='rotamagnetica_v1';
+let save={u:0,s:[],best:0,d:'normal'};
+try{const o=JSON.parse(localStorage.getItem(KEY)||'null');if(o)save=Object.assign(save,o)}catch(e){}
+diff=DIFFS[save.d]?save.d:'normal';
+const persist=()=>{try{localStorage.setItem(KEY,JSON.stringify(save))}catch(e){}};
+const unlocked=()=>LIVRE?STAGES.length-1:Math.min(save.u,STAGES.length-1);
+const rnd=(a,b)=>a+Math.random()*(b-a),pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const bgStars=[];for(let i=0;i<110;i++)bgStars.push({x:rnd(0,W),y:rnd(0,H),z:pick([1,1,2,3]),tw:rnd(0,6)});
+
+/* ---- áudio ---- */
+let ac=null;
+function tone(f,d,type='square',vol=.05,slide=0){
+  if(muted)return;try{
+    ac=ac||new (window.AudioContext||window.webkitAudioContext)();
+    const o=ac.createOscillator(),gn=ac.createGain();o.type=type;o.frequency.setValueAtTime(f,ac.currentTime);
+    if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(30,f+slide),ac.currentTime+d);
+    gn.gain.setValueAtTime(vol,ac.currentTime);gn.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+d);
+    o.connect(gn).connect(ac.destination);o.start();o.stop(ac.currentTime+d);
+  }catch(e){}
+}
+const sfx={ping:()=>tone(900,.08,'sine',.03,200),ok:()=>{tone(523,.1,'triangle',.07);setTimeout(()=>tone(784,.18,'triangle',.07),100)},
+  no:()=>tone(200,.25,'sawtooth',.07,-100),hurt:()=>tone(120,.3,'sawtooth',.08,-60),
+  win:()=>[523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,.22,'triangle',.07),i*130))};
+muteBtn.onclick=e=>{muted=!muted;muteBtn.textContent=muted?'🔇':'🔊';e.stopPropagation()};
+fsBtn.onclick=e=>{e.stopPropagation();try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(_){}};
+
+/* ============================ FLUXO DA CAMPANHA ============================ */
+function newRun(s){
+  g={stage:s,L:s,shield:0,maxShield:DIFFS[diff].hearts,score:0,combo:0,mist:0,ri:-1,rd:null,used:new Set(),review:[],
+     parts:[],floats:[],msg:null,shake:0,flash:0,gap:null,snapScore:0};
+  startStage(s);
+}
+function startStage(s){
+  const st=STAGES[s];
+  g.stage=s;g.L=s;g.ri=-1;g.rd=null;g.mist=0;g.shield=g.maxShield;g.combo=0;g.review=[];g.used=new Set();g.snapScore=g.score;g.msg=null;
+  state='intro';hideQ();
+  show(`<div class="kick">Estágio ${s+1} de ${STAGES.length} · Nível de perigo ${'▮'.repeat(s+1)}${'▯'.repeat(STAGES.length-1-s)}</div>
+   <h2 style="color:${st.cor}">${st.nome}</h2><p>${st.sub}</p>
+   <p class="dim"><b>Missão:</b> ${st.r.length} rodadas, da mais simples à rodada-chefe final. Toque na resposta certa — <b>errar custa energia</b>.</p>
+   <button class="btn primary" id="go">Iniciar ▶</button>`);
+  document.getElementById('go').onclick=()=>{hide();nextRound()};
+}
+function nextRound(){
+  g.ri++;const st=STAGES[g.stage];
+  if(g.ri>=st.r.length)return stageClear();
+  const d=st.r[g.ri];g.rd=buildRound(d);g.rd.n=g.ri+1;g.rd.of=st.r.length;
+  setPrompt();
+  g.gap={t:1.0,text:`RODADA ${g.ri+1}/${st.r.length}${d.boss?' · RODADA-CHEFE':''}`};state='gap';
+}
+function setPrompt(){
+  const rd=g.rd,st=STAGES[g.stage];
+  const tag=rd.type==='quiz'?`${tierStars(rd.q.t)} ${TIER[rd.q.t]}`:'Leia o campo';
+  qbar.innerHTML=`<small style="color:${st.cor}">${st.nome} · rodada ${rd.n}/${rd.of}${rd.boss?' · CHEFE':''} · ${tag}</small>${esc(rd.prompt)}`;
+  qbar.style.display='block';
+}
+function hideQ(){qbar.style.display='none'}
+function say(text,col,life){g.msg={text,col:col||'#fff',life:life||2.4}}
+function hurt(n,why){
+  g.shield=Math.max(0,g.shield-n);g.mist++;g.combo=0;g.shake=.3;g.flash=.25;sfx.hurt();
+  if(why&&!g.review.includes(why))g.review.push(why);
+  if(g.shield<=0&&state!=='dying'){state='dying';hideQ();setTimeout(()=>{if(state==='dying')gameOver()},900)}
+}
+function addScore(p,x,y){const v=Math.round(p*DIFFS[diff].mult*(1+Math.min(g.combo,5)*.15));g.score+=v;g.floats.push({x,y,t:'+'+v,c:'#65e6a6',life:1.2})}
+function burst(x,y,c,n,sp){for(let i=0;i<n;i++){const a=rnd(0,6.28),s=rnd(30,sp);g.parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:rnd(.35,.9),max:.9,c,r:rnd(1.5,3.5)})}}
+function afterFeedback(){
+  if(state!=='feedback'||time<g.lock)return;
+  hide();if(g.shield<=0)return gameOver();
+  nextRound();
+}
+function reviewHtml(){
+  if(!g.review.length)return '<p class="ok"><b>Nenhum erro neste estágio — excelente!</b></p>';
+  return '<h3>📚 Para revisar</h3>'+g.review.map(t=>`<div class="miss">${esc(t)}</div>`).join('');
+}
+function gameOver(){
+  state='over';hideQ();const s=g.stage;
+  show(`<div class="kick">Estágio ${s+1} · ${STAGES[s].nome}</div><h2>💥 Energia esgotada</h2>
+    <p>Revise os pontos abaixo e tente de novo — as rodadas serão sorteadas novamente.</p>
+    <p>Pontuação: <b style="color:var(--gold)">${g.score}</b></p>${reviewHtml()}
+    <button class="btn primary" id="again">Tentar o estágio de novo</button><button class="btn" id="menu">Menu</button>`);
+  document.getElementById('again').onclick=()=>{g.score=g.snapScore;hide();startStage(s)};
+  document.getElementById('menu').onclick=titleScreen;
+}
+function stageClear(){
+  state='clear';hideQ();const s=g.stage;
+  const n=g.mist<=1?3:g.mist<=3?2:1,bonus=Math.round(g.shield*100*DIFFS[diff].mult);g.score+=bonus;
+  save.s[s]=Math.max(save.s[s]||0,n);if(s+1>save.u)save.u=s+1;const rec=g.score>save.best;if(rec)save.best=g.score;persist();sfx.win();
+  const final=!!STAGES[s].final;
+  show(`<div class="kick">${final?'Missão cumprida':'Estágio concluído'}</div><h2>${final?'🧭 Norte encontrado!':'✔ '+STAGES[s].nome}</h2>
+    <div class="stars">${'★'.repeat(n)}<span style="opacity:.3">${'★'.repeat(3-n)}</span></div>
+    <p>Erros: <b>${g.mist}</b> · Bônus de energia: <b>+${bonus}</b> · Pontuação: <b style="color:var(--gold)">${g.score}</b> ${rec?'· 🏆 novo recorde!':'· recorde: '+save.best}</p>
+    ${reviewHtml()}
+    ${final?'':`<button class="btn primary" id="next">Próximo estágio ▶</button>`}<button class="btn" id="menu">Menu</button>`);
+  const nx=document.getElementById('next');if(nx)nx.onclick=()=>{hide();startStage(s+1)};
+  document.getElementById('menu').onclick=titleScreen;
+}
+function titleScreen(){
+  state='title';hideQ();const u=unlocked();
+  const btns=STAGES.map((t,i)=>{const lock=i>u,n=save.s[i]||0;
+    return `<button class="btn" data-s="${i}" ${lock?'disabled':''} style="border-color:${t.cor}">${lock?'🔒':(i===STAGES.length-1?'⚡':i+1)}<small>${lock?'—':'<span style="color:#ffc247">'+'★'.repeat(n)+'</span>'+'☆'.repeat(3-n)}</small></button>`}).join('');
+  show(`<div class="kick">3ª série · Frente C · Campos Magnéticos</div>
+   <h1><span>Rota Magnética</span></h1>
+   <p><b>Guie a bússola.</b> Preveja para onde a agulha vai apontar diante de ímãs, fios e espiras, e responda desafios sobre o que rege esse comportamento. São ${STAGES.length} estágios com dificuldade crescente e uma rodada-chefe em cada um.</p>
+   <div class="grid"><div>🖱️ <b>Mouse ou dedo:</b> toque na resposta certa</div><div>⌨️ <span class="key">1</span>–<span class="key">4</span> escolhem a opção</div>
+   <div>🧭 Nas rodadas de campo, toque na letra que mostra a direção certa</div><div><span class="key">P</span> pausa · <span class="key">M</span> som</div></div>
+   <h3>Dificuldade</h3>
+   <div>${Object.entries(DIFFS).map(([k,v])=>`<button class="btn ${k===diff?'sel':''}" data-d="${k}">${v.nome}</button>`).join('')}</div>
+   <h3>Estágios</h3><div class="stg">${btns}</div>
+   <button class="btn primary" id="start" style="margin-top:.5em">${u>0?'Continuar campanha (estágio '+(u+1)+') ▶':'Iniciar missão ▶'}</button>
+   <p class="dim">Recorde: ${save.best}${LIVRE?' · modo livre ativado':''}</p>`);
+  card.querySelectorAll('[data-d]').forEach(b=>b.onclick=()=>{diff=b.dataset.d;save.d=diff;persist();card.querySelectorAll('[data-d]').forEach(x=>x.classList.toggle('sel',x===b))});
+  card.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{hide();newRun(+b.dataset.s)});
+  document.getElementById('start').onclick=()=>{hide();newRun(u)};
+}
+function show(html){card.innerHTML=html;ov.classList.add('show');card.scrollTop=0}
+function hide(){ov.classList.remove('show')}
+
+/* ============================ RODADAS ============================ */
+function pickQ(d){
+  const st=STAGES[g.stage],U=g.used,fin=!!st.final;
+  const f1=q=>!U.has(q)&&(fin?q.t>=3:(q.s===g.stage&&q.t===d.t));
+  const f2=q=>!U.has(q)&&(fin?q.t>=2:q.s===g.stage);
+  let pool=QZ.filter(f1);if(!pool.length)pool=QZ.filter(f2);
+  if(!pool.length)pool=QZ.filter(q=>!U.has(q)&&q.t>=d.t);
+  if(!pool.length){U.clear();pool=QZ.filter(q=>fin?q.t>=3:q.s===g.stage)}
+  const q=pick(pool);U.add(q);return q;
+}
+function buildRound(d){
+  const D=DIFFS[diff],L=g.L,base={boss:!!d.boss,mist:0,fin:false};
+  let rd;
+  if(d.k==='quiz')rd=buildQuiz(d,base,D,L);
+  else rd=buildAim(d,base,D,L);
+  rd.t=rd.tmax;return rd;
+}
+function buildQuiz(d,base,D,L){
+  const q=pickQ(d);
+  const opts=shuffle([{t:q.ok,ok:true},...q.bad.map(t=>({t,ok:false}))]);
+  const w=328,h=140,xs=[18,374],ys=[560,712];
+  const bubbles=opts.map((o,i)=>({x:xs[i%2],y:ys[Math.floor(i/2)],w,h,ox:0,text:o.t,ok:o.ok,flash:0,ph:rnd(0,6),sp:rnd(.7,1.3),amp:5+L,dead:false}));
+  const tmax=Math.max(15,(40-L*2-(base.boss?7:0))*D.time);
+  return Object.assign(base,{type:'quiz',q,prompt:q.q,bubbles,tmax});
+}
+function buildAim(d,base,D,L){
+  const scene=AIMGEN[d.g](L,D);
+  const n=scene.opts.length,cx=W/2,cy=690,rad=n===2?150:150;
+  const angs=n===2?[200,340]:Array.from({length:n},(_,i)=>200+i*(140/(n-1)));
+  scene.opts.forEach((o,i)=>{const a=angs[i]*Math.PI/180;o.x=cx+Math.cos(a)*rad;o.y=cy+Math.sin(a)*rad*.42;o.r=44;o.letter=String.fromCharCode(65+i);o.flash=0;o.dead=false});
+  const tmax=Math.max(14,(32-L*1.6-(base.boss?6:0))*D.time);
+  return Object.assign(base,{type:'aim',scene,prompt:scene.prompt,tmax});
+}
+
+/* ============================ SELEÇÃO E FEEDBACK ============================ */
+function resolveChoice(ok,expl,x,y){
+  const rd=g.rd;if(state!=='round'||rd.fin)return;
+  state='feedback';rd.fin=true;
+  if(ok){g.combo++;addScore(80+g.L*20,x,y);burst(x,y,'#65e6a6',40,260);sfx.ok()}
+  else{hurt(1,expl.short);sfx.no();burst(x,y,'#ff6b6b',30,200)}
+  hideQ();
+  const title=ok?'<span class="ok">✔ Correto!</span>':'<span class="bad">✖ Não foi dessa vez</span>';
+  show(`<div class="kick">${STAGES[g.stage].nome}</div><h2>${title}</h2>
+    <p><b>Resposta certa:</b> ${esc(expl.ok)}</p><p>${esc(expl.ex)}</p>
+    ${g.combo>1?`<p class="ok">🔥 Sequência: ${g.combo} acertos seguidos</p>`:''}
+    <button class="btn primary" id="go">Continuar ▶</button>`);
+  document.getElementById('go').onclick=afterFeedback;g.lock=time+.5;
+}
+function resolveTimeout(){
+  const rd=g.rd;if(state!=='round'||rd.fin)return;
+  const expl=rd.type==='quiz'?{ok:rd.q.ok,ex:rd.q.ex,short:`${rd.prompt} → ${rd.q.ok}`}:{ok:aimCorrectLabel(rd.scene),ex:rd.scene.ex,short:`${rd.prompt} → ${aimCorrectLabel(rd.scene)}`};
+  state='feedback';rd.fin=true;hurt(1,expl.short);sfx.no();hideQ();
+  show(`<div class="kick">${STAGES[g.stage].nome}</div><h2><span class="bad">⏱ Tempo esgotado!</span></h2>
+    <p><b>Resposta certa:</b> ${esc(expl.ok)}</p><p>${esc(expl.ex)}</p>
+    <button class="btn primary" id="go">Continuar ▶</button>`);
+  document.getElementById('go').onclick=afterFeedback;g.lock=time+.5;
+}
+const aimCorrectLabel=sc=>{const o=sc.opts.find(o=>o.ok);return o.label||('Opção '+o.letter)};
+function handleTap(x,y){
+  const rd=g.rd;if(state!=='round'||rd.fin)return;
+  if(rd.type==='quiz'){
+    for(const b of rd.bubbles)if(x>b.x+b.ox&&x<b.x+b.ox+b.w&&y>b.y&&y<b.y+b.h){
+      sfx.ping();resolveChoice(b.ok,{ok:rd.q.ok,ex:rd.q.ex,short:`${rd.q.q} → ${rd.q.ok}`},b.x+b.w/2,b.y+b.h/2);return;
+    }
+  }else{
+    for(const o of rd.scene.opts)if(Math.hypot(x-o.x,y-o.y)<o.r+6){
+      sfx.ping();resolveChoice(o.ok,{ok:aimCorrectLabel(rd.scene),ex:rd.scene.ex,short:`${rd.prompt} → ${aimCorrectLabel(rd.scene)}`},o.x,o.y);return;
+    }
+  }
+}
+
+/* ============================ ATUALIZAÇÃO ============================ */
+function update(dt){
+  time+=dt;
+  bgStars.forEach(s=>{s.y+=s.z*8*dt;if(s.y>H){s.y=0;s.x=rnd(0,W)}});
+  g.parts.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt});g.parts=g.parts.filter(p=>p.life>0);
+  g.floats.forEach(f=>{f.y-=40*dt;f.life-=dt});g.floats=g.floats.filter(f=>f.life>0);
+  g.shake=Math.max(0,g.shake-dt);g.flash=Math.max(0,g.flash-dt);
+  if(g.msg){g.msg.life-=dt;if(g.msg.life<=0)g.msg=null}
+  const rd=g.rd;
+  if(rd&&(state==='round'||state==='gap')){
+    if(rd.type==='quiz')rd.bubbles.forEach(b=>{b.ox=Math.sin(time*b.sp+b.ph)*b.amp;b.flash=Math.max(0,b.flash-dt)});
+    else rd.scene.opts.forEach(o=>o.flash=Math.max(0,o.flash-dt));
+  }
+  if(state==='gap'){g.gap.t-=dt;if(g.gap.t<=0){g.gap=null;state='round'}}
+  else if(state==='round'&&rd&&!rd.fin){
+    rd.t=(rd.t===undefined?rd.tmax:rd.t);rd.t-=dt;
+    if(rd.t<=0)resolveTimeout();
+  }
+}
+
+/* ============================ DESENHO ============================ */
+function roundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
+function wrap(text,x,y,maxW,lh,font){
+  ctx.font=font;const words=text.split(' ');let line='',lines=[];
+  for(const w of words){const t=line?line+' '+w:w;if(ctx.measureText(t).width>maxW&&line){lines.push(line);line=w}else line=t}
+  lines.push(line);const y0=y-(lines.length-1)*lh/2;lines.forEach((l,i)=>ctx.fillText(l,x,y0+i*lh));
+}
+function drawBg(){
+  const s=g?Math.min(g.stage,STAGES.length-1):0,tc=STAGES[s].cor;
+  const gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#050b14');gr.addColorStop(1,'#0b1730');ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);
+  const ng=ctx.createRadialGradient(W*.75,H*.28,10,W*.75,H*.28,380);ng.addColorStop(0,tc+'26');ng.addColorStop(1,'transparent');ctx.fillStyle=ng;ctx.fillRect(0,0,W,H);
+  bgStars.forEach(st=>{ctx.globalAlpha=.3+.4*Math.sin(time*2+st.tw);ctx.fillStyle=st.z>2?'#bfe8ff':'#fff';ctx.fillRect(st.x,st.y,st.z*.9,st.z*.9)});ctx.globalAlpha=1;
+}
+function arrow(x1,y1,x2,y2,col,lw){ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=lw||2;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();const a=Math.atan2(y2-y1,x2-x1),s=8+(lw||2);ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-s*Math.cos(a-.42),y2-s*Math.sin(a-.42));ctx.lineTo(x2-s*Math.cos(a+.42),y2-s*Math.sin(a+.42));ctx.closePath();ctx.fill()}
+function magBar(x,y,w,h,poleL,poleR){
+  ctx.save();ctx.fillStyle=poleL==='N'?'#ff6b6b':'#6ca8ff';ctx.fillRect(x,y,w/2,h);ctx.fillStyle=poleR==='N'?'#ff6b6b':'#6ca8ff';ctx.fillRect(x+w/2,y,w/2,h);
+  ctx.strokeStyle='#dce8f3';ctx.lineWidth=2;ctx.strokeRect(x,y,w,h);
+  ctx.fillStyle='#fff';ctx.font='800 18px Inter,Arial';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(poleL,x+w*.25,y+h*.55);ctx.fillText(poleR,x+w*.75,y+h*.55);ctx.restore();
+}
+function compassAt(x,y,aDeg,scale){
+  const a=aDeg*Math.PI/180,s=scale||1;
+  ctx.save();ctx.translate(x,y);ctx.strokeStyle='rgba(255,255,255,.28)';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(0,0,26*s,0,7);ctx.stroke();
+  ctx.rotate(a);ctx.strokeStyle='#eef7ff';ctx.lineWidth=4*s;ctx.beginPath();ctx.moveTo(-20*s,0);ctx.lineTo(20*s,0);ctx.stroke();
+  ctx.fillStyle='#ff6b6b';ctx.beginPath();ctx.moveTo(20*s,0);ctx.lineTo(6*s,-6*s);ctx.lineTo(6*s,6*s);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#6ca8ff';ctx.beginPath();ctx.moveTo(-20*s,0);ctx.lineTo(-6*s,-6*s);ctx.lineTo(-6*s,6*s);ctx.closePath();ctx.fill();
+  ctx.restore();
+}
+function drawQuiz(rd){
+  if(rd.q.draw)rd.q.draw(ctx);
+  else{ctx.save();ctx.fillStyle='rgba(10,26,43,.55)';roundRect(60,230,600,220,16);ctx.fill();ctx.strokeStyle='#2f5a80';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.fillStyle='#8ea7bd';ctx.font='700 14px Inter,Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('🧲',W/2,290);ctx.font='600 13px Inter,Arial';ctx.fillStyle='#6f8aa3';ctx.fillText('pense antes de responder',W/2,420);ctx.restore();
+  }
+  rd.bubbles.forEach(b=>{
+    ctx.save();const bx=b.x+b.ox;
+    const gl=ctx.createLinearGradient(0,b.y,0,b.y+b.h);gl.addColorStop(0,b.flash>0?'#3f7db5':'#163a5f');gl.addColorStop(1,'#0c2038');
+    ctx.shadowColor=STAGES[g.stage].cor;ctx.shadowBlur=12;ctx.fillStyle=gl;roundRect(bx,b.y,b.w,b.h,18);ctx.fill();ctx.shadowBlur=0;ctx.lineWidth=2;ctx.strokeStyle=STAGES[g.stage].cor;ctx.stroke();
+    ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';
+    const len=b.text.length,fs=len>70?13:len>50?14.5:len>30?16:19;
+    wrap(b.text,bx+b.w/2,b.y+b.h/2,b.w-26,fs+4,`700 ${fs}px Inter,Segoe UI,Arial,sans-serif`);ctx.restore();
+  });
+}
+function drawAim(rd){
+  const sc=rd.scene;
+  ctx.save();ctx.fillStyle='rgba(10,26,43,.55)';roundRect(30,158,660,340,16);ctx.fill();ctx.strokeStyle='#2f5a80';ctx.lineWidth=1.5;ctx.stroke();ctx.save();ctx.beginPath();roundRect(30,158,660,340,16);ctx.clip();
+  if(sc.kind==='dipole'){
+    magBar(sc.cx-sc.mw/2,sc.cy-sc.mh/2,sc.mw,sc.mh,sc.flip?'S':'N',sc.flip?'N':'S');
+    ctx.fillStyle='#ffe58a';ctx.beginPath();ctx.arc(sc.px,sc.py,7,0,7);ctx.fill();ctx.strokeStyle='#111';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.fillStyle='#dceaf7';ctx.font='700 12px Inter,Arial';ctx.textAlign='center';ctx.fillText('P',sc.px,sc.py-16);
+  }else if(sc.kind==='pair'){
+    magBar(sc.x1,sc.cy-sc.mh/2,sc.mw,sc.mh,'N','S');magBar(sc.x2,sc.cy-sc.mh/2,sc.mw,sc.mh,sc.ori[0],sc.ori[1]);
+    ctx.fillStyle='#ffe58a';ctx.beginPath();ctx.arc(sc.px,sc.py,7,0,7);ctx.fill();ctx.strokeStyle='#111';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.fillStyle='#dceaf7';ctx.font='700 12px Inter,Arial';ctx.textAlign='center';ctx.fillText('P',sc.px,sc.py-16);
+  }else if(sc.kind==='oersted'){
+    const wx=sc.wx,wy=sc.wy,by=sc.by,on=sc.on;
+    ctx.strokeStyle=on?'#ffc247':'#5b6e82';ctx.lineWidth=on?7:4;ctx.beginPath();ctx.moveTo(wx,190);ctx.lineTo(wx,by-30);ctx.stroke();
+    if(on){const up=sc.I>0;arrow(wx,up?by-45:190+40,wx,up?190+40:by-45,'#ffffff',4)}
+    ctx.fillStyle='#dceaf7';ctx.font='700 12px Inter,Arial';ctx.textAlign='center';ctx.fillText('fio',wx+28,200);
+    ctx.fillStyle='#0d2236';ctx.beginPath();ctx.arc(160,220,26,0,7);ctx.fill();ctx.strokeStyle='#9fc1d9';ctx.lineWidth=2;ctx.stroke();
+    ctx.fillStyle='#eef7ff';ctx.font='800 15px Inter,Arial';ctx.fillText(on?'⏻':'⭘',160,222);ctx.font='700 12px Inter,Arial';ctx.fillStyle='#bcd0e2';ctx.fillText(on?'chave fechada':'chave aberta',160,254);
+    ctx.fillStyle='#dceaf7';ctx.font='700 13px Inter,Arial';ctx.fillText(`${sc.V.toFixed(1)} V · ${sc.R} Ω`,160,290);
+    arrow(600,by+10,600,by-70,'#65e6a6',2.5);ctx.fillStyle='#65e6a6';ctx.font='700 12px Inter,Arial';ctx.fillText('B terrestre',600,by+30);
+    ctx.strokeStyle='#ffe58a';ctx.setLineDash([4,4]);ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(wx,by,10,0,7);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='#dceaf7';ctx.font='700 12px Inter,Arial';ctx.fillText('bússola',wx,by+22);
+  }else if(sc.kind==='loop'){
+    const cx=W/2,cy=310,r=90;
+    ctx.strokeStyle='#ffc247';ctx.lineWidth=7;ctx.beginPath();ctx.arc(cx,cy,r,0,7);ctx.stroke();
+    const ccw=sc.I>=0,ro=r+22;
+    for(let a=0;a<Math.PI*2;a+=Math.PI/2){
+      const e=ccw?a+.5:a-.5,px=cx+ro*Math.cos(e),py=cy+ro*Math.sin(e),t=e+(ccw?Math.PI/2:-Math.PI/2);
+      ctx.save();ctx.strokeStyle='#fff0a6';ctx.lineWidth=3;ctx.beginPath();ctx.arc(cx,cy,ro,ccw?a-.5:a+.5,ccw?a+.5:a-.5);ctx.stroke();
+      ctx.fillStyle='#fff0a6';ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px-11*Math.cos(t-.4),py-11*Math.sin(t-.4));ctx.lineTo(px-11*Math.cos(t+.4),py-11*Math.sin(t+.4));ctx.closePath();ctx.fill();ctx.restore();
+    }
+    ctx.fillStyle='#dceaf7';ctx.font='700 13px Inter,Arial';ctx.textAlign='center';ctx.fillText(`I = ${Math.abs(sc.I)} A`,cx,cy+r+34);
+  }else if(sc.kind==='mix'){
+    magBar(sc.cx-sc.mw/2,sc.cy-sc.mh/2,sc.mw,sc.mh,sc.flip?'S':'N',sc.flip?'N':'S');
+    ctx.strokeStyle='#ffc247';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(sc.wx,180);ctx.lineTo(sc.wx,H);ctx.stroke();
+    arrow(sc.wx,sc.I>0?sc.wy+50:sc.wy-50,sc.wx,sc.I>0?sc.wy-50:sc.wy+50,'#ffffff',4);
+    ctx.fillStyle='#dceaf7';ctx.font='700 12px Inter,Arial';ctx.textAlign='center';ctx.fillText('fio',sc.wx+24,200);
+    ctx.fillStyle='#ffe58a';ctx.beginPath();ctx.arc(sc.px,sc.py,7,0,7);ctx.fill();ctx.strokeStyle='#111';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.fillStyle='#dceaf7';ctx.font='700 12px Inter,Arial';ctx.fillText('P',sc.px,sc.py-16);
+  }
+  ctx.restore();ctx.restore();
+  // opções de direção
+  sc.opts.forEach(o=>{
+    ctx.save();ctx.translate(o.x,o.y);
+    ctx.fillStyle=o.flash>0?'#4a1a24':'#0f2540';ctx.strokeStyle=o.flash>0?'#ff6b6b':STAGES[g.stage].cor;ctx.lineWidth=3;
+    ctx.shadowColor=STAGES[g.stage].cor;ctx.shadowBlur=10;ctx.beginPath();ctx.arc(0,0,o.r,0,7);ctx.fill();ctx.shadowBlur=0;ctx.stroke();
+    if(sc.kind==='loop'){ctx.fillStyle='#fff';ctx.font='900 24px Inter,Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(o.a===0?'⊙':'⊗',0,-4);
+      ctx.font='700 10px Inter,Arial';wrap(o.a===0?'sai da tela':'entra na tela',0,20,o.r*1.7,11,'700 10px Inter,Arial');
+    }else{compassAt(0,-4,o.a,1.05);ctx.fillStyle='#fff';ctx.font='900 15px Inter,Arial';ctx.textAlign='center';ctx.fillText(o.letter,0,o.r-10)}
+    ctx.restore();
+  });
+}
+function drawHUD(){
+  ctx.fillStyle='rgba(5,11,20,.88)';ctx.fillRect(0,0,W,34);
+  ctx.textBaseline='middle';ctx.textAlign='left';ctx.font='700 15px Inter,Arial,sans-serif';
+  for(let i=0;i<g.maxShield;i++){ctx.fillStyle=i<g.shield?'#ff6b6b':'#2a3d55';ctx.fillText('♥',10+i*17,18)}
+  ctx.fillStyle='#ffc247';ctx.textAlign='center';ctx.fillText('★ '+g.score+(g.combo>1?'   🔥×'+g.combo:''),W/2+30,18);
+  ctx.textAlign='right';ctx.fillStyle=STAGES[g.stage].cor;ctx.font='700 12px Inter,Arial,sans-serif';let nm=STAGES[g.stage].nome;if(nm.length>22)nm=nm.slice(0,21)+'…';ctx.fillText((g.stage+1)+'/'+STAGES.length+' · '+nm,W-16,18);
+  const rd=g.rd;if(rd&&rd.tmax&&(state==='round'||state==='gap')){
+    const f=Math.max(0,(rd.t===undefined?rd.tmax:rd.t)/rd.tmax);ctx.fillStyle='#0a1a2b';ctx.fillRect(0,34,W,5);ctx.fillStyle=f<.25?'#ff6b6b':STAGES[g.stage].cor;ctx.fillRect(0,34,W*f,5);
+  }
+}
+function draw(){
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  let sx=0,sy=0;if(g&&g.shake>0){sx=rnd(-4,4);sy=rnd(-4,4)}
+  ctx.save();ctx.translate(sx,sy);drawBg();
+  if(g&&g.rd&&state!=='title'){
+    const rd=g.rd;
+    if(rd.type==='quiz')drawQuiz(rd);else drawAim(rd);
+    g.parts.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life/p.max);ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,7);ctx.fill()});ctx.globalAlpha=1;
+    drawHUD();
+    g.floats.forEach(f=>{ctx.globalAlpha=Math.min(1,f.life);ctx.fillStyle=f.c;ctx.font='800 20px Inter,Arial';ctx.textAlign='center';ctx.fillText(f.t,f.x,f.y)});ctx.globalAlpha=1;
+    if(g.msg&&(state==='round'||state==='gap')){ctx.font='700 15px Inter,Arial';const w=Math.min(680,ctx.measureText(g.msg.text).width+30);ctx.fillStyle='rgba(5,11,20,.88)';roundRect(W/2-w/2,120,w,32,10);ctx.fill();ctx.fillStyle=g.msg.col;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(g.msg.text,W/2,136)}
+    if(state==='gap'&&g.gap&&g.gap.text){ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='900 30px Inter,Arial';ctx.fillStyle='rgba(255,255,255,'+Math.min(1,g.gap.t*2)+')';ctx.fillText(g.gap.text,W/2,H/2+40)}
+    if(g.flash>0){ctx.fillStyle='rgba(255,80,90,'+g.flash*.5+')';ctx.fillRect(0,0,W,H)}
+  }
+  ctx.restore();
+}
+
+/* ============================ ENTRADA E LOOP ============================ */
+addEventListener('keydown',e=>{
+  const k=e.key.toLowerCase();keys[k]=true;
+  if(k==='m')muteBtn.click();
+  if(k==='enter'){const b=document.getElementById('go')||document.getElementById('start');if(b&&ov.classList.contains('show'))b.click()}
+  if(g&&g.rd&&state==='round'&&/^[1-4]$/.test(k)){
+    const rd=g.rd,i=+k-1;
+    if(rd.type==='quiz'&&rd.bubbles[i]){const b=rd.bubbles[i];handleTap(b.x+b.w/2,b.y+b.h/2)}
+    else if(rd.type==='aim'&&rd.scene.opts[i]){const o=rd.scene.opts[i];handleTap(o.x,o.y)}
+  }
+  if(k==='p'||k==='escape'){
+    if(state==='round'){g.prevState=state;state='paused';show('<h2>⏸ Pausado</h2><button class="btn primary" id="go">Continuar</button>');document.getElementById('go').onclick=unpause}
+    else if(state==='paused')unpause();
+  }
+});
+function unpause(){state=g.prevState;hide()}
+addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
+addEventListener('blur',()=>keys={});
+function ptr(e){const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left)/r.width*W,y:(e.clientY-r.top)/r.height*H}}
+cv.addEventListener('pointerdown',e=>{const p=ptr(e);handleTap(p.x,p.y)});
+cv.addEventListener('contextmenu',e=>e.preventDefault());
+function fit(){stageEl.style.fontSize=(stageEl.clientWidth/720*16)+'px'}
+addEventListener('resize',fit);fit();
+function loop(t){
+  const dt=Math.min(.05,(t-last)/1000||0);last=t;
+  if(g&&state!=='title'&&state!=='paused'&&state!=='intro')update(dt);
+  else{time+=dt;bgStars.forEach(s=>{s.y+=s.z*8*dt;if(s.y>H){s.y=0;s.x=rnd(0,W)}})}
+  draw();requestAnimationFrame(loop);
+}
+g={stage:0,L:0,shield:0,maxShield:0,score:0,combo:0,rd:null,parts:[],floats:[],msg:null,shake:0,flash:0,gap:null};
+titleScreen();requestAnimationFrame(loop);
+</script>
+</body>
+</html>

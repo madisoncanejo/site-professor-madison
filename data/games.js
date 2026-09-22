@@ -46,5 +46,15 @@ var GAMES = [
     aulaUrl: "/aulas-html/optica-geometrica-interativa.html",
     url: "/games-html/caca-luz-optica.html",
     data: "2026-09-21"
+  },
+  {
+    serie: "3",
+    tema: "Eletromagnetismo",
+    titulo: "Rota Magnética",
+    descricao: "Game sobre Campos Magnéticos: polos, linhas de indução, regra da mão direita e campo de correntes elétricas.",
+    aulaTitulo: "Campos Magnéticos — estudo interativo da 3ª Série do Ensino Médio",
+    aulaUrl: "/aulas-html/campos-magneticos-interativo.html",
+    url: "/games-html/rota-magnetica.html",
+    data: "2026-09-22"
   }
 ];
