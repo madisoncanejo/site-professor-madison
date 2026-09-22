@@ -37,5 +37,13 @@ var AULAS = [
     descricao: "Aula interativa (Frente A6) sobre a origem dos elementos químicos, das estrelas ao nosso corpo, com simulações e atividades.",
     url: "/aulas-html/somos-poeira-das-estrelas.html",
     data: "2026-09-20"
+  },
+  {
+    serie: "3",
+    tema: "Eletromagnetismo",
+    titulo: "Campos Magnéticos — Laboratório Interativo",
+    descricao: "Ímãs, polos, linhas de indução, campo uniforme, experimento de Oersted com circuito completo, fio retilíneo e espira circular, com 6 laboratórios interativos e quiz final.",
+    url: "/aulas-html/campos-magneticos-interativo.html",
+    data: "2026-09-22"
   }
 ];
