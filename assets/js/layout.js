@@ -196,6 +196,7 @@ function renderFooter() {
         </div>
       </div>
       <p class="footer-copy">© ${new Date().getFullYear()} Professor Madison — Compreender primeiro. Calcular depois.</p>
+      <p class="footer-copy" style="margin-top:6px">Este site usa estatísticas de acesso anônimas, sem cookies e sem identificar você.</p>
     </div>
   `;
 }

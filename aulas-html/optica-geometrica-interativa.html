@@ -423,5 +423,6 @@ function updateTime(){let d=+distRange.value,t=d*1e6/300000;distVal.textContent=
 checkQuiz.onclick=()=>{let ok=0,answered=0;document.querySelectorAll('.q').forEach((q,i)=>{q.classList.remove('correct','wrong');let s=q.querySelector('input:checked');if(s){answered++;if(s.value===q.dataset.answer){ok++;q.classList.add('correct')}else q.classList.add('wrong')}});score.innerHTML=`<span class="${ok>=12?'green':ok>=8?'cyan':'red'}">${ok}/15 corretas</span> • ${answered}/15 respondidas`;localStorage.setItem('opticaQuizScore',ok)};
 resetQuiz.onclick=()=>{document.querySelectorAll('.q').forEach(q=>{q.classList.remove('correct','wrong');q.querySelectorAll('input').forEach(i=>i.checked=false)});score.textContent='ainda não corrigido'};
 </script>
+<script data-goatcounter="https://professormadison.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>

@@ -664,5 +664,6 @@ function renderQuiz(){score=0;answered.clear();$('#score').textContent=score;$('
 function answerQuiz(btn){const card=btn.closest('.quiz-card'),i=+card.dataset.i;if(answered.has(i))return;answered.add(i);const j=+btn.dataset.j,q=questions[i];card.querySelectorAll('.option').forEach((b,k)=>{if(k===q.a)b.classList.add('correct');else if(k===j)b.classList.add('wrong');b.disabled=true;});if(j===q.a){score++;$('#score').textContent=score;}card.querySelector('.feedback').textContent=(j===q.a?'Correto. ':'Revise. ')+q.why;}
 $('#resetQuiz').onclick=renderQuiz;renderQuiz();
 </script>
+<script data-goatcounter="https://professormadison.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </body>
 </html>
