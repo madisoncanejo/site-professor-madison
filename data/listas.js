@@ -13,6 +13,16 @@
      data: "2026-09-10"
    }
 
+   Exemplo (lista interativa em HTML, com correção automática — use "url" no lugar de "arquivo"):
+   {
+     serie: "2",
+     tema: "Óptica",
+     titulo: "Refração da Luz — Lista de Exercícios",
+     descricao: "36 questões com figuras e correção pelo gabarito oficial.",
+     url: "/listas-html/refracao-da-luz.html",
+     data: "2026-09-25"
+   }
+
    Exemplo (lista de revisão ENEM — usa "tema" para organizar dentro da seção):
    {
      serie: "enem",
@@ -31,5 +41,13 @@ var LISTAS = [
     descricao: "Questões de Física da prova do ENEM de novembro de 2018, com resolução comentada.",
     arquivo: "/downloads/enem-2018-fisica.pdf",
     data: "2026-09-17"
+  },
+  {
+    serie: "2",
+    tema: "Óptica",
+    titulo: "Refração da Luz — Lista de Exercícios interativa",
+    descricao: "36 questões sobre refração, índice de refração, Lei de Snell–Descartes, ângulo limite e dispersão, com figuras e gráficos. Marque suas respostas e veja, ao final, quantas e quais você acertou. Também pode ser impressa.",
+    url: "/listas-html/refracao-da-luz.html",
+    data: "2026-09-25"
   }
 ];

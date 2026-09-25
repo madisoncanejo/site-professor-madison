@@ -15,6 +15,7 @@ assets/js/layout.js      → monta o cabeçalho/rodapé/menu em todas as página
 assets/js/render.js      → monta os cards de conteúdo a partir dos arquivos em /data
 data/*.js                → "banco de dados" do site (arrays editáveis)
 downloads/               → PDFs das listas de exercícios
+listas-html/             → listas de exercícios interativas (HTML com correção automática) e suas figuras
 aulas-html/               → aulas interativas em HTML
 games-html/                → games em HTML
 ```
@@ -27,7 +28,7 @@ um objeto no formato mostrado no comentário do próprio arquivo:
 | Seção                  | Arquivo de dados       | Onde colocar o arquivo (se houver) |
 |-------------------------|--------------------------|--------------------------------------|
 | Vídeo-aulas             | `data/videoaulas.js`   | —, só o link/ID do YouTube          |
-| Listas de exercícios    | `data/listas.js`       | `downloads/`                         |
+| Listas de exercícios    | `data/listas.js`       | `downloads/` (PDF) ou `listas-html/` (lista interativa, use `url:`) |
 | Aulas interativas       | `data/aulas.js`         | `aulas-html/`                        |
 | Games                   | `data/games.js`         | `games-html/`                        |
 | Blog                    | `data/blog-fisica.js`  | `fisica/blog/` (copie `fisica/post-modelo.html`) |

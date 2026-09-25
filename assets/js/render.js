@@ -123,6 +123,9 @@ function renderVideoaulas() {
 
 /* ---------- Listas de exercícios ---------- */
 function listaCard(item) {
+  const acao = item.url
+    ? `<a class="btn btn-primary" href="${item.url}">Fazer a lista →</a>`
+    : `<a class="btn btn-primary" href="${item.arquivo}" download>⬇ Baixar PDF</a>`;
   return `
     <article class="item-card">
       <div class="body">
@@ -131,7 +134,7 @@ function listaCard(item) {
         <p>${item.descricao || ""}</p>
         <span class="meta">${formatDateBR(item.data)}</span>
         <div class="actions">
-          <a class="btn btn-primary" href="${item.arquivo}" download>⬇ Baixar PDF</a>
+          ${acao}
         </div>
       </div>
     </article>`;

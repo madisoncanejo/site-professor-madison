@@ -283,6 +283,11 @@ html[data-motion="reduce"] *::after{
   .site-header .main-nav{ order:2; }
   .site-header .a11y-wrap{ order:3; }
 }
+@media (min-width:901px) and (max-width:1180px){
+  .a11y-btn .a11y-label{ display:none; }
+  .a11y-btn{ padding:8px 10px; }
+  .main-nav a{ padding:8px 10px; font-size:.86rem; }
+}
 @media (max-width:900px){
   .a11y-wrap{ margin-left:auto; position:static; }
   .a11y-panel{ left:16px; right:16px; width:auto; max-width:none; top:calc(100% - 4px); }

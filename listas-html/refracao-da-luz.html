@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Refração da Luz — Lista de Exercícios interativa — Professor Madison</title>
+<meta name="description" content="Lista de 36 exercícios de Física sobre refração da luz (2ª série do Ensino Médio), com figuras e gráficos. Marque suas respostas e veja, ao final, quantas e quais questões você acertou, com base no gabarito oficial.">
+<link rel="canonical" href="https://professormadison.com.br/listas-html/refracao-da-luz.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Refração da Luz — Lista de Exercícios interativa">
+<meta property="og:description" content="36 exercícios de refração da luz com correção automática pelo gabarito oficial. Professor Madison.">
+<meta property="og:url" content="https://professormadison.com.br/listas-html/refracao-da-luz.html">
+<meta property="og:locale" content="pt_BR">
+<link rel="icon" type="image/png" href="/assets/img/favicon.png">
+<link rel="stylesheet" href="/assets/css/style.css">
+<style>
+:root{ --bad:#ff6b72; --good:var(--teal); }
+html[data-theme="light"]{ --bad:#c0343b; }
+
+.print-only{ display:none; }
+.lista-hero{ padding:56px 0 22px; text-align:center; }
+.lista-hero .pills{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:16px; }
+.lista-hero .pill{ border:1px solid var(--border); padding:6px 12px; border-radius:999px; font-size:.85rem; color:var(--text-dim); }
+.lista-intro{ background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; margin:8px 0 22px; color:var(--text-dim); }
+.lista-intro strong{ color:var(--text); }
+.lista-intro ul{ margin:.6rem 0 0; padding-left:1.2rem; list-style:disc; }
+.lista-actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+
+.questions{ display:grid; gap:18px; padding-bottom:20px; }
+.lq{ background:var(--card); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; scroll-margin-top:96px; }
+.lq-head{ display:flex; align-items:center; gap:12px; padding:14px 18px; border-bottom:1px solid var(--border-soft); }
+.lq-num{ width:38px; height:38px; border-radius:11px; background:var(--teal-soft); color:var(--teal); display:grid; place-items:center; font-weight:800; font-family:var(--font-head); }
+.lq-state{ margin-left:auto; font-size:.85rem; font-weight:700; }
+.lq-body{ padding:18px; }
+.lq-text{ color:var(--text); line-height:1.7; }
+.lq-text .note{ color:var(--text-dim); }
+.lq-hint{ font-size:.85rem; color:var(--text-faint); margin:12px 0 0; }
+.figs{ display:grid; gap:12px; margin:14px 0; justify-items:center; }
+.fig{ margin:0; background:#fff; border-radius:12px; padding:10px; max-width:100%; }
+.fig img{ display:block; max-width:100%; height:auto; margin:auto; }
+.dock .btn{ white-space:nowrap; }
+.fig figcaption{ font-size:.75rem; color:#555; text-align:center; margin-top:4px; }
+
+.lq-options{ display:grid; gap:8px; margin-top:12px; }
+.lq-opt{ display:flex; gap:10px; align-items:flex-start; padding:10px 12px; border:1px solid var(--border); border-radius:var(--radius-sm); cursor:pointer; color:var(--text); }
+.lq-opt:hover{ border-color:var(--teal); }
+.lq-opt input{ margin-top:6px; accent-color:var(--teal); flex:none; }
+.lq-opt:has(input:checked){ border-color:var(--teal); background:var(--teal-soft); }
+.letters{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+.letter{ cursor:pointer; }
+.letter input{ position:absolute; opacity:0; }
+.letter span{ display:grid; place-items:center; min-width:46px; height:44px; padding:0 12px; border:1px solid var(--border); border-radius:var(--radius-sm); font-weight:800; color:var(--text); }
+.letter:hover span{ border-color:var(--teal); }
+.letter input:checked + span{ background:var(--teal); border-color:var(--teal); color:var(--on-teal); }
+.letter input:focus-visible + span{ outline:2px solid var(--teal); outline-offset:2px; }
+.lq-open{ display:grid; gap:12px; margin-top:14px; }
+.lq-open label{ display:grid; gap:6px; font-size:.9rem; color:var(--text-dim); }
+.lq-open input[type=text]{ background:var(--bg-alt); color:var(--text); border:1px solid var(--border); border-radius:8px; padding:10px 12px; font:inherit; max-width:340px; }
+.lq-open input[type=text]:focus{ border-color:var(--teal); outline:none; }
+
+.lq.ok{ border-color:var(--good); }
+.lq.ok .lq-state{ color:var(--good); }
+.lq.bad{ border-color:var(--bad); }
+.lq.bad .lq-state{ color:var(--bad); }
+.lq.blank{ border-style:dashed; }
+.lq.blank .lq-state{ color:var(--text-faint); }
+.lq-feedback{ margin-top:14px; padding:12px 14px; border-radius:var(--radius-sm); border:1px solid var(--border); background:var(--bg-alt); font-size:.92rem; color:var(--text); }
+.lq.ok .lq-feedback{ border-color:var(--good); }
+.lq.bad .lq-feedback{ border-color:var(--bad); }
+.lq-opt.is-correct{ border-color:var(--good); background:var(--teal-soft); }
+.lq-opt.is-wrong{ border-color:var(--bad); }
+.letter.is-correct span{ border-color:var(--good); outline:2px solid var(--good); }
+.letter.is-wrong span{ border-color:var(--bad); outline:2px solid var(--bad); }
+
+.dock{ position:sticky; bottom:12px; z-index:30; display:flex; align-items:center; gap:14px; background:var(--card); border:1px solid var(--border); border-radius:999px; padding:10px 12px 10px 20px; box-shadow:var(--shadow); margin:8px 0 26px; }
+.dock .prog{ font-size:.85rem; font-weight:700; color:var(--text); white-space:nowrap; }
+.dock .bar{ flex:1; height:8px; background:var(--bg-alt); border-radius:99px; overflow:hidden; min-width:60px; }
+.dock .fill{ height:100%; width:0; background:linear-gradient(90deg,var(--teal),var(--teal-2)); transition:width .25s; }
+
+.finalizar{ text-align:center; padding:26px 20px; border:1px dashed var(--border); border-radius:var(--radius); margin-bottom:22px; }
+.finalizar p{ margin:0 0 14px; }
+
+.result{ background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:26px; margin:8px 0 26px; scroll-margin-top:90px; }
+.result[hidden]{ display:none; }
+.result h2{ margin:0 0 6px; }
+.score{ font-family:var(--font-head); font-size:2.6rem; font-weight:800; color:var(--teal); line-height:1.1; }
+.score small{ font-size:1rem; color:var(--text-dim); font-weight:600; }
+.summary{ display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 6px; }
+.tag-ok,.tag-bad,.tag-blank{ padding:6px 12px; border-radius:999px; font-size:.85rem; font-weight:700; border:1px solid var(--border); }
+.tag-ok{ color:var(--good); border-color:var(--good); }
+.tag-bad{ color:var(--bad); border-color:var(--bad); }
+.result h3{ margin:20px 0 8px; font-size:1rem; }
+.chips{ display:flex; flex-wrap:wrap; gap:8px; }
+.chip{ min-width:42px; text-align:center; padding:6px 10px; border-radius:10px; font-weight:800; border:1px solid var(--border); text-decoration:none; color:var(--text); }
+.chip.ok{ color:var(--good); border-color:var(--good); }
+.chip.bad{ color:var(--bad); border-color:var(--bad); }
+.chip:hover{ background:var(--teal-soft); }
+.tbl{ width:100%; border-collapse:collapse; font-size:.9rem; margin-top:6px; }
+.tbl th,.tbl td{ text-align:left; padding:8px 10px; border-bottom:1px solid var(--border-soft); vertical-align:top; }
+.tbl th{ color:var(--text-faint); font-size:.75rem; text-transform:uppercase; letter-spacing:.05em; }
+.tbl a{ color:var(--teal); font-weight:700; }
+.result-actions{ display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+
+.source{ background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:20px 24px; color:var(--text-dim); font-size:.9rem; margin-bottom:10px; }
+.source h2{ font-size:1rem; color:var(--text); margin:0 0 6px; }
+.source p{ margin:0 0 8px; }
+
+@media (max-width:640px){
+  .dock{ padding:8px 8px 8px 14px; gap:10px; }
+  .dock .prog{ font-size:.78rem; }
+  .hide-sm{ display:none; }
+  .dock .btn{ padding:10px 14px; font-size:.85rem; }
+  .result{ padding:18px; }
+}
+
+/* ---------- Impressão: cabeçalho do site Professor Madison ---------- */
+@media print{
+  @page{ size:A4; margin:12mm; }
+  html, html[data-theme]{
+    --bg:#fff; --bg-alt:#fff; --card:#fff; --text:#111; --text-dim:#222; --text-faint:#444;
+    --border:#999; --border-soft:#ccc; --teal:#0a7f62; --teal-soft:#fff; --shadow:none; --header-bg:#fff;
+  }
+  html{ font-size:100% !important; }
+  body{ background:#fff !important; color:#111 !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .site-header, .site-footer, .no-print, .dock, .finalizar, .result, .lq-feedback, .lq-state{ display:none !important; }
+  .print-only{ display:block !important; }
+  .container{ max-width:none; padding:0; }
+  .print-head{ margin-bottom:12px; }
+  .ph-band{ display:flex; align-items:center; gap:12px; background:#081420 !important; color:#fff !important; padding:10px 16px; border-radius:8px; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .ph-band img{ height:34px; width:auto; }
+  .ph-brand{ display:flex; flex-direction:column; line-height:1.05; }
+  .ph-brand small{ font-size:8pt; letter-spacing:.28em; color:#9fb6c8 !important; }
+  .ph-brand b{ font-family:var(--font-head); font-size:15pt; letter-spacing:.02em; color:#fff !important; }
+  .ph-site{ margin-left:auto; font-size:10pt; color:#18e3ac !important; font-weight:700; }
+  .ph-title{ padding:10px 2px 4px; }
+  .ph-title h1{ font-size:17pt; margin:0; color:#111; }
+  .ph-title p{ margin:2px 0 0; font-size:10pt; color:#333; }
+  .ph-fields{ display:flex; gap:22px; flex-wrap:wrap; font-size:10pt; padding:8px 2px 4px; border-bottom:1px solid #999; }
+  .questions{ gap:10px; padding-bottom:0; }
+  .lq{ break-inside:avoid; border:1px solid #999; border-radius:6px; box-shadow:none; }
+  .lq-head{ padding:6px 10px; }
+  .lq-num{ width:26px; height:26px; background:#eee !important; color:#111 !important; border-radius:6px; font-size:10pt; }
+  .lq-body{ padding:8px 12px; font-size:10.5pt; }
+  .lq-text, .lq-opt{ color:#111 !important; }
+  .lq-opt{ border:0 !important; background:none !important; padding:2px 0; }
+  .lq-opt input, .letter input{ display:none; }
+  .lq-hint{ font-size:9pt; color:#333; }
+  .letter span{ min-width:30px; height:26px; border:1px solid #666; border-radius:4px; color:#111 !important; background:#fff !important; }
+  .fig{ padding:2px; border-radius:0; }
+  .fig img{ max-height:70mm; width:auto; }
+  .lq-open input[type=text]{ border:0; border-bottom:1px solid #111; border-radius:0; background:none; color:#111; padding:4px 0; }
+  .lq-open input[type=text]::placeholder{ color:transparent; }
+  .source{ break-inside:avoid; font-size:9pt; border:0; padding:6px 0; }
+}
+</style>
+</head>
+<body data-active="listas">
+
+<header class="site-header" id="site-header"></header>
+
+<div class="print-only print-head">
+  <div class="ph-band">
+    <img src="/assets/img/logo-mark.png" alt="">
+    <span class="ph-brand"><small>PROFESSOR</small><b>MADISON</b></span>
+    <span class="ph-site">professormadison.com.br</span>
+  </div>
+  <div class="ph-title">
+    <h1>Refração da Luz — Lista de Exercícios</h1>
+    <p>Física • 2ª Série do Ensino Médio • 36 questões</p>
+  </div>
+  <div class="ph-fields"><span>Nome: ______________________________________</span><span>Turma: __________</span><span>Data: ____/____/________</span></div>
+</div>
+
+<main>
+  <section class="lista-hero container no-print">
+    <span class="eyebrow" style="display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.18em;color:var(--teal);text-transform:uppercase;margin-bottom:14px">Física • 2ª Série • Óptica Geométrica</span>
+    <h1 style="font-size:clamp(1.9rem,4vw,3rem);font-weight:800">Refração da <span style="background:linear-gradient(120deg,var(--teal),var(--teal-2));-webkit-background-clip:text;background-clip:text;color:transparent">Luz</span></h1>
+    <p class="lead" style="max-width:680px;margin:0 auto">Lista de exercícios para estudo e consolidação de refração, índice de refração, Lei de Snell–Descartes, ângulo limite, reflexão total e dispersão.</p>
+    <div class="pills"><span class="pill">36 questões</span><span class="pill">Com figuras e gráficos</span><span class="pill">Correção pelo gabarito oficial</span></div>
+  </section>
+
+  <div class="container">
+    <section class="lista-intro no-print">
+      <strong>Como usar:</strong> resolva cada questão no caderno e registre aqui a sua resposta.
+      <ul>
+        <li>Nas questões com alternativas, <strong>marque a que você acredita ser a correta</strong>. Nas questões 7, 22, 30 e 35 as alternativas estão desenhadas na figura; marque a letra correspondente.</li>
+        <li>Nas questões numéricas, <strong>digite o resultado</strong> (por exemplo: 1,5 · 3/2 · √3 · "raiz de 3" · c/√2).</li>
+        <li>Suas respostas ficam salvas neste navegador. Ao final da página, clique em <strong>Corrigir lista</strong> para ver <strong>quantas e quais questões você acertou e errou</strong>.</li>
+      </ul>
+      <div class="lista-actions">
+        <button type="button" class="btn btn-outline" id="btnPrint">🖨 Imprimir / salvar PDF</button>
+        <button type="button" class="btn btn-outline" id="btnLimparTopo">Limpar respostas</button>
+      </div>
+    </section>
+
+    <section class="questions" id="questoes">
+<article class="lq" id="q1" data-q="1"><header class="lq-head"><span class="lq-num">1</span><strong>Questão 1</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Um raio de luz monocromática propagando-se no vácuo (índice de refração igual a 1) atravessa uma placa de vidro e retorna ao vácuo. O gráfico representa como a velocidade da luz varia em função do tempo para a situação descrita, com o tempo medido em unidades de 10<sup>−11</sup> s. A espessura da placa de vidro, em metros, e o índice de refração absoluto do vidro são, respectivamente, iguais a:</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q1_1.png" width="312" height="210" alt="Gráfico da velocidade da luz em função do tempo ao atravessar uma placa de vidro" loading="lazy"><figcaption>Figura da questão 1</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 1"><label class="lq-opt"><input type="radio" name="q1" value="a"><span>a) 6,0 × 10<sup>−2</sup> e 1,0</span></label><label class="lq-opt"><input type="radio" name="q1" value="b"><span>b) 2,0 × 10<sup>−2</sup> e 3,0</span></label><label class="lq-opt"><input type="radio" name="q1" value="c"><span>c) 2,0 × 10<sup>−3</sup> e 2/3</span></label><label class="lq-opt"><input type="radio" name="q1" value="d"><span>d) 6,0 × 10<sup>−3</sup> e 1,5</span></label><label class="lq-opt"><input type="radio" name="q1" value="e"><span>e) 2,0 × 10<sup>−3</sup> e 1,5</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q2" data-q="2"><header class="lq-head"><span class="lq-num">2</span><strong>Questão 2</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Quando um raio de luz passa do vácuo para um líquido transparente e homogêneo, sua velocidade de propagação diminui em 50% em relação a seu valor anterior. Qual o índice de refração absoluto da luz nesse líquido?</div><div class="lq-open"><label>Índice de refração n<input type="text" inputmode="text" autocomplete="off" name="q2" data-part="" placeholder="Digite sua resposta"></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q3" data-q="3"><header class="lq-head"><span class="lq-num">3</span><strong>Questão 3</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Um feixe de luz de comprimento de onda de 600 nm se propaga no vácuo até atingir a superfície de uma placa de vidro. Sabendo-se que o índice de refração do vidro é <em>n</em> = 1,5 e que a velocidade de propagação da luz no vácuo é de 3 × 10<sup>8</sup> m/s, o comprimento de onda e a velocidade de propagação da onda no vidro, em nm e m/s, respectivamente, são: <span class="note">(1 nm = 1 × 10<sup>−9</sup> m)</span></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 3"><label class="lq-opt"><input type="radio" name="q3" value="a"><span>a) 200 nm ; 4 × 10<sup>8</sup> m/s</span></label><label class="lq-opt"><input type="radio" name="q3" value="b"><span>b) 200 nm ; 3 × 10<sup>8</sup> m/s</span></label><label class="lq-opt"><input type="radio" name="q3" value="c"><span>c) 200 nm ; 2 × 10<sup>8</sup> m/s</span></label><label class="lq-opt"><input type="radio" name="q3" value="d"><span>d) 400 nm ; 1 × 10<sup>8</sup> m/s</span></label><label class="lq-opt"><input type="radio" name="q3" value="e"><span>e) 400 nm ; 2 × 10<sup>8</sup> m/s</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q4" data-q="4"><header class="lq-head"><span class="lq-num">4</span><strong>Questão 4</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Um raio de luz monocromática passa de um meio 1 para um meio 2 e desse para um meio 3, conforme indicado na figura. Com relação à velocidade de propagação da luz nesses três meios, assinale a alternativa correta.</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q4_1.png" width="200" height="154" alt="Raio de luz atravessando três meios transparentes" loading="lazy"><figcaption>Figura da questão 4</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 4"><label class="lq-opt"><input type="radio" name="q4" value="a"><span>a) v<sub>1</sub> &gt; v<sub>2</sub> &gt; v<sub>3</sub></span></label><label class="lq-opt"><input type="radio" name="q4" value="b"><span>b) v<sub>3</sub> &gt; v<sub>1</sub> &gt; v<sub>2</sub></span></label><label class="lq-opt"><input type="radio" name="q4" value="c"><span>c) v<sub>2</sub> &gt; v<sub>3</sub> &gt; v<sub>1</sub></span></label><label class="lq-opt"><input type="radio" name="q4" value="d"><span>d) v<sub>1</sub> &gt; v<sub>3</sub> &gt; v<sub>2</sub></span></label><label class="lq-opt"><input type="radio" name="q4" value="e"><span>e) v<sub>3</sub> &gt; v<sub>2</sub> &gt; v<sub>1</sub></span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q5" data-q="5"><header class="lq-head"><span class="lq-num">5</span><strong>Questão 5</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Uma onda luminosa se propagando no vácuo incide sobre uma superfície de vidro cujo índice de refração é maior que o índice de refração do vácuo, tendo um ângulo de incidência de 30° em relação à normal da superfície. Neste caso, podemos afirmar que:</div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 5"><label class="lq-opt"><input type="radio" name="q5" value="a"><span>a) a velocidade de propagação da luz é igual em ambos os meios e sua direção não é alterada.</span></label><label class="lq-opt"><input type="radio" name="q5" value="b"><span>b) a velocidade de propagação da luz é maior no vidro do que no vácuo e sua direção é alterada.</span></label><label class="lq-opt"><input type="radio" name="q5" value="c"><span>c) a velocidade de propagação da luz é maior no vácuo do que no vidro e sua direção é alterada.</span></label><label class="lq-opt"><input type="radio" name="q5" value="d"><span>d) a velocidade de propagação da luz não é alterada quando muda de meio e apenas sua direção é alterada.</span></label><label class="lq-opt"><input type="radio" name="q5" value="e"><span>e) a velocidade de propagação da luz é alterada quando muda de meio, mas sua direção de propagação não é alterada.</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q6" data-q="6"><header class="lq-head"><span class="lq-num">6</span><strong>Questão 6</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Sabendo que um meio apresenta índice de refração absoluto 3/2, assinale a afirmação correta.</div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 6"><label class="lq-opt"><input type="radio" name="q6" value="a"><span>a) A frequência de qualquer radiação eletromagnética, ao passar do ar para esse meio, é alterada.</span></label><label class="lq-opt"><input type="radio" name="q6" value="b"><span>b) A velocidade de propagação da luz nesse meio diminui.</span></label><label class="lq-opt"><input type="radio" name="q6" value="c"><span>c) O período de qualquer radiação eletromagnética, ao passar do ar para esse meio, é alterado.</span></label><label class="lq-opt"><input type="radio" name="q6" value="d"><span>d) Um raio de luz que forma um ângulo de 60° com a normal, ao passar do ar para esse meio, sai com um ângulo maior que 60°.</span></label><label class="lq-opt"><input type="radio" name="q6" value="e"><span>e) Um raio de luz que forma um ângulo de 70° com a normal, ao passar do ar para esse meio, não sofre desvio.</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q7" data-q="7"><header class="lq-head"><span class="lq-num">7</span><strong>Questão 7</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Um feixe de luz, vindo do ar, incide sobre um aquário de vidro com água. Sabe-se que a velocidade da luz é menor na água e no vidro que no ar. Com base nessas informações, assinale a alternativa em que melhor se representa a trajetória do feixe de luz entrando e saindo do aquário.</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q7_1.png" width="312" height="210" alt="Alternativas gráficas para a trajetória de um feixe de luz em um aquário" loading="lazy"><figcaption>Figura da questão 7</figcaption></figure></div><p class="lq-hint">As alternativas estão desenhadas na figura. Marque a letra da alternativa que você acredita ser correta:</p><div class="letters" role="radiogroup" aria-label="Alternativas da questão 7"><label class="letter"><input type="radio" name="q7" value="a"><span>a</span></label><label class="letter"><input type="radio" name="q7" value="b"><span>b</span></label><label class="letter"><input type="radio" name="q7" value="c"><span>c</span></label><label class="letter"><input type="radio" name="q7" value="d"><span>d</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q8" data-q="8"><header class="lq-head"><span class="lq-num">8</span><strong>Questão 8</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Quando um raio de luz monocromática, proveniente de um meio homogêneo, transparente e isótropo, identificado por meio A, incide sobre a superfície de separação com um meio B, também homogêneo, transparente e isótropo, passa a se propagar nesse segundo meio, conforme mostra a figura. Sabendo-se que o ângulo α é menor que o ângulo β, podemos afirmar que:</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q8_1.png" width="216" height="210" alt="Refração de um raio luminoso entre os meios A e B com ângulos alfa e beta" loading="lazy"><figcaption>Figura da questão 8</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 8"><label class="lq-opt"><input type="radio" name="q8" value="a"><span>a) no meio A a velocidade de propagação da luz é menor que no meio B.</span></label><label class="lq-opt"><input type="radio" name="q8" value="b"><span>b) no meio A a velocidade de propagação da luz é sempre igual à velocidade no meio B.</span></label><label class="lq-opt"><input type="radio" name="q8" value="c"><span>c) no meio A a velocidade de propagação da luz é maior que no meio B.</span></label><label class="lq-opt"><input type="radio" name="q8" value="d"><span>d) no meio A a velocidade de propagação da luz é maior que no meio B, somente se α é o ângulo limite de incidência.</span></label><label class="lq-opt"><input type="radio" name="q8" value="e"><span>e) no meio A a velocidade de propagação da luz é maior que no meio B, somente se α é o ângulo limite de refração.</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q9" data-q="9"><header class="lq-head"><span class="lq-num">9</span><strong>Questão 9</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Na figura, um raio de luz monocromático se propaga pelo meio A, de índice de refração 2,0. <span class="note">Dados: sen 37° = 0,60; sen 53° = 0,80.</span> Devemos concluir que o índice de refração do meio B é:</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q9_1.png" width="264" height="119" alt="Raio luminoso atravessando a interface entre os meios A e B" loading="lazy"><figcaption>Figura da questão 9</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 9"><label class="lq-opt"><input type="radio" name="q9" value="a"><span>a) 0,5</span></label><label class="lq-opt"><input type="radio" name="q9" value="b"><span>b) 1,0</span></label><label class="lq-opt"><input type="radio" name="q9" value="c"><span>c) 1,2</span></label><label class="lq-opt"><input type="radio" name="q9" value="d"><span>d) 1,5</span></label><label class="lq-opt"><input type="radio" name="q9" value="e"><span>e) 2,0</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q10" data-q="10"><header class="lq-head"><span class="lq-num">10</span><strong>Questão 10</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">O esquema representa a direção de um feixe luminoso monocromático incidente e as direções dos respectivos feixes refletido e refratado. Sabendo-se que o ângulo de reflexão vale 60°, que o índice de refração do meio A vale 1 e que o do meio B vale √3, é correto afirmar que o ângulo de refração vale:</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q10_1.png" width="184" height="105" alt="Esquema dos raios incidente, refletido e refratado" loading="lazy"><figcaption>Figura da questão 10</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 10"><label class="lq-opt"><input type="radio" name="q10" value="a"><span>a) 15°</span></label><label class="lq-opt"><input type="radio" name="q10" value="b"><span>b) 30°</span></label><label class="lq-opt"><input type="radio" name="q10" value="c"><span>c) 45°</span></label><label class="lq-opt"><input type="radio" name="q10" value="d"><span>d) 60°</span></label><label class="lq-opt"><input type="radio" name="q10" value="e"><span>e) 90°</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q11" data-q="11"><header class="lq-head"><span class="lq-num">11</span><strong>Questão 11</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Um raio luminoso que se propaga no ar, <em>n</em><sub>ar</sub> = 1, incide obliquamente sobre um meio transparente de índice de refração <em>n</em>, fazendo um ângulo de 60° com a normal. Nessa situação, verifica-se que o raio refletido é perpendicular ao raio refratado, como ilustra a figura. Calcule o índice de refração <em>n</em> do meio.</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q11_1.png" width="280" height="176" alt="Raio refletido perpendicular ao raio refratado" loading="lazy"><figcaption>Figura da questão 11</figcaption></figure></div><div class="lq-open"><label>Índice de refração n<input type="text" inputmode="text" autocomplete="off" name="q11" data-part="" placeholder="Digite sua resposta"></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q12" data-q="12"><header class="lq-head"><span class="lq-num">12</span><strong>Questão 12</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Um raio de luz, que incide em uma interface ar–vidro fazendo um ângulo de 60° com a normal, é refratado segundo um ângulo de 30°. Se a velocidade da luz no ar vale <em>c</em>, qual a sua velocidade no vidro?</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q12_1.png" width="320" height="210" alt="Raio de luz na interface ar-vidro com ângulos de 60 e 30 graus" loading="lazy"><figcaption>Figura da questão 12</figcaption></figure></div><div class="lq-open"><label>Velocidade no vidro (em função de c)<input type="text" inputmode="text" autocomplete="off" name="q12" data-part="" placeholder="Digite sua resposta"></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q13" data-q="13"><header class="lq-head"><span class="lq-num">13</span><strong>Questão 13</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">A figura mostra uma lâmina quadrada ABCD de lado igual a 18 cm e espessura constante, colocada sobre uma mesa. A lâmina é transparente e tem índice de refração (5√2)/6. Um feixe de luz, paralelo ao tampo da mesa, incide sobre a lâmina, no meio do lado AB, formando um ângulo de 45°. A quantos centímetros do vértice B o raio refratado atinge o lado BC? <span class="note">Dado: índice de refração do ar = 1.</span></div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q13_1.png" width="312" height="210" alt="Lâmina quadrada ABCD e trajetória do feixe de luz" loading="lazy"><figcaption>Figura da questão 13</figcaption></figure></div><div class="lq-open"><label>Distância ao vértice B (em cm)<input type="text" inputmode="text" autocomplete="off" name="q13" data-part="" placeholder="Digite sua resposta"></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q14" data-q="14"><header class="lq-head"><span class="lq-num">14</span><strong>Questão 14</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">A figura mostra um raio luminoso monocromático que se propaga do ar para o acrílico. Se outro raio luminoso, de mesma frequência, atingir a superfície que separa os meios ar–acrílico, com ângulo de incidência de 60°, a velocidade da luz no acrílico vale?</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q14_1.png" width="283" height="210" alt="Raio luminoso passando do ar para o acrílico" loading="lazy"><figcaption>Figura da questão 14</figcaption></figure></div><div class="lq-open"><label>Velocidade no acrílico (em função de c)<input type="text" inputmode="text" autocomplete="off" name="q14" data-part="" placeholder="Digite sua resposta"></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q15" data-q="15"><header class="lq-head"><span class="lq-num">15</span><strong>Questão 15</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Um raio de luz L, no plano da figura, incide no ponto I do eixo de um semicilindro de plástico transparente, segundo um ângulo de 30° com a face plana S. Um observador, com o olho em O, vê esse raio incidente formando um ângulo de 60° com a face plana S. Calcule o índice de refração absoluto do plástico transparente.</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q15_1.png" width="199" height="185" alt="Semicilindro de plástico transparente e observador" loading="lazy"><figcaption>Figura da questão 15</figcaption></figure></div><div class="lq-open"><label>Índice de refração n<input type="text" inputmode="text" autocomplete="off" name="q15" data-part="" placeholder="Digite sua resposta"></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q16" data-q="16"><header class="lq-head"><span class="lq-num">16</span><strong>Questão 16</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Um raio rasante, de luz monocromática, passa de um meio transparente para outro, através de uma interface plana, e se refrata num ângulo de 30° com a normal, como mostra a figura. Se o ângulo de incidência for reduzido para 30° com a normal, o raio refratado fará com a normal um ângulo de, aproximadamente:</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q16_1.png" width="312" height="195" alt="Raio rasante refratado e gráfico auxiliar de seno" loading="lazy"><figcaption>Figura da questão 16</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 16"><label class="lq-opt"><input type="radio" name="q16" value="a"><span>a) 90°</span></label><label class="lq-opt"><input type="radio" name="q16" value="b"><span>b) 60°</span></label><label class="lq-opt"><input type="radio" name="q16" value="c"><span>c) 30°</span></label><label class="lq-opt"><input type="radio" name="q16" value="d"><span>d) 15°</span></label><label class="lq-opt"><input type="radio" name="q16" value="e"><span>e) 10°</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q17" data-q="17"><header class="lq-head"><span class="lq-num">17</span><strong>Questão 17</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Considere um raio de luz monocromático que se propaga no ar e incide sobre um meio material, refratando-se. Um aluno varia o ângulo de incidência (θ<sub>i</sub>) do raio luminoso e mede o ângulo de refração (θ<sub>r</sub>), obtendo o gráfico sen θ<sub>i</sub> versus sen θ<sub>r</sub>, indicado a seguir. Considerando o índice de refração do ar igual a 1, pode-se afirmar corretamente que o seno do ângulo limite de refração desse meio material vale, aproximadamente:</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q17_1.png" width="333" height="244" alt="Gráfico de seno do ângulo de incidência versus seno do ângulo de refração" loading="lazy"><figcaption>Figura da questão 17</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 17"><label class="lq-opt"><input type="radio" name="q17" value="a"><span>a) 0,25</span></label><label class="lq-opt"><input type="radio" name="q17" value="b"><span>b) 0,35</span></label><label class="lq-opt"><input type="radio" name="q17" value="c"><span>c) 0,45</span></label><label class="lq-opt"><input type="radio" name="q17" value="d"><span>d) 0,56</span></label><label class="lq-opt"><input type="radio" name="q17" value="e"><span>e) 0,95</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q18" data-q="18"><header class="lq-head"><span class="lq-num">18</span><strong>Questão 18</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Um raio de luz monocromático que se propaga no ar (índice de refração = 1) atinge a superfície de separação com um meio homogêneo e transparente, sob determinado ângulo de incidência, diferente de 0°. Considerando os meios da tabela a seguir, aquele para o qual o raio luminoso tem o menor desvio é:</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q18_1.png" width="616" height="265" alt="Tabela de índices de refração de água, álcool, diamante, glicerina e vidro comum" loading="lazy"><figcaption>Figura da questão 18</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 18"><label class="lq-opt"><input type="radio" name="q18" value="a"><span>a) Água</span></label><label class="lq-opt"><input type="radio" name="q18" value="b"><span>b) Álcool etílico</span></label><label class="lq-opt"><input type="radio" name="q18" value="c"><span>c) Diamante</span></label><label class="lq-opt"><input type="radio" name="q18" value="d"><span>d) Glicerina</span></label><label class="lq-opt"><input type="radio" name="q18" value="e"><span>e) Vidro comum</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q19" data-q="19"><header class="lq-head"><span class="lq-num">19</span><strong>Questão 19</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">A figura representa um raio de luz monocromática que se refrata na superfície plana de separação de dois meios transparentes, cujos índices de refração são n<sub>1</sub> e n<sub>2</sub>. Com base nas medidas expressas na figura, onde C é uma circunferência, pode-se calcular a razão n<sub>2</sub>/n<sub>1</sub> dos índices de refração desses meios. Qual das alternativas apresenta corretamente o valor dessa razão?</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q19_1.png" width="302" height="197" alt="Circunferência auxiliar para determinar a razão entre índices de refração" loading="lazy"><figcaption>Figura da questão 19</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 19"><label class="lq-opt"><input type="radio" name="q19" value="a"><span>a) 2/3</span></label><label class="lq-opt"><input type="radio" name="q19" value="b"><span>b) 3/4</span></label><label class="lq-opt"><input type="radio" name="q19" value="c"><span>c) 1</span></label><label class="lq-opt"><input type="radio" name="q19" value="d"><span>d) 4/3</span></label><label class="lq-opt"><input type="radio" name="q19" value="e"><span>e) 3/2</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q20" data-q="20"><header class="lq-head"><span class="lq-num">20</span><strong>Questão 20</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">A figura indica a trajetória de um raio de luz que passa de uma região semicircular que contém ar para outra de vidro, ambas de mesmo tamanho e perfeitamente justapostas. Determine, numericamente, o índice de refração do vidro em relação ao ar.</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q20_1.png" width="213" height="211" alt="Trajetória de um raio em regiões semicirculares de ar e vidro" loading="lazy"><figcaption>Figura da questão 20</figcaption></figure></div><div class="lq-open"><label>Índice de refração do vidro em relação ao ar<input type="text" inputmode="text" autocomplete="off" name="q20" data-part="" placeholder="Digite sua resposta"></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q21" data-q="21"><header class="lq-head"><span class="lq-num">21</span><strong>Questão 21</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">A figura mostra um raio de luz monocromática que, após se propagar no ar, penetra em um líquido transparente. Considerando a velocidade de propagação da luz no ar igual a 300 000 km/s, sen <em>i</em> = 0,75 e sen <em>r</em> = 0,60, a velocidade com que a luz se propaga nesse líquido, em km/s, é:</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q21_1.png" width="303" height="274" alt="Raio de luz penetrando em um líquido transparente" loading="lazy"><figcaption>Figura da questão 21</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 21"><label class="lq-opt"><input type="radio" name="q21" value="a"><span>a) 200 000</span></label><label class="lq-opt"><input type="radio" name="q21" value="b"><span>b) 240 000</span></label><label class="lq-opt"><input type="radio" name="q21" value="c"><span>c) 120 000</span></label><label class="lq-opt"><input type="radio" name="q21" value="d"><span>d) 375 000</span></label><label class="lq-opt"><input type="radio" name="q21" value="e"><span>e) 180 000</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q22" data-q="22"><header class="lq-head"><span class="lq-num">22</span><strong>Questão 22</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Na figura, um raio luminoso <em>i</em>, propagando-se no ar, incide radialmente sobre uma placa semicircular de vidro. Assinale a alternativa que melhor representa a trajetória dos raios r<sub>1</sub> e r<sub>2</sub> refratados, respectivamente, no vidro e no ar.</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q22_1.png" width="127" height="65" alt="Placa semicircular de vidro com raio incidente radial" loading="lazy"><figcaption>Figura da questão 22 — detalhe 1</figcaption></figure><figure class="fig"><img src="/listas-html/img/refracao/q22_2.jpg" width="408" height="185" alt="Alternativas gráficas das trajetórias dos raios refratados" loading="lazy"><figcaption>Figura da questão 22 — detalhe 2</figcaption></figure></div><p class="lq-hint">As alternativas estão desenhadas na figura. Marque a letra da alternativa que você acredita ser correta:</p><div class="letters" role="radiogroup" aria-label="Alternativas da questão 22"><label class="letter"><input type="radio" name="q22" value="a"><span>A</span></label><label class="letter"><input type="radio" name="q22" value="b"><span>B</span></label><label class="letter"><input type="radio" name="q22" value="c"><span>C</span></label><label class="letter"><input type="radio" name="q22" value="d"><span>D</span></label><label class="letter"><input type="radio" name="q22" value="e"><span>E</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q23" data-q="23"><header class="lq-head"><span class="lq-num">23</span><strong>Questão 23</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Dois meios homogêneos e transparentes, A e B, são justapostos e separados pela superfície plana S. Um raio de luz monocromático propaga-se pelo meio A com velocidade 1,5 × 10<sup>8</sup> m/s, incide perpendicularmente à superfície de separação entre os meios e passa a propagar-se pelo meio B, com velocidade de (√6/2) × 10<sup>8</sup> m/s, conforme a figura 1. Se esse mesmo raio, propagando-se pelo meio B, incidisse na superfície S conforme a figura 2, ele:</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q23_1.png" width="303" height="121" alt="Figuras 1 e 2 com os meios A e B separados pela superfície S" loading="lazy"><figcaption>Figura da questão 23</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 23"><label class="lq-opt"><input type="radio" name="q23" value="a"><span>a) refrataria de forma rasante à superfície S.</span></label><label class="lq-opt"><input type="radio" name="q23" value="b"><span>b) refrataria fazendo um ângulo de 60° com a superfície S.</span></label><label class="lq-opt"><input type="radio" name="q23" value="c"><span>c) refrataria fazendo um ângulo de 30° com a superfície S.</span></label><label class="lq-opt"><input type="radio" name="q23" value="d"><span>d) refrataria fazendo um ângulo de 45° com a superfície S.</span></label><label class="lq-opt"><input type="radio" name="q23" value="e"><span>e) sofreria reflexão total.</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q24" data-q="24"><header class="lq-head"><span class="lq-num">24</span><strong>Questão 24</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Dois raios luminosos monocromáticos, um azul e um vermelho, propagam-se no ar, paralelos entre si, e incidem sobre uma esfera maciça de vidro transparente de centro C e de índice de refração √3, nos pontos A e V. Após atravessarem a esfera, os raios emergem pelo ponto P, de modo que o ângulo entre eles é igual a 60°. Considerando que o índice de refração absoluto do ar seja igual a 1, o ângulo α indicado na figura é igual a:</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q24_1.png" width="269" height="135" alt="Dois raios monocromáticos atravessando uma esfera de vidro" loading="lazy"><figcaption>Figura da questão 24</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 24"><label class="lq-opt"><input type="radio" name="q24" value="a"><span>a) 90°</span></label><label class="lq-opt"><input type="radio" name="q24" value="b"><span>b) 165°</span></label><label class="lq-opt"><input type="radio" name="q24" value="c"><span>c) 120°</span></label><label class="lq-opt"><input type="radio" name="q24" value="d"><span>d) 135°</span></label><label class="lq-opt"><input type="radio" name="q24" value="e"><span>e) 150°</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q25" data-q="25"><header class="lq-head"><span class="lq-num">25</span><strong>Questão 25</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">A figura representa um feixe de luz branca viajando pelo ar e incidindo sobre um pedaço de vidro <em>crown</em>. A tabela apresenta os índices de refração (<em>n</em>) para algumas cores nesse vidro. Nesse esquema, o feixe refratado 3 corresponde à cor:</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q25_1.png" width="166" height="113" alt="Tabela de índices de refração do vidro crown por cor" loading="lazy"><figcaption>Figura da questão 25 — detalhe 1</figcaption></figure><figure class="fig"><img src="/listas-html/img/refracao/q25_2.png" width="273" height="248" alt="Dispersão de um feixe de luz branca em vidro crown" loading="lazy"><figcaption>Figura da questão 25 — detalhe 2</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 25"><label class="lq-opt"><input type="radio" name="q25" value="a"><span>a) branca</span></label><label class="lq-opt"><input type="radio" name="q25" value="b"><span>b) violeta</span></label><label class="lq-opt"><input type="radio" name="q25" value="c"><span>c) verde</span></label><label class="lq-opt"><input type="radio" name="q25" value="d"><span>d) vermelha</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q26" data-q="26"><header class="lq-head"><span class="lq-num">26</span><strong>Questão 26</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Um raio luminoso, monocromático, propagando-se no ar, encontra a superfície de separação do ar com um bloco de diamante, sob um ângulo de incidência I, conforme mostra a figura, onde N é a normal à superfície. No experimento, variou-se o ângulo de incidência e mediu-se o ângulo de refração R quando o raio luminoso passou a se propagar no diamante. Com os dados obtidos, construiu-se o gráfico sen I × sen R. São feitas as proposições:<br><br><strong>I.</strong> No bloco de diamante a luz se propaga com maior velocidade e, portanto, sen I &gt; sen R.<br><strong>II.</strong> O índice de refração do ar em relação ao diamante é 2,5, o que mostra que o diamante é mais refringente que o ar.<br><strong>III.</strong> Se a luz se propaga no ar com velocidade de 3 × 10<sup>8</sup> m/s, no diamante a velocidade de propagação será 1,2 × 10<sup>8</sup> m/s.<br><strong>IV.</strong> A velocidade de propagação e a frequência da radiação luminosa diminuem quando a luz passa a se propagar no diamante.<br><br>Das proposições apresentadas:</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q26_1.jpg" width="335" height="85" alt="Raio incidente na interface ar-diamante" loading="lazy"><figcaption>Figura da questão 26 — detalhe 1</figcaption></figure><figure class="fig"><img src="/listas-html/img/refracao/q26_2.jpg" width="335" height="125" alt="Gráfico de seno do ângulo de incidência versus seno do ângulo de refração" loading="lazy"><figcaption>Figura da questão 26 — detalhe 2</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 26"><label class="lq-opt"><input type="radio" name="q26" value="a"><span>a) Todas são corretas.</span></label><label class="lq-opt"><input type="radio" name="q26" value="b"><span>b) Somente a I é falsa.</span></label><label class="lq-opt"><input type="radio" name="q26" value="c"><span>c) Apenas I e II são falsas.</span></label><label class="lq-opt"><input type="radio" name="q26" value="d"><span>d) Todas são falsas.</span></label><label class="lq-opt"><input type="radio" name="q26" value="e"><span>e) Apenas a III é correta.</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q27" data-q="27"><header class="lq-head"><span class="lq-num">27</span><strong>Questão 27</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Um raio de luz propagando-se no ar incide, com um ângulo de incidência igual a 45°, em uma das faces de uma lâmina feita com um material transparente de índice de refração <em>n</em>, como mostra a figura. Sabendo-se que a linha AC é o prolongamento do raio incidente, d = 4 cm e BC = 1 cm, assinale a alternativa que contém o valor de <em>n</em>.</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q27_1.png" width="204" height="188" alt="Raio atravessando uma lâmina transparente de espessura d" loading="lazy"><figcaption>Figura da questão 27</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 27"><label class="lq-opt"><input type="radio" name="q27" value="a"><span>a) 2√3</span></label><label class="lq-opt"><input type="radio" name="q27" value="b"><span>b) 5√2/6</span></label><label class="lq-opt"><input type="radio" name="q27" value="c"><span>c) 3√3/2</span></label><label class="lq-opt"><input type="radio" name="q27" value="d"><span>d) 1,5</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q28" data-q="28"><header class="lq-head"><span class="lq-num">28</span><strong>Questão 28</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">A placa de Petri é um recipiente cilíndrico, achatado, de vidro ou plástico, utilizado para cultura de micro-organismos e constituída por duas partes: uma base e uma tampa. Em laboratórios de microbiologia e rotinas de bacteriologia, as placas de Petri são usadas para a identificação de micro-organismos. Num ensaio técnico, um laboratorista incide um feixe de luz monocromática de comprimento de onda igual a 600 nm que, propagando-se inicialmente no ar, incide sobre a base de uma placa de Petri, conforme esquematizado na figura. Determine o índice de refração (<em>n</em>) do material da placa de Petri em relação ao ar, o comprimento de onda (λ) e a frequência (<em>f</em>) da onda incidente enquanto atravessa a base da placa.</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q28_1.jpg" width="208" height="173" alt="Fotografia ilustrativa de uma placa de Petri" loading="lazy"><figcaption>Figura da questão 28 — detalhe 1</figcaption></figure><figure class="fig"><img src="/listas-html/img/refracao/q28_2.png" width="436" height="189" alt="Esquema de refração na base da placa de Petri e tabela de senos" loading="lazy"><figcaption>Figura da questão 28 — detalhe 2</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 28"><label class="lq-opt"><input type="radio" name="q28" value="a"><span>a) 0,76 ; 790 nm ; 5,0 × 10<sup>14</sup> Hz</span></label><label class="lq-opt"><input type="radio" name="q28" value="b"><span>b) 1,50 ; 400 nm ; 5,0 × 10<sup>14</sup> Hz</span></label><label class="lq-opt"><input type="radio" name="q28" value="c"><span>c) 1,50 ; 600 nm ; 3,3 × 10<sup>14</sup> Hz</span></label><label class="lq-opt"><input type="radio" name="q28" value="d"><span>d) 1,32 ; 400 nm ; 7,5 × 10<sup>14</sup> Hz</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q29" data-q="29"><header class="lq-head"><span class="lq-num">29</span><strong>Questão 29</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">O diamante tem índice de refração absoluto igual a 2,5 para determinada frequência de luz incidente. Devido ao fenômeno da refração, raios de luz que entram no diamante paralelos entre si acabam saindo dele em direções diversas, causando o efeito de brilho. A lapidação, isto é, a forma como a pedra é cortada, com muitas faces em ângulos variados, ajuda a intensificar esse efeito. Mas, em um vidro comum, com índice de refração absoluto igual a 1,5 para essa mesma frequência, não há lapidação que consiga reproduzir o brilho de um diamante. A figura representa um raio de luz monocromática propagando-se no ar e, em seguida, no diamante. Considerando o índice de refração absoluto do ar igual a 1,0 e baseando-se nas informações fornecidas, calcule:<br><br><strong>a)</strong> a relação R = v<sub>D</sub>/v<sub>V</sub> entre a velocidade de propagação da luz no diamante (v<sub>D</sub>) e no vidro comum (v<sub>V</sub>);<br><strong>b)</strong> o valor do ângulo α, em graus.</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q29_1.png" width="439" height="241" alt="Raio de luz atravessando um diamante lapidado e tabela de senos" loading="lazy"><figcaption>Figura da questão 29</figcaption></figure></div><div class="lq-open"><label>a) R = vD/vV<input type="text" inputmode="text" autocomplete="off" name="q29a" data-part="a" placeholder="Digite sua resposta"></label><label>b) ângulo α (em graus)<input type="text" inputmode="text" autocomplete="off" name="q29b" data-part="b" placeholder="Digite sua resposta"></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q30" data-q="30"><header class="lq-head"><span class="lq-num">30</span><strong>Questão 30</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Dois raios de luz monocromáticos provenientes do ar, um azul e o outro vermelho, incidem no ponto P da superfície de uma esfera maciça de centro C, paralelos um ao outro, na direção da linha tracejada indicada na figura. A esfera é feita de vidro transparente e homogêneo. Se o índice de refração absoluto do vidro é maior para a cor azul do que para a vermelha e se não houve reflexão total dentro da esfera, a figura que representa corretamente a trajetória desses raios desde a sua incidência no ponto P até a sua emergência da esfera está indicada em:</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q30_1.png" width="160" height="100" alt="Dois raios monocromáticos incidindo em uma esfera de vidro" loading="lazy"><figcaption>Figura da questão 30 — detalhe 1</figcaption></figure><figure class="fig"><img src="/listas-html/img/refracao/q30_2.jpg" width="403" height="397" alt="Alternativas para as trajetórias dos raios azul e vermelho na esfera" loading="lazy"><figcaption>Figura da questão 30 — detalhe 2</figcaption></figure></div><p class="lq-hint">As alternativas estão desenhadas na figura. Marque a letra da alternativa que você acredita ser correta:</p><div class="letters" role="radiogroup" aria-label="Alternativas da questão 30"><label class="letter"><input type="radio" name="q30" value="a"><span>A</span></label><label class="letter"><input type="radio" name="q30" value="b"><span>B</span></label><label class="letter"><input type="radio" name="q30" value="c"><span>C</span></label><label class="letter"><input type="radio" name="q30" value="d"><span>D</span></label><label class="letter"><input type="radio" name="q30" value="e"><span>E</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q31" data-q="31"><header class="lq-head"><span class="lq-num">31</span><strong>Questão 31</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Um mergulhador, submerso em um lago, vê o Sol fazendo um ângulo de elevação aparente θ = 45°, com a superfície do lago. Seja α o ângulo de elevação real que o Sol faz com o horizonte, na situação descrita. O valor de [sen(α)]<sup>2</sup> é, aproximadamente: <span class="note">Dados: índice de refração do ar = 1,00; índice de refração da água = 1,33; sen 45° ≈ 0,710; sen(90° − x) = cos x.</span></div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q31_1.png" width="280" height="161" alt="Geometria de observação aparente do Sol por um mergulhador" loading="lazy"><figcaption>Figura da questão 31</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 31"><label class="lq-opt"><input type="radio" name="q31" value="a"><span>a) 0,389</span></label><label class="lq-opt"><input type="radio" name="q31" value="b"><span>b) 0,554</span></label><label class="lq-opt"><input type="radio" name="q31" value="c"><span>c) 0,412</span></label><label class="lq-opt"><input type="radio" name="q31" value="d"><span>d) 0,108</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q32" data-q="32"><header class="lq-head"><span class="lq-num">32</span><strong>Questão 32</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Um raio de luz monocromático propaga-se por um meio A, que apresenta índice de refração absoluto n<sub>A</sub> = 1, e passa para outro meio B, de índice de refração n<sub>B</sub> = √2, conforme a figura. Considere que o raio incidente forma com a normal à superfície o ângulo de 45°. Nessas condições, o ângulo de desvio (<em>d</em>), indicado na figura, é igual a:</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q32_1.png" width="294" height="159" alt="Raio de luz passando do meio A para o meio B e ângulo de desvio" loading="lazy"><figcaption>Figura da questão 32</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 32"><label class="lq-opt"><input type="radio" name="q32" value="a"><span>a) 60°</span></label><label class="lq-opt"><input type="radio" name="q32" value="b"><span>b) 30°</span></label><label class="lq-opt"><input type="radio" name="q32" value="c"><span>c) 45°</span></label><label class="lq-opt"><input type="radio" name="q32" value="d"><span>d) 15°</span></label><label class="lq-opt"><input type="radio" name="q32" value="e"><span>e) 90°</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q33" data-q="33"><header class="lq-head"><span class="lq-num">33</span><strong>Questão 33</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Durante um ensaio com uma amostra de um material transparente e homogêneo, um aluno do Curso de Materiais da FATEC precisa determinar de que material a amostra é constituída. Para isso, ele utiliza o princípio da refração, fazendo incidir sobre uma amostra semicircular, de raio <em>r</em>, um feixe de laser monocromático, conforme a figura. Utilizando os dados da figura e as informações apresentadas na tabela de referência, podemos concluir corretamente que o material da amostra é:</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q33_1.png" width="217" height="246" alt="Amostra semicircular com medidas geométricas para identificar o material" loading="lazy"><figcaption>Figura da questão 33 — detalhe 1</figcaption></figure><figure class="fig"><img src="/listas-html/img/refracao/q33_2.png" width="172" height="225" alt="Tabela de referência de índices de refração dos materiais" loading="lazy"><figcaption>Figura da questão 33 — detalhe 2</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 33"><label class="lq-opt"><input type="radio" name="q33" value="a"><span>a) cristal de lantânio.</span></label><label class="lq-opt"><input type="radio" name="q33" value="b"><span>b) cristal de titânio.</span></label><label class="lq-opt"><input type="radio" name="q33" value="c"><span>c) cristal dopado.</span></label><label class="lq-opt"><input type="radio" name="q33" value="d"><span>d) policarbonato.</span></label><label class="lq-opt"><input type="radio" name="q33" value="e"><span>e) resina.</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q34" data-q="34"><header class="lq-head"><span class="lq-num">34</span><strong>Questão 34</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">São dados os índices de refração absolutos (<em>n</em>) dos seguintes meios ópticos: n<sub>ar</sub> = 1,0; n<sub>água</sub> = 1,3; n<sub>vidro c</sub> = 1,5; n<sub>vidro p</sub> = 1,8. Um raio de luz monocromática foi emitido sobre um sistema óptico formado por 3 desses meios, obtendo-se a configuração seguinte. I e II são dióptros planos, que separam os meios A de B e B de C, respectivamente. A possível, correta e respectiva relação entre os meios A, B e C é:</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q34_1.png" width="320" height="201" alt="Sistema óptico com três meios A, B e C separados por dióptros planos" loading="lazy"><figcaption>Figura da questão 34</figcaption></figure></div><div class="lq-options" role="radiogroup" aria-label="Alternativas da questão 34"><label class="lq-opt"><input type="radio" name="q34" value="a"><span>a) água, vidro p e ar.</span></label><label class="lq-opt"><input type="radio" name="q34" value="b"><span>b) ar, vidro c e vidro p.</span></label><label class="lq-opt"><input type="radio" name="q34" value="c"><span>c) água, vidro c e vidro p.</span></label><label class="lq-opt"><input type="radio" name="q34" value="d"><span>d) vidro c, ar e água.</span></label><label class="lq-opt"><input type="radio" name="q34" value="e"><span>e) ar, água e vidro p.</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q35" data-q="35"><header class="lq-head"><span class="lq-num">35</span><strong>Questão 35</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Um feixe de luz branca incide obliquamente sobre a superfície de um lago. Sabe-se que, na água, a velocidade de propagação da luz azul é menor que a da luz vermelha. Considerando essas informações, assinale a alternativa cuja figura melhor representa os raios refletidos e refratados na superfície do lago.</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q35_1.png" width="413" height="273" alt="Alternativas para reflexão e refração de luz branca na água" loading="lazy"><figcaption>Figura da questão 35</figcaption></figure></div><p class="lq-hint">As alternativas estão desenhadas na figura. Marque a letra da alternativa que você acredita ser correta:</p><div class="letters" role="radiogroup" aria-label="Alternativas da questão 35"><label class="letter"><input type="radio" name="q35" value="a"><span>a</span></label><label class="letter"><input type="radio" name="q35" value="b"><span>b</span></label><label class="letter"><input type="radio" name="q35" value="c"><span>c</span></label><label class="letter"><input type="radio" name="q35" value="d"><span>d</span></label></div><div class="lq-feedback" hidden></div></div></article>
+<article class="lq" id="q36" data-q="36"><header class="lq-head"><span class="lq-num">36</span><strong>Questão 36</strong><span class="lq-state" aria-live="polite"></span></header><div class="lq-body"><div class="lq-text">Um mergulhador, dentro do mar, vê a imagem do Sol nascendo numa direção que forma um ângulo agudo (ou seja, menor que 90°) com a vertical.<br><br><strong>a)</strong> Faça um desenho esquemático mostrando um raio de luz vindo do Sol ao nascer e o raio refratado. Represente também a posição aparente do Sol para o mergulhador.<br><strong>b)</strong> Sendo n = 1,33 ou 4/3 o índice de refração da água do mar, use o gráfico para calcular aproximadamente o ângulo entre o raio refratado e a vertical.</div><div class="figs"><figure class="fig"><img src="/listas-html/img/refracao/q36_1.png" width="314" height="165" alt="Gráfico seno versus ângulo para estimar o ângulo de refração" loading="lazy"><figcaption>Figura da questão 36</figcaption></figure></div><p class="lq-hint">O item a) é um desenho esquemático: faça no caderno. A correção automática considera apenas o item b).</p><div class="lq-open"><label>b) ângulo entre o raio refratado e a vertical (em graus)<input type="text" inputmode="text" autocomplete="off" name="q36b" data-part="b" placeholder="Digite sua resposta"></label></div><div class="lq-feedback" hidden></div></div></article>
+    </section>
+
+    <div class="dock no-print" id="dock">
+      <span class="prog" id="progText" aria-live="polite"><span id="progNum">0</span> de 36 <span class="hide-sm">respondidas</span></span>
+      <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="36" aria-valuenow="0" id="progBar"><div class="fill" id="progFill"></div></div>
+      <button type="button" class="btn btn-primary" id="btnCorrigirDock">Corrigir lista</button>
+    </div>
+
+    <section class="finalizar no-print" id="finalizar">
+      <p><strong>Terminou?</strong> Clique para conferir seu resultado com o gabarito oficial.</p>
+      <button type="button" class="btn btn-primary" id="btnCorrigir">Corrigir lista</button>
+    </section>
+
+    <section class="result no-print" id="resultado" hidden aria-live="polite"></section>
+
+    <section class="source">
+      <h2>Créditos e fonte do conteúdo</h2>
+      <p>Questões transcritas e reorganizadas para apresentação digital a partir da lista <em>“Refração da luz — Exercícios de Física”</em>, de Prof. Panosso. A autoria do conteúdo original é mantida; a diagramação, a correção interativa e a impressão foram preparadas para o site Professor Madison.</p>
+      <p><strong>Gabarito revisado:</strong> em relação ao documento-fonte, foram corrigidas as respostas das questões 17, 28, 29 e 36 (item b), além de ajustes de enunciado nas questões 1 e 18.</p>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer" id="site-footer"></footer>
+
+<script>window.LISTA_KEY = {"1": {"t": "mc", "a": "e"}, "3": {"t": "mc", "a": "e"}, "4": {"t": "mc", "a": "b"}, "5": {"t": "mc", "a": "c"}, "6": {"t": "mc", "a": "b"}, "8": {"t": "mc", "a": "c"}, "9": {"t": "mc", "a": "d"}, "10": {"t": "mc", "a": "b"}, "16": {"t": "mc", "a": "d"}, "17": {"t": "mc", "a": "d"}, "18": {"t": "mc", "a": "a"}, "19": {"t": "mc", "a": "a"}, "21": {"t": "mc", "a": "b"}, "23": {"t": "mc", "a": "c"}, "24": {"t": "mc", "a": "c"}, "25": {"t": "mc", "a": "b"}, "26": {"t": "mc", "a": "e"}, "27": {"t": "mc", "a": "b"}, "28": {"t": "mc", "a": "b"}, "31": {"t": "mc", "a": "d"}, "32": {"t": "mc", "a": "d"}, "33": {"t": "mc", "a": "e"}, "34": {"t": "mc", "a": "a"}, "7": {"t": "fig", "a": "a", "letters": "abcd", "case": "lower"}, "22": {"t": "fig", "a": "a", "letters": "abcde", "case": "upper"}, "30": {"t": "fig", "a": "e", "letters": "abcde", "case": "upper"}, "35": {"t": "fig", "a": "d", "letters": "abcd", "case": "lower"}, "2": {"t": "open", "show": "2", "parts": [{"id": "", "label": "Índice de refração n", "min": 1.999, "max": 2.001}], "note": ""}, "11": {"t": "open", "show": "√3", "parts": [{"id": "", "label": "Índice de refração n", "min": 1.7216584951999998, "max": 1.7424431048}], "note": ""}, "12": {"t": "open", "show": "c/√3", "parts": [{"id": "", "label": "Velocidade no vidro (em função de c)", "min": 0.5738859000000001, "max": 0.5808141}], "note": ""}, "13": {"t": "open", "show": "12 cm", "parts": [{"id": "", "label": "Distância ao vértice B (em cm)", "min": 11.99, "max": 12.01}], "note": ""}, "14": {"t": "open", "show": "c/√2", "parts": [{"id": "", "label": "Velocidade no acrílico (em função de c)", "min": 0.7028673400000001, "max": 0.71135266}], "note": ""}, "15": {"t": "open", "show": "√3", "parts": [{"id": "", "label": "Índice de refração n", "min": 1.7216584951999998, "max": 1.7424431048}], "note": ""}, "20": {"t": "open", "show": "1,5", "parts": [{"id": "", "label": "Índice de refração do vidro em relação ao ar", "min": 1.499, "max": 1.501}], "note": ""}, "29": {"t": "open", "show": "a) 0,6 ; b) 78,5°", "parts": [{"id": "a", "label": "a) R = vD/vV", "min": 0.599, "max": 0.601}, {"id": "b", "label": "b) ângulo α (em graus)", "min": 78.0, "max": 79.0}], "note": ""}, "36": {"t": "open", "show": "b) ≈ 49°", "parts": [{"id": "b", "label": "b) ângulo entre o raio refratado e a vertical (em graus)", "min": 48.4, "max": 49.6}], "note": "O item a) é um desenho esquemático: faça no caderno. A correção automática considera apenas o item b)."}};</script>
+<script src="/assets/js/layout.js"></script>
+<script>
+(function(){
+  "use strict";
+  var KEY = window.LISTA_KEY, LS = "pm_lista_refracao_v1", N = 36;
+  var state = load();
+  var $ = function(s, r){ return (r || document).querySelector(s); };
+  var $$ = function(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  function load(){
+    try{ var s = JSON.parse(localStorage.getItem(LS)); if(s && s.ans) return s; }catch(e){}
+    return { ans:{}, done:false };
+  }
+  function save(){ try{ localStorage.setItem(LS, JSON.stringify(state)); }catch(e){} }
+
+  /* ---------- leitura de respostas ---------- */
+  function readAnswer(q){
+    var art = $("#q"+q), k = KEY[q];
+    if(k.t === "open"){
+      var o = {};
+      $$("input[type=text]", art).forEach(function(i){ o[i.getAttribute("data-part")] = i.value.trim(); });
+      return o;
+    }
+    var r = $("input[type=radio]:checked", art);
+    return r ? r.value : "";
+  }
+  function isAnswered(q){
+    var a = readAnswer(q);
+    if(typeof a === "string") return a !== "";
+    return Object.keys(a).every(function(p){ return a[p] !== ""; });
+  }
+  function hasAny(q){
+    var a = readAnswer(q);
+    if(typeof a === "string") return a !== "";
+    return Object.keys(a).some(function(p){ return a[p] !== ""; });
+  }
+
+  /* ---------- interpretação de respostas numéricas ---------- */
+  function parseNum(raw){
+    if(raw == null) return null;
+    var s = String(raw).toLowerCase().trim();
+    if(!s) return null;
+    s = s.replace(/\s+/g, "").replace(/,/g, ".").replace(/[≈~]/g, "");
+    s = s.replace(/^[a-zα-ω]{1,3}=/, "");
+    s = s.replace(/graus|grau|º|°|centímetros|centimetros|cm|km\/s|m\/s/g, "");
+    s = s.replace(/raizquadradade|raizde|raiz|sqrt|√/g, "√");
+    s = s.replace(/√\(?(\d+(?:\.\d+)?)\)?/g, function(m, n){ return "(" + Math.sqrt(parseFloat(n)) + ")"; });
+    s = s.replace(/(\d|\))\(/g, function(m, p){ return p + "*("; });
+    s = s.replace(/(^|[\/*+\-(])c/g, function(m, p){ return p + "1"; });
+    s = s.replace(/(\d|\))c/g, function(m, p){ return p + "*1"; });
+    if(!/^[0-9.+\-*\/()]+$/.test(s)) return null;
+    try{
+      var v = Function('"use strict";return (' + s + ')')();
+      return (typeof v === "number" && isFinite(v)) ? v : null;
+    }catch(e){ return null; }
+  }
+
+  /* ---------- correção ---------- */
+  function letterLabel(q, l){
+    var k = KEY[q];
+    return (k.t === "fig" && k.case === "upper") ? l.toUpperCase() : l;
+  }
+  function grade(q){
+    var k = KEY[q], a = readAnswer(q);
+    if(k.t === "open"){
+      var vals = k.parts.map(function(p){ return a[p.id] || ""; });
+      var given = k.parts.map(function(p, i){ return (p.id ? p.id + ") " : "") + (vals[i] || "—"); }).join(" ; ");
+      if(vals.every(function(v){ return v === ""; })) return { st:"blank", given:"—" };
+      var ok = k.parts.every(function(p, i){
+        var n = parseNum(vals[i]);
+        return n !== null && n >= p.min && n <= p.max;
+      });
+      return { st: ok ? "ok" : "bad", given: given };
+    }
+    if(!a) return { st:"blank", given:"—" };
+    return { st: a === k.a ? "ok" : "bad", given: letterLabel(q, a) };
+  }
+  function officialHtml(q){
+    var k = KEY[q];
+    if(k.t === "open") return k.show;
+    var lab = letterLabel(q, k.a);
+    if(k.t === "fig") return lab + " (veja as alternativas na figura)";
+    var span = $('#q'+q+' input[value="'+k.a+'"]').parentNode.querySelector("span");
+    return span ? span.innerHTML : lab;
+  }
+  function officialShort(q){
+    var k = KEY[q];
+    return k.t === "open" ? k.show : letterLabel(q, k.a);
+  }
+
+  function corrigir(scroll){
+    var res = {}, ok = [], bad = [], blank = [];
+    for(var q = 1; q <= N; q++){
+      var g = grade(q); res[q] = g;
+      (g.st === "ok" ? ok : g.st === "bad" ? bad : blank).push(q);
+      var art = $("#q"+q);
+      art.classList.remove("ok", "bad", "blank");
+      art.classList.add(g.st);
+      $(".lq-state", art).textContent = g.st === "ok" ? "✓ Acertou" : g.st === "bad" ? "✗ Errou" : "Em branco";
+      var fb = $(".lq-feedback", art);
+      fb.hidden = false;
+      fb.innerHTML = g.st === "ok"
+        ? "<strong>Resposta correta!</strong> Gabarito oficial: " + officialHtml(q)
+        : "<strong>" + (g.st === "blank" ? "Você deixou em branco." : "Sua resposta: " + g.given + ".") + "</strong> Gabarito oficial: " + officialHtml(q);
+      $$(".lq-opt, .letter", art).forEach(function(l){
+        l.classList.remove("is-correct", "is-wrong");
+        var inp = $("input", l);
+        if(KEY[q].t !== "open" && inp){
+          if(inp.value === KEY[q].a) l.classList.add("is-correct");
+          else if(inp.checked) l.classList.add("is-wrong");
+        }
+      });
+    }
+    state.done = true; save();
+    $$("#questoes input").forEach(function(i){ i.disabled = true; });
+    renderResult(ok, bad, blank, res);
+    if(scroll) $("#resultado").scrollIntoView({ behavior:"smooth", block:"start" });
+  }
+
+  function chips(list, cls){
+    return list.length ? '<div class="chips">' + list.map(function(q){ return '<a class="chip ' + cls + '" href="#q' + q + '">' + q + '</a>'; }).join("") + "</div>" : "<p>Nenhuma.</p>";
+  }
+  function rows(list, res){
+    if(!list.length) return "<p>Nenhuma.</p>";
+    return '<table class="tbl"><thead><tr><th>Questão</th><th>Sua resposta</th><th>Gabarito oficial</th></tr></thead><tbody>' +
+      list.map(function(q){ return '<tr><td><a href="#q' + q + '">' + q + '</a></td><td>' + res[q].given + '</td><td>' + officialShort(q) + '</td></tr>'; }).join("") + "</tbody></table>";
+  }
+  function renderResult(ok, bad, blank, res){
+    var pct = Math.round(ok.length / N * 100);
+    var box = $("#resultado");
+    box.hidden = false;
+    box.innerHTML =
+      "<h2>Seu resultado</h2>" +
+      '<div class="score">' + ok.length + ' <small>de ' + N + ' questões (' + pct + '%)</small></div>' +
+      '<div class="summary"><span class="tag-ok">✓ ' + ok.length + ' acerto' + (ok.length === 1 ? "" : "s") + '</span>' +
+      '<span class="tag-bad">✗ ' + bad.length + ' erro' + (bad.length === 1 ? "" : "s") + '</span>' +
+      '<span class="tag-blank">' + blank.length + ' em branco</span></div>' +
+      "<h3>Questões que você acertou</h3>" + chips(ok, "ok") +
+      "<h3>Questões que você errou</h3>" + rows(bad, res) +
+      "<h3>Questões em branco</h3>" + (blank.length ? rows(blank, res) : "<p>Nenhuma.</p>") +
+      '<p style="margin-top:16px;color:var(--text-faint);font-size:.85rem">Na questão 36, apenas o item b) é corrigido automaticamente; o item a) é um desenho esquemático.</p>' +
+      '<div class="result-actions"><button type="button" class="btn btn-primary" id="btnEditar">Voltar a editar respostas</button>' +
+      '<button type="button" class="btn btn-outline" id="btnRefazer">Refazer do zero</button>' +
+      '<button type="button" class="btn btn-outline" id="btnPrint2">🖨 Imprimir / salvar PDF</button></div>';
+    $("#btnEditar").onclick = editar;
+    $("#btnRefazer").onclick = refazer;
+    $("#btnPrint2").onclick = function(){ window.print(); };
+  }
+
+  function editar(){
+    state.done = false; save();
+    $$("#questoes input").forEach(function(i){ i.disabled = false; });
+    $$(".lq").forEach(function(a){
+      a.classList.remove("ok", "bad", "blank");
+      $(".lq-state", a).textContent = "";
+      $(".lq-feedback", a).hidden = true;
+      $$(".lq-opt, .letter", a).forEach(function(l){ l.classList.remove("is-correct", "is-wrong"); });
+    });
+    $("#resultado").hidden = true;
+    $("#questoes").scrollIntoView({ behavior:"smooth", block:"start" });
+  }
+  function refazer(){
+    if(!confirm("Apagar todas as respostas e recomeçar a lista?")) return;
+    state = { ans:{}, done:false }; save();
+    $$("#questoes input[type=radio]").forEach(function(i){ i.checked = false; });
+    $$("#questoes input[type=text]").forEach(function(i){ i.value = ""; });
+    editar();
+    updateProgress();
+    window.scrollTo({ top:0, behavior:"smooth" });
+  }
+
+  /* ---------- progresso e salvamento ---------- */
+  function updateProgress(){
+    var n = 0;
+    for(var q = 1; q <= N; q++) if(isAnswered(q)) n++;
+    $("#progNum").textContent = n;
+    $("#progFill").style.width = (n / N * 100) + "%";
+    $("#progBar").setAttribute("aria-valuenow", n);
+  }
+  function onChange(e){
+    var art = e.target.closest(".lq");
+    if(!art) return;
+    var q = art.getAttribute("data-q");
+    var a = readAnswer(q);
+    if(hasAny(q)) state.ans[q] = a; else delete state.ans[q];
+    save(); updateProgress();
+  }
+
+  function corrigirComAviso(){
+    var blanks = 0;
+    for(var q = 1; q <= N; q++) if(!isAnswered(q)) blanks++;
+    if(blanks && !confirm("Ainda há " + blanks + " questão(ões) sem resposta completa. Corrigir mesmo assim?")) return;
+    corrigir(true);
+  }
+
+  /* ---------- inicialização ---------- */
+  Object.keys(state.ans).forEach(function(q){
+    var art = $("#q"+q), v = state.ans[q];
+    if(!art || !KEY[q]) return;
+    if(KEY[q].t === "open"){
+      Object.keys(v).forEach(function(p){
+        var inp = $('input[type=text][data-part="' + p + '"]', art);
+        if(inp) inp.value = v[p];
+      });
+    }else{
+      var r = $('input[type=radio][value="' + v + '"]', art);
+      if(r) r.checked = true;
+    }
+  });
+  $("#questoes").addEventListener("input", onChange);
+  $("#questoes").addEventListener("change", onChange);
+  $("#btnCorrigir").onclick = corrigirComAviso;
+  $("#btnCorrigirDock").onclick = corrigirComAviso;
+  $("#btnPrint").onclick = function(){ window.print(); };
+  $("#btnLimparTopo").onclick = refazer;
+  updateProgress();
+  if(state.done) corrigir(false);
+})();
+</script>
+</body>
+</html>
