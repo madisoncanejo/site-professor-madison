@@ -57,5 +57,13 @@ var LISTAS = [
     descricao: "26 questões sobre fontes de campo magnético, fio retilíneo, superposição, espiras, bússolas, campo terrestre e solenoides, com correção imediata e resolução comentada.",
     url: "/listas-html/campo-magnetico.html",
     data: "2026-09-28"
+  },
+  {
+    serie: "2",
+    tema: "Termodinâmica",
+    titulo: "Gases e Transformações — Lista Interativa",
+    descricao: "40 questões sobre equação de estado, transformações isotérmica, isobárica e isovolumétrica, com correção imediata e resolução comentada. Marque suas respostas e gere um relatório completo de desempenho ao final.",
+    url: "/listas-html/gases-transformacoes.html",
+    data: "2026-09-28"
   }
 ];
