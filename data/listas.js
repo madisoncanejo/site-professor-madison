@@ -49,5 +49,13 @@ var LISTAS = [
     descricao: "36 questões sobre refração, índice de refração, Lei de Snell–Descartes, ângulo limite e dispersão, com figuras e gráficos. Marque suas respostas e veja, ao final, quantas e quais você acertou. Também pode ser impressa.",
     url: "/listas-html/refracao-da-luz.html",
     data: "2026-09-25"
+  },
+  {
+    serie: "3",
+    tema: "Eletromagnetismo",
+    titulo: "Campo Magnético — Lista Interativa",
+    descricao: "26 questões sobre fontes de campo magnético, fio retilíneo, superposição, espiras, bússolas, campo terrestre e solenoides, com correção imediata e resolução comentada.",
+    url: "/listas-html/campo-magnetico.html",
+    data: "2026-09-28"
   }
 ];

@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#081420">
+<title>Campo Magnético — Lista Interativa | Professor Madison</title>
+<meta name="description" content="Lista interativa de Física sobre Campo Magnético (3ª série do Ensino Médio): fontes de campo, fio retilíneo, superposição, espiras, bússolas, campo terrestre e solenoides, com 26 questões, correção imediata e resolução comentada.">
+<link rel="canonical" href="https://professormadison.com.br/listas-html/campo-magnetico.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Campo Magnético — Lista Interativa | Professor Madison">
+<meta property="og:description" content="26 questões de Campo Magnético com correção imediata e resolução comentada. Professor Madison.">
+<meta property="og:url" content="https://professormadison.com.br/listas-html/campo-magnetico.html">
+<meta property="og:locale" content="pt_BR">
+<link rel="icon" type="image/png" href="/assets/img/favicon.png">
+<link rel="stylesheet" href="/assets/css/style.css">
+<style>
+:root {
+  --ink:#0f172a; --muted:#64748b; --line:#dbe3ee; --paper:#ffffff;
+  --bg:#f4f7fb; --accent:#f59e0b; --accent2:#b45309; --ok:#0f766e; --bad:#b91c1c;
+  --soft:#fff7ed; --navy2:#172554;
+}
+.lm-wrap, .lm-wrap *{box-sizing:border-box}
+.lm-wrap{
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.55;
+  --accent: var(--teal, #18e3ac); --accent2: var(--teal-2, #10b3c4);
+}
+.topbar{background:linear-gradient(135deg,#0b1220,#172554 70%,#1e293b);color:#fff;position:relative;overflow:hidden}
+.topbar:after{content:"";position:absolute;right:-80px;top:-100px;width:360px;height:360px;border:70px solid rgba(245,158,11,.12);border-radius:50%}
+.lm-hero{max-width:1180px;margin:auto;padding:42px 24px 34px;position:relative;z-index:1}
+.lm-brand{font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);font-size:.78rem}
+h1{font-size:clamp(2.1rem,5vw,4rem);line-height:.98;margin:.45rem 0 1rem;letter-spacing:-.04em}
+.subtitle{max-width:840px;color:#dbeafe;font-size:1.05rem;margin:0}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.pill{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.07);padding:7px 11px;border-radius:999px;font-size:.86rem}
+.toolbar-wrap{position:sticky;top:0;z-index:30;background:rgba(244,247,251,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.toolbar{max-width:1180px;margin:auto;padding:12px 24px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.progress{flex:1;min-width:240px}
+.progress-row{display:flex;justify-content:space-between;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.bar{height:9px;background:#e2e8f0;border-radius:999px;overflow:hidden}
+.bar > i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f59e0b,#fbbf24);transition:width .25s}
+.toolbar button{border:0;border-radius:10px;padding:9px 12px;font-weight:800;cursor:pointer}
+.secondary{background:#fff;border:1px solid var(--line)!important;color:#334155}
+.primary{background:linear-gradient(120deg,var(--accent),var(--accent2));color:#04231b}
+main{max-width:1180px;margin:0 auto;padding:28px 24px 80px}
+.notice{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);padding:16px 18px;border-radius:14px;margin-bottom:20px}
+.notice strong{color:#92400e}
+.question-card{background:var(--paper);border:1px solid var(--line);border-radius:18px;margin:18px 0;box-shadow:0 8px 25px rgba(15,23,42,.05);overflow:hidden;scroll-margin-top:92px}
+.question-card.correct{border-color:#5eead4;box-shadow:0 8px 26px rgba(15,118,110,.08)}
+.question-card.incorrect{border-color:#fecaca;box-shadow:0 8px 26px rgba(185,28,28,.06)}
+.qhead{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:15px 18px;border-bottom:1px solid #edf2f7;background:linear-gradient(180deg,#fff,#fbfdff)}
+.qnum{font-weight:950;text-transform:uppercase;letter-spacing:.08em;font-size:.82rem;color:#1e3a8a}
+.topic{margin-left:10px;color:#64748b;font-size:.82rem;font-weight:700}
+.flag{font-size:.72rem;padding:5px 8px;border-radius:999px;background:#fff7ed;color:#9a3412;border:1px solid #fed7aa;font-weight:800}
+.qbody{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(250px,.75fr);gap:22px;padding:20px}
+.qtext p{margin-top:0;font-size:1rem}
+.figure-wrap{align-self:start;background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:10px;display:flex;align-items:center;justify-content:center;min-height:120px}
+.figure-wrap img{max-width:100%;height:auto;max-height:430px;object-fit:contain;image-rendering:auto}
+.answers{display:grid;gap:9px;margin:18px 0}
+.option{display:flex;align-items:flex-start;gap:10px;border:1px solid #dbe3ee;padding:10px 12px;border-radius:12px;cursor:pointer;transition:.15s;background:#fff}
+.option:hover{border-color:#93c5fd;background:#f8fbff}
+.option:has(input:checked){border-color:#2563eb;background:#eff6ff}
+.option input{margin-top:5px}
+.letter{width:25px;height:25px;border-radius:50%;background:#e2e8f0;display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:.78rem;flex:0 0 auto}
+.option.correct-option{border-color:#5eead4;background:#f0fdfa}
+.option.wrong-option{border-color:#fecaca;background:#fef2f2}
+.numeric-box{display:flex;gap:12px;flex-wrap:wrap;background:#f8fafc;padding:14px;border-radius:12px;border:1px solid #e2e8f0}
+.numeric-box label{font-weight:800;color:#334155;display:grid;gap:5px;flex:1;min-width:200px}
+.num-input{width:100%;border:1px solid #cbd5e1;border-radius:9px;padding:10px 11px;font-size:1rem;background:white}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.check-btn{border:0;background:linear-gradient(120deg,var(--accent),var(--accent2));color:#04231b;font-weight:900;padding:10px 14px;border-radius:10px;cursor:pointer}
+.clear-btn{border:1px solid #cbd5e1;background:white;color:#475569;font-weight:800;padding:10px 14px;border-radius:10px;cursor:pointer}
+.feedback{display:none;margin-top:14px;padding:12px 14px;border-radius:12px;font-weight:800}
+.feedback.ok{display:block;background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+.feedback.bad{display:block;background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+.resolution{display:none;margin-top:12px;padding:15px;border-left:4px solid #38bdf8;background:#f0f9ff;border-radius:10px;color:#0c4a6e}
+.resolution.show{display:block}
+.resolution-title{font-weight:950;text-transform:uppercase;font-size:.75rem;letter-spacing:.08em;margin-bottom:4px}
+.resolution p{margin:0}
+footer{background:#0f172a;color:#cbd5e1;padding:30px 24px}
+.footer-inner{max-width:1180px;margin:auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.audit{margin-top:24px;background:#fff;border:1px dashed #94a3b8;border-radius:14px;padding:0 18px}
+.audit summary{cursor:pointer;font-weight:900;padding:15px 0;color:#334155}
+.audit ul{margin-top:0;color:#475569}
+.kbd{font-family:ui-monospace,monospace;background:#e2e8f0;padding:1px 5px;border-radius:5px}
+@media (max-width:800px){
+  .qbody{grid-template-columns:1fr}
+  .figure-wrap{order:-1}
+  .toolbar{padding:10px 14px}
+  main{padding:20px 12px 60px}
+  .lm-hero{padding:34px 18px 28px}
+  .qhead{align-items:flex-start;flex-direction:column}
+  .topic{display:block;margin:4px 0 0}
+}
+.lm-summary{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:24px;margin:24px 0;scroll-margin-top:92px}
+.lm-summary[hidden]{display:none}
+.lm-summary h2{margin:0 0 6px;font-size:1.3rem}
+.lm-score{font-weight:900;font-size:2.4rem;color:var(--accent2);line-height:1.1}
+.lm-score small{font-size:1rem;color:var(--muted);font-weight:700}
+.lm-tags{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 6px}
+.lm-tag{padding:6px 12px;border-radius:999px;font-size:.85rem;font-weight:800;border:1px solid var(--line)}
+.lm-tag.ok{color:var(--ok);border-color:var(--ok)}
+.lm-tag.bad{color:var(--bad);border-color:var(--bad)}
+.lm-summary h3{margin:18px 0 8px;font-size:.95rem}
+.lm-chips{display:flex;flex-wrap:wrap;gap:8px}
+.lm-chip{min-width:38px;text-align:center;padding:6px 9px;border-radius:9px;font-weight:900;border:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.lm-chip.ok{color:var(--ok);border-color:var(--ok)}
+.lm-chip.bad{color:var(--bad);border-color:var(--bad)}
+.lm-chip:hover{background:#f8fafc}
+@media print{.lm-summary{display:none!important}
+
+  .toolbar-wrap,.actions,.feedback,.resolution,.audit{display:none!important}
+  body{background:#fff}
+  .question-card{break-inside:avoid;box-shadow:none}
+  .topbar{background:#fff;color:#000;border-bottom:3px solid #000}
+  .lm-brand,.subtitle{color:#000}
+  .site-header,.site-footer{display:none!important}
+  .ph-band{display:flex!important;align-items:center;gap:10px;margin-bottom:10px}
+  .ph-band img{height:30px;width:auto}
+  .ph-band b{font-family:inherit;font-size:13pt}
+  .ph-band span{margin-left:auto;font-size:9pt;color:#18e3ac}
+}
+</style>
+</head>
+<body data-active="listas">
+
+<header class="site-header" id="site-header"></header>
+
+<div class="lm-wrap">
+<div class="ph-band" style="display:none"><img src="/assets/img/logo-mark.png" alt=""><b>Professor Madison</b><span>professormadison.com.br</span></div>
+<header class="topbar">
+  <div class="lm-hero">
+    <div class="lm-brand">Física • 3ª Série • Eletromagnetismo</div>
+    <h1>Campo Magnético</h1>
+    <p class="subtitle">Lista interativa revisada: fontes de campo magnético, fio retilíneo, superposição, espiras, bússolas, campo terrestre e solenoides.</p>
+    <div class="hero-meta">
+      <span class="pill">26 questões</span>
+      <span class="pill">Correção imediata</span>
+      <span class="pill">Resolução comentada</span>
+      <span class="pill">Funciona offline</span>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar-wrap">
+  <div class="toolbar">
+    <div class="progress">
+      <div class="progress-row"><span>Progresso</span><span id="progress-text">0/26 respondidas</span></div>
+      <div class="bar"><i id="progress-bar"></i></div>
+    </div>
+    <button class="primary" onclick="gradeAll()">Corrigir tudo</button>
+    <button class="secondary" onclick="showUnanswered()">Pendentes</button>
+    <button class="secondary" onclick="window.print()">Imprimir</button>
+    <button class="secondary" onclick="resetAll()">Reiniciar</button>
+  </div>
+</div>
+
+<main>
+  <div class="notice">
+    <strong>Como usar:</strong> responda cada questão e clique em <b>Verificar resposta</b>. Nas questões numéricas, você pode usar vírgula ou ponto decimal e notação científica, por exemplo <span class="kbd">6e-5</span>. A resolução só aparece depois da correção.
+  </div>
+
+  
+    <article class="question-card" id="q1" data-qid="1" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 01</span>
+          <span class="topic">Superposição • bússola</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>O Eletromagnetismo estuda os fenômenos que surgem da interação entre campo elétrico e campo magnético. Hans Christian Oersted, em 1820, realizou uma experiência fundamental para o desenvolvimento do eletromagnetismo, na qual constatou que a agulha de uma bússola era defletida sob a ação de uma corrente elétrica percorrendo um fio condutor próximo à bússola. A figura representa as secções transversais de dois fios condutores A e B, retos, extensos e paralelos. Esses condutores são percorridos por correntes elétricas cujos sentidos estão indicados. Uma pequena bússola é colocada no ponto P, equidistante dos fios. Desprezando os efeitos do campo magnético terrestre e considerando N para polo norte e S para polo sul, assinale a alternativa que apresenta a melhor orientação da agulha da bússola.</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q1" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">Alternativa a</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q1" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">Alternativa b</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q1" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">Alternativa c</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q1" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">Alternativa d</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q1" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">Alternativa e</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(1)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(1)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-1" aria-live="polite"></div>
+          <div class="resolution" id="resolution-1">
+            <div class="resolution-title">Resolução</div>
+            <p>No ponto P, o fio A (corrente saindo do papel) produz campo para cima. O fio B (corrente entrando no papel) também produz campo para cima. Os campos se somam; o polo norte da bússola alinha-se com o campo resultante. Portanto, a alternativa correta é C.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q1.png" alt="Figura da questão 1" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q2" data-qid="2" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 02</span>
+          <span class="topic">Superposição • fios retilíneos</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>A figura representa dois fios muito longos, paralelos e perpendiculares ao plano da página. Os fios são percorridos por correntes iguais e no mesmo sentido, saindo do plano da página. O vetor campo magnético no ponto P, indicado na figura, é representado por:</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q2" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">←</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q2" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">→</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q2" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">↓</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q2" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">↑</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q2" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">|B| = 0</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(2)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(2)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-2" aria-live="polite"></div>
+          <div class="resolution" id="resolution-2">
+            <div class="resolution-title">Resolução</div>
+            <p>Pela regra da mão direita, os campos produzidos pelos dois fios têm componentes verticais opostas, que se cancelam, e componentes horizontais para a esquerda, que se somam. Logo, o campo resultante aponta para a esquerda.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q2.png" alt="Figura da questão 2" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q3" data-qid="3" data-type="numericpair">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 03</span>
+          <span class="topic">Fio retilíneo • campo terrestre</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Numa feira de ciências, um estudante montou uma experiência para determinar a intensidade do campo magnético da Terra. Um fio vertical, de resistência 0,2 Ω, é ligado a uma bateria de 6,0 V. A distância do fio ao centro da bússola é 0,1 m. Use μ₀ = 4π × 10⁻⁷ T·m/A. (a) Determine o campo magnético produzido pelo fio no centro da bússola. (b) Em outra posição, a bússola sofre deflexão de 60° para Oeste a partir do Norte e o campo do fio vale 2√3 × 10⁻⁵ T. Determine a intensidade do campo magnético terrestre.</p>
+          <div class="answers">
+            <div class="numeric-box pair">
+              <label>a) B do fio (T)
+                <input class="num-input" type="text" inputmode="decimal" data-field="a" placeholder="Ex.: 6e-5">
+              </label>
+              <label>b) B da Terra (T)
+                <input class="num-input" type="text" inputmode="decimal" data-field="b" placeholder="Ex.: 6e-5">
+              </label></div>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(3)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(3)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-3" aria-live="polite"></div>
+          <div class="resolution" id="resolution-3">
+            <div class="resolution-title">Resolução</div>
+            <p>Primeiro, I = V/R = 6,0/0,2 = 30 A. Para fio retilíneo longo, B = μ₀I/(2πr) = 6,0 × 10⁻⁵ T. Na segunda situação, tan 60° = B_fio/B_Terra. Assim, B_Terra = (2√3 × 10⁻⁵)/√3 = 2,0 × 10⁻⁵ T.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q3.png" alt="Figura da questão 3" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q4" data-qid="4" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 04</span>
+          <span class="topic">Campo de fio • ímã</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>A figura mostra uma pequena chapa metálica imantada que flutua sobre a água de um recipiente. Um fio elétrico passa sobre o recipiente e conduz uma intensa corrente contínua da esquerda para a direita. Considere a figura como uma vista superior: a chapa está fisicamente abaixo do fio. Assinale a alternativa que melhor representa a posição da chapa após certo tempo.</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q4" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">Alternativa a</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q4" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">Alternativa b</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q4" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">Alternativa c</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q4" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">Alternativa d</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q4" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">Alternativa e</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(4)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(4)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-4" aria-live="polite"></div>
+          <div class="resolution" id="resolution-4">
+            <div class="resolution-title">Resolução</div>
+            <p>Com a corrente para a direita e a chapa fisicamente abaixo do fio, a regra da mão direita fornece um campo horizontal, perpendicular ao fio, no plano da superfície da água. O polo norte da chapa alinha-se com esse campo. A configuração correspondente é a alternativa C.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q4.png" alt="Figura da questão 4" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q5" data-qid="5" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 05</span>
+          <span class="topic">Oersted • bússola</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>A figura representa quatro bússolas apontando, inicialmente, para o polo norte terrestre. Pelo ponto O, perpendicularmente ao plano do papel, coloca-se um fio condutor retilíneo e longo. Ao se fazer passar pelo condutor uma corrente elétrica contínua e intensa no sentido do plano do papel para a vista do leitor, permanece praticamente inalterada somente a posição:</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q5" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">das bússolas A e C</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q5" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">das bússolas B e D</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q5" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">das bússolas A, C e D</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q5" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">da bússola C</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q5" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">da bússola D</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(5)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(5)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-5" aria-live="polite"></div>
+          <div class="resolution" id="resolution-5">
+            <div class="resolution-title">Resolução</div>
+            <p>Corrente saindo do papel gera linhas de campo no sentido anti-horário. Na posição C, à direita do fio, o campo do fio aponta para cima, mesma direção do campo terrestre indicado inicialmente; por isso essa bússola praticamente não muda de orientação.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q5.png" alt="Figura da questão 5" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q6" data-qid="6" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 06</span>
+          <span class="topic">Superposição • fios retilíneos</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Dois fios condutores retilíneos cruzam-se perpendicularmente. A corrente no condutor X tem intensidade i e, no condutor Y, a corrente é 3i. Seja B o módulo do campo magnético criado pela corrente de X, no ponto P. O módulo do campo magnético resultante em P é:</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q6" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">zero</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q6" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">B</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q6" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">2B</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q6" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">B√2</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q6" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">B√3</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(6)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(6)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-6" aria-live="polite"></div>
+          <div class="resolution" id="resolution-6">
+            <div class="resolution-title">Resolução</div>
+            <p>O ponto P está à mesma distância perpendicular dos dois fios. Portanto, o fio Y, cuja corrente vale 3i, produz campo 3B. Pela regra da mão direita, os dois campos têm sentidos opostos em P. O módulo resultante é 3B − B = 2B.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q6.png" alt="Figura da questão 6" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q7" data-qid="7" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 07</span>
+          <span class="topic">Superposição • regiões de cancelamento</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Dois fios longos e retilíneos são dispostos perpendicularmente entre si e percorridos por correntes elétricas de intensidades i₁ e i₂, como mostra a figura. O módulo do campo magnético resultante, gerado pelas correntes nos dois fios, pode ser nulo SOMENTE em pontos dos quadrantes:</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q7" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">I e II</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q7" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">I e III</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q7" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">I e IV</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q7" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">II e III</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q7" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">II e IV</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(7)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(7)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-7" aria-live="polite"></div>
+          <div class="resolution" id="resolution-7">
+            <div class="resolution-title">Resolução</div>
+            <p>Para o fio horizontal com corrente para a direita, o campo sai do papel acima e entra abaixo. Para o fio vertical com corrente para cima, o campo entra no papel à direita e sai à esquerda. Os campos podem se opor apenas nos quadrantes I e III.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q7.png" alt="Figura da questão 7" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q8" data-qid="8" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 08</span>
+          <span class="topic">Bússola • dois fios</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Uma bússola é colocada sobre uma mesa horizontal, próxima a dois fios compridos, F₁ e F₂, percorridos por correntes de mesma intensidade. Os fios atravessam a mesa perpendicularmente. Quando a bússola é colocada em P, sua agulha aponta na direção indicada. Em seguida, a bússola é colocada nas posições 1 e 2, ambas equidistantes dos fios. Assinale a alternativa que mostra as orientações corretas.</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q8" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">Alternativa a</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q8" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">Alternativa b</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q8" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">Alternativa c</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q8" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">Alternativa d</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q8" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">Alternativa e</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(8)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(8)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-8" aria-live="polite"></div>
+          <div class="resolution" id="resolution-8">
+            <div class="resolution-title">Resolução</div>
+            <p>A direção indicada em P só é compatível, para correntes de mesma intensidade, com correntes em sentidos opostos nos fios. Sobre a mediatriz vertical, as componentes horizontais se cancelam e as componentes verticais se somam no mesmo sentido tanto em 1 quanto em 2. Isso corresponde à alternativa A.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q8.png" alt="Figura da questão 8" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q9" data-qid="9" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 09</span>
+          <span class="topic">Campo terrestre • fio retilíneo</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Uma bússola está próxima de um fio perpendicular à mesa. A seta preenchida na figura indica o campo magnético terrestre. Ao ligar o gerador, a corrente no fio sai do plano da ilustração. Assinale a nova orientação da bússola.</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q9" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">Alternativa a</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q9" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">Alternativa b</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q9" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">Alternativa c</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q9" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">Alternativa d</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q9" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">Alternativa e</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(9)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(9)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-9" aria-live="polite"></div>
+          <div class="resolution" id="resolution-9">
+            <div class="resolution-title">Resolução</div>
+            <p>Corrente saindo do plano gera campo anti-horário. Como a bússola está à direita do fio, o campo do fio aponta para cima. A soma vetorial com o campo terrestre inclina o campo resultante para uma direção mais próxima da vertical, conforme a alternativa A.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q9.png" alt="Figura da questão 9" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q10" data-qid="10" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 10</span>
+          <span class="topic">Cancelamento • dois fios</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>A figura representa dois fios retilíneos e longos, (1) e (2), percorridos por correntes i₁ e i₂, perpendiculares à folha. Conforme a figura, o ponto A está entre os fios e mais próximo do fio (1). O campo magnético em A só poderá ser nulo se:</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q10" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">i₁ &lt; i₂ e as correntes tiverem o mesmo sentido</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q10" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">i₁ &lt; i₂ e tiverem sentidos opostos</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q10" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">i₁ &gt; i₂ e tiverem o mesmo sentido</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q10" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">i₁ &gt; i₂ e tiverem sentidos opostos</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q10" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">i₁ = i₂ e tiverem sentidos opostos</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(10)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(10)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-10" aria-live="polite"></div>
+          <div class="resolution" id="resolution-10">
+            <div class="resolution-title">Resolução</div>
+            <p>Entre os fios, os campos se opõem somente se as correntes tiverem o mesmo sentido. Como A está mais perto do fio 1, para que B₁ = B₂ deve valer i₁/r₁ = i₂/r₂. Como r₁ &lt; r₂, segue i₁ &lt; i₂.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q10.png" alt="Figura da questão 10" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q11" data-qid="11" data-type="numeric">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 11</span>
+          <span class="topic">Fio retilíneo • cálculo</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>No vácuo, a permeabilidade magnética vale μ₀ = 4π × 10⁻⁷ T·m/A. Um fio retilíneo muito longo conduz corrente de 2,5 A e produz, no ponto A, campo magnético de 5 μT. Qual é a distância d entre o ponto A e o fio?</p>
+          <div class="answers">
+            
+        <div class="numeric-box">
+          <label>d (m)
+            <input class="num-input" type="text" inputmode="decimal" data-field="value" placeholder="Ex.: 0,10">
+          </label>
+        </div>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(11)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(11)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-11" aria-live="polite"></div>
+          <div class="resolution" id="resolution-11">
+            <div class="resolution-title">Resolução</div>
+            <p>Usando B = μ₀I/(2πd), temos d = μ₀I/(2πB) = (4π×10⁻⁷×2,5)/(2π×5×10⁻⁶) = 0,10 m.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q11.png" alt="Figura da questão 11" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q12" data-qid="12" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 12</span>
+          <span class="topic">Oersted • direção do campo</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Um fio percorrido por corrente de grande intensidade está situado acima de uma agulha magnética. A partir do experimento de Oersted, é correto afirmar que:</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q12" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">a agulha tende a se orientar na mesma direção do fio</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q12" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">a agulha tende a formar 45° com o fio</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q12" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">a agulha tende a se orientar perpendicularmente ao fio</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q12" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">a figura é coerente porque a orientação da agulha e da corrente são iguais e o polo sul aponta à esquerda</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q12" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">a figura é incoerente apenas porque o polo sul deveria apontar à direita</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(12)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(12)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-12" aria-live="polite"></div>
+          <div class="resolution" id="resolution-12">
+            <div class="resolution-title">Resolução</div>
+            <p>As linhas de campo magnético de um fio retilíneo são circunferências em planos perpendiculares ao fio. No ponto da bússola, o campo é perpendicular ao fio; a agulha se alinha com esse campo. Logo, alternativa C.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q12.png" alt="Figura da questão 12" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q13" data-qid="13" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 13</span>
+          <span class="topic">Cancelamento • dois fios</span>
+        </div>
+        <span class="flag">Gabarito oficial corrigido</span>
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Dois fios longos, retilíneos e paralelos, separados por uma distância d, são perpendiculares ao plano da página. Pelo fio 1 passa corrente I₁ para dentro da página. O ponto P está 2d abaixo do fio 2 e, portanto, 3d abaixo do fio 1. O módulo e o sentido da corrente no fio 2, para que o campo resultante em P seja nulo, devem ser:</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q13" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">(2/3)I₁ e para fora da página</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q13" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">(2/3)I₁ e para dentro da página</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q13" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">(1/3)I₁ e para dentro da página</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q13" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">(1/3)I₁ e para fora da página</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(13)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(13)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-13" aria-live="polite"></div>
+          <div class="resolution" id="resolution-13">
+            <div class="resolution-title">Resolução</div>
+            <p>Em P, o fio 1 (corrente entrando) produz campo para a esquerda. Para cancelar, o fio 2 deve produzir campo para a direita, portanto sua corrente deve sair da página. Igualando os módulos: μ₀I₁/(2π·3d) = μ₀I₂/(2π·2d), então I₂ = (2/3)I₁. A resposta correta é A; o gabarito original marcava B.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q13.png" alt="Figura da questão 13" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q14" data-qid="14" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 14</span>
+          <span class="topic">Superposição • regiões</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Dois fios condutores retilíneos muito longos são perpendiculares entre si, sem contato, e transportam a mesma corrente I nos sentidos indicados. Em quais regiões o campo magnético total pode ser nulo?</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q14" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">regiões 1 e 3</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q14" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">regiões 1 e 2</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q14" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">regiões 3 e 4</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q14" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">regiões 2 e 4</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q14" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">regiões 1 e 4</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(14)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(14)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-14" aria-live="polite"></div>
+          <div class="resolution" id="resolution-14">
+            <div class="resolution-title">Resolução</div>
+            <p>Os sentidos dos campos dos dois fios são opostos apenas nas regiões 1 e 3. Como as correntes têm a mesma intensidade, existem pontos nessas regiões nos quais as distâncias aos fios tornam os módulos iguais, anulando o campo resultante.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q14.png" alt="Figura da questão 14" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q15" data-qid="15" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 15</span>
+          <span class="topic">Bússola • fio retilíneo</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Um trecho de condutor retilíneo ℓ, apoiado sobre uma mesa, é percorrido por corrente i. Uma bússola é colocada primeiro sobre o condutor (situação I) e depois sob o condutor (situação II). Despreze o campo terrestre. Qual figura mostra corretamente a orientação da agulha vista de cima?</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q15" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">Alternativa a</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q15" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">Alternativa b</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q15" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">Alternativa c</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q15" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">Alternativa d</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q15" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">Alternativa e</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(15)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(15)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-15" aria-live="polite"></div>
+          <div class="resolution" id="resolution-15">
+            <div class="resolution-title">Resolução</div>
+            <p>Para corrente para a direita, a regra da mão direita mostra que, acima do fio, o campo aponta para um lado transversal e, abaixo, para o lado oposto. Vistas de cima, as orientações da agulha se invertem exatamente como na alternativa E.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q15.png" alt="Figura da questão 15" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q16" data-qid="16" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 16</span>
+          <span class="topic">Superposição • bússola</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Três fios verticais e muito longos atravessam uma superfície horizontal nos vértices de um triângulo isósceles. Nos dois fios inferiores a corrente sai do papel e, no fio superior, entra. Uma bússola é colocada equidistante dos três fios. A direção da agulha será melhor representada pela reta:</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q16" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">AA′</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q16" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">BB′</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q16" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">CC′</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q16" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">DD′</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q16" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">perpendicular ao plano do papel</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(16)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(16)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-16" aria-live="polite"></div>
+          <div class="resolution" id="resolution-16">
+            <div class="resolution-title">Resolução</div>
+            <p>Os campos dos dois fios inferiores têm componentes verticais que se cancelam e componentes horizontais para a esquerda que se somam. O fio superior também produz campo para a esquerda no ponto central. O resultante fica ao longo de AA′.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q16.png" alt="Figura da questão 16" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q17" data-qid="17" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 17</span>
+          <span class="topic">Superposição • quatro fios</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Quatro fios retilíneos e longos estão nos vértices de um quadrado de lado 1 m, com correntes conforme a figura. Calcule a intensidade do campo magnético no centro do quadrado. Para correção interativa, escolha o resultado:</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q17" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">5μ₀/π</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q17" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">10μ₀/π</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q17" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">5√2 μ₀/π</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q17" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">15μ₀/(2π)</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(17)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(17)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-17" aria-live="polite"></div>
+          <div class="resolution" id="resolution-17">
+            <div class="resolution-title">Resolução</div>
+            <p>A distância de cada vértice ao centro é 1/√2 m. Somando vetorialmente os quatro campos, as componentes horizontais se anulam. As duas correntes de 10 A produzem contribuição vertical total de 10μ₀/π, enquanto as de 5 A produzem 5μ₀/π no sentido oposto. Resultado: 5μ₀/π.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q17.png" alt="Figura da questão 17" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q18" data-qid="18" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 18</span>
+          <span class="topic">Espira + fio retilíneo</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Uma espira circular de raio R conduz corrente i. A uma distância 2R de seu centro há um fio retilíneo muito longo com corrente i₁, conforme a figura. Para que o campo no centro da espira seja nulo:</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q18" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">i₁/i = 2π e a corrente na espira é horária</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q18" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">i₁/i = 2π e a corrente na espira é anti-horária</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q18" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">i₁/i = π e a corrente na espira é horária</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q18" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">i₁/i = π e a corrente na espira é anti-horária</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q18" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">i₁/i = 2 e a corrente na espira é horária</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(18)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(18)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-18" aria-live="polite"></div>
+          <div class="resolution" id="resolution-18">
+            <div class="resolution-title">Resolução</div>
+            <p>No centro da espira, o fio retilíneo produz campo para dentro do papel. A espira deve, portanto, produzir campo para fora, o que exige corrente anti-horária. Igualando μ₀i/(2R) = μ₀i₁/(4πR), obtém-se i₁/i = 2π.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q18.png" alt="Figura da questão 18" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q19" data-qid="19" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 19</span>
+          <span class="topic">Espira circular • cálculo</span>
+        </div>
+        <span class="flag">Enunciado e alternativas corrigidos</span>
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Uma espira circular de raio 4 cm está no plano do papel. No vácuo, μ₀ = 4π × 10⁻⁷ T·m/A. A corrente na espira vale 6 A e, pela figura, circula no sentido anti-horário. Qual é o campo magnético no centro da espira?</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q19" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">3 × 10⁻⁵ T, entrando no plano</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q19" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">3π × 10⁻⁵ T, saindo do plano</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q19" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">3π × 10⁻⁵ T, entrando no plano</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q19" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">6π × 10⁻⁵ T, saindo do plano</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q19" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">3 × 10⁻⁵ T, saindo do plano</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(19)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(19)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-19" aria-live="polite"></div>
+          <div class="resolution" id="resolution-19">
+            <div class="resolution-title">Resolução</div>
+            <p>Para uma espira, B = μ₀I/(2R), e não μ₀I/(2πR). Substituindo: B = (4π×10⁻⁷×6)/(2×0,04) = 3π×10⁻⁵ T. Como a corrente é anti-horária, o campo sai do plano do papel. A versão original não apresentava esse valor entre as alternativas.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q19.png" alt="Figura da questão 19" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q20" data-qid="20" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 20</span>
+          <span class="topic">Duas espiras concêntricas</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Duas espiras concêntricas têm raios R₂ = 2R₁. A corrente externa vale i₂ = 4i₁ e circula no sentido oposto à corrente interna, conforme a figura. Qual é o campo resultante no centro?</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q20" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">μ₀i₁/(2R₁), saindo do plano</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q20" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">μ₀i₁/(2R₁), entrando no plano</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q20" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">3μ₀i₁/(2R₁), entrando no plano</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q20" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">μ₀i₁/R₁, saindo do plano</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(20)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(20)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-20" aria-live="polite"></div>
+          <div class="resolution" id="resolution-20">
+            <div class="resolution-title">Resolução</div>
+            <p>A espira interna produz B₁ = μ₀i₁/(2R₁), para fora. A externa produz B₂ = μ₀(4i₁)/(2·2R₁) = μ₀i₁/R₁ = 2B₁, para dentro. O resultante tem módulo B₂−B₁ = μ₀i₁/(2R₁) e aponta para dentro do plano.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q20.png" alt="Figura da questão 20" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q21" data-qid="21" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 21</span>
+          <span class="topic">Espiras • resistividade</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Duas espiras circulares e coplanares são alimentadas por uma mesma fonte. O fio da espira externa tem alta resistividade e o da interna, baixa resistividade. Considerando A a região dentro da espira interna e B a região entre as espiras, o vetor campo magnético resultante está:</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q21" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">saindo de A e entrando em B</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q21" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">saindo de A e saindo de B</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q21" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">entrando em A e saindo de B</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q21" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">entrando em A e entrando em B</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q21" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">nulo em A e saindo de B</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(21)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(21)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-21" aria-live="polite"></div>
+          <div class="resolution" id="resolution-21">
+            <div class="resolution-title">Resolução</div>
+            <p>Pela ligação mostrada, as correntes percorrem as espiras em sentidos opostos. A espira interna, de menor resistividade, conduz corrente maior e domina o campo na região A, fazendo-o entrar no plano. Na região B atua essencialmente a contribuição da espira externa, no sentido de saída. Logo, alternativa C.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q21.png" alt="Figura da questão 21" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q22" data-qid="22" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 22</span>
+          <span class="topic">Espira • direção do campo</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Uma espira circular perfura ortogonalmente uma superfície plana e horizontal. O segmento CD é o diâmetro da espira contido no plano da superfície e AB é perpendicular a CD nesse mesmo plano. Uma pequena agulha imantada é colocada no centro da espira com liberdade de movimento. Ela se alinhará a:</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q22" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">AB</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q22" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">CD</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q22" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">EF</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q22" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">GH</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q22" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">um segmento diferente dos mencionados</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(22)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(22)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-22" aria-live="polite"></div>
+          <div class="resolution" id="resolution-22">
+            <div class="resolution-title">Resolução</div>
+            <p>O campo no centro de uma espira é perpendicular ao plano da própria espira. Como a espira está em um plano vertical e sua interseção com a mesa é CD, sua normal é horizontal e perpendicular a CD. Essa direção coincide com AB.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q22.png" alt="Figura da questão 22" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q23" data-qid="23" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 23</span>
+          <span class="topic">Espira + fio retilíneo</span>
+        </div>
+        <span class="flag">Gabarito oficial corrigido</span>
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Um fio retilíneo muito longo conduz corrente I = 62,8 A e está a uma distância 2R do centro O de uma espira circular de raio R. Qual deve ser a corrente na espira para que o campo resultante em O seja nulo?</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q23" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">0 A</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q23" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">1 A</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q23" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">1000 A</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q23" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">100 A</span>
+            </label>
+
+            <label class="option" data-key="e">
+              <input type="radio" name="q23" value="e">
+              <span class="letter">E</span>
+              <span class="opttext">10 A</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(23)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(23)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-23" aria-live="polite"></div>
+          <div class="resolution" id="resolution-23">
+            <div class="resolution-title">Resolução</div>
+            <p>B_fio = μ₀I/[2π(2R)] = μ₀I/(4πR). Para a espira, B_espira = μ₀i/(2R). Igualando os módulos: i = I/(2π) = 62,8/(2π) ≈ 10 A. A alternativa correta é E; o gabarito original marcava A.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q23.png" alt="Figura da questão 23" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q24" data-qid="24" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 24</span>
+          <span class="topic">Espiras ortogonais • vetor</span>
+        </div>
+        <span class="flag">Gabarito oficial completado</span>
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Duas espiras circulares concêntricas de raios r e 2r são percorridas pelas correntes i e 2i. A espira 1 está no plano xz e a espira 2 no plano yz, com sentidos indicados na figura. Determine o vetor campo magnético resultante em O.</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q24" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">B = (μ₀i/2r)(x̂ + ŷ); módulo √2·μ₀i/(2r), a 45° entre +x e +y</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q24" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">B = (μ₀i/2r)(x̂ − ŷ); módulo √2·μ₀i/(2r)</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q24" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">B = (μ₀i/2r)x̂</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q24" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">B = (μ₀i/2r)(−x̂ + ŷ); módulo √2·μ₀i/(2r)</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(24)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(24)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-24" aria-live="polite"></div>
+          <div class="resolution" id="resolution-24">
+            <div class="resolution-title">Resolução</div>
+            <p>A espira 1 produz campo de módulo μ₀i/(2r) ao longo de +y. A espira 2 produz μ₀(2i)/[2(2r)] = μ₀i/(2r) ao longo de +x. Como são perpendiculares e iguais, o resultante é (μ₀i/2r)(x̂+ŷ), com módulo √2·μ₀i/(2r) e direção de 45° no primeiro quadrante do plano xy. O gabarito original fornecia apenas o módulo.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q24.png" alt="Figura da questão 24" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q25" data-qid="25" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 25</span>
+          <span class="topic">Solenoide • eletroímã</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Um eletroímã deve gerar campo B = 12 × 10⁻³ T. A permeabilidade do núcleo é μ = 3 × 10⁻⁴ T·m/A e a corrente vale 2,0 A. Determine o número de espiras por metro e, pelo sentido de corrente indicado na figura, qual é o polo norte do núcleo.</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q25" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">20 espiras/m; lado esquerdo é Norte</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q25" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">20 espiras/m; lado direito é Norte</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q25" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">40 espiras/m; lado esquerdo é Norte</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q25" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">10 espiras/m; lado direito é Norte</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(25)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(25)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-25" aria-live="polite"></div>
+          <div class="resolution" id="resolution-25">
+            <div class="resolution-title">Resolução</div>
+            <p>Para o solenoide, B = μni. Logo, n = B/(μi) = 12×10⁻³/(3×10⁻⁴×2) = 20 espiras/m. Pela regra da mão direita aplicada às espiras, o campo interno aponta para a esquerda; portanto, a extremidade esquerda é o polo norte.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q25.png" alt="Figura da questão 25" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+    <article class="question-card" id="q26" data-qid="26" data-type="choice">
+      <div class="qhead">
+        <div>
+          <span class="qnum">Questão 26</span>
+          <span class="topic">Solenoide • cálculo</span>
+        </div>
+        
+      </div>
+      <div class="qbody">
+        <div class="qtext">
+          <p>Um solenoide de 200 espiras e comprimento 20 cm é percorrido por corrente de 200 mA. Determine o campo magnético no ponto P, no meio do interior vazio do solenoide. Use μ₀ = 4π × 10⁻⁷ T·m/A.</p>
+          <div class="answers">
+            
+            <label class="option" data-key="a">
+              <input type="radio" name="q26" value="a">
+              <span class="letter">A</span>
+              <span class="opttext">4π × 10⁻⁵ T</span>
+            </label>
+
+            <label class="option" data-key="b">
+              <input type="radio" name="q26" value="b">
+              <span class="letter">B</span>
+              <span class="opttext">8π × 10⁻⁵ T</span>
+            </label>
+
+            <label class="option" data-key="c">
+              <input type="radio" name="q26" value="c">
+              <span class="letter">C</span>
+              <span class="opttext">2π × 10⁻⁴ T</span>
+            </label>
+
+            <label class="option" data-key="d">
+              <input type="radio" name="q26" value="d">
+              <span class="letter">D</span>
+              <span class="opttext">8 × 10⁻⁵ T</span>
+            </label>
+          </div>
+          <div class="actions">
+            <button class="check-btn" type="button" onclick="checkQuestion(26)">Verificar resposta</button>
+            <button class="clear-btn" type="button" onclick="clearQuestion(26)">Limpar</button>
+          </div>
+          <div class="feedback" id="feedback-26" aria-live="polite"></div>
+          <div class="resolution" id="resolution-26">
+            <div class="resolution-title">Resolução</div>
+            <p>No interior de um solenoide ideal, B = μ₀(N/L)I. Com N = 200, L = 0,20 m e I = 0,20 A: B = 4π×10⁻⁷ × (200/0,20) × 0,20 = 8π×10⁻⁵ T.</p>
+          </div>
+        </div>
+        <div class="figure-wrap">
+          <img src="/listas-html/img/campo-magnetico/q26.png" alt="Figura da questão 26" loading="lazy">
+        </div>
+      </div>
+    </article>
+    
+
+  <section class="lm-summary" id="lm-resultado" hidden aria-live="polite"></section>
+
+  <details class="audit">
+    <summary>Nota editorial sobre a revisão da lista</summary>
+    <ul>
+      <li>A terminologia “permissividade magnética” foi corrigida para <b>permeabilidade magnética</b> quando se refere a μ.</li>
+      <li>Na questão 10, foi explicitado que A está mais próximo do fio 1, informação que antes dependia apenas do desenho.</li>
+      <li>As questões 13 e 23 tiveram o gabarito oficial corrigido.</li>
+      <li>A questão 19 tinha alternativas duplicadas e faltava o fator π no valor correto; as alternativas foram reconstruídas.</li>
+      <li>A questão 24 tinha gabarito oficial apenas com o módulo; a direção e o sentido do vetor foram completados.</li>
+    </ul>
+  </details>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div><b>Professor Madison</b><br>Física • Campo Magnético</div>
+    <div>Questões adaptadas do material “Fontes de campo magnético”, Prof. Panosso.<br>Seleção, revisão científica, correção interativa e diagramação: Professor Madison.</div>
+  </div>
+</footer>
+</div>
+
+<footer class="site-footer" id="site-footer"></footer>
+<script src="/assets/js/layout.js"></script>
+
+<script>
+const DATA = [{"id": 1, "type": "choice", "resolution": "No ponto P, o fio A (corrente saindo do papel) produz campo para cima. O fio B (corrente entrando no papel) também produz campo para cima. Os campos se somam; o polo norte da bússola alinha-se com o campo resultante. Portanto, a alternativa correta é C.", "correct": "c", "correctText": "Alternativa c"}, {"id": 2, "type": "choice", "resolution": "Pela regra da mão direita, os campos produzidos pelos dois fios têm componentes verticais opostas, que se cancelam, e componentes horizontais para a esquerda, que se somam. Logo, o campo resultante aponta para a esquerda.", "correct": "a", "correctText": "←"}, {"id": 3, "type": "numericpair", "resolution": "Primeiro, I = V/R = 6,0/0,2 = 30 A. Para fio retilíneo longo, B = μ₀I/(2πr) = 6,0 × 10⁻⁵ T. Na segunda situação, tan 60° = B_fio/B_Terra. Assim, B_Terra = (2√3 × 10⁻⁵)/√3 = 2,0 × 10⁻⁵ T.", "fields": [{"key": "a", "label": "a) B do fio (T)", "value": 6e-05, "tol": 0.02}, {"key": "b", "label": "b) B da Terra (T)", "value": 2e-05, "tol": 0.02}]}, {"id": 4, "type": "choice", "resolution": "Com a corrente para a direita e a chapa fisicamente abaixo do fio, a regra da mão direita fornece um campo horizontal, perpendicular ao fio, no plano da superfície da água. O polo norte da chapa alinha-se com esse campo. A configuração correspondente é a alternativa C.", "correct": "c", "correctText": "Alternativa c"}, {"id": 5, "type": "choice", "resolution": "Corrente saindo do papel gera linhas de campo no sentido anti-horário. Na posição C, à direita do fio, o campo do fio aponta para cima, mesma direção do campo terrestre indicado inicialmente; por isso essa bússola praticamente não muda de orientação.", "correct": "d", "correctText": "da bússola C"}, {"id": 6, "type": "choice", "resolution": "O ponto P está à mesma distância perpendicular dos dois fios. Portanto, o fio Y, cuja corrente vale 3i, produz campo 3B. Pela regra da mão direita, os dois campos têm sentidos opostos em P. O módulo resultante é 3B − B = 2B.", "correct": "c", "correctText": "2B"}, {"id": 7, "type": "choice", "resolution": "Para o fio horizontal com corrente para a direita, o campo sai do papel acima e entra abaixo. Para o fio vertical com corrente para cima, o campo entra no papel à direita e sai à esquerda. Os campos podem se opor apenas nos quadrantes I e III.", "correct": "b", "correctText": "I e III"}, {"id": 8, "type": "choice", "resolution": "A direção indicada em P só é compatível, para correntes de mesma intensidade, com correntes em sentidos opostos nos fios. Sobre a mediatriz vertical, as componentes horizontais se cancelam e as componentes verticais se somam no mesmo sentido tanto em 1 quanto em 2. Isso corresponde à alternativa A.", "correct": "a", "correctText": "Alternativa a"}, {"id": 9, "type": "choice", "resolution": "Corrente saindo do plano gera campo anti-horário. Como a bússola está à direita do fio, o campo do fio aponta para cima. A soma vetorial com o campo terrestre inclina o campo resultante para uma direção mais próxima da vertical, conforme a alternativa A.", "correct": "a", "correctText": "Alternativa a"}, {"id": 10, "type": "choice", "resolution": "Entre os fios, os campos se opõem somente se as correntes tiverem o mesmo sentido. Como A está mais perto do fio 1, para que B₁ = B₂ deve valer i₁/r₁ = i₂/r₂. Como r₁ < r₂, segue i₁ < i₂.", "correct": "a", "correctText": "i₁ < i₂ e as correntes tiverem o mesmo sentido"}, {"id": 11, "type": "numeric", "resolution": "Usando B = μ₀I/(2πd), temos d = μ₀I/(2πB) = (4π×10⁻⁷×2,5)/(2π×5×10⁻⁶) = 0,10 m.", "field": {"label": "d (m)", "value": 0.1, "tol": 0.02}}, {"id": 12, "type": "choice", "resolution": "As linhas de campo magnético de um fio retilíneo são circunferências em planos perpendiculares ao fio. No ponto da bússola, o campo é perpendicular ao fio; a agulha se alinha com esse campo. Logo, alternativa C.", "correct": "c", "correctText": "a agulha tende a se orientar perpendicularmente ao fio"}, {"id": 13, "type": "choice", "resolution": "Em P, o fio 1 (corrente entrando) produz campo para a esquerda. Para cancelar, o fio 2 deve produzir campo para a direita, portanto sua corrente deve sair da página. Igualando os módulos: μ₀I₁/(2π·3d) = μ₀I₂/(2π·2d), então I₂ = (2/3)I₁. A resposta correta é A; o gabarito original marcava B.", "correct": "a", "correctText": "(2/3)I₁ e para fora da página"}, {"id": 14, "type": "choice", "resolution": "Os sentidos dos campos dos dois fios são opostos apenas nas regiões 1 e 3. Como as correntes têm a mesma intensidade, existem pontos nessas regiões nos quais as distâncias aos fios tornam os módulos iguais, anulando o campo resultante.", "correct": "a", "correctText": "regiões 1 e 3"}, {"id": 15, "type": "choice", "resolution": "Para corrente para a direita, a regra da mão direita mostra que, acima do fio, o campo aponta para um lado transversal e, abaixo, para o lado oposto. Vistas de cima, as orientações da agulha se invertem exatamente como na alternativa E.", "correct": "e", "correctText": "Alternativa e"}, {"id": 16, "type": "choice", "resolution": "Os campos dos dois fios inferiores têm componentes verticais que se cancelam e componentes horizontais para a esquerda que se somam. O fio superior também produz campo para a esquerda no ponto central. O resultante fica ao longo de AA′.", "correct": "a", "correctText": "AA′"}, {"id": 17, "type": "choice", "resolution": "A distância de cada vértice ao centro é 1/√2 m. Somando vetorialmente os quatro campos, as componentes horizontais se anulam. As duas correntes de 10 A produzem contribuição vertical total de 10μ₀/π, enquanto as de 5 A produzem 5μ₀/π no sentido oposto. Resultado: 5μ₀/π.", "correct": "a", "correctText": "5μ₀/π"}, {"id": 18, "type": "choice", "resolution": "No centro da espira, o fio retilíneo produz campo para dentro do papel. A espira deve, portanto, produzir campo para fora, o que exige corrente anti-horária. Igualando μ₀i/(2R) = μ₀i₁/(4πR), obtém-se i₁/i = 2π.", "correct": "b", "correctText": "i₁/i = 2π e a corrente na espira é anti-horária"}, {"id": 19, "type": "choice", "resolution": "Para uma espira, B = μ₀I/(2R), e não μ₀I/(2πR). Substituindo: B = (4π×10⁻⁷×6)/(2×0,04) = 3π×10⁻⁵ T. Como a corrente é anti-horária, o campo sai do plano do papel. A versão original não apresentava esse valor entre as alternativas.", "correct": "b", "correctText": "3π × 10⁻⁵ T, saindo do plano"}, {"id": 20, "type": "choice", "resolution": "A espira interna produz B₁ = μ₀i₁/(2R₁), para fora. A externa produz B₂ = μ₀(4i₁)/(2·2R₁) = μ₀i₁/R₁ = 2B₁, para dentro. O resultante tem módulo B₂−B₁ = μ₀i₁/(2R₁) e aponta para dentro do plano.", "correct": "b", "correctText": "μ₀i₁/(2R₁), entrando no plano"}, {"id": 21, "type": "choice", "resolution": "Pela ligação mostrada, as correntes percorrem as espiras em sentidos opostos. A espira interna, de menor resistividade, conduz corrente maior e domina o campo na região A, fazendo-o entrar no plano. Na região B atua essencialmente a contribuição da espira externa, no sentido de saída. Logo, alternativa C.", "correct": "c", "correctText": "entrando em A e saindo de B"}, {"id": 22, "type": "choice", "resolution": "O campo no centro de uma espira é perpendicular ao plano da própria espira. Como a espira está em um plano vertical e sua interseção com a mesa é CD, sua normal é horizontal e perpendicular a CD. Essa direção coincide com AB.", "correct": "a", "correctText": "AB"}, {"id": 23, "type": "choice", "resolution": "B_fio = μ₀I/[2π(2R)] = μ₀I/(4πR). Para a espira, B_espira = μ₀i/(2R). Igualando os módulos: i = I/(2π) = 62,8/(2π) ≈ 10 A. A alternativa correta é E; o gabarito original marcava A.", "correct": "e", "correctText": "10 A"}, {"id": 24, "type": "choice", "resolution": "A espira 1 produz campo de módulo μ₀i/(2r) ao longo de +y. A espira 2 produz μ₀(2i)/[2(2r)] = μ₀i/(2r) ao longo de +x. Como são perpendiculares e iguais, o resultante é (μ₀i/2r)(x̂+ŷ), com módulo √2·μ₀i/(2r) e direção de 45° no primeiro quadrante do plano xy. O gabarito original fornecia apenas o módulo.", "correct": "a", "correctText": "B = (μ₀i/2r)(x̂ + ŷ); módulo √2·μ₀i/(2r), a 45° entre +x e +y"}, {"id": 25, "type": "choice", "resolution": "Para o solenoide, B = μni. Logo, n = B/(μi) = 12×10⁻³/(3×10⁻⁴×2) = 20 espiras/m. Pela regra da mão direita aplicada às espiras, o campo interno aponta para a esquerda; portanto, a extremidade esquerda é o polo norte.", "correct": "a", "correctText": "20 espiras/m; lado esquerdo é Norte"}, {"id": 26, "type": "choice", "resolution": "No interior de um solenoide ideal, B = μ₀(N/L)I. Com N = 200, L = 0,20 m e I = 0,20 A: B = 4π×10⁻⁷ × (200/0,20) × 0,20 = 8π×10⁻⁵ T.", "correct": "b", "correctText": "8π × 10⁻⁵ T"}];
+const TOTAL = DATA.length;
+
+function parseNum(v) {
+  if (v == null) return NaN;
+  let s = String(v).trim().toLowerCase().replaceAll('×','x').replaceAll('−','-').replace(',', '.');
+  s = s.replace(/\s+/g,'');
+  s = s.replace(/10\^?(-?\d+)/g, 'e$1');
+  s = s.replace(/x10e?/g,'e');
+  s = s.replace(/\*10e?/g,'e');
+  return Number(s);
+}
+function getQ(id) { return DATA.find(q=>q.id===id); }
+function isAnswered(id) {
+  const q=getQ(id), card=document.getElementById('q'+id);
+  if(q.type==='choice') return !!card.querySelector('input[type=radio]:checked');
+  if(q.type==='numeric') return card.querySelector('[data-field=value]').value.trim()!=='';
+  if(q.type==='numericpair') return q.fields.every(f=>card.querySelector('[data-field="'+f.key+'"]').value.trim()!=='');
+  return false;
+}
+function checkNumeric(value,target,tol) {
+  const x=parseNum(value);
+  if(!Number.isFinite(x)) return false;
+  const absTol = Math.max(Math.abs(target)*tol, 1e-12);
+  return Math.abs(x-target) <= absTol;
+}
+function checkQuestion(id, silent=false) {
+  const q=getQ(id), card=document.getElementById('q'+id);
+  const fb=document.getElementById('feedback-'+id), res=document.getElementById('resolution-'+id);
+  card.querySelectorAll('.option').forEach(o=>o.classList.remove('correct-option','wrong-option'));
+  let answered=isAnswered(id);
+  if(!answered) {
+    fb.className='feedback bad'; fb.textContent='Responda a questão antes de verificar.';
+    if(!silent) card.scrollIntoView({behavior:'smooth',block:'center'});
+    return null;
+  }
+  let ok=false, correctLabel='';
+  if(q.type==='choice') {
+    const sel=card.querySelector('input[type=radio]:checked');
+    ok=sel.value===q.correct;
+    correctLabel=q.correct.toUpperCase()+') '+q.correctText;
+    const correctOpt=card.querySelector('.option[data-key="'+q.correct+'"]');
+    if(correctOpt) correctOpt.classList.add('correct-option');
+    if(!ok) sel.closest('.option').classList.add('wrong-option');
+  } else if(q.type==='numeric') {
+    const inp=card.querySelector('[data-field=value]');
+    ok=checkNumeric(inp.value,q.field.value,q.field.tol);
+    correctLabel=String(q.field.value);
+  } else if(q.type==='numericpair') {
+    ok=q.fields.every(f=>checkNumeric(card.querySelector('[data-field="'+f.key+'"]').value,f.value,f.tol));
+    correctLabel=q.fields.map(f=>f.key+') '+f.value).join(' • ');
+  }
+  card.classList.toggle('correct',ok);
+  card.classList.toggle('incorrect',!ok);
+  fb.className='feedback '+(ok?'ok':'bad');
+  fb.innerHTML=ok ? '✓ Resposta correta.' : '✗ Ainda não. <span style="font-weight:600">Resposta correta: '+correctLabel+'</span>';
+  res.classList.add('show');
+  saveState();
+  updateProgress();
+  return ok;
+}
+function clearQuestion(id) {
+  const q=getQ(id), card=document.getElementById('q'+id);
+  card.querySelectorAll('input[type=radio]').forEach(x=>x.checked=false);
+  card.querySelectorAll('.num-input').forEach(x=>x.value='');
+  card.querySelectorAll('.option').forEach(o=>o.classList.remove('correct-option','wrong-option'));
+  card.classList.remove('correct','incorrect');
+  document.getElementById('feedback-'+id).className='feedback';
+  document.getElementById('resolution-'+id).classList.remove('show');
+  saveState(); updateProgress();
+}
+function givenAnswerText(id) {
+  const q=getQ(id), card=document.getElementById('q'+id);
+  if(q.type==='choice') {
+    const sel=card.querySelector('input[type=radio]:checked');
+    if(!sel) return '—';
+    const opt=sel.closest('.option').querySelector('.opttext').textContent;
+    return sel.value.toUpperCase()+') '+opt;
+  }
+  if(q.type==='numeric') { const v=card.querySelector('[data-field=value]').value.trim(); return v||'—'; }
+  return q.fields.map(f=>f.key+') '+(card.querySelector('[data-field="'+f.key+'"]').value.trim()||'—')).join(' • ');
+}
+function officialAnswerText(q) {
+  if(q.type==='choice') return q.correct.toUpperCase()+') '+q.correctText;
+  if(q.type==='numeric') return q.field.label+' = '+q.field.value;
+  return q.fields.map(f=>f.label+' = '+f.value).join(' • ');
+}
+function chips(ids, cls) {
+  return ids.length ? '<div class="lm-chips">'+ids.map(i=>'<a class="lm-chip '+cls+'" href="#q'+i+'">'+i+'</a>').join('')+'</div>' : '<p>Nenhuma.</p>';
+}
+function tableRows(ids) {
+  if(!ids.length) return '<p>Nenhuma.</p>';
+  const rows=ids.map(id=>{ const q=getQ(id); return '<tr><td><a href="#q'+id+'">'+id+'</a></td><td>'+givenAnswerText(id)+'</td><td>'+officialAnswerText(q)+'</td></tr>'; }).join('');
+  return '<table class="tbl" style="width:100%;border-collapse:collapse;font-size:.9rem;margin-top:6px"><thead><tr><th style="text-align:left;padding:6px 8px;color:var(--muted);font-size:.75rem;text-transform:uppercase">Questão</th><th style="text-align:left;padding:6px 8px;color:var(--muted);font-size:.75rem;text-transform:uppercase">Sua resposta</th><th style="text-align:left;padding:6px 8px;color:var(--muted);font-size:.75rem;text-transform:uppercase">Gabarito oficial</th></tr></thead><tbody>'+rows.replaceAll('<td>','<td style="padding:8px;border-bottom:1px solid var(--line);vertical-align:top">')+'</tbody></table>';
+}
+function gradeAll() {
+  const pendentes=DATA.filter(q=>!isAnswered(q.id)).length;
+  if(pendentes && !confirm('Ainda há '+pendentes+' questão(ões) sem resposta. Corrigir mesmo assim?')) {
+    showUnanswered(); return;
+  }
+  let correct=0, answered=0;
+  const okIds=[], badIds=[], blankIds=[];
+  DATA.forEach(q=>{
+    if(isAnswered(q.id)) { answered++; const good=checkQuestion(q.id,true); if(good){correct++;okIds.push(q.id);} else badIds.push(q.id); }
+    else blankIds.push(q.id);
+  });
+  const pct=Math.round(correct/TOTAL*100);
+  const box=document.getElementById('lm-resultado');
+  box.hidden=false;
+  box.innerHTML =
+    '<h2>Seu resultado</h2>'+
+    '<div class="lm-score">'+correct+' <small>de '+TOTAL+' questões ('+pct+'%)</small></div>'+
+    '<div class="lm-tags"><span class="lm-tag ok">✓ '+correct+' acerto'+(correct===1?'':'s')+'</span>'+
+    '<span class="lm-tag bad">✗ '+badIds.length+' erro'+(badIds.length===1?'':'s')+'</span>'+
+    '<span class="lm-tag">'+blankIds.length+' em branco</span></div>'+
+    '<h3>Questões que você acertou</h3>'+chips(okIds,'ok')+
+    '<h3>Questões que você errou</h3>'+tableRows(badIds)+
+    '<h3>Questões em branco</h3>'+tableRows(blankIds);
+  box.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function showUnanswered() {
+  const q=DATA.find(q=>!isAnswered(q.id));
+  if(!q) return alert('Todas as questões foram respondidas.');
+  document.getElementById('q'+q.id).scrollIntoView({behavior:'smooth',block:'center'});
+}
+function updateProgress() {
+  const n=DATA.filter(q=>isAnswered(q.id)).length;
+  document.getElementById('progress-text').textContent=n+'/'+TOTAL+' respondidas';
+  document.getElementById('progress-bar').style.width=(100*n/TOTAL)+'%';
+}
+function saveState() {
+  const state={};
+  DATA.forEach(q=>{
+    const card=document.getElementById('q'+q.id);
+    if(q.type==='choice') {
+      const s=card.querySelector('input[type=radio]:checked'); state[q.id]=s?s.value:'';
+    } else {
+      const obj={}; card.querySelectorAll('.num-input').forEach(i=>obj[i.dataset.field]=i.value); state[q.id]=obj;
+    }
+  });
+  localStorage.setItem('madison-campo-magnetico-v2',JSON.stringify(state));
+}
+function loadState() {
+  let state={};
+  try { state=JSON.parse(localStorage.getItem('madison-campo-magnetico-v2')||'{}'); } catch(e){}
+  DATA.forEach(q=>{
+    const v=state[q.id]; if(!v) return;
+    const card=document.getElementById('q'+q.id);
+    if(q.type==='choice') {
+      const input=card.querySelector('input[value="'+v+'"]'); if(input) input.checked=true;
+    } else {
+      Object.entries(v).forEach(([k,val])=>{ const inp=card.querySelector('[data-field="'+k+'"]'); if(inp) inp.value=val; });
+    }
+  });
+  updateProgress();
+}
+function resetAll() {
+  if(!confirm('Apagar todas as respostas desta lista?')) return;
+  localStorage.removeItem('madison-campo-magnetico-v2');
+  DATA.forEach(q=>clearQuestion(q.id));
+  document.getElementById('lm-resultado').hidden=true;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.addEventListener('change', e=>{ if(e.target.matches('input')) { saveState(); updateProgress(); } });
+document.addEventListener('input', e=>{ if(e.target.matches('.num-input')) { saveState(); updateProgress(); } });
+loadState();
+</script>
+</body>
+</html>
