@@ -16,8 +16,8 @@
 <link rel="stylesheet" href="/assets/css/style.css">
 <style>
 :root {
-  --ink:#0f172a; --muted:#64748b; --line:#dbe3ee; --paper:#ffffff;
-  --bg:#f4f7fb; --accent:#f59e0b; --accent2:#b45309; --ok:#0f766e; --bad:#b91c1c;
+  --ink:#eef4f8; --muted:#9fb6c8; --line:#1d3d56; --paper:#10263a;
+  --bg:#081420; --accent:#f59e0b; --accent2:#b45309; --ok:#34d399; --bad:#ff6b72;
   --soft:#fff7ed; --navy2:#172554;
 }
 .lm-wrap, .lm-wrap *{box-sizing:border-box}
@@ -84,6 +84,42 @@ footer{background:#0f172a;color:#cbd5e1;padding:30px 24px}
 .audit summary{cursor:pointer;font-weight:900;padding:15px 0;color:#334155}
 .audit ul{margin-top:0;color:#475569}
 .kbd{font-family:ui-monospace,monospace;background:#e2e8f0;padding:1px 5px;border-radius:5px}
+.topbar{background:linear-gradient(135deg,var(--bg),#0c1c2c 60%,#10263a)}
+.topbar:after{border-color:rgba(24,227,172,.12)}
+.subtitle{color:var(--muted)}
+.toolbar-wrap{background:rgba(8,20,32,.92)}
+.progress-row{color:var(--muted)}
+.bar{background:var(--line)}
+.bar > i{background:linear-gradient(90deg,var(--accent),var(--accent2))}
+.secondary{background:transparent;color:var(--ink)}
+.notice{background:var(--paper)}
+.notice strong{color:var(--accent)}
+.question-card{box-shadow:0 8px 25px rgba(0,0,0,.35)}
+.question-card.correct{border-color:var(--ok);box-shadow:0 8px 26px rgba(52,211,153,.12)}
+.question-card.incorrect{border-color:var(--bad);box-shadow:0 8px 26px rgba(255,107,114,.12)}
+.qhead{background:linear-gradient(180deg,var(--paper),#0d2136);border-bottom-color:var(--line)}
+.qnum{color:var(--accent)}
+.topic{color:var(--muted)}
+.flag{background:rgba(24,227,172,.12);color:var(--accent);border-color:var(--accent)}
+.option{border-color:var(--line);background:var(--paper);color:var(--ink)}
+.option:hover{border-color:var(--accent);background:rgba(24,227,172,.08)}
+.option:has(input:checked){border-color:var(--accent);background:rgba(24,227,172,.12)}
+.letter{background:#0c1c2c;color:var(--ink)}
+.option.correct-option{border-color:var(--ok)!important;background:rgba(52,211,153,.12)!important}
+.option.wrong-option{border-color:var(--bad)!important;background:rgba(255,107,114,.12)!important}
+.numeric-box{background:#0c1c2c;border-color:var(--line)}
+.numeric-box label{color:var(--muted)}
+.num-input{border-color:var(--line);background:#0c1c2c;color:var(--ink)}
+.clear-btn{border-color:var(--line);background:transparent;color:var(--muted)}
+.feedback.ok{background:rgba(52,211,153,.12);color:var(--ok);border-color:var(--ok)}
+.feedback.bad{background:rgba(255,107,114,.12);color:var(--bad);border-color:var(--bad)}
+.resolution{border-left-color:#38bdf8;background:rgba(56,189,248,.10);color:var(--ink)}
+.audit{background:var(--paper);border-color:var(--line)}
+.audit summary{color:var(--ink)}
+.audit ul{color:var(--muted)}
+.kbd{background:#0c1c2c}
+.lm-chip:hover{background:#0c1c2c}
+
 @media (max-width:800px){
   .qbody{grid-template-columns:1fr}
   .figure-wrap{order:-1}
@@ -1616,16 +1652,6 @@ footer{background:#0f172a;color:#cbd5e1;padding:30px 24px}
 
   <section class="lm-summary" id="lm-resultado" hidden aria-live="polite"></section>
 
-  <details class="audit">
-    <summary>Nota editorial sobre a revisão da lista</summary>
-    <ul>
-      <li>A terminologia “permissividade magnética” foi corrigida para <b>permeabilidade magnética</b> quando se refere a μ.</li>
-      <li>Na questão 10, foi explicitado que A está mais próximo do fio 1, informação que antes dependia apenas do desenho.</li>
-      <li>As questões 13 e 23 tiveram o gabarito oficial corrigido.</li>
-      <li>A questão 19 tinha alternativas duplicadas e faltava o fator π no valor correto; as alternativas foram reconstruídas.</li>
-      <li>A questão 24 tinha gabarito oficial apenas com o módulo; a direção e o sentido do vetor foram completados.</li>
-    </ul>
-  </details>
 </main>
 
 <footer>
