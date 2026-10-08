@@ -13,6 +13,13 @@
 */
 var BLOG_FISICA = [
   {
+    categoria: "Astrofísica",
+    titulo: "Nobel de Física 2026: como Francis Halzen e o IceCube transformaram o gelo da Antártida em um telescópio",
+    resumo: "Francis Halzen ajudou a revelar mensagens quase invisíveis vindas do espaço. Conheça os neutrinos, o observatório IceCube e a descoberta que abriu uma nova janela para o Universo.",
+    url: "/fisica/blog/nobel-fisica-2026-icecube.html",
+    data: "2026-10-08"
+  },
+  {
     categoria: "Física Médica",
     titulo: "Tomografia por contagem de fótons: a Física quântica que está mudando os exames médicos",
     resumo: "Uma nova geração de tomógrafos consegue detectar individualmente os fótons de raios X que atravessam nosso corpo. E por trás disso estão conceitos de Física que você provavelmente já começou a estudar.",
