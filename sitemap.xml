@@ -100,4 +100,24 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://professormadison.com.br/aulas-html/kepler-gravitacao-1-sistemas-planetarios.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://professormadison.com.br/aulas-html/kepler-gravitacao-2-leis-de-kepler.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://professormadison.com.br/aulas-html/kepler-gravitacao-3-gravitacao-universal.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://professormadison.com.br/aulas-html/kepler-gravitacao-4-evolucao-das-estrelas.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

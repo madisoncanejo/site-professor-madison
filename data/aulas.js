@@ -45,5 +45,37 @@ var AULAS = [
     descricao: "Ímãs, polos, linhas de indução, campo uniforme, experimento de Oersted com circuito completo, fio retilíneo e espira circular, com 6 laboratórios interativos e quiz final.",
     url: "/aulas-html/campos-magneticos-interativo.html",
     data: "2026-09-22"
+  },
+  {
+    serie: "1",
+    tema: "Gravitação",
+    titulo: "Leis de Kepler e Gravitação Universal — Parte 1 de 4: Sistemas planetários",
+    descricao: "Primeira parte do assunto: da Terra no centro do Universo ao movimento dos planetas em torno do Sol. Aula interativa em slides.",
+    url: "/aulas-html/kepler-gravitacao-1-sistemas-planetarios.html",
+    data: "2026-10-14"
+  },
+  {
+    serie: "1",
+    tema: "Gravitação",
+    titulo: "Leis de Kepler e Gravitação Universal — Parte 2 de 4: Leis de Kepler",
+    descricao: "Segunda parte do assunto: as três leis de Kepler interpretadas com diagramas, dados e cálculos. Aula interativa em slides.",
+    url: "/aulas-html/kepler-gravitacao-2-leis-de-kepler.html",
+    data: "2026-10-14"
+  },
+  {
+    serie: "1",
+    tema: "Gravitação",
+    titulo: "Leis de Kepler e Gravitação Universal — Parte 3 de 4: Gravitação Universal",
+    descricao: "Terceira parte do assunto: a lei de Newton, a força peso, as órbitas, as marés e a velocidade de escape. Aula interativa em slides.",
+    url: "/aulas-html/kepler-gravitacao-3-gravitacao-universal.html",
+    data: "2026-10-14"
+  },
+  {
+    serie: "1",
+    tema: "Gravitação",
+    titulo: "Leis de Kepler e Gravitação Universal — Parte 4 de 4: Evolução das estrelas",
+    descricao: "Quarta parte do assunto: como se formam as estrelas a partir de nuvens de gás e poeira. Aula interativa em slides.",
+    url: "/aulas-html/kepler-gravitacao-4-evolucao-das-estrelas.html",
+    data: "2026-10-14"
   }
 ];
