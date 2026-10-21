@@ -77,5 +77,29 @@ var AULAS = [
     descricao: "Quarta parte do assunto: como se formam as estrelas a partir de nuvens de gás e poeira. Aula interativa em slides.",
     url: "/aulas-html/kepler-gravitacao-4-evolucao-das-estrelas.html",
     data: "2026-10-14"
+  },
+  {
+    serie: "3",
+    tema: "Eletrodinâmica",
+    titulo: "Circuitos Elétricos — Corrente Elétrica",
+    descricao: "Corrente elétrica: portadores de carga, quantização da carga, intensidade de corrente, sentido convencional, gráficos i × t, corrente contínua e alternada e efeitos da corrente. Aula interativa em slides.",
+    url: "/aulas-html/circuitos-eletricos-corrente-eletrica.html",
+    data: "2026-10-21"
+  },
+  {
+    serie: "3",
+    tema: "Eletrodinâmica",
+    titulo: "Resistores — Resistência Elétrica e Lei de Ohm",
+    descricao: "Resistência elétrica: fatores que a influenciam, resistividade, Primeira Lei de Ohm, gráficos U × i e resistores não ôhmicos. Aula interativa em slides, com laboratórios e exercícios.",
+    url: "/aulas-html/resistores-resistencia-eletrica.html",
+    data: "2026-10-21"
+  },
+  {
+    serie: "3",
+    tema: "Eletrodinâmica",
+    titulo: "Tipos de Resistores e Associação de Resistores",
+    descricao: "Tipos de resistores e associação em série, em paralelo e mista, com exemplos resolvidos, simulações e exercícios. Aula interativa em slides.",
+    url: "/aulas-html/tipos-associacao-resistores.html",
+    data: "2026-10-21"
   }
 ];
