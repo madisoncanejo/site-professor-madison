@@ -65,5 +65,13 @@ var LISTAS = [
     descricao: "40 questões sobre equação de estado, transformações isotérmica, isobárica e isovolumétrica, com correção imediata e resolução comentada. Marque suas respostas e gere um relatório completo de desempenho ao final.",
     url: "/listas-html/gases-transformacoes.html",
     data: "2026-09-28"
+  },
+  {
+    serie: "1",
+    tema: "Mecânica Celeste",
+    titulo: "Leis de Kepler e Gravitação — Lista Interativa",
+    descricao: "22 questões sobre as leis de Kepler, a gravitação universal e o movimento orbital, com correção por questão e relatório de acertos e erros.",
+    url: "/listas-html/kepler-gravitacao-lista.html",
+    data: "2026-10-22"
   }
 ];
