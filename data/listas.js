@@ -73,5 +73,13 @@ var LISTAS = [
     descricao: "22 questões sobre as leis de Kepler, a gravitação universal e o movimento orbital, com correção por questão e relatório de acertos e erros.",
     url: "/listas-html/kepler-gravitacao-lista.html",
     data: "2026-10-22"
+  },
+  {
+    serie: "1",
+    tema: "Mecânica Celeste",
+    titulo: "Gravitação Universal — Lista Interativa",
+    descricao: "40 questões sobre a gravitação universal, com correção por questão e relatório final de acertos e erros.",
+    url: "/listas-html/gravitacao-universal-lista.html",
+    data: "2026-10-23"
   }
 ];

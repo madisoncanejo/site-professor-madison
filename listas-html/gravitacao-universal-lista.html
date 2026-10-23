@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gravitação Universal — Lista Interativa | Professor Madison</title>
+<meta name="description" content="Lista interativa de Física sobre gravitação universal (1ª série do Ensino Médio), com 40 questões, correção por questão e relatório final de acertos e erros.">
+<link rel="icon" type="image/png" href="/assets/img/favicon.png">
+<link rel="stylesheet" href="/assets/css/style.css">
+<style>
+.lm-wrap{
+  color-scheme:dark;
+  --mdc-navy:#0D1B2A; --mdc-navy-2:#16314B; --mdc-green:#00C9A7; --mdc-green-soft:rgba(0,201,167,.12);
+  --bg:#08131F; --card:#0F2236; --card-2:#0D1B2A; --text:#DCE6F0; --ink:#FFFFFF; --muted:#9DB0C4;
+  --border:rgba(255,255,255,.12); --border-strong:rgba(255,255,255,.22);
+  --ok:#3DDC97; --bad:#FF8A80; --warn:#FFB84D;
+  --ok-soft:rgba(61,220,151,.12); --bad-soft:rgba(255,138,128,.12); --warn-soft:rgba(255,184,77,.12);
+  --shadow:0 18px 40px rgba(0,0,0,.35);
+}.lm-wrap, .lm-wrap *{box-sizing:border-box}@media (prefers-reduced-motion:reduce){}.lm-wrap{margin:0;background:var(--bg);color:var(--text);
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:1rem;line-height:1.65}.lm-wrap .wrap{max-width:1180px;margin:0 auto;padding:20px 16px 48px}.lm-wrap .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.lm-wrap :focus-visible{outline:3px solid var(--mdc-green);outline-offset:2px}.lm-wrap .brand-bar{background:linear-gradient(135deg,#0D1B2A 0%,#16314B 100%);color:#fff;border-radius:24px;padding:24px 28px;
+  border:1px solid var(--border);box-shadow:var(--shadow);display:flex;gap:28px;align-items:center;margin-bottom:18px}.lm-wrap .brand-logo-wrap{flex:0 0 auto;border-radius:18px;overflow:hidden;border:1px solid rgba(0,201,167,.35);line-height:0}.lm-wrap .gu-brand-logo{display:block;max-height:96px;width:auto;object-fit:contain}.lm-wrap .gu-brand-text{min-width:0}.lm-wrap .kicker{margin:0;color:var(--mdc-green);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.8rem}.lm-wrap .gu-brand-text h1{margin:4px 0 2px;font-size:clamp(1.5rem,3.4vw,2.2rem);line-height:1.2}.lm-wrap .gu-brand-text .sub{margin:0;color:#C9D6E4}.lm-wrap .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.lm-wrap .badge{display:inline-block;padding:4px 12px;border-radius:999px;font-size:.82rem;font-weight:600;
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);color:#fff}.lm-wrap .badge.green{background:var(--mdc-green-soft);border-color:rgba(0,201,167,.5);color:var(--mdc-green)}.lm-wrap .layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:start}.lm-wrap .col-main{grid-column:1;grid-row:1}.lm-wrap .sticky-summary{grid-column:2;grid-row:1;position:sticky;top:16px}.lm-wrap .sticky-summary .panel{max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(0,201,167,.5) transparent}.lm-wrap .sticky-summary .panel::-webkit-scrollbar{width:8px}.lm-wrap .sticky-summary .panel::-webkit-scrollbar-thumb{background:rgba(0,201,167,.45);border-radius:8px}.lm-wrap .panel{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:20px 24px;box-shadow:var(--shadow)}.lm-wrap .panel h2{margin:0 0 10px;font-size:1.05rem;color:var(--ink)}.lm-wrap .guide{margin-bottom:18px}.lm-wrap .guide h2{margin:0 0 8px;font-size:1.1rem;color:var(--ink)}.lm-wrap .guide ol{margin:0;padding-left:1.2rem}.lm-wrap .guide li{margin:4px 0}.lm-wrap .guide li::marker{color:var(--mdc-green);font-weight:700}.lm-wrap .guide strong{color:var(--ink)}.lm-wrap .guide .note{margin:12px 0 0;padding:10px 14px;border-radius:12px;background:var(--mdc-green-soft);border:1px solid rgba(0,201,167,.25);font-size:.92rem;color:#BFEFE6}.lm-wrap .score-big{display:flex;align-items:baseline;gap:8px;margin:2px 0 8px}.lm-wrap .score-big strong{font-size:2.3rem;line-height:1;color:var(--mdc-green)}.lm-wrap .score-big span{color:var(--muted);font-size:.9rem}.lm-wrap .bar{height:10px;border-radius:999px;background:rgba(255,255,255,.10);overflow:hidden;margin-bottom:14px}.lm-wrap .bar>i{display:block;height:100%;width:0;background:var(--mdc-green);transition:width .35s}.lm-wrap .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}.lm-wrap .stat{border:1px solid var(--border);border-radius:14px;padding:8px 12px;background:var(--card-2)}.lm-wrap .stat b{display:block;font-size:1.35rem;line-height:1.2;color:var(--ink)}.lm-wrap .stat span{font-size:.78rem;color:var(--muted)}.lm-wrap .stat.ok b{color:var(--ok)}.lm-wrap .stat.bad b{color:var(--bad)}.lm-wrap .stat.blank b{color:var(--warn)}.lm-wrap .gu-actions{display:grid;gap:10px}.lm-wrap .gu-btn{font:inherit;font-weight:700;border-radius:14px;padding:12px 16px;cursor:pointer;border:2px solid transparent;transition:transform .05s,background .15s,border-color .15s}.lm-wrap .gu-btn:active{transform:translateY(1px)}.lm-wrap .gu-btn-primary{background:var(--mdc-green);color:#06222B}.lm-wrap .gu-btn-primary:hover{background:#19DDBB}.lm-wrap .btn-secondary{background:var(--mdc-green-soft);color:var(--mdc-green);border-color:rgba(0,201,167,.55)}.lm-wrap .btn-secondary:hover:not(:disabled){background:rgba(0,201,167,.22)}.lm-wrap .btn-ghost{background:rgba(255,255,255,.06);color:#fff;border-color:var(--border-strong)}.lm-wrap .btn-ghost:hover{border-color:var(--mdc-green)}.lm-wrap .gu-btn:disabled{opacity:.45;cursor:not-allowed}.lm-wrap .helper{margin:10px 0 0;font-size:.8rem;color:var(--muted)}.lm-wrap .nav-title{margin:18px 0 8px;font-size:.85rem;font-weight:700;color:var(--ink)}.lm-wrap .nav-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px}.lm-wrap .nav-chip{display:block;text-align:center;padding:4px 0;border-radius:10px;border:1px solid var(--border);
+  font-size:.8rem;font-weight:700;color:var(--muted);text-decoration:none;background:var(--card-2)}.lm-wrap .nav-chip:hover{border-color:var(--mdc-green)}.lm-wrap .nav-chip.answered{border-color:rgba(0,201,167,.6);color:var(--mdc-green);background:var(--mdc-green-soft)}.lm-wrap .nav-chip.st-correct{background:var(--ok);border-color:var(--ok);color:#06281C}.lm-wrap .nav-chip.st-wrong{background:var(--bad);border-color:var(--bad);color:#3A0B07}.lm-wrap .nav-chip.st-blank{background:var(--warn);border-color:var(--warn);color:#3A2400}.lm-wrap .question-card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:24px;margin-bottom:18px;box-shadow:var(--shadow)}.lm-wrap .question-card.correct{border-color:rgba(61,220,151,.55)}.lm-wrap .question-card.incorrect{border-color:rgba(255,138,128,.5)}.lm-wrap .question-card.unanswered{border-color:rgba(255,184,77,.5)}.lm-wrap .q-head{display:flex;align-items:center;gap:14px;margin-bottom:12px}.lm-wrap .q-num{flex:0 0 auto;display:grid;place-items:center;width:46px;height:46px;border-radius:14px;
+  background:var(--mdc-green-soft);border:1px solid rgba(0,201,167,.45);color:var(--mdc-green);font-weight:800;font-size:1.05rem}.lm-wrap .q-title{display:flex;flex-direction:column;min-width:0;flex:1}.lm-wrap .q-label{font-weight:700;color:var(--ink)}.lm-wrap .q-tema{font-size:.82rem;color:var(--muted)}.lm-wrap .q-status{font-size:.8rem;font-weight:700;padding:3px 12px;border-radius:999px;white-space:nowrap;border:1px solid transparent}.lm-wrap .q-status.st-correct{background:var(--ok-soft);color:var(--ok);border-color:rgba(61,220,151,.4)}.lm-wrap .q-status.st-wrong{background:var(--bad-soft);color:var(--bad);border-color:rgba(255,138,128,.4)}.lm-wrap .q-status.st-blank{background:var(--warn-soft);color:var(--warn);border-color:rgba(255,184,77,.4)}.lm-wrap .stem{margin:0 0 12px;color:var(--text)}.lm-wrap .stem-after{margin-top:12px}.lm-wrap .question-figure{margin:18px 0;padding:16px;background:#FFFFFF;border:1px solid var(--border-strong);border-radius:18px}.lm-wrap .question-figure img{display:block;max-width:100%;height:auto;margin:0 auto}.lm-wrap fieldset{border:0;padding:0;margin:0;min-width:0}.lm-wrap .options{display:grid;gap:10px}.lm-wrap .option{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border:1px solid var(--border);border-radius:16px;background:var(--card-2);cursor:pointer;
+  transition:border-color .12s,background .12s}.lm-wrap .option:hover{border-color:rgba(0,201,167,.6)}.lm-wrap .option input{flex:0 0 auto;margin-top:.35rem;width:18px;height:18px;accent-color:var(--mdc-green)}.lm-wrap .option:has(input:checked){border-color:var(--mdc-green);background:var(--mdc-green-soft)}.lm-wrap .option:has(input:focus-visible){outline:3px solid var(--mdc-green);outline-offset:2px}.lm-wrap .opt-text{min-width:0}.lm-wrap .opt-text strong{color:var(--ink)}.lm-wrap .formula .opt-text{display:flex;align-items:center;gap:8px}.lm-wrap .option.chosen-ok{border-color:var(--ok);background:var(--ok-soft)}.lm-wrap .option.chosen-bad{border-color:var(--bad);background:var(--bad-soft)}.lm-wrap .locked .option{cursor:default}.lm-wrap .sum-live{margin:12px 0 0;font-weight:700;color:var(--ink)}.lm-wrap .sum-live output{display:inline-block;min-width:2ch;padding:0 8px;border-radius:8px;background:var(--mdc-green-soft);color:var(--mdc-green)}.lm-wrap .numeric label{font-weight:700;color:var(--ink);display:block;margin-bottom:6px}.lm-wrap .numeric-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.lm-wrap .numeric input{font:inherit;padding:12px 14px;border:1px solid var(--border-strong);border-radius:14px;width:min(260px,100%);background:var(--card-2);color:#fff}.lm-wrap .numeric input::placeholder{color:var(--muted)}.lm-wrap .numeric input:focus{border-color:var(--mdc-green);outline:3px solid var(--mdc-green-soft)}.lm-wrap .numeric input.chosen-ok{border-color:var(--ok);background:var(--ok-soft)}.lm-wrap .numeric input.chosen-bad{border-color:var(--bad);background:var(--bad-soft)}.lm-wrap .numeric input:disabled{opacity:1;color:#fff}.lm-wrap .unit{color:var(--muted);font-weight:600}.lm-wrap .hint{margin:8px 0 0;font-size:.85rem;color:var(--muted)}.lm-wrap .answer-box{display:none;margin-top:16px;border:1px solid var(--border);border-radius:16px;background:var(--card-2)}.lm-wrap body.corrected .answer-box{display:block}.lm-wrap .answer-box summary{cursor:pointer;padding:12px 16px;font-weight:700;color:var(--mdc-green);border-radius:16px}.lm-wrap .answer-box[open] summary{border-bottom:1px solid var(--border);border-radius:16px 16px 0 0}.lm-wrap .answer-content{padding:14px 16px 16px}.lm-wrap .ans-line{margin:0 0 8px}.lm-wrap .ans-label{display:inline-block;margin-right:8px;padding:2px 10px;border-radius:999px;background:var(--mdc-green-soft);border:1px solid rgba(0,201,167,.4);color:var(--mdc-green);font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}.lm-wrap .ans-line strong{color:var(--ink)}.lm-wrap .expl{color:var(--text)}.lm-wrap .expl strong{color:var(--ink)}.lm-wrap .item-review{margin:0 0 8px;padding-left:1.1rem}.lm-wrap .item-review li{margin:4px 0}.lm-wrap .report{display:none;margin-top:8px}.lm-wrap body.corrected .report{display:block}.lm-wrap .report h2{margin:0 0 4px;color:var(--ink)}.lm-wrap .report .gu-lead{margin:0 0 14px;color:var(--muted)}.lm-wrap .report-top{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:16px}.lm-wrap .report-top .stat b{font-size:1.6rem}.lm-wrap .report-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}.lm-wrap .report-list li a{display:flex;justify-content:space-between;gap:8px;padding:9px 14px;border-radius:12px;text-decoration:none;font-weight:600;font-size:.92rem;border:1px solid}.lm-wrap .report-list .st-correct a{color:var(--ok);background:var(--ok-soft);border-color:rgba(61,220,151,.4)}.lm-wrap .report-list .st-wrong a{color:var(--bad);background:var(--bad-soft);border-color:rgba(255,138,128,.4)}.lm-wrap .report-list .st-blank a{color:var(--warn);background:var(--warn-soft);border-color:rgba(255,184,77,.4)}.lm-wrap .report-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.lm-wrap .frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;line-height:1.3}.lm-wrap .frac>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .35em 1px}.lm-wrap .frac>span:last-child{padding:1px .35em 0}.lm-wrap .rad{display:inline-flex;align-items:stretch}.lm-wrap .rad-sign{font-size:1.7em;line-height:1;align-self:center;margin-right:1px}.lm-wrap .rad-body{border-top:1.5px solid currentColor;padding:2px 5px 0}.lm-wrap sub,.lm-wrap sup{line-height:0}.lm-wrap footer{margin-top:28px;text-align:center;color:var(--muted);font-size:.85rem}.lm-wrap footer strong{color:var(--mdc-green)}.lm-wrap footer .src{display:block;margin-top:4px;font-size:.78rem}@media (max-width:980px){.lm-wrap .layout{grid-template-columns:1fr}.lm-wrap .col-main,.lm-wrap .sticky-summary{grid-column:1;grid-row:auto}.lm-wrap .sticky-summary{position:static;order:-1}.lm-wrap .sticky-summary .panel{max-height:none;overflow:visible}.lm-wrap .brand-bar{flex-direction:column;align-items:flex-start;padding:20px}}@media (max-width:560px){.lm-wrap .question-card{padding:18px 16px}.lm-wrap .panel{padding:18px 16px}.lm-wrap .option{padding:12px}.lm-wrap .q-status{font-size:.72rem;padding:2px 8px}}
+.lm-wrap .q-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.lm-wrap .btn-check{background:linear-gradient(120deg,#00C9A7,#10b3c4);color:#04231b;border:0;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer}
+.lm-wrap .btn-clear{background:transparent;color:#9DB0C4;border:1px solid #2a4a63;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer}
+.lm-wrap .btn-clear:hover{color:#fff;border-color:#9DB0C4}
+</style>
+</head>
+<body data-active="listas">
+<header class="site-header" id="site-header"></header>
+<div class="lm-wrap">
+<div class="wrap">
+
+<header class="brand-bar">
+  <div class="brand-logo-wrap"><img class="gu-brand-logo" src="/listas-html/img/gravitacao-universal-lista/logo.png" alt="Professor Madison"></div>
+  <div class="gu-brand-text">
+    <p class="kicker">Professor Madison • MDC</p>
+    <h1>Gravitação Universal</h1>
+    <p class="sub">Lista de exercícios interativa de Física</p>
+    <div class="badges">
+      <span class="badge">Física</span>
+      <span class="badge">Ensino Médio • EJA</span>
+      <span class="badge">40 questões</span>
+      <span class="badge green">Material interativo</span>
+      <span class="badge green">MDC</span>
+    </div>
+  </div>
+</header>
+
+<section class="panel guide" aria-labelledby="como-usar">
+  <h2 id="como-usar">Como usar esta lista</h2>
+  <ol>
+    <li><strong>Resolva no caderno</strong> e depois marque sua resposta aqui.</li>
+    <li><strong>Responda:</strong> clique na alternativa, marque os itens corretos nas questões de somatório ou digite o valor nas questões numéricas.</li>
+    <li>Clique em <strong>Verificar resposta</strong> em cada questão para conferir uma de cada vez, ou em <strong>Corrigir lista</strong> para corrigir tudo ao final.</li>
+    <li>Veja seu <strong>relatório</strong> (acertos, erros, não respondidas e percentual) e consulte o <strong>gabarito comentado</strong> de cada questão.</li>
+    <li>Quer tentar de novo? Use <strong>Limpar resposta</strong> numa questão ou <strong>Refazer lista</strong> para apagar tudo.</li>
+  </ol>
+  <p class="note">A numeração segue a lista original. As questões discursivas de cálculo não fazem parte desta versão interativa. Nas questões numéricas, vírgula ou ponto valem como separador decimal.</p>
+</section>
+
+<div class="layout">
+
+<aside class="sticky-summary" aria-label="Painel de desempenho">
+  <div class="panel">
+    <h2>Painel de desempenho</h2>
+    <div class="score-big"><strong id="score-big">0/40</strong><span id="score-label">respondidas de 40</span></div>
+    <div class="bar" aria-hidden="true"><i id="bar-fill"></i></div>
+    <div class="stats">
+      <div class="stat"><b id="st-answered">0</b><span>Respondidas</span></div>
+      <div class="stat blank"><b id="st-blank">40</b><span>Não respondidas</span></div>
+      <div class="stat ok"><b id="st-ok">0</b><span>Acertos</span></div>
+      <div class="stat bad"><b id="st-bad">0</b><span>Erros</span></div>
+    </div>
+    <div class="gu-actions">
+      <button type="button" class="gu-btn gu-btn-primary" id="btn-correct">Corrigir lista</button>
+      <button type="button" class="gu-btn btn-secondary" id="btn-all" disabled>Mostrar todos os gabaritos</button>
+      <button type="button" class="gu-btn btn-ghost js-reset">Refazer lista</button>
+    </div>
+    <p class="helper" id="all-helper">Os gabaritos comentados são liberados depois que você corrige a lista.</p>
+    <p class="nav-title">Ir para a questão</p>
+    <nav class="nav-grid" aria-label="Navegação entre questões"><a class="nav-chip" href="#q1" data-nav="1" aria-label="Ir para a questão 1">01</a><a class="nav-chip" href="#q2" data-nav="2" aria-label="Ir para a questão 2">02</a><a class="nav-chip" href="#q3" data-nav="3" aria-label="Ir para a questão 3">03</a><a class="nav-chip" href="#q4" data-nav="4" aria-label="Ir para a questão 4">04</a><a class="nav-chip" href="#q5" data-nav="5" aria-label="Ir para a questão 5">05</a><a class="nav-chip" href="#q6" data-nav="6" aria-label="Ir para a questão 6">06</a><a class="nav-chip" href="#q7" data-nav="7" aria-label="Ir para a questão 7">07</a><a class="nav-chip" href="#q8" data-nav="8" aria-label="Ir para a questão 8">08</a><a class="nav-chip" href="#q9" data-nav="9" aria-label="Ir para a questão 9">09</a><a class="nav-chip" href="#q11" data-nav="11" aria-label="Ir para a questão 11">11</a><a class="nav-chip" href="#q12" data-nav="12" aria-label="Ir para a questão 12">12</a><a class="nav-chip" href="#q13" data-nav="13" aria-label="Ir para a questão 13">13</a><a class="nav-chip" href="#q14" data-nav="14" aria-label="Ir para a questão 14">14</a><a class="nav-chip" href="#q15" data-nav="15" aria-label="Ir para a questão 15">15</a><a class="nav-chip" href="#q16" data-nav="16" aria-label="Ir para a questão 16">16</a><a class="nav-chip" href="#q17" data-nav="17" aria-label="Ir para a questão 17">17</a><a class="nav-chip" href="#q18" data-nav="18" aria-label="Ir para a questão 18">18</a><a class="nav-chip" href="#q19" data-nav="19" aria-label="Ir para a questão 19">19</a><a class="nav-chip" href="#q22" data-nav="22" aria-label="Ir para a questão 22">22</a><a class="nav-chip" href="#q23" data-nav="23" aria-label="Ir para a questão 23">23</a><a class="nav-chip" href="#q24" data-nav="24" aria-label="Ir para a questão 24">24</a><a class="nav-chip" href="#q25" data-nav="25" aria-label="Ir para a questão 25">25</a><a class="nav-chip" href="#q26" data-nav="26" aria-label="Ir para a questão 26">26</a><a class="nav-chip" href="#q28" data-nav="28" aria-label="Ir para a questão 28">28</a><a class="nav-chip" href="#q30" data-nav="30" aria-label="Ir para a questão 30">30</a><a class="nav-chip" href="#q31" data-nav="31" aria-label="Ir para a questão 31">31</a><a class="nav-chip" href="#q32" data-nav="32" aria-label="Ir para a questão 32">32</a><a class="nav-chip" href="#q34" data-nav="34" aria-label="Ir para a questão 34">34</a><a class="nav-chip" href="#q35" data-nav="35" aria-label="Ir para a questão 35">35</a><a class="nav-chip" href="#q37" data-nav="37" aria-label="Ir para a questão 37">37</a><a class="nav-chip" href="#q39" data-nav="39" aria-label="Ir para a questão 39">39</a><a class="nav-chip" href="#q40" data-nav="40" aria-label="Ir para a questão 40">40</a><a class="nav-chip" href="#q41" data-nav="41" aria-label="Ir para a questão 41">41</a><a class="nav-chip" href="#q44" data-nav="44" aria-label="Ir para a questão 44">44</a><a class="nav-chip" href="#q45" data-nav="45" aria-label="Ir para a questão 45">45</a><a class="nav-chip" href="#q46" data-nav="46" aria-label="Ir para a questão 46">46</a><a class="nav-chip" href="#q47" data-nav="47" aria-label="Ir para a questão 47">47</a><a class="nav-chip" href="#q48" data-nav="48" aria-label="Ir para a questão 48">48</a><a class="nav-chip" href="#q49" data-nav="49" aria-label="Ir para a questão 49">49</a><a class="nav-chip" href="#q50" data-nav="50" aria-label="Ir para a questão 50">50</a></nav>
+  </div>
+</aside>
+
+<main class="col-main">
+
+<article class="question-card" id="q1" data-q="1">
+  <header class="q-head">
+    <span class="q-num">01</span>
+    <div class="q-title"><span class="q-label">Questão 01</span><span class="q-tema">Enunciado da lei</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">A lei da gravitação universal de Newton diz que:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 1</legend><label class="option"><input type="radio" name="q1" value="a"><span class="opt-text"><strong>a)</strong> os corpos se atraem na razão inversa de suas massas e na razão direta do quadrado de suas distâncias.</span></label><label class="option"><input type="radio" name="q1" value="b"><span class="opt-text"><strong>b)</strong> os corpos se atraem na razão direta de suas massas e na razão inversa do quadrado de suas distâncias.</span></label><label class="option"><input type="radio" name="q1" value="c"><span class="opt-text"><strong>c)</strong> os corpos se atraem na razão direta de suas massas e na razão inversa de suas distâncias.</span></label><label class="option"><input type="radio" name="q1" value="d"><span class="opt-text"><strong>d)</strong> os corpos se atraem na razão inversa de suas massas e na razão direta de suas distâncias.</span></label><label class="option"><input type="radio" name="q1" value="e"><span class="opt-text"><strong>e)</strong> os corpos se atraem na razão direta do quadrado de suas massas na razão</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(1)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(1)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>b)</strong></p>
+      <div class="expl">A lei de Newton é F = G·m<sub>1</sub>·m<sub>2</sub>/d². A força é <strong>diretamente proporcional ao produto das massas</strong> e <strong>inversamente proporcional ao quadrado da distância</strong> entre os centros dos corpos.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q2" data-q="2">
+  <header class="q-head">
+    <span class="q-num">02</span>
+    <div class="q-title"><span class="q-label">Questão 02</span><span class="q-tema">Cálculo da força</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">A força de atração gravitacional entre dois corpos sobre a superfície da Terra é muito fraca quando comparada com a ação da própria Terra, podendo ser considerada desprezível. Se um bloco de concreto de massa 8,0 kg está a 2,0 m de um outro de massa 5,0 kg, a intensidade da força de atração gravitacional entre eles será, em newtons, igual a:<br>Dado: G = 6,7 · 10<sup>−11</sup> N m²/kg²</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 2</legend><label class="option"><input type="radio" name="q2" value="a"><span class="opt-text"><strong>a)</strong> 1,3 · 10<sup>−9</sup></span></label><label class="option"><input type="radio" name="q2" value="b"><span class="opt-text"><strong>b)</strong> 4,2 · 10<sup>−9</sup></span></label><label class="option"><input type="radio" name="q2" value="c"><span class="opt-text"><strong>c)</strong> 6,7 · 10<sup>−10</sup></span></label><label class="option"><input type="radio" name="q2" value="d"><span class="opt-text"><strong>d)</strong> 7,8 · 10<sup>−10</sup></span></label><label class="option"><input type="radio" name="q2" value="e"><span class="opt-text"><strong>e)</strong> 9,3 · 10<sup>−11</sup></span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(2)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(2)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>c)</strong></p>
+      <div class="expl">F = G·m<sub>1</sub>·m<sub>2</sub>/d² = 6,7·10<sup>−11</sup> · (8,0 · 5,0)/(2,0)² = 6,7·10<sup>−11</sup> · 10 = <strong>6,7·10<sup>−10</sup> N</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q3" data-q="3">
+  <header class="q-head">
+    <span class="q-num">03</span>
+    <div class="q-title"><span class="q-label">Questão 03</span><span class="q-tema">Ordem de grandeza</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">A força de atração gravitacional entre um rapaz de massa 70 kg que se encontra a 10 m de uma jovem de massa 50 kg é, aproximadamente:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 3</legend><label class="option"><input type="radio" name="q3" value="a"><span class="opt-text"><strong>a)</strong> 8,7 · 10<sup>−8</sup> N</span></label><label class="option"><input type="radio" name="q3" value="b"><span class="opt-text"><strong>b)</strong> 2,3 · 10<sup>−11</sup> N</span></label><label class="option"><input type="radio" name="q3" value="c"><span class="opt-text"><strong>c)</strong> 2,3 · 10<sup>−9</sup> N</span></label><label class="option"><input type="radio" name="q3" value="d"><span class="opt-text"><strong>d)</strong> 2,3 · 10<sup>−12</sup> N</span></label><label class="option"><input type="radio" name="q3" value="e"><span class="opt-text"><strong>e)</strong> 6,7 · 10<sup>−9</sup> N</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(3)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(3)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>c)</strong></p>
+      <div class="expl">Com G = 6,7·10<sup>−11</sup> N·m²/kg²: F = G·(70·50)/10² = 6,7·10<sup>−11</sup> · 35 ≈ <strong>2,3·10<sup>−9</sup> N</strong>. É uma força minúscula, por isso não percebemos a atração entre pessoas.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q4" data-q="4">
+  <header class="q-head">
+    <span class="q-num">04</span>
+    <div class="q-title"><span class="q-label">Questão 04</span><span class="q-tema">Equilíbrio entre forças</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Dois corpos A e B, de massa 16M e M, respectivamente, encontram-se no vácuo e estão separados por uma certa distância. Observa-se que um outro corpo, de massa M, fica em repouso quando colocado no ponto P, conforme a figura. A razão x/y entre as distâncias indicadas é igual a:</div>
+<figure class="question-figure"><img src="/listas-html/img/gravitacao-universal-lista/q4.png" alt="Corpo A (grande) e corpo B (pequeno) alinhados, com o ponto P entre eles; x é a distância de A até P e y é a distância de P até B."></figure>
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 4</legend><label class="option"><input type="radio" name="q4" value="a"><span class="opt-text"><strong>a)</strong> 2</span></label><label class="option"><input type="radio" name="q4" value="b"><span class="opt-text"><strong>b)</strong> 4</span></label><label class="option"><input type="radio" name="q4" value="c"><span class="opt-text"><strong>c)</strong> 6</span></label><label class="option"><input type="radio" name="q4" value="d"><span class="opt-text"><strong>d)</strong> 8</span></label><label class="option"><input type="radio" name="q4" value="e"><span class="opt-text"><strong>e)</strong> 16</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(4)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(4)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>b)</strong></p>
+      <div class="expl">Em P as forças de A e B sobre o corpo de massa M se equilibram: G·16M·M/x² = G·M·M/y². Simplificando: 16/x² = 1/y², logo x²/y² = 16 e <strong>x/y = 4</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q5" data-q="5">
+  <header class="q-head">
+    <span class="q-num">05</span>
+    <div class="q-title"><span class="q-label">Questão 05</span><span class="q-tema">Proporcionalidades</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Seja F a força de atração do Sol sobre um planeta. Se a massa do Sol se tornasse três vezes maior, a do planeta, cinco vezes maior, e a distância entre eles fosse reduzida à metade, a força de atração entre o Sol e o planeta passaria a ser:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 5</legend><label class="option"><input type="radio" name="q5" value="a"><span class="opt-text"><strong>a)</strong> 3F</span></label><label class="option"><input type="radio" name="q5" value="b"><span class="opt-text"><strong>b)</strong> 15F</span></label><label class="option"><input type="radio" name="q5" value="c"><span class="opt-text"><strong>c)</strong> 7,5F</span></label><label class="option"><input type="radio" name="q5" value="d"><span class="opt-text"><strong>d)</strong> 60F</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(5)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(5)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>d)</strong></p>
+      <div class="expl">As massas multiplicam a força por 3 · 5 = 15. A distância pela metade multiplica por (1/(1/2))² = 4. Total: 15 · 4 = <strong>60F</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q6" data-q="6">
+  <header class="q-head">
+    <span class="q-num">06</span>
+    <div class="q-title"><span class="q-label">Questão 06</span><span class="q-tema">Cálculo da força</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Qual é a força de atração gravitacional entre duas massas de 100 kg cada uma, distantes 1 metro uma da outra?<br>(Considere G igual a 6,7 · 10<sup>−11</sup> Nm²/kg²)</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 6</legend><label class="option"><input type="radio" name="q6" value="a"><span class="opt-text"><strong>a)</strong> 10<sup>4</sup> N</span></label><label class="option"><input type="radio" name="q6" value="b"><span class="opt-text"><strong>b)</strong> 10<sup>2</sup> N</span></label><label class="option"><input type="radio" name="q6" value="c"><span class="opt-text"><strong>c)</strong> 6,7 N</span></label><label class="option"><input type="radio" name="q6" value="d"><span class="opt-text"><strong>d)</strong> 6,7 · 10<sup>−9</sup> N</span></label><label class="option"><input type="radio" name="q6" value="e"><span class="opt-text"><strong>e)</strong> 6,7 · 10<sup>−7</sup> N</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(6)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(6)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>e)</strong></p>
+      <div class="expl">F = G·m<sub>1</sub>·m<sub>2</sub>/d² = 6,7·10<sup>−11</sup> · (100·100)/1² = 6,7·10<sup>−11</sup> · 10<sup>4</sup> = <strong>6,7·10<sup>−7</sup> N</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q7" data-q="7">
+  <header class="q-head">
+    <span class="q-num">07</span>
+    <div class="q-title"><span class="q-label">Questão 07</span><span class="q-tema">Gráfico F × d</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Dois corpos atraem-se com força gravitacional que varia com a distância entre seus centros de massas, conforme o gráfico abaixo. O valor de F assinalado no gráfico é:</div>
+<figure class="question-figure"><img src="/listas-html/img/gravitacao-universal-lista/q7.png" alt="Gráfico da força F, em 10⁻¹⁰ N, em função da distância d, em cm: a curva decresce; em d = 2 cm a força vale F e em d = 6 cm vale 5."></figure>
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 7</legend><label class="option"><input type="radio" name="q7" value="a"><span class="opt-text"><strong>a)</strong> 3</span></label><label class="option"><input type="radio" name="q7" value="b"><span class="opt-text"><strong>b)</strong> 12</span></label><label class="option"><input type="radio" name="q7" value="c"><span class="opt-text"><strong>c)</strong> 30</span></label><label class="option"><input type="radio" name="q7" value="d"><span class="opt-text"><strong>d)</strong> 36</span></label><label class="option"><input type="radio" name="q7" value="e"><span class="opt-text"><strong>e)</strong> 45</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(7)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(7)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>e)</strong></p>
+      <div class="expl">A força é inversamente proporcional a d². Ao passar de d = 2 cm para d = 6 cm, a distância triplica e a força cai para 1/9. Então F = 9 · 5 = <strong>45</strong> (em 10<sup>−10</sup> N).</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q8" data-q="8">
+  <header class="q-head">
+    <span class="q-num">08</span>
+    <div class="q-title"><span class="q-label">Questão 08</span><span class="q-tema">Variação com a distância</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">A força gravitacional é uma força que atua sobre dois corpos quaisquer e depende de suas massas e da distância entre eles. Entre a Terra e a Lua existe, portanto, uma força gravitacional. Se a distância da Lua à Terra caísse à metade, a força gravitacional seria:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 8</legend><label class="option"><input type="radio" name="q8" value="a"><span class="opt-text"><strong>a)</strong> quatro vezes maior.</span></label><label class="option"><input type="radio" name="q8" value="b"><span class="opt-text"><strong>b)</strong> duas vezes maior.</span></label><label class="option"><input type="radio" name="q8" value="c"><span class="opt-text"><strong>c)</strong> quatro vezes menor.</span></label><label class="option"><input type="radio" name="q8" value="d"><span class="opt-text"><strong>d)</strong> duas vezes menor.</span></label><label class="option"><input type="radio" name="q8" value="e"><span class="opt-text"><strong>e)</strong> igual.</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(8)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(8)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>a)</strong></p>
+      <div class="expl">Como F ∝ 1/d², reduzir a distância à metade multiplica a força por 2² = <strong>4</strong>: a força fica quatro vezes maior.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q9" data-q="9">
+  <header class="q-head">
+    <span class="q-num">09</span>
+    <div class="q-title"><span class="q-label">Questão 09</span><span class="q-tema">Proporcionalidades</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">A força gravitacional entre um satélite e a Terra é F. Se a massa desse satélite fosse quadruplicada e a distância entre o satélite e o centro da Terra aumentasse duas vezes, o valor da força gravitacional seria</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 9</legend><label class="option"><input type="radio" name="q9" value="a"><span class="opt-text"><strong>a)</strong> F/4</span></label><label class="option"><input type="radio" name="q9" value="b"><span class="opt-text"><strong>b)</strong> F/2</span></label><label class="option"><input type="radio" name="q9" value="c"><span class="opt-text"><strong>c)</strong> 3F/4</span></label><label class="option"><input type="radio" name="q9" value="d"><span class="opt-text"><strong>d)</strong> F</span></label><label class="option"><input type="radio" name="q9" value="e"><span class="opt-text"><strong>e)</strong> 2F</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(9)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(9)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>d)</strong></p>
+      <div class="expl">A massa quadruplicada multiplica a força por 4; a distância dobrada divide por 2² = 4. O efeito se cancela: a força continua <strong>F</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q11" data-q="11">
+  <header class="q-head">
+    <span class="q-num">11</span>
+    <div class="q-title"><span class="q-label">Questão 11</span><span class="q-tema">Proporcionalidades</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Dois astros celestes têm massas M e m. Quando distanciados de d, atraem-se com força de intensidade F. Dobrando-se suas massas e reduzindo-se de 1/4 a distância entre seus centros de massa, passarão a se atrair com uma força de intensidade F’ mais próxima de:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 11</legend><label class="option"><input type="radio" name="q11" value="a"><span class="opt-text"><strong>a)</strong> 7 F</span></label><label class="option"><input type="radio" name="q11" value="b"><span class="opt-text"><strong>b)</strong> 6 F</span></label><label class="option"><input type="radio" name="q11" value="c"><span class="opt-text"><strong>c)</strong> 5 F</span></label><label class="option"><input type="radio" name="q11" value="d"><span class="opt-text"><strong>d)</strong> 4 F</span></label><label class="option"><input type="radio" name="q11" value="e"><span class="opt-text"><strong>e)</strong> 3 F</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(11)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(11)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>a)</strong></p>
+      <div class="expl">Dobrar as duas massas multiplica a força por 2 · 2 = 4. Reduzir a distância de 1/4 deixa-a em 3d/4, e a força é multiplicada por (4/3)² = 16/9. Então F’ = 4 · 16/9 · F ≈ 7,1F, <strong>mais próxima de 7F</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q12" data-q="12">
+  <header class="q-head">
+    <span class="q-num">12</span>
+    <div class="q-title"><span class="q-label">Questão 12</span><span class="q-tema">Peso com a altitude</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Um foguete elevou-se a uma temperatura h = 0,1 R da superfície terrestre; o raio da Terra é R. Em que proporção variou o peso do corpo do foguete em comparação com o seu peso na superfície terrestre?</div>
+
+<div class="numeric"><label for="n12">Sua resposta</label><div class="numeric-row"><input type="text" id="n12" name="q12" inputmode="decimal" autocomplete="off" placeholder="Digite o valor" spellcheck="false"><span class="unit">(razão P’/P)</span></div><p class="hint">Responda com a razão entre o peso final e o peso na superfície (decimal ou fração, por exemplo 0,83 ou 1/1,21).</p></div>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(12)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(12)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> <strong>≈ 0,83 (= 1/1,21)</strong></p>
+      <div class="expl">A distância ao centro da Terra passa de R para R + 0,1R = 1,1R. Como o peso é proporcional a 1/d², P’/P = 1/(1,1)² = <strong>1/1,21 ≈ 0,83</strong>. O peso cai para cerca de 83% do valor na superfície.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q13" data-q="13">
+  <header class="q-head">
+    <span class="q-num">13</span>
+    <div class="q-title"><span class="q-label">Questão 13</span><span class="q-tema">Peso com a altitude</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">A Estação Espacial Internacional, que está sendo construída num esforço conjunto de diversos países, deverá orbitar a uma distância do centro da Terra igual a 1,05 do raio médio da Terra. A razão R = Fe / F, entre a força Fe com que a Terra atrai um corpo nessa Estação e a força F com que a Terra atrai o mesmo corpo na superfície da Terra, é aproximadamente de:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 13</legend><label class="option"><input type="radio" name="q13" value="a"><span class="opt-text"><strong>a)</strong> 0,02</span></label><label class="option"><input type="radio" name="q13" value="b"><span class="opt-text"><strong>b)</strong> 0,05</span></label><label class="option"><input type="radio" name="q13" value="c"><span class="opt-text"><strong>c)</strong> 0,10</span></label><label class="option"><input type="radio" name="q13" value="d"><span class="opt-text"><strong>d)</strong> 0,50</span></label><label class="option"><input type="radio" name="q13" value="e"><span class="opt-text"><strong>e)</strong> 0,90</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(13)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(13)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>e)</strong></p>
+      <div class="expl">Fe/F = (R<sub>T</sub>/1,05R<sub>T</sub>)² = 1/1,1025 ≈ <strong>0,91</strong>, valor mais próximo de 0,90. A gravidade na altura da Estação ainda é cerca de 90% da gravidade na superfície.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q14" data-q="14">
+  <header class="q-head">
+    <span class="q-num">14</span>
+    <div class="q-title"><span class="q-label">Questão 14</span><span class="q-tema">Sol e planetas</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">No sistema solar, o planeta Saturno tem massa cerca de 100 vezes maior do que a da Terra e descreve uma órbita, em torno do Sol, a uma distância média 10 vezes maior do que a distância média da Terra ao Sol (valores aproximados). A razão F<sub>S</sub>/F<sub>T</sub> entre a intensidade da força gravitacional com que o Sol atrai Saturno e a intensidade da força gravitacional com que o Sol atrai a Terra, é de, aproximadamente:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 14</legend><label class="option"><input type="radio" name="q14" value="a"><span class="opt-text"><strong>a)</strong> 1.000</span></label><label class="option"><input type="radio" name="q14" value="b"><span class="opt-text"><strong>b)</strong> 10</span></label><label class="option"><input type="radio" name="q14" value="c"><span class="opt-text"><strong>c)</strong> 1</span></label><label class="option"><input type="radio" name="q14" value="d"><span class="opt-text"><strong>d)</strong> 0,1</span></label><label class="option"><input type="radio" name="q14" value="e"><span class="opt-text"><strong>e)</strong> 0,001</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(14)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(14)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>c)</strong></p>
+      <div class="expl">A massa 100 vezes maior multiplica a força por 100; a distância 10 vezes maior divide por 10² = 100. Logo F<sub>S</sub>/F<sub>T</sub> = 100/100 = <strong>1</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q15" data-q="15">
+  <header class="q-head">
+    <span class="q-num">15</span>
+    <div class="q-title"><span class="q-label">Questão 15</span><span class="q-tema">Sol e planetas</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Um planeta imaginário, Terra Mirim, tem a metade da massa da Terra e move-se em torno do Sol em uma órbita igual à da Terra. A intensidade da força gravitacional entre o Sol e Terra Mirim é, em comparação à intensidade dessa força entre o Sol e a Terra,</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 15</legend><label class="option"><input type="radio" name="q15" value="a"><span class="opt-text"><strong>a)</strong> o quádruplo.</span></label><label class="option"><input type="radio" name="q15" value="b"><span class="opt-text"><strong>b)</strong> o dobro.</span></label><label class="option"><input type="radio" name="q15" value="c"><span class="opt-text"><strong>c)</strong> a metade.</span></label><label class="option"><input type="radio" name="q15" value="d"><span class="opt-text"><strong>d)</strong> um quarto.</span></label><label class="option"><input type="radio" name="q15" value="e"><span class="opt-text"><strong>e)</strong> a mesma.</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(15)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(15)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>c)</strong></p>
+      <div class="expl">Com a mesma distância ao Sol, a força é diretamente proporcional à massa do planeta. Metade da massa significa <strong>metade da força</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q16" data-q="16">
+  <header class="q-head">
+    <span class="q-num">16</span>
+    <div class="q-title"><span class="q-label">Questão 16</span><span class="q-tema">Gráfico F × d</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">No diagrama, está representado o módulo da força (F) de atração gravitacional entre um planeta esférico e homogêneo e um corpo, em função da distância (d) entre o centro do corpo e a superfície do referido planeta. Qual é, em metros, o raio do planeta?</div>
+<figure class="question-figure"><img src="/listas-html/img/gravitacao-universal-lista/q16.png" alt="Gráfico da força F, em newtons, em função da distância d, em metros: a curva parte de 160 N em d = 0 e decresce até 10 N em d = 3.000 m."></figure>
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 16</legend><label class="option"><input type="radio" name="q16" value="a"><span class="opt-text"><strong>a)</strong> 3.000</span></label><label class="option"><input type="radio" name="q16" value="b"><span class="opt-text"><strong>b)</strong> 2.500</span></label><label class="option"><input type="radio" name="q16" value="c"><span class="opt-text"><strong>c)</strong> 2.000</span></label><label class="option"><input type="radio" name="q16" value="d"><span class="opt-text"><strong>d)</strong> 1.500</span></label><label class="option"><input type="radio" name="q16" value="e"><span class="opt-text"><strong>e)</strong> 1.000</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(16)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(16)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>e)</strong></p>
+      <div class="expl">A distância d é medida a partir da <em>superfície</em>; a distância ao centro é R + d. Em d = 0, F = 160 N (distância R). Em d = 3.000 m, F = 10 N (distância R + 3.000). Então 160/10 = ((R + 3.000)/R)² = 16, o que dá (R + 3.000)/R = 4 e <strong>R = 1.000 m</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q17" data-q="17">
+  <header class="q-head">
+    <span class="q-num">17</span>
+    <div class="q-title"><span class="q-label">Questão 17</span><span class="q-tema">Três corpos alinhados</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Em certo sistema planetário, alinham-se, num dado instante, um planeta, um asteróide e um satélite, como indica a figura.</div>
+<figure class="question-figure"><img src="/listas-html/img/gravitacao-universal-lista/q17.png" alt="Planeta de raio R, asteroide e satélite alinhados. A distância da superfície do planeta ao asteroide é 9R e a distância do asteroide ao satélite é 3R."></figure>
+<div class="stem stem-after">Sabendo-se que:<br>1. a massa do satélite é mil vezes menor que a massa do planeta;<br>2. o raio do satélite é muito menor que o raio R do planeta.<br>Determine a razão entre as forças gravitacionais exercidas pelo planeta e pelo satélite sobre o asteróide.</div>
+<div class="numeric"><label for="n17">Sua resposta</label><div class="numeric-row"><input type="text" id="n17" name="q17" inputmode="decimal" autocomplete="off" placeholder="Digite o valor" spellcheck="false"><span class="unit">(razão F<sub>planeta</sub>/F<sub>satélite</sub>)</span></div><p class="hint">Responda com o valor numérico da razão entre a força do planeta e a força do satélite sobre o asteroide.</p></div>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(17)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(17)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> <strong>90</strong></p>
+      <div class="expl">O asteroide está a 9R da superfície do planeta, ou seja, a 9R + R = 10R do <em>centro</em> do planeta, e a 3R do satélite. Sendo M a massa do planeta, F<sub>planeta</sub> = G·M·m/(10R)² e F<sub>satélite</sub> = G·(M/1000)·m/(3R)². Dividindo: (1/100)/(1/9.000) = <strong>90</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q18" data-q="18">
+  <header class="q-head">
+    <span class="q-num">18</span>
+    <div class="q-title"><span class="q-label">Questão 18</span><span class="q-tema">Peso com a altitude</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Um corpo de 6 kg encontra-se a uma altura igual ao dobro do raio terrestre. Considerando que na superfície terrestre a aceleração da gravidade seja de 10 m/s², o peso desse corpo na altura citada é de aproximadamente:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 18</legend><label class="option"><input type="radio" name="q18" value="a"><span class="opt-text"><strong>a)</strong> 60 N</span></label><label class="option"><input type="radio" name="q18" value="b"><span class="opt-text"><strong>b)</strong> 6,6 N</span></label><label class="option"><input type="radio" name="q18" value="c"><span class="opt-text"><strong>c)</strong> 600 N</span></label><label class="option"><input type="radio" name="q18" value="d"><span class="opt-text"><strong>d)</strong> 66,6 N</span></label><label class="option"><input type="radio" name="q18" value="e"><span class="opt-text"><strong>e)</strong> 60,6 N</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(18)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(18)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>b)</strong></p>
+      <div class="expl">A altura 2R<sub>T</sub> acima da superfície equivale a 3R<sub>T</sub> do centro, então g’ = 10/3² = 10/9 m/s². O peso é P = 6 · 10/9 ≈ 6,7 N, que corresponde à alternativa <strong>b (6,6 N)</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q19" data-q="19">
+  <header class="q-head">
+    <span class="q-num">19</span>
+    <div class="q-title"><span class="q-label">Questão 19</span><span class="q-tema">Gravidade em outros planetas</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Considere um planeta que tenha raio e massa duas vezes maiores que os da Terra. Se a aceleração da gravidade na superfície da Terra tem módulo igual a 10 m/s², na superfície daquele planeta ela terá módulo, em m/s², igual a:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 19</legend><label class="option"><input type="radio" name="q19" value="a"><span class="opt-text"><strong>a)</strong> 2,5</span></label><label class="option"><input type="radio" name="q19" value="b"><span class="opt-text"><strong>b)</strong> 5,0</span></label><label class="option"><input type="radio" name="q19" value="c"><span class="opt-text"><strong>c)</strong> 10,0</span></label><label class="option"><input type="radio" name="q19" value="d"><span class="opt-text"><strong>d)</strong> 15,0</span></label><label class="option"><input type="radio" name="q19" value="e"><span class="opt-text"><strong>e)</strong> 20,0</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(19)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(19)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>b)</strong></p>
+      <div class="expl">g = G·M/R². Com M’ = 2M e R’ = 2R: g’ = G·2M/(2R)² = (2/4)·g = g/2 = <strong>5,0 m/s²</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q22" data-q="22">
+  <header class="q-head">
+    <span class="q-num">22</span>
+    <div class="q-title"><span class="q-label">Questão 22</span><span class="q-tema">Peso em Júpiter</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Um homem na Terra pesa 1,00 · 10<sup>3</sup> N. Qual o seu peso em Júpiter sabendo-se que, comparado com a Terra, esse planeta tem massa 320 vezes maior e raio 11 vezes maior?</div>
+
+<div class="numeric"><label for="n22">Sua resposta</label><div class="numeric-row"><input type="text" id="n22" name="q22" inputmode="decimal" autocomplete="off" placeholder="Digite o valor" spellcheck="false"><span class="unit">N</span></div><p class="hint">Responda em newtons (pode digitar 2640 ou 2,64e3).</p></div>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(22)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(22)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> <strong>≈ 2,64 · 10<sup>3</sup> N</strong></p>
+      <div class="expl">g<sub>J</sub>/g<sub>T</sub> = (320 M)/(11 R)² · (R²/M) = 320/121 ≈ 2,64. O peso é multiplicado pelo mesmo fator: P = 1,00·10³ · 2,64 ≈ <strong>2,64·10³ N</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q23" data-q="23">
+  <header class="q-head">
+    <span class="q-num">23</span>
+    <div class="q-title"><span class="q-label">Questão 23</span><span class="q-tema">Campo gravitacional nulo</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">A massa da Terra é, aproximadamente, 81 vezes a massa da Lua. O raio da Terra é R e a distância do centro da Terra ao centro da Lua é de aproximadamente 60 R. A distância do centro da Terra em que o campo gravitacional dos astros Terra e Lua se anulam, em raios terrestres, vale:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 23</legend><label class="option"><input type="radio" name="q23" value="a"><span class="opt-text"><strong>a)</strong> 60 R</span></label><label class="option"><input type="radio" name="q23" value="b"><span class="opt-text"><strong>b)</strong> 54 R</span></label><label class="option"><input type="radio" name="q23" value="c"><span class="opt-text"><strong>c)</strong> 45 R</span></label><label class="option"><input type="radio" name="q23" value="d"><span class="opt-text"><strong>d)</strong> 30 R</span></label><label class="option"><input type="radio" name="q23" value="e"><span class="opt-text"><strong>e)</strong> 6 R</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(23)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(23)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>b)</strong></p>
+      <div class="expl">Seja x a distância ao centro da Terra. Os campos se anulam quando G·M<sub>T</sub>/x² = G·M<sub>L</sub>/(60R − x)². Com M<sub>T</sub> = 81M<sub>L</sub>, extraindo a raiz: 9/x = 1/(60R − x), então 540R − 9x = x e <strong>x = 54R</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q24" data-q="24">
+  <header class="q-head">
+    <span class="q-num">24</span>
+    <div class="q-title"><span class="q-label">Questão 24</span><span class="q-tema">Gravidade em outros planetas</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Um planeta tem massa igual ao triplo da massa da Terra e seu raio é o dobro do raio terrestre. Nesta condição, afirma-se que sua gravidade em relação à gravidade da Terra (g) é de:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 24</legend><label class="option"><input type="radio" name="q24" value="a"><span class="opt-text"><strong>a)</strong> 3 g</span></label><label class="option"><input type="radio" name="q24" value="b"><span class="opt-text"><strong>b)</strong> g</span></label><label class="option"><input type="radio" name="q24" value="c"><span class="opt-text"><strong>c)</strong> 3 g/2</span></label><label class="option"><input type="radio" name="q24" value="d"><span class="opt-text"><strong>d)</strong> 3 g/4</span></label><label class="option"><input type="radio" name="q24" value="e"><span class="opt-text"><strong>e)</strong> 3 g/8</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(24)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(24)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>d)</strong></p>
+      <div class="expl">g’ = G·3M/(2R)² = (3/4)·G·M/R² = <strong>3g/4</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q25" data-q="25">
+  <header class="q-head">
+    <span class="q-num">25</span>
+    <div class="q-title"><span class="q-label">Questão 25</span><span class="q-tema">Peso em Marte</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">A razão entre os diâmetros dos planetas Marte e Terra é 1/2 e aquela entre as respectivas massas é 1/10. Sendo 160 N o peso de um garoto na Terra, pode-se concluir que seu peso em Marte será: (Desprezar a aceleração centrípeta que age sobre o garoto.)</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 25</legend><label class="option"><input type="radio" name="q25" value="a"><span class="opt-text"><strong>a)</strong> 160 N</span></label><label class="option"><input type="radio" name="q25" value="b"><span class="opt-text"><strong>b)</strong> 80 N</span></label><label class="option"><input type="radio" name="q25" value="c"><span class="opt-text"><strong>c)</strong> 60 N</span></label><label class="option"><input type="radio" name="q25" value="d"><span class="opt-text"><strong>d)</strong> 32 N</span></label><label class="option"><input type="radio" name="q25" value="e"><span class="opt-text"><strong>e)</strong> 64 N</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(25)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(25)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>e)</strong></p>
+      <div class="expl">A razão entre os raios também é 1/2. Então g<sub>M</sub>/g<sub>T</sub> = (1/10)/(1/2)² = 4/10 = 0,4. O peso em Marte é 0,4 · 160 = <strong>64 N</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q26" data-q="26">
+  <header class="q-head">
+    <span class="q-num">26</span>
+    <div class="q-title"><span class="q-label">Questão 26</span><span class="q-tema">Gravidade na órbita da Lua</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">A distância do centro da Terra à Lua é, aproximadamente, 60 vezes o raio da Terra. Sendo g<sub>T</sub> o valor da aceleração da gravidade da Terra na sua superfície, a aceleração da gravidade da Terra num ponto da órbita da Lua será de, aproximadamente:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 26</legend><label class="option"><input type="radio" name="q26" value="a"><span class="opt-text"><strong>a)</strong> g<sub>T</sub>/60</span></label><label class="option"><input type="radio" name="q26" value="b"><span class="opt-text"><strong>b)</strong> g<sub>T</sub>/3.600</span></label><label class="option"><input type="radio" name="q26" value="c"><span class="opt-text"><strong>c)</strong> 60 g<sub>T</sub></span></label><label class="option"><input type="radio" name="q26" value="d"><span class="opt-text"><strong>d)</strong> g<sub>T</sub>/6</span></label><label class="option"><input type="radio" name="q26" value="e"><span class="opt-text"><strong>e)</strong> 6 g<sub>T</sub></span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(26)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(26)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>b)</strong></p>
+      <div class="expl">A gravidade cai com o quadrado da distância ao centro: g = g<sub>T</sub>/60² = <strong>g<sub>T</sub>/3.600</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q28" data-q="28">
+  <header class="q-head">
+    <span class="q-num">28</span>
+    <div class="q-title"><span class="q-label">Questão 28</span><span class="q-tema">Gravidade em órbita</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Um satélite artificial de 150 kg, na superfície da Terra, é colocado em órbita a uma altura equivalente a 1,5 R<sub>T</sub>. Determine, na órbita do satélite, a aceleração da gravidade.<br>Dados:<br>Aceleração da gravidade na superfície da Terra = 10 m/s²<br>R<sub>T</sub> = Raio da Terra</div>
+
+<div class="numeric"><label for="n28">Sua resposta</label><div class="numeric-row"><input type="text" id="n28" name="q28" inputmode="decimal" autocomplete="off" placeholder="Digite o valor" spellcheck="false"><span class="unit">m/s²</span></div><p class="hint">Responda em m/s².</p></div>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(28)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(28)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> <strong>1,6 m/s²</strong></p>
+      <div class="expl">Altura de 1,5R<sub>T</sub> acima da superfície significa distância de 2,5R<sub>T</sub> ao centro. Então g’ = 10/(2,5)² = 10/6,25 = <strong>1,6 m/s²</strong>. A massa do satélite não interfere.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q30" data-q="30">
+  <header class="q-head">
+    <span class="q-num">30</span>
+    <div class="q-title"><span class="q-label">Questão 30</span><span class="q-tema">Gráfico g × d</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">O gráfico da figura representa a aceleração da gravidade g da Terra em função da distância d ao seu centro. Considere uma situação hipotética em que o valor do raio R da Terra seja diminuído para R’, sendo R’ = 0,8R, e em que seja mantida (uniformemente) sua massa total. Nessas condições, os valores aproximados das acelerações da gravidade g<sub>1</sub> à distância R’ e g<sub>2</sub> à uma distância igual a R do centro da “Terra Hipotética” são, respectivamente,</div>
+<figure class="question-figure"><img src="/listas-html/img/gravitacao-universal-lista/q30.png" alt="Gráfico da aceleração da gravidade g, em m/s², em função da distância d ao centro da Terra, em 10⁶ m: g cresce linearmente até cerca de 10 m/s² na superfície e depois decresce com o inverso do quadrado da distância."></figure>
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 30</legend><label class="option"><input type="radio" name="q30" value="a"><span class="opt-text"><strong>a)</strong> g<sub>1</sub>(m/s²) = 10; g<sub>2</sub>(m/s²) = 10</span></label><label class="option"><input type="radio" name="q30" value="b"><span class="opt-text"><strong>b)</strong> g<sub>1</sub>(m/s²) = 8; g<sub>2</sub>(m/s²) = 6,4</span></label><label class="option"><input type="radio" name="q30" value="c"><span class="opt-text"><strong>c)</strong> g<sub>1</sub>(m/s²) = 6,4; g<sub>2</sub>(m/s²) = 4,1</span></label><label class="option"><input type="radio" name="q30" value="d"><span class="opt-text"><strong>d)</strong> g<sub>1</sub>(m/s²) = 12,5; g<sub>2</sub>(m/s²) = 10</span></label><label class="option"><input type="radio" name="q30" value="e"><span class="opt-text"><strong>e)</strong> g<sub>1</sub>(m/s²) = 15,6; g<sub>2</sub>(m/s²) = 10</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(30)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(30)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>e)</strong></p>
+      <div class="expl">Pelo gráfico, na superfície da Terra real g = 10 m/s². Com a mesma massa e raio R’ = 0,8R, g<sub>1</sub> = GM/R’² = 10/0,8² = 10/0,64 ≈ <strong>15,6 m/s²</strong>. Na distância R do centro (fora da Terra hipotética), a massa que atrai é a mesma de antes, então g<sub>2</sub> = <strong>10 m/s²</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q31" data-q="31">
+  <header class="q-head">
+    <span class="q-num">31</span>
+    <div class="q-title"><span class="q-label">Questão 31</span><span class="q-tema">Satélites em órbita</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Dois satélites, 1 e 2, giram em torno da Terra em órbitas circulares idênticas, sendo que m<sub>1</sub> > m<sub>2</sub>. Pode-se afirmar que:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 31</legend><label class="option"><input type="radio" name="q31" value="a"><span class="opt-text"><strong>a)</strong> a velocidade escalar de 1 é maior que a de 2.</span></label><label class="option"><input type="radio" name="q31" value="b"><span class="opt-text"><strong>b)</strong> o período de 1 é maior que o de 2.</span></label><label class="option"><input type="radio" name="q31" value="c"><span class="opt-text"><strong>c)</strong> a força de atração entre a Terra e os satélites 1 e 2 tem mesma intensidade.</span></label><label class="option"><input type="radio" name="q31" value="d"><span class="opt-text"><strong>d)</strong> as acelerações de 1 e 2 são diferentes.</span></label><label class="option"><input type="radio" name="q31" value="e"><span class="opt-text"><strong>e)</strong> as velocidades e os períodos de 1 e 2 são respectivamente iguais.</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(31)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(31)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>e)</strong></p>
+      <div class="expl">Em órbita circular, v = √(GM/r), T = 2π√(r³/GM) e a = GM/r². Nenhuma dessas grandezas depende da massa do satélite. Em órbitas idênticas, <strong>velocidades e períodos são iguais</strong> (e as acelerações também). Já a força de atração depende de m e, por isso, é maior sobre o satélite 1.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q32" data-q="32">
+  <header class="q-head">
+    <span class="q-num">32</span>
+    <div class="q-title"><span class="q-label">Questão 32</span><span class="q-tema">Velocidade angular orbital</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">A Terra gira em torno do Sol numa órbita que pode ser considerada circular, com a velocidade angular aproximadamente constante. Mantendo fixo o raio dessa órbita, mas imaginando que a massa do Sol fosse quatro vezes maior do que realmente é, a velocidade angular do movimento de translação da Terra seria:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 32</legend><label class="option"><input type="radio" name="q32" value="a"><span class="opt-text"><strong>a)</strong> duas vezes maior.</span></label><label class="option"><input type="radio" name="q32" value="b"><span class="opt-text"><strong>b)</strong> quatro vezes maior.</span></label><label class="option"><input type="radio" name="q32" value="c"><span class="opt-text"><strong>c)</strong> a mesma.</span></label><label class="option"><input type="radio" name="q32" value="d"><span class="opt-text"><strong>d)</strong> a metade.</span></label><label class="option"><input type="radio" name="q32" value="e"><span class="opt-text"><strong>e)</strong> nenhuma das anteriores.</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(32)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(32)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>a)</strong></p>
+      <div class="expl">A força gravitacional é a resultante centrípeta: G·M·m/r² = m·ω²·r, logo ω = √(GM/r³). Com M quadruplicada, ω é multiplicada por √4 = 2: <strong>duas vezes maior</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q34" data-q="34">
+  <header class="q-head">
+    <span class="q-num">34</span>
+    <div class="q-title"><span class="q-label">Questão 34</span><span class="q-tema">Massa dos astros</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Um satélite em órbita circular em torno da Lua tem período nove vezes maior que o de um satélite em órbita circular de mesmo raio em torno da Terra. Conclui-se que o valor da razão entre a massa da Terra e a massa da Lua é igual a:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 34</legend><label class="option"><input type="radio" name="q34" value="a"><span class="opt-text"><strong>a)</strong> 3</span></label><label class="option"><input type="radio" name="q34" value="b"><span class="opt-text"><strong>b)</strong> 9</span></label><label class="option"><input type="radio" name="q34" value="c"><span class="opt-text"><strong>c)</strong> 27</span></label><label class="option"><input type="radio" name="q34" value="d"><span class="opt-text"><strong>d)</strong> 81</span></label><label class="option"><input type="radio" name="q34" value="e"><span class="opt-text"><strong>e)</strong> 243</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(34)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(34)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>d)</strong></p>
+      <div class="expl">Para mesmo raio, T = 2π√(r³/GM), então T é proporcional a 1/√M. Se T<sub>Lua</sub> = 9·T<sub>Terra</sub>, então √(M<sub>T</sub>/M<sub>L</sub>) = 9 e <strong>M<sub>T</sub>/M<sub>L</sub> = 81</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q35" data-q="35">
+  <header class="q-head">
+    <span class="q-num">35</span>
+    <div class="q-title"><span class="q-label">Questão 35</span><span class="q-tema">Massa da Terra</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">A massa da Terra pode ser medida por meio de observações antronômicas. Isso pode ser feito sabendo-se que a Lua move-se em torno da Terra num período de 27 dias e está a uma distância média da Terra de 3,8 · 10<sup>5</sup> km. Considere que a constante gravitacional universal é igual a 6,7 · 10<sup>−11</sup> m³ s<sup>−2</sup> kg<sup>−1</sup>. Calculando, em kg, o valor da massa da Terra e expressando-o em notação científica, qual o valor do expoente da potência de dez?</div>
+
+<div class="numeric"><label for="n35">Sua resposta</label><div class="numeric-row"><input type="text" id="n35" name="q35" inputmode="decimal" autocomplete="off" placeholder="Digite o valor" spellcheck="false"><span class="unit">(expoente de 10)</span></div><p class="hint">Digite apenas o expoente (número inteiro).</p></div>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(35)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(35)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> <strong>24</strong></p>
+      <div class="expl">A atração da Terra é a resultante centrípeta da Lua: G·M·m/r² = m·(4π²/T²)·r, então M = 4π²r³/(G·T²). Com r = 3,8·10<sup>8</sup> m e T = 27 · 86.400 s ≈ 2,33·10<sup>6</sup> s, obtém-se M ≈ 6·10<sup>24</sup> kg. O expoente é <strong>24</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q37" data-q="37">
+  <header class="q-head">
+    <span class="q-num">37</span>
+    <div class="q-title"><span class="q-label">Questão 37</span><span class="q-tema">Somatório</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Dentre as alternativas a seguir, assinale o que for correto.</div>
+
+<fieldset class="options"><legend class="sr-only">Itens da questão 37</legend><label class="option"><input type="checkbox" class="sum-item" name="q37" value="1"><span class="opt-text"><strong>01.</strong> Um foguete não será mais atraído pela Terra quando ele chegar a regiões fora da atmosfera terrestre.</span></label><label class="option"><input type="checkbox" class="sum-item" name="q37" value="2"><span class="opt-text"><strong>02.</strong> Dois satélites, A e B, estão em uma mesma órbita circular em torno da Terra e possuem a mesma velocidade. Como a massa do satélite A é maior que a massa do satélite B (m<sub>A</sub> > m<sub>B</sub>), o período do satélite A é maior que o do satélite B.</span></label><label class="option"><input type="checkbox" class="sum-item" name="q37" value="4"><span class="opt-text"><strong>04.</strong> Se a velocidade angular do movimento de rotação de Júpiter é ω = (π/5) rad/h, ele gasta 10 horas para dar uma volta completa.</span></label><label class="option"><input type="checkbox" class="sum-item" name="q37" value="8"><span class="opt-text"><strong>08.</strong> Quando um satélite estacionário está em órbita, em torno do Sol, seu período é de 24 horas.</span></label><label class="option"><input type="checkbox" class="sum-item" name="q37" value="16"><span class="opt-text"><strong>16.</strong> O período de translação do planeta Vênus em torno do Sol é menor do que o período de translação da Terra em torno do Sol. Tendo em vista essa afirmação e supondo que as órbitas dos planetas são circulares, pode-se concluir, pelas leis de Kepler, que o raio da órbita de Vênus é menor do que o raio da órbita da Terra.</span></label><label class="option"><input type="checkbox" class="sum-item" name="q37" value="32"><span class="opt-text"><strong>32.</strong> Embora a Lua seja atraída pela Terra, ela não cai sobre nosso planeta porque há uma força centrífuga atuando na Lua, que equilibra a atração terrestre.</span></label><label class="option"><input type="checkbox" class="sum-item" name="q37" value="64"><span class="opt-text"><strong>64.</strong> Um estudante, consultando uma tabela, verificou que a distância do planeta Saturno ao Sol é cerca de 10 vezes maior do que a distância da Terra ao Sol. Ele chegou à conclusão de que a força que o do Sol exerce sobre Saturno é cerca de 100 vezes menor do que a força que o Sol exerce sobre a Terra.</span></label></fieldset><p class="stem stem-after">Some os itens corretos.</p><p class="sum-live" aria-live="polite">Soma atual dos itens marcados: <output id="sum-q37">0</output></p>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(37)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(37)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> soma = <strong>20</strong></p>
+      <div class="expl"><ul class='item-review'><li><strong>01 — Falso.</strong> A gravidade diminui com a distância, mas nunca se anula; a atração da Terra continua atuando fora da atmosfera.</li><li><strong>02 — Falso.</strong> Na mesma órbita, v e T independem da massa do satélite.</li><li><strong>04 — Verdadeiro.</strong> T = 2π/ω = 2π/(π/5) = 10 h.</li><li><strong>08 — Falso.</strong> “Estacionário” (24 h) vale para órbitas em torno da Terra, não do Sol.</li><li><strong>16 — Verdadeiro.</strong> Pela 3ª lei de Kepler, T² ∝ R³: menor período, menor raio.</li><li><strong>32 — Falso.</strong> Não existe “força centrífuga” atuando na Lua; a atração da Terra é a própria resultante centrípeta.</li><li><strong>64 — Falso.</strong> A massa de Saturno é cerca de 100 vezes maior e a distância 10 vezes maior (força ÷ 100); os efeitos se compensam e as forças têm a mesma ordem de grandeza.</li></ul>Soma dos corretos: 04 + 16 = <strong>20</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q39" data-q="39">
+  <header class="q-head">
+    <span class="q-num">39</span>
+    <div class="q-title"><span class="q-label">Questão 39</span><span class="q-tema">3ª lei de Kepler</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Um satélite artificial gira ao redor da Terra, em órbita circular de raio r, e o seu período de translação é T. Outro satélite é colocado em órbita numa trajetória circular de raio 4r. A massa do segundo satélite é o dobro daquela do primeiro satélite. O período de translação do segundo satélite é de:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 39</legend><label class="option"><input type="radio" name="q39" value="a"><span class="opt-text"><strong>a)</strong> T</span></label><label class="option"><input type="radio" name="q39" value="b"><span class="opt-text"><strong>b)</strong> 2T</span></label><label class="option"><input type="radio" name="q39" value="c"><span class="opt-text"><strong>c)</strong> 4T</span></label><label class="option"><input type="radio" name="q39" value="d"><span class="opt-text"><strong>d)</strong> 8T</span></label><label class="option"><input type="radio" name="q39" value="e"><span class="opt-text"><strong>e)</strong> T/4</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(39)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(39)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>d)</strong></p>
+      <div class="expl">Pela 3ª lei de Kepler, T² ∝ r³, ou seja, T ∝ r<sup>3/2</sup>. Com r’ = 4r: T’ = 4<sup>3/2</sup>·T = <strong>8T</strong>. A massa do satélite não interfere.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q40" data-q="40">
+  <header class="q-head">
+    <span class="q-num">40</span>
+    <div class="q-title"><span class="q-label">Questão 40</span><span class="q-tema">Velocidade orbital</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Um satélite artificial gira ao redor da Terra, em órbita circular de raio r, com velocidade de translação V. Outro satélite é colocado em órbita numa trajetória circular de raio 4r. A massa do segundo satélite é o dobro daquela do primeiro satélite. A velocidade de translação do segundo satélite vale:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 40</legend><label class="option"><input type="radio" name="q40" value="a"><span class="opt-text"><strong>a)</strong> V</span></label><label class="option"><input type="radio" name="q40" value="b"><span class="opt-text"><strong>b)</strong> 2V</span></label><label class="option"><input type="radio" name="q40" value="c"><span class="opt-text"><strong>c)</strong> V/2</span></label><label class="option"><input type="radio" name="q40" value="d"><span class="opt-text"><strong>d)</strong> V√2</span></label><label class="option"><input type="radio" name="q40" value="e"><span class="opt-text"><strong>e)</strong> V√4</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(40)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(40)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>c)</strong></p>
+      <div class="expl">Em órbita circular, v = √(GM/r), que não depende da massa do satélite. Com r’ = 4r: v’ = V/√4 = <strong>V/2</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q41" data-q="41">
+  <header class="q-head">
+    <span class="q-num">41</span>
+    <div class="q-title"><span class="q-label">Questão 41</span><span class="q-tema">Densidade do planeta</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">A constante de gravitação universal é G. O período de rotação de um planeta X é T. Sabe-se que no equador de X, mesmo um dinamômetro de alta sensibilidade mantém suspenso na vertical qualquer corpo de massa 1t acusando força zero. A densidade média do planeta X é:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 41</legend><label class="option"><input type="radio" name="q41" value="a"><span class="opt-text"><strong>a)</strong> π/GT</span></label><label class="option"><input type="radio" name="q41" value="b"><span class="opt-text"><strong>b)</strong> 4π/GT</span></label><label class="option"><input type="radio" name="q41" value="c"><span class="opt-text"><strong>c)</strong> 4π/3GT<sup>2</sup></span></label><label class="option"><input type="radio" name="q41" value="d"><span class="opt-text"><strong>d)</strong> 3π/GT<sup>2</sup></span></label><label class="option"><input type="radio" name="q41" value="e"><span class="opt-text"><strong>e)</strong> 3π/GT</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(41)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(41)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>d)</strong></p>
+      <div class="expl">Peso aparente nulo no equador significa que toda a atração gravitacional serve de força centrípeta: GM/R² = ω²R = 4π²R/T². Assim, M/R³ = 4π²/(G·T²). A densidade é ρ = M/(4πR³/3) = (3/4π) · 4π²/(G·T²) = <strong>3π/(G·T²)</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q44" data-q="44">
+  <header class="q-head">
+    <span class="q-num">44</span>
+    <div class="q-title"><span class="q-label">Questão 44</span><span class="q-tema">Estrela dupla</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Dois corpos celestes, de massas m<sub>1</sub> e m<sub>2</sub>, constituindo uma estrela dupla, interagem entre si como um sistema isolado no universo. Eles descrevem círculos de raios r<sub>1</sub> e r<sub>2</sub>, respectivamente. Sendo G a constante de gravitação, verifique a seguir qual é a velocidade angular dos dois corpos.</div>
+
+<fieldset class="options formula"><legend class="sr-only">Alternativas da questão 44</legend><label class="option"><input type="radio" name="q44" value="a"><span class="opt-text"><strong>a)</strong> <span class="rad"><span class="rad-sign">√</span><span class="rad-body"><span class="frac"><span>Gm<sub>2</sub></span><span>r<sub>2</sub>(r<sub>1</sub> + r<sub>2</sub>)<sup>2</sup></span></span></span></span></span></label><label class="option"><input type="radio" name="q44" value="b"><span class="opt-text"><strong>b)</strong> <span class="rad"><span class="rad-sign">√</span><span class="rad-body"><span class="frac"><span>Gm<sub>2</sub></span><span>r<sub>1</sub>(r<sub>1</sub> + r<sub>2</sub>)<sup>2</sup></span></span></span></span></span></label><label class="option"><input type="radio" name="q44" value="c"><span class="opt-text"><strong>c)</strong> <span class="rad"><span class="rad-sign">√</span><span class="rad-body"><span class="frac"><span>Gm<sub>1</sub></span><span>r<sub>2</sub><sup>2</sup>(r<sub>1</sub> + r<sub>2</sub>)</span></span></span></span></span></label><label class="option"><input type="radio" name="q44" value="d"><span class="opt-text"><strong>d)</strong> <span class="rad"><span class="rad-sign">√</span><span class="rad-body"><span class="frac"><span>Gm<sub>2</sub></span><span>r<sub>1</sub><sup>2</sup>(r<sub>1</sub> + r<sub>2</sub>)</span></span></span></span></span></label><label class="option"><input type="radio" name="q44" value="e"><span class="opt-text"><strong>e)</strong> <span class="rad"><span class="rad-sign">√</span><span class="rad-body"><span class="frac"><span>Gm<sub>2</sub></span><span>r<sub>1</sub><sup>2</sup>(r<sub>1</sub> + r<sub>2</sub>)<sup>2</sup></span></span></span></span></span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(44)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(44)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>b)</strong></p>
+      <div class="expl">A distância entre os corpos é r<sub>1</sub> + r<sub>2</sub>. Para o corpo 1, a atração do corpo 2 é a resultante centrípeta: G·m<sub>1</sub>·m<sub>2</sub>/(r<sub>1</sub> + r<sub>2</sub>)² = m<sub>1</sub>·ω²·r<sub>1</sub>. Isolando ω: ω = √[G·m<sub>2</sub>/(r<sub>1</sub>·(r<sub>1</sub> + r<sub>2</sub>)²)], que é a <strong>alternativa b</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q45" data-q="45">
+  <header class="q-head">
+    <span class="q-num">45</span>
+    <div class="q-title"><span class="q-label">Questão 45</span><span class="q-tema">Leis de Kepler</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Qual é a figura geométrica que mais se assemelha à órbita de um dos planetas em torno do Sol?</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 45</legend><label class="option"><input type="radio" name="q45" value="a"><span class="opt-text"><strong>a)</strong> Reta</span></label><label class="option"><input type="radio" name="q45" value="b"><span class="opt-text"><strong>b)</strong> Elipse</span></label><label class="option"><input type="radio" name="q45" value="c"><span class="opt-text"><strong>c)</strong> Hipérbole</span></label><label class="option"><input type="radio" name="q45" value="d"><span class="opt-text"><strong>d)</strong> Parábola</span></label><label class="option"><input type="radio" name="q45" value="e"><span class="opt-text"><strong>e)</strong> Circunferência</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(45)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(45)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>b)</strong></p>
+      <div class="expl">Pela 1ª lei de Kepler, as órbitas dos planetas são <strong>elipses</strong>, com o Sol em um dos focos. (Embora algumas sejam quase circulares, a figura que descreve a órbita é a elipse.)</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q46" data-q="46">
+  <header class="q-head">
+    <span class="q-num">46</span>
+    <div class="q-title"><span class="q-label">Questão 46</span><span class="q-tema">Leis de Kepler</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Um planeta descreve uma órbita elíptica em torno do Sol. Pode-se dizer que a velocidade de translação desse planeta é:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 46</legend><label class="option"><input type="radio" name="q46" value="a"><span class="opt-text"><strong>a)</strong> maior quando se encontra mais longe do Sol.</span></label><label class="option"><input type="radio" name="q46" value="b"><span class="opt-text"><strong>b)</strong> maior quando se encontra mais perto do Sol.</span></label><label class="option"><input type="radio" name="q46" value="c"><span class="opt-text"><strong>c)</strong> menor quando se encontra mais perto do Sol.</span></label><label class="option"><input type="radio" name="q46" value="d"><span class="opt-text"><strong>d)</strong> constante em toda a órbita.</span></label><label class="option"><input type="radio" name="q46" value="e"><span class="opt-text"><strong>e)</strong> As alternativas A e C estão corretas.</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(46)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(46)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>b)</strong></p>
+      <div class="expl">Pela 2ª lei de Kepler (lei das áreas), o raio vetor varre áreas iguais em tempos iguais. Perto do Sol o raio é menor, então a velocidade precisa ser maior: <strong>maior quando mais perto do Sol</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q47" data-q="47">
+  <header class="q-head">
+    <span class="q-num">47</span>
+    <div class="q-title"><span class="q-label">Questão 47</span><span class="q-tema">Leis de Kepler</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Um certo cometa desloca-se ao redor do Sol. Levando-se em conta as leis de Kepler, pode-se com certeza afirmar que:</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 47</legend><label class="option"><input type="radio" name="q47" value="a"><span class="opt-text"><strong>a)</strong> a trajetória do cometa é uma circunferência, cujo centro o Sol ocupa.</span></label><label class="option"><input type="radio" name="q47" value="b"><span class="opt-text"><strong>b)</strong> num mesmo intervalo de tempo Δt, o cometa descreve a maior área, entre duas posições e o Sol, quando está mais próximo do Sol.</span></label><label class="option"><input type="radio" name="q47" value="c"><span class="opt-text"><strong>c)</strong> a razão entre o cubo do seu período e o cubo do raio médio da sua trajetória é uma constante.</span></label><label class="option"><input type="radio" name="q47" value="d"><span class="opt-text"><strong>d)</strong> o cometa, por ter massa bem menor que a do Sol, não é atraído por ele.</span></label><label class="option"><input type="radio" name="q47" value="e"><span class="opt-text"><strong>e)</strong> o raio vetor que liga o cometa ao Sol varre áreas iguais em tempos iguais.</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(47)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(47)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>e)</strong></p>
+      <div class="expl"><strong>e) Verdadeira:</strong> é a 2ª lei de Kepler. As demais são falsas: (a) a órbita é elíptica; (b) em tempos iguais as áreas varridas são sempre iguais; (c) a constante é T²/R³, não T³/R³; (d) o Sol atrai o cometa, e este atrai o Sol com força de mesma intensidade.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q48" data-q="48">
+  <header class="q-head">
+    <span class="q-num">48</span>
+    <div class="q-title"><span class="q-label">Questão 48</span><span class="q-tema">1ª lei de Kepler</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Adotando o Sol como referencial, aponte a alternativa que condiz com a primeira lei de Kepler da gravitação universal.</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 48</legend><label class="option"><input type="radio" name="q48" value="a"><span class="opt-text"><strong>a)</strong> As órbitas planetárias são curvas quaisquer, desde que fechadas.</span></label><label class="option"><input type="radio" name="q48" value="b"><span class="opt-text"><strong>b)</strong> As órbitas planetárias são espiraladas.</span></label><label class="option"><input type="radio" name="q48" value="c"><span class="opt-text"><strong>c)</strong> As órbitas planetárias não podem ser circulares.</span></label><label class="option"><input type="radio" name="q48" value="d"><span class="opt-text"><strong>d)</strong> As órbitas planetárias são elípticas, com o Sol ocupando o centro da elipse.</span></label><label class="option"><input type="radio" name="q48" value="e"><span class="opt-text"><strong>e)</strong> As órbitas planetárias são elípticas, com o Sol ocupando um dos focos da elipse.</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(48)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(48)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>e)</strong></p>
+      <div class="expl">A 1ª lei de Kepler (lei das órbitas) afirma que os planetas descrevem <strong>elipses com o Sol em um dos focos</strong>. O Sol não está no centro da elipse.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q49" data-q="49">
+  <header class="q-head">
+    <span class="q-num">49</span>
+    <div class="q-title"><span class="q-label">Questão 49</span><span class="q-tema">Somatório</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Dois planetas, A e B, de massas M<sub>A</sub> e M<sub>B</sub>, giram em torno do sol com raios orbitais R e 4R, respectivamente. Considerando-se que esses movimentos obedeçam às leis de Kepler, é correto afirmar que:</div>
+
+<fieldset class="options"><legend class="sr-only">Itens da questão 49</legend><label class="option"><input type="checkbox" class="sum-item" name="q49" value="1"><span class="opt-text"><strong>01.</strong> os dois planetas possuem o mesmo período de revolução.</span></label><label class="option"><input type="checkbox" class="sum-item" name="q49" value="2"><span class="opt-text"><strong>02.</strong> os dois planetas sofrerão a mesma intensidade da força gravitacional do Sol, somente se M<sub>A</sub> = 16 M<sub>B</sub>.</span></label><label class="option"><input type="checkbox" class="sum-item" name="q49" value="4"><span class="opt-text"><strong>04.</strong> o período de revolução do planeta B é igual a 8 vezes o período de A.</span></label><label class="option"><input type="checkbox" class="sum-item" name="q49" value="8"><span class="opt-text"><strong>08.</strong> o período de revolução do planeta B é igual a 4 vezes o período de A.</span></label><label class="option"><input type="checkbox" class="sum-item" name="q49" value="16"><span class="opt-text"><strong>16.</strong> ambos os planetas possuem a mesma velocidade angular.</span></label></fieldset><p class="sum-live" aria-live="polite">Soma atual dos itens marcados: <output id="sum-q49">0</output></p>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(49)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(49)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> soma = <strong>04</strong></p>
+      <div class="expl"><ul class='item-review'><li><strong>01 — Falso.</strong> Raios diferentes implicam períodos diferentes.</li><li><strong>02 — Falso.</strong> F = G·M<sub>Sol</sub>·M/r². B está 4 vezes mais longe (força ÷ 16), então as forças só seriam iguais se M<sub>B</sub> = 16 M<sub>A</sub>, e não o contrário.</li><li><strong>04 — Verdadeiro.</strong> T² ∝ R³ dá T<sub>B</sub>/T<sub>A</sub> = 4<sup>3/2</sup> = 8.</li><li><strong>08 — Falso.</strong> A razão é 8, não 4.</li><li><strong>16 — Falso.</strong> Períodos diferentes significam velocidades angulares diferentes.</li></ul>Soma dos corretos: <strong>04</strong>.</div>
+    </div>
+  </details>
+</article>
+
+<article class="question-card" id="q50" data-q="50">
+  <header class="q-head">
+    <span class="q-num">50</span>
+    <div class="q-title"><span class="q-label">Questão 50</span><span class="q-tema">Leis de Kepler</span></div>
+    <span class="q-status" hidden></span>
+  </header>
+  <div class="stem">Assinale a alternativa correta, com relação às leis de Kepler para o movimento dos planetas.</div>
+
+<fieldset class="options"><legend class="sr-only">Alternativas da questão 50</legend><label class="option"><input type="radio" name="q50" value="a"><span class="opt-text"><strong>a)</strong> As três leis de Kepler são o resultado de observações de natureza puramente empírica, que contrariam a mecânica newtoniana.</span></label><label class="option"><input type="radio" name="q50" value="b"><span class="opt-text"><strong>b)</strong> As leis de Kepler baseiam-se no fato de que a força gravitacional entre planetas varia com o inverso do cubo da distância entre os centros de tais planetas.</span></label><label class="option"><input type="radio" name="q50" value="c"><span class="opt-text"><strong>c)</strong> A primeira lei de Kepler diz que as órbitas descritas pelos planetas são circunferências perfeitas.</span></label><label class="option"><input type="radio" name="q50" value="d"><span class="opt-text"><strong>d)</strong> A segunda lei de Kepler diz que o módulo da velocidade de translação de um planeta (velocidade areolar) ao redor do Sol é constante.</span></label><label class="option"><input type="radio" name="q50" value="e"><span class="opt-text"><strong>e)</strong> A terceira lei de Kepler diz que a razão entre o quadrado do período de revolução de um planeta ao redor do Sol, e o cubo do semi-eixo maior da trajetória, é uma constante que depende da massa do Sol.</span></label></fieldset>
+  <div class="q-actions"><button type="button" class="btn-check" onclick="checkQuestion(50)">Verificar resposta</button><button type="button" class="btn-clear" onclick="clearQuestion(50)">Limpar resposta</button></div>
+  <details class="answer-box">
+    <summary>Ver gabarito da questão</summary>
+    <div class="answer-content">
+      <p class="ans-line"><span class="ans-label">Resposta correta</span> alternativa <strong>e)</strong></p>
+      <div class="expl"><strong>e) Correta:</strong> T²/a³ = 4π²/(G·M<sub>Sol</sub>). As demais são falsas: (a) as leis de Kepler são compatíveis com a mecânica newtoniana (Newton as explica); (b) a força varia com o inverso do <em>quadrado</em> da distância; (c) as órbitas são elípticas; (d) é a <em>velocidade areolar</em> que é constante, não o módulo da velocidade.</div>
+    </div>
+  </details>
+</article>
+
+<section class="panel report" id="relatorio" tabindex="-1" aria-labelledby="rel-titulo">
+  <h2 id="rel-titulo">Relatório final</h2>
+  <p class="gu-lead">Resultado da correção da lista. Clique em uma questão para revê-la.</p>
+  <div class="report-top">
+    <div class="stat"><b id="r-pct">0%</b><span>Aproveitamento</span></div>
+    <div class="stat ok"><b id="r-ok">0</b><span>Acertos</span></div>
+    <div class="stat bad"><b id="r-bad">0</b><span>Erros</span></div>
+    <div class="stat blank"><b id="r-blank">0</b><span>Não respondidas</span></div>
+    <div class="stat"><b id="r-answered">0</b><span>Respondidas</span></div>
+  </div>
+  <ul class="report-list" id="report-list"></ul>
+  <div class="report-actions">
+    <button type="button" class="gu-btn btn-ghost js-reset">Refazer lista</button>
+  </div>
+</section>
+</main>
+
+</div>
+
+<div id="live" class="sr-only" aria-live="polite"></div>
+
+<footer>
+  <strong>Professor Madison • MDC</strong> — Material interativo de Física
+  <span class="src">Questões da lista “Gravitação Universal” do Projeto Medicina.</span>
+</footer>
+
+</div>
+<script>
+const QUESTIONS = [{"id": 1, "type": "mcq", "answer": "b"}, {"id": 2, "type": "mcq", "answer": "c"}, {"id": 3, "type": "mcq", "answer": "c"}, {"id": 4, "type": "mcq", "answer": "b"}, {"id": 5, "type": "mcq", "answer": "d"}, {"id": 6, "type": "mcq", "answer": "e"}, {"id": 7, "type": "mcq", "answer": "e"}, {"id": 8, "type": "mcq", "answer": "a"}, {"id": 9, "type": "mcq", "answer": "d"}, {"id": 11, "type": "mcq", "answer": "a"}, {"id": 12, "type": "numeric", "answer": 0.8264462809917356, "tol": 0.01}, {"id": 13, "type": "mcq", "answer": "e"}, {"id": 14, "type": "mcq", "answer": "c"}, {"id": 15, "type": "mcq", "answer": "c"}, {"id": 16, "type": "mcq", "answer": "e"}, {"id": 17, "type": "numeric", "answer": 90, "tol": 0.5}, {"id": 18, "type": "mcq", "answer": "b"}, {"id": 19, "type": "mcq", "answer": "b"}, {"id": 22, "type": "numeric", "answer": 2640, "tol": 30}, {"id": 23, "type": "mcq", "answer": "b"}, {"id": 24, "type": "mcq", "answer": "d"}, {"id": 25, "type": "mcq", "answer": "e"}, {"id": 26, "type": "mcq", "answer": "b"}, {"id": 28, "type": "numeric", "answer": 1.6, "tol": 0.05}, {"id": 30, "type": "mcq", "answer": "e"}, {"id": 31, "type": "mcq", "answer": "e"}, {"id": 32, "type": "mcq", "answer": "a"}, {"id": 34, "type": "mcq", "answer": "d"}, {"id": 35, "type": "numeric", "answer": 24, "tol": 0}, {"id": 37, "type": "sum", "answer": 20}, {"id": 39, "type": "mcq", "answer": "d"}, {"id": 40, "type": "mcq", "answer": "c"}, {"id": 41, "type": "mcq", "answer": "d"}, {"id": 44, "type": "mcq", "answer": "b"}, {"id": 45, "type": "mcq", "answer": "b"}, {"id": 46, "type": "mcq", "answer": "b"}, {"id": 47, "type": "mcq", "answer": "e"}, {"id": 48, "type": "mcq", "answer": "e"}, {"id": 49, "type": "sum", "answer": 4}, {"id": 50, "type": "mcq", "answer": "e"}];
+const TOTAL = QUESTIONS.length;
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const pad = n => String(n).padStart(2, '0');
+let corrected = false;
+
+/* ---- leitura de números (vírgula, ponto, milhar, notação científica, fração) ---- */
+function parseNum(raw) {
+  let s = String(raw).trim().toLowerCase().replace(/\s+/g, '').replace(/−/g, '-');
+  s = s.replace(/(m\/s\^?2|m\/s²|n)$/, '');
+  if (!s) return NaN;
+  if (s.includes('/')) {
+    const p = s.split('/');
+    if (p.length !== 2) return NaN;
+    const a = parseNum(p[0]), b = parseNum(p[1]);
+    return (isNaN(a) || isNaN(b) || b === 0) ? NaN : a / b;
+  }
+  const sci = s.match(/^([-+]?[\d.,]+)(?:e|x|×|·|\*)(?:10\^?)?([-+]?\d+)$/);
+  if (sci) {
+    const m = parseNum(sci[1]);
+    return isNaN(m) ? NaN : m * Math.pow(10, Number(sci[2]));
+  }
+  if (/^[-+]?\d{1,3}(\.\d{3})+(,\d+)?$/.test(s)) s = s.replace(/\./g, '').replace(',', '.');
+  else s = s.replace(',', '.');
+  if (!/^[-+]?(\d+\.?\d*|\.\d+)$/.test(s)) return NaN;
+  return Number(s);
+}
+
+/* ---- leitura das respostas ---- */
+function getResponse(q) {
+  const card = $('#q' + q.id);
+  if (q.type === 'mcq') {
+    const c = $('input[type=radio]:checked', card);
+    return c ? c.value : null;
+  }
+  if (q.type === 'sum') {
+    const cs = $$('.sum-item:checked', card);
+    return cs.length ? cs.map(el => Number(el.value)).reduce((a, b) => a + b, 0) : null;
+  }
+  if (q.type === 'numeric') {
+    const v = $('input[type=text]', card).value.trim();
+    return v === '' ? null : v;
+  }
+  return null;
+}
+
+/* ---- correção modular ---- */
+function scoreQuestion(q) {
+  const r = getResponse(q);
+  if (r === null) return 'blank';
+  if (q.type === 'mcq') return r === q.answer ? 'correct' : 'wrong';
+  if (q.type === 'sum') return r === q.answer ? 'correct' : 'wrong';
+  if (q.type === 'numeric') {
+    const v = parseNum(r);
+    if (isNaN(v)) return 'wrong';
+    return Math.abs(v - q.answer) <= q.tol + 1e-9 ? 'correct' : 'wrong';
+  }
+  return 'blank';
+}
+
+/* ---- progresso ao vivo ---- */
+function updateProgress() {
+  let answered = 0;
+  QUESTIONS.forEach(q => {
+    const has = getResponse(q) !== null;
+    if (has) answered++;
+    const chip = $('[data-nav="' + q.id + '"]');
+    if (!corrected) chip.classList.toggle('answered', has);
+    if (q.type === 'sum') $('#sum-q' + q.id).textContent = getResponse(q) || 0;
+  });
+  if (!corrected) {
+    $('#st-answered').textContent = answered;
+    $('#st-blank').textContent = TOTAL - answered;
+    $('#bar-fill').style.width = Math.round(answered / TOTAL * 100) + '%';
+    $('#score-label').textContent = 'respondidas de ' + TOTAL;
+    $('#score-big').textContent = answered + '/' + TOTAL;
+  }
+}
+
+const LABEL = {correct: 'Acertou', wrong: 'Errou', blank: 'Não respondida'};
+const CARDCLS = {correct: 'correct', wrong: 'incorrect', blank: 'unanswered'};
+
+function lockInputs(lock) {
+  $$('.question-card input').forEach(el => { el.disabled = lock; });
+  $$('.question-card').forEach(c => c.classList.toggle('locked', lock));
+}
+
+function correctList() {
+  if (corrected) return;
+  let ok = 0, bad = 0, blank = 0;
+  const results = [];
+  QUESTIONS.forEach(q => {
+    const st = scoreQuestion(q);
+    results.push([q.id, st]);
+    if (st === 'correct') ok++; else if (st === 'wrong') bad++; else blank++;
+    const card = $('#q' + q.id);
+    card.classList.remove('correct', 'incorrect', 'unanswered');
+    card.classList.add(CARDCLS[st]);
+    const badge = $('.q-status', card);
+    badge.hidden = false;
+    badge.className = 'q-status st-' + st;
+    badge.textContent = LABEL[st];
+    // destaca a resposta marcada pelo estudante
+    if (st !== 'blank') {
+      if (q.type === 'numeric') {
+        $('input[type=text]', card).classList.add(st === 'correct' ? 'chosen-ok' : 'chosen-bad');
+      } else {
+        $$('.option', card).forEach(l => {
+          if ($('input', l).checked) l.classList.add(st === 'correct' ? 'chosen-ok' : 'chosen-bad');
+        });
+      }
+    }
+    const chip = $('[data-nav="' + q.id + '"]');
+    chip.classList.remove('answered');
+    chip.classList.add('st-' + (st === 'wrong' ? 'wrong' : st));
+  });
+  corrected = true;
+  document.body.classList.add('corrected');
+  lockInputs(true);
+  const pct = Math.round(ok / TOTAL * 100);
+  const answered = ok + bad;
+  // painel lateral
+  $('#st-answered').textContent = answered;
+  $('#st-blank').textContent = blank;
+  $('#st-ok').textContent = ok;
+  $('#st-bad').textContent = bad;
+  $('#score-big').textContent = pct + '%';
+  $('#score-label').textContent = 'de aproveitamento';
+  $('#bar-fill').style.width = pct + '%';
+  $('#btn-all').disabled = false;
+  $('#btn-all').textContent = 'Mostrar todos os gabaritos';
+  $('#all-helper').textContent = 'Gabaritos comentados liberados.';
+  // relatório final
+  $('#r-ok').textContent = ok; $('#r-bad').textContent = bad; $('#r-blank').textContent = blank;
+  $('#r-answered').textContent = answered; $('#r-pct').textContent = pct + '%';
+  const list = $('#report-list');
+  list.innerHTML = '';
+  results.forEach(([id, st]) => {
+    const li = document.createElement('li');
+    li.className = 'st-' + st;
+    li.innerHTML = '<a href="#q' + id + '"><span>Questão ' + pad(id) + '</span><span>' + LABEL[st] + '</span></a>';
+    list.appendChild(li);
+  });
+  $('#live').textContent = 'Lista corrigida. Você acertou ' + ok + ' de ' + TOTAL + ' questões, ' + pct + '% de aproveitamento. Erros: ' + bad + '. Não respondidas: ' + blank + '.';
+  $('#relatorio').scrollIntoView({behavior: 'smooth', block: 'start'});
+}
+
+function toggleAll() {
+  if (!corrected) return;
+  const boxes = $$('.answer-box');
+  const anyClosed = boxes.some(b => !b.open);
+  boxes.forEach(b => { b.open = anyClosed; });
+  $('#btn-all').textContent = anyClosed ? 'Ocultar todos os gabaritos' : 'Mostrar todos os gabaritos';
+}
+
+function resetQuiz() {
+  $$('input[type="radio"], input[type="checkbox"]').forEach(el => { el.checked = false; });
+  $$('input[type="text"], textarea').forEach(el => { el.value = ''; });
+  $$('select').forEach(el => { el.selectedIndex = 0; });
+  lockInputs(false);
+  corrected = false;
+  document.body.classList.remove('corrected');
+  $$('.question-card').forEach(c => {
+    c.classList.remove('correct', 'incorrect', 'unanswered');
+    const b = $('.q-status', c); b.hidden = true; b.className = 'q-status'; b.textContent = '';
+  });
+  $$('.option, .numeric input').forEach(el => el.classList.remove('chosen-ok', 'chosen-bad'));
+  $$('.answer-box').forEach(b => { b.open = false; });
+  $$('.nav-chip').forEach(c => { c.className = 'nav-chip'; });
+  ['st-ok', 'st-bad'].forEach(id => { $('#' + id).textContent = '0'; });
+  $('#report-list').innerHTML = '';
+  $('#btn-all').disabled = true;
+  $('#btn-all').textContent = 'Mostrar todos os gabaritos';
+  $('#all-helper').textContent = 'Os gabaritos comentados são liberados depois que você corrige a lista.';
+  updateProgress();
+  $('#live').textContent = 'Lista reiniciada. Todas as respostas foram apagadas.';
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+
+function checkQuestion(id) {
+  const q = QUESTIONS.find(x => x.id === id);
+  const card = $('#q' + id);
+  const st = scoreQuestion(q);
+  card.classList.remove('correct', 'incorrect', 'unanswered');
+  card.classList.add(CARDCLS[st]);
+  const badge = $('.q-status', card);
+  badge.hidden = false;
+  badge.className = 'q-status st-' + st;
+  badge.textContent = LABEL[st];
+  $$('.chosen-ok, .chosen-bad', card).forEach(el => el.classList.remove('chosen-ok', 'chosen-bad'));
+  if (st !== 'blank') {
+    if (q.type === 'numeric') {
+      $('input[type=text]', card).classList.add(st === 'correct' ? 'chosen-ok' : 'chosen-bad');
+    } else {
+      $$('.option', card).forEach(l => {
+        if ($('input', l).checked) l.classList.add(st === 'correct' ? 'chosen-ok' : 'chosen-bad');
+      });
+    }
+  }
+  const chip = $('[data-nav="' + id + '"]');
+  chip.className = 'nav-chip' + (st === 'blank' ? '' : ' st-' + st);
+  updateProgress();
+}
+
+function reopenList() {
+  corrected = false;
+  document.body.classList.remove('corrected');
+  lockInputs(false);
+  $$('.question-card').forEach(c => {
+    c.classList.remove('correct', 'incorrect', 'unanswered');
+    const b = $('.q-status', c); b.hidden = true; b.className = 'q-status'; b.textContent = '';
+  });
+  $$('.option, .numeric input').forEach(el => el.classList.remove('chosen-ok', 'chosen-bad'));
+  $$('.answer-box').forEach(b => { b.open = false; });
+  $$('.nav-chip').forEach(c => { c.className = 'nav-chip'; });
+  ['st-ok', 'st-bad'].forEach(id => { $('#' + id).textContent = '0'; });
+  $('#report-list').innerHTML = '';
+  $('#btn-all').disabled = true;
+  $('#btn-all').textContent = 'Mostrar todos os gabaritos';
+  $('#all-helper').textContent = 'Os gabaritos comentados são liberados depois que você corrige a lista.';
+}
+
+function clearQuestion(id) {
+  const card = $('#q' + id);
+  if (corrected) reopenList();
+  $$('input[type="radio"], input[type="checkbox"], input[type="text"]', card).forEach(el => { el.checked = false; el.value = ''; el.disabled = false; });
+  card.classList.remove('locked');
+  $$('.option, .numeric input', card).forEach(el => el.classList.remove('chosen-ok', 'chosen-bad'));
+  card.classList.remove('correct', 'incorrect', 'unanswered');
+  const badge = $('.q-status', card); badge.hidden = true; badge.className = 'q-status'; badge.textContent = '';
+  const det = $('.answer-box', card); if (det) det.open = false;
+  $('[data-nav="' + id + '"]').className = 'nav-chip';
+  updateProgress();
+}
+document.addEventListener('input', e => { if (e.target.closest('.question-card')) updateProgress(); });
+document.addEventListener('change', e => { if (e.target.closest('.question-card')) updateProgress(); });
+$('#btn-correct').addEventListener('click', correctList);
+$('#btn-all').addEventListener('click', toggleAll);
+$$('.js-reset').forEach(b => b.addEventListener('click', resetQuiz));
+updateProgress();
+</script>
+</div>
+<footer class="site-footer" id="site-footer"></footer>
+<script src="/assets/js/layout.js"></script>
+<script data-goatcounter="https://professormadison.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
