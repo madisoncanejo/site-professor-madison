@@ -96,7 +96,9 @@ figure{background:var(--navy);border-color:var(--line)}
 }
 </style><style>
 .pm-print-id{display:none}
+.pm-print-btn{position:fixed;right:16px;bottom:16px;z-index:999;border:0;border-radius:12px;padding:11px 16px;font:700 14px/1.2 Inter,system-ui,Arial,sans-serif;background:linear-gradient(120deg,#18e3ac,#10b3c4);color:#04231b;box-shadow:0 10px 24px rgba(0,0,0,.35);cursor:pointer}
 @media print{
+  .pm-print-btn{display:none!important}
   .site-header,.site-footer,.ph-band,.print-only-header{display:none!important}
   .pm-print-id{display:block!important;color:#000!important;background:transparent!important;margin:0 0 16px;padding:0 0 12px;border-bottom:2px solid #000;break-after:avoid}
   .pm-print-top{display:flex!important;align-items:center;gap:18px;margin-bottom:14px}
@@ -390,4 +392,5 @@ function save(){let st={};DATA.forEach(q=>{let c=card(q.id);if(q.kind==='choice'
 function load(){let st={};try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){};DATA.forEach(q=>{let v=st[q.id];if(!v)return;let c=card(q.id);if(q.kind==='choice'&&v.choice){let i=c.querySelector('input[value="'+v.choice+'"]');if(i)i.checked=true}else if(q.kind==='concept_numeric'){if(v.concept){let i=c.querySelector('input[name=concept'+q.id+'][value="'+v.concept+'"]');if(i)i.checked=true}if(v.v)c.querySelector('[data-field=v]').value=v.v}else{Object.entries(v).forEach(([k,val])=>{let i=c.querySelector('[data-field="'+k+'"]');if(i)i.value=val})}});updateProgress()}
 function resetAll(){if(!confirm('Apagar todas as respostas e recomeçar a lista?'))return;try{localStorage.removeItem(KEY)}catch(e){};DATA.forEach(q=>clearQ(q.id));document.getElementById('nOk').textContent='0';document.getElementById('nBad').textContent='0';document.getElementById('nBlank').textContent='40';document.getElementById('reportDetail').classList.remove('show');window.scrollTo({top:0,behavior:'smooth'})}
 document.getElementById('app').addEventListener('input',e=>{if(e.target.matches('input')){let c=e.target.closest('.lm-card');if(c){let id=Number(c.dataset.q);document.getElementById('fb'+id).className='feedback';document.getElementById('sol'+id).classList.remove('show');c.classList.remove('ok','bad');paintState(id,null);save();updateProgress()}}});document.getElementById('app').addEventListener('change',()=>{save();updateProgress()});load();
-</script></body></html>
+</script><button type="button" class="pm-print-btn" onclick="window.print()">Imprimir / salvar em PDF</button>
+</body></html>
