@@ -13,6 +13,13 @@
 */
 var BLOG_FISICA = [
   {
+    categoria: "Ondulatória",
+    titulo: "Seus fones de ouvido podem estar prejudicando sua audição?",
+    resumo: "Entenda como a Física do som explica o que acontece dentro do ouvido, por que alguns decibéis fazem tanta diferença e como avaliar hábitos de escuta.",
+    url: "/fisica/blog/fones-de-ouvido-e-audicao.html",
+    data: "2026-10-29"
+  },
+  {
     categoria: "Astrofísica",
     titulo: "Nobel de Física 2026: como Francis Halzen e o IceCube transformaram o gelo da Antártida em um telescópio",
     resumo: "Francis Halzen ajudou a revelar mensagens quase invisíveis vindas do espaço. Conheça os neutrinos, o observatório IceCube e a descoberta que abriu uma nova janela para o Universo.",
