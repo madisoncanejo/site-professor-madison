@@ -1065,6 +1065,7 @@ button:hover{filter:brightness(1.05)}
     <div class="question-lists">
       <div class="qlist"><strong>Questões acertadas</strong><span id="correct-list">—</span></div>
       <div class="qlist"><strong>Questões erradas</strong><span id="wrong-list">—</span></div>
+      <div class="qlist"><strong>Questões não respondidas</strong><span id="blank-list">—</span></div>
     </div>
     <div class="final-actions">
       <button class="btn-light" id="key-btn" type="button" onclick="toggleKey()">Acessar gabarito correto</button>
@@ -1192,20 +1193,20 @@ window.goPending=function(){
   else document.getElementById('final').scrollIntoView({behavior:'smooth',block:'start'});
 }
 window.finishQuiz=function(){
-  const pending=DATA.filter(q=>!answered(q));
   const w=document.getElementById('warning');
-  if(pending.length){
-    w.textContent='Ainda faltam '+pending.length+' questão(ões): '+pending.map(q=>q.id).join(', ')+'. Complete a lista antes de acessar o relatório e o gabarito.';
-    w.classList.add('show');
-    card(pending[0].id).scrollIntoView({behavior:'smooth',block:'center'});
-    return;
-  }
   w.classList.remove('show');
-  let good=[],bad=[];
+  let good=[],bad=[],blank=[];
   DATA.forEach(q=>{
-    const ok=evaluate(q),c=card(q.id),s=document.getElementById('status-'+q.id),p=document.getElementById('post-'+q.id);
+    const c=card(q.id),st=document.getElementById('status-'+q.id),p=document.getElementById('post-'+q.id);
+    if(!answered(q)){
+      resetOne(q.id);
+      st.className='q-status'; st.textContent='Não respondida';
+      p.hidden=false; p.className='post-grade warn'; p.textContent='Questão não respondida.';
+      blank.push(q.id); return;
+    }
+    const ok=evaluate(q);
     c.classList.toggle('is-correct',ok); c.classList.toggle('is-wrong',!ok);
-    s.className='q-status '+(ok?'correct':'wrong'); s.textContent=ok?'Acertou':'Errou';
+    st.className='q-status '+(ok?'correct':'wrong'); st.textContent=ok?'Acertou':'Errou';
     p.hidden=false; p.className='post-grade '+(ok?'correct':'wrong');
     p.innerHTML=ok?'✓ Resposta correta.':'✗ Resposta incorreta. O gabarito completo pode ser aberto no relatório final.';
     (ok?good:bad).push(q.id);
@@ -1216,6 +1217,7 @@ window.finishQuiz=function(){
   document.getElementById('pct').textContent=pct+'%';
   document.getElementById('correct-list').textContent=good.length?good.join(', '):'Nenhuma';
   document.getElementById('wrong-list').textContent=bad.length?bad.join(', '):'Nenhuma';
+  document.getElementById('blank-list').textContent=blank.length?blank.join(', '):'Nenhuma';
   document.getElementById('report').classList.add('show');
   document.getElementById('final').scrollIntoView({behavior:'smooth',block:'start'});
 }
