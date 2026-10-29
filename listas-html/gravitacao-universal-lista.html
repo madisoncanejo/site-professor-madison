@@ -28,6 +28,15 @@
 .lm-wrap .btn-clear{background:transparent;color:#9DB0C4;border:1px solid #2a4a63;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer}
 .lm-wrap .btn-clear:hover{color:#fff;border-color:#9DB0C4}
 </style>
+<style>
+@media print{
+  .site-header,.site-footer,.lm-wrap button,.lm-wrap aside.sticky-summary,.lm-wrap .gu-actions,.lm-wrap .report-actions{display:none!important}
+  .lm-wrap,.lm-wrap *{background:transparent!important;color:#000!important;box-shadow:none!important;text-shadow:none!important}
+  .lm-wrap{background:#fff!important}
+  .lm-wrap .question-card,.lm-wrap .panel,.lm-wrap .option{border:1px solid #999!important;break-inside:avoid}
+  .lm-wrap .figure-grid img,.lm-wrap .question-figure img{background:#fff!important}
+}
+</style>
 </head>
 <body data-active="listas">
 <header class="site-header" id="site-header"></header>
