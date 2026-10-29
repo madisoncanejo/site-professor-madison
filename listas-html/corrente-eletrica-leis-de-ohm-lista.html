@@ -1,0 +1,1274 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1324">
+<title>Corrente Elétrica e Leis de Ohm — Lista Interativa | Professor Madison</title>
+<meta name="description" content="Lista interativa de Física sobre corrente elétrica e Leis de Ohm (3ª série do Ensino Médio), com 29 questões, verificação por questão e relatório final de acertos e erros.">
+<link rel="icon" type="image/png" href="/assets/img/favicon.png">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+
+<style id="mdc-dark-theme-override">
+:root{
+  --mdc-bg:#081420;
+  --mdc-bg-2:#0c1c2c;
+  --mdc-card:#10263a;
+  --mdc-card-deep:#0c1c2c;
+  --mdc-border:#1c3a52;
+  --mdc-border-soft:#18344b;
+  --mdc-text:#edf2f6;
+  --mdc-muted:#9fb5c7;
+  --mdc-accent:#15cfb5;
+  --mdc-accent-2:#18b9c0;
+  --mdc-danger:#f8686f;
+  --mdc-success:#2fd3a2;
+  --mdc-white:#f7fafc;
+}
+
+html,body{
+  background:var(--mdc-bg)!important;
+  color:var(--mdc-text)!important;
+}
+body{
+  background:
+    radial-gradient(circle at 20% 0%, rgba(19,72,86,.10), transparent 32%),
+    linear-gradient(180deg,#081420 0%,#07131f 100%)!important;
+}
+.shell{
+  max-width:1480px!important;
+  padding:30px 28px 72px!important;
+}
+
+.hero{
+  min-height:222px!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) 300px!important;
+  gap:26px!important;
+  align-items:center!important;
+  padding:30px 35px!important;
+  border-radius:30px!important;
+  background:linear-gradient(135deg,#0d2032 0%,#10283f 100%)!important;
+  border:1px solid #0d5262!important;
+  box-shadow:0 18px 45px rgba(0,0,0,.20)!important;
+}
+.hero:after{display:none!important}
+
+.brand-card{
+  width:166px;
+  height:116px;
+  border-radius:27px;
+  background:linear-gradient(135deg,#1b2f43 0%,#1c354d 100%);
+  border:1px solid #3b5266;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  line-height:1;
+  position:relative;
+  overflow:hidden;
+}
+.brand-card:after{
+  content:"";
+  position:absolute;
+  right:-16px;
+  bottom:-18px;
+  width:76px;
+  height:52px;
+  border-radius:50%;
+  background:rgba(21,207,181,.24);
+}
+.brand-professor{
+  color:#fff;
+  font-size:1.04rem;
+  font-weight:900;
+  letter-spacing:.035em;
+  position:relative;
+  z-index:1;
+}
+.brand-m{
+  font-size:2.35rem;
+  font-weight:950;
+  color:#fff;
+  margin:.2rem 0 .25rem;
+  position:relative;
+  z-index:1;
+}
+.brand-madison{
+  color:#66efdf;
+  font-size:1rem;
+  font-weight:900;
+  letter-spacing:.04em;
+  position:relative;
+  z-index:1;
+}
+
+.hero-copy{min-width:0}
+.hero .eyebrow{
+  margin:0 0 8px!important;
+  color:#65f0df!important;
+  letter-spacing:.23em!important;
+  font-size:.8rem!important;
+  font-weight:950!important;
+}
+.hero h1{
+  margin:0!important;
+  color:#fff!important;
+  font-size:clamp(2.1rem,3.5vw,3.75rem)!important;
+  line-height:1.02!important;
+  letter-spacing:-.035em!important;
+}
+.hero p{
+  margin-top:8px!important;
+  color:#dbe7ef!important;
+  font-size:1.02rem!important;
+}
+.hero-badges{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:12px;
+  align-content:center;
+}
+.hero-badge{
+  background:#203d58;
+  color:#fff;
+  border:1px solid transparent;
+  padding:14px 20px;
+  border-radius:999px;
+  font-weight:900;
+  font-size:.95rem;
+  white-space:nowrap;
+}
+.hero-badge.accent{
+  background:rgba(21,207,181,.16);
+  border-color:#168676;
+  color:#55e7d2;
+}
+
+.site-tags{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:18px 0 28px;
+}
+.site-tags span{
+  background:#10283f;
+  border:1px solid #1d4967;
+  color:#fff;
+  font-weight:850;
+  border-radius:999px;
+  padding:10px 18px;
+}
+
+.orientation{
+  background:var(--mdc-card)!important;
+  border:1px solid var(--mdc-border)!important;
+  border-left:1px solid var(--mdc-border)!important;
+  border-radius:25px!important;
+  color:#e7eef4!important;
+  box-shadow:none!important;
+  padding:24px 28px!important;
+  margin:0 0 20px!important;
+}
+.orientation strong{color:#fff!important}
+
+.toolbar{
+  background:rgba(16,38,58,.96)!important;
+  border:1px solid var(--mdc-border)!important;
+  border-radius:20px!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.15)!important;
+  color:#fff!important;
+}
+.progress-top{color:var(--mdc-muted)!important}
+.bar{background:#0c1c2c!important}
+.bar i{background:linear-gradient(90deg,var(--mdc-accent),var(--mdc-accent-2))!important}
+
+.btn-primary{
+  background:linear-gradient(90deg,var(--mdc-accent),var(--mdc-accent-2))!important;
+  color:#031619!important;
+  border:0!important;
+}
+.btn-dark{
+  background:var(--mdc-card-deep)!important;
+  color:#fff!important;
+  border:1px solid var(--mdc-border)!important;
+}
+.btn-light{
+  background:var(--mdc-card-deep)!important;
+  color:#fff!important;
+  border:1px solid var(--mdc-border)!important;
+}
+button:hover{filter:brightness(1.05)}
+
+.section-title{margin-top:34px!important}
+.section-kicker{color:#61ebda!important}
+.section-title h2{color:#fff!important}
+
+.question-card{
+  background:var(--mdc-card)!important;
+  border:1px solid var(--mdc-border)!important;
+  border-radius:26px!important;
+  box-shadow:0 10px 28px rgba(0,0,0,.10)!important;
+}
+.question-card.is-correct{border-color:#268f78!important}
+.question-card.is-wrong{border-color:#9b4950!important}
+
+.q-head{
+  background:transparent!important;
+  border-bottom:0!important;
+  padding:24px 30px 8px!important;
+}
+.q-number{
+  color:#fff!important;
+  font-size:1.2rem!important;
+  letter-spacing:0!important;
+  text-transform:none!important;
+}
+.q-topic{
+  display:block!important;
+  width:max-content;
+  margin:10px 0 0!important;
+  padding:8px 14px;
+  border-radius:999px;
+  background:#1e3d59;
+  color:#fff!important;
+  font-size:.78rem!important;
+}
+.q-status{
+  background:#174456!important;
+  color:#fff!important;
+  min-width:64px;
+  text-align:center;
+  padding:10px 12px!important;
+  border-radius:20px!important;
+}
+.q-status.answered{background:#1d5661!important;color:#77eadc!important}
+.q-status.correct{background:#123e35!important;color:#4be0b4!important}
+.q-status.wrong{background:#48242a!important;color:#ff8d93!important}
+
+.q-content{padding:10px 30px 28px!important}
+.stem{color:#f2f5f7!important;font-size:1.03rem!important}
+.given{color:#b8cbd9!important}
+
+.figure-grid{
+  background:#f7fafc!important;
+  border:1px solid #e2e8f0;
+  border-radius:22px!important;
+  padding:18px!important;
+  margin:20px 0!important;
+}
+.figure-grid img{
+  background:#fff!important;
+  border:0!important;
+  border-radius:12px!important;
+  padding:4px!important;
+}
+
+.answers{gap:12px!important}
+.option{
+  background:#0c1c2c!important;
+  border:1px solid var(--mdc-border)!important;
+  color:#fff!important;
+  border-radius:18px!important;
+  padding:15px 18px!important;
+}
+.option:hover{
+  background:#102b42!important;
+  border-color:#2b617e!important;
+}
+.option:has(input:checked){
+  background:#0e3542!important;
+  border-color:var(--mdc-accent)!important;
+}
+.option input{accent-color:var(--mdc-accent)!important}
+.letter,.checkmark{
+  background:#1e405d!important;
+  color:#fff!important;
+}
+.mini-note{color:var(--mdc-muted)!important}
+
+.input-answer{
+  background:#0c1c2c!important;
+  border:1px solid var(--mdc-border)!important;
+  border-radius:18px!important;
+  color:#fff!important;
+}
+.input-answer label{color:#fff!important}
+.unit-help{color:var(--mdc-muted)!important}
+.text-input{
+  background:#081725!important;
+  color:#fff!important;
+  border:1px solid #28506d!important;
+}
+.text-input::placeholder{color:#7f98aa!important}
+
+.btn-clear-one{
+  background:#0c1c2c!important;
+  color:#dce7ee!important;
+  border:1px solid var(--mdc-border)!important;
+}
+
+.post-grade.correct{
+  background:#0c342d!important;
+  border-color:#236f60!important;
+  color:#6ce4c0!important;
+}
+.post-grade.wrong{
+  background:#402126!important;
+  border-color:#7f3c44!important;
+  color:#ff9ca2!important;
+}
+
+.final{
+  background:var(--mdc-card)!important;
+  border:1px solid var(--mdc-border)!important;
+  border-radius:27px!important;
+  color:#fff!important;
+  padding:28px!important;
+}
+.final h2{color:#fff!important}
+.final p{color:#c8d6e0!important}
+.warning{
+  background:#3e3115!important;
+  border-color:#745e1d!important;
+  color:#ffe18b!important;
+}
+.report-grid{gap:14px!important}
+.metric{
+  background:#0c1c2c!important;
+  border:1px solid var(--mdc-border)!important;
+  border-radius:20px!important;
+}
+.metric small{color:var(--mdc-muted)!important}
+.metric.good strong{color:var(--mdc-success)!important}
+.metric.bad strong{color:var(--mdc-danger)!important}
+.metric.pct strong{color:#edf2f6!important}
+.qlist,.key-card{
+  background:#0c1c2c!important;
+  border-color:var(--mdc-border)!important;
+  color:#fff!important;
+}
+.key-card .khead{color:#64ead9!important}
+.key-card p{color:#d9e4eb!important}
+.answer-key{border-top-color:var(--mdc-border)!important}
+
+.footer{
+  color:#8fa7b9!important;
+  border-top-color:var(--mdc-border)!important;
+}
+.footer strong{color:#dce7ee!important}
+
+@media(max-width:900px){
+  .shell{padding:14px 12px 52px!important}
+  .hero{
+    grid-template-columns:1fr!important;
+    gap:18px!important;
+    padding:24px!important;
+  }
+  .brand-card{width:145px;height:108px}
+  .hero-badges{justify-content:flex-start}
+  .hero h1{font-size:2.15rem!important}
+  .q-head{padding:20px 20px 7px!important}
+  .q-content{padding:10px 20px 22px!important}
+}
+</style>
+
+
+<style id="screen-print-separation">
+.print-only-header{display:none}
+
+@media screen{
+  .hero{
+    grid-template-columns:minmax(0,1fr) 300px!important;
+  }
+}
+
+@media print{
+  body{
+    background:#fff!important;
+    color:#111!important;
+  }
+  .shell{
+    max-width:none!important;
+    padding:0!important;
+  }
+  .hero,
+  .site-tags,
+  .orientation,
+  .toolbar,
+  .final,
+  .footer{
+    display:none!important;
+  }
+  .print-only-header{
+    display:flex!important;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+    border-bottom:2px solid #18344b;
+    padding:0 0 10mm;
+    margin:0 0 8mm;
+    color:#111;
+  }
+  .print-brand{
+    min-width:54mm;
+  }
+  .print-brand-name{
+    font-size:15pt;
+    font-weight:900;
+    letter-spacing:.03em;
+    color:#10263a;
+  }
+  .print-brand-sub{
+    margin-top:2mm;
+    font-size:8.5pt;
+    font-weight:800;
+    letter-spacing:.14em;
+    color:#168676;
+  }
+  .print-title{
+    text-align:right;
+    display:flex;
+    flex-direction:column;
+    gap:2mm;
+  }
+  .print-title strong{
+    font-size:12pt;
+    color:#10263a;
+  }
+  .print-title span{
+    font-size:8.5pt;
+    color:#555;
+  }
+  .section-title{
+    margin-top:5mm!important;
+  }
+  .section-kicker,
+  .section-title h2{
+    color:#10263a!important;
+  }
+  .question-card{
+    background:#fff!important;
+    color:#111!important;
+    border:1px solid #bbb!important;
+    box-shadow:none!important;
+    break-inside:avoid;
+  }
+  .q-head,
+  .q-content,
+  .stem,
+  .given{
+    color:#111!important;
+  }
+  .q-number{
+    color:#10263a!important;
+  }
+  .q-topic{
+    background:#eef3f7!important;
+    color:#10263a!important;
+    border:1px solid #d5e0e7!important;
+  }
+  .q-status,
+  .q-actions,
+  .post-grade{
+    display:none!important;
+  }
+  .option,
+  .input-answer{
+    background:#fff!important;
+    color:#111!important;
+    border:1px solid #ccc!important;
+  }
+  .letter,.checkmark{
+    background:#eef3f7!important;
+    color:#10263a!important;
+  }
+  .figure-grid{
+    background:#fff!important;
+    border:1px solid #ddd!important;
+  }
+}
+</style>
+
+<style>
+.lm-wrap{
+  --navy:#0b1324;--navy2:#172554;--blue:#1e40af;--gold:#f59e0b;--gold2:#fbbf24;
+  --ink:#111827;--muted:#64748b;--paper:#ffffff;--bg:#f3f6fb;--line:#dbe4ef;
+  --ok:#0f766e;--okbg:#ecfdf5;--bad:#b91c1c;--badbg:#fef2f2;--warn:#92400e;--warnbg:#fff7ed;
+}.lm-wrap, .lm-wrap *{box-sizing:border-box}.lm-wrap{scroll-behavior:smooth}.lm-wrap{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.58}.lm-wrap a{color:inherit}.lm-wrap .shell{max-width:1120px;margin:auto;padding:18px 16px 60px}.lm-wrap .lo-hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#07101f 0%,#172554 62%,#0f172a 100%);color:#fff;border-radius:26px;padding:34px 30px 30px;box-shadow:0 20px 55px rgba(15,23,42,.18)}.lm-wrap .lo-hero:after{content:"M";position:absolute;right:-18px;top:-68px;font-size:250px;font-weight:950;line-height:1;color:rgba(255,255,255,.045);letter-spacing:-.08em}.lm-wrap .brand-row{display:flex;align-items:center;gap:13px;position:relative;z-index:1}.lm-wrap .brand-symbol{width:50px;height:50px;border:2px solid var(--gold2);border-radius:14px;display:grid;place-items:center;font-size:27px;font-weight:950;color:var(--gold2);box-shadow:inset 0 0 0 3px rgba(251,191,36,.08)}.lm-wrap .brand-text{line-height:1.02}.lm-wrap .brand-text small{display:block;font-size:.72rem;letter-spacing:.28em;color:#cbd5e1;font-weight:850}.lm-wrap .brand-text strong{display:block;font-size:1.23rem;letter-spacing:.08em}.lm-wrap .lo-eyebrow{position:relative;z-index:1;margin-top:28px;color:#fbbf24;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;font-weight:900}.lm-wrap h1{position:relative;z-index:1;margin:.35rem 0 .6rem;font-size:clamp(2rem,5vw,4rem);line-height:.98;letter-spacing:-.045em}.lm-wrap .lo-hero p{position:relative;z-index:1;margin:0;max-width:810px;color:#dbeafe;font-size:1.03rem}.lm-wrap .hero-tags{position:relative;z-index:1;display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}.lm-wrap .tag{padding:6px 10px;border:1px solid rgba(255,255,255,.2);border-radius:999px;background:rgba(255,255,255,.06);font-size:.82rem;font-weight:750}.lm-wrap .orientation{margin:18px 0;background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);border-radius:16px;padding:17px 19px;box-shadow:0 8px 24px rgba(15,23,42,.05)}.lm-wrap .orientation strong{color:#92400e}.lm-wrap .review-note{margin:18px 0;background:#eff6ff;border:1px solid #bfdbfe;border-radius:16px;padding:15px 18px;color:#1e3a8a}.lm-wrap .review-note strong{display:block;margin-bottom:4px}.lm-wrap .toolbar{position:sticky;top:8px;z-index:30;margin:18px 0;padding:12px;background:rgba(243,246,251,.93);backdrop-filter:blur(13px);border:1px solid var(--line);border-radius:15px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;box-shadow:0 8px 25px rgba(15,23,42,.08)}.lm-wrap .progress{min-width:250px;flex:1}.lm-wrap .progress-top{display:flex;justify-content:space-between;gap:10px;font-size:.8rem;font-weight:850;color:#475569;margin-bottom:5px}.lm-wrap .bar{height:9px;border-radius:999px;background:#dbe4ef;overflow:hidden}.lm-wrap .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .25s}.lm-wrap button{font:inherit;font-weight:850;border:0;border-radius:10px;padding:10px 13px;cursor:pointer;transition:.15s}.lm-wrap button:hover{transform:translateY(-1px)}.lm-wrap button:focus-visible,.lm-wrap input:focus-visible{outline:3px solid #93c5fd;outline-offset:2px}.lm-wrap .lo-btn-primary{background:var(--blue);color:#fff}.lm-wrap .btn-dark{background:var(--navy);color:#fff}.lm-wrap .btn-light{background:#fff;color:#334155;border:1px solid var(--line)}.lm-wrap .section-title{margin:32px 2px 12px}.lm-wrap .section-kicker{font-size:.77rem;text-transform:uppercase;letter-spacing:.16em;font-weight:900;color:#b45309}.lm-wrap .section-title h2{margin:.18rem 0 0;font-size:1.65rem;letter-spacing:-.02em}.lm-wrap .question-card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;margin:16px 0;box-shadow:0 8px 28px rgba(15,23,42,.045);scroll-margin-top:100px}.lm-wrap .question-card.is-correct{border-color:#5eead4}.lm-wrap .question-card.is-wrong{border-color:#fecaca}.lm-wrap .q-head{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:13px 17px;border-bottom:1px solid #edf2f7;background:linear-gradient(180deg,#fff,#fbfdff)}.lm-wrap .q-number{font-weight:950;color:#1e3a8a;letter-spacing:.07em;text-transform:uppercase;font-size:.8rem}.lm-wrap .q-topic{margin-left:10px;color:#64748b;font-size:.78rem;font-weight:750}.lm-wrap .q-status{font-size:.72rem;border-radius:999px;padding:5px 8px;background:#f1f5f9;color:#64748b;font-weight:850;white-space:nowrap}.lm-wrap .q-status.answered{background:#eef2ff;color:#3730a3}.lm-wrap .q-status.correct{background:var(--okbg);color:var(--ok)}.lm-wrap .q-status.wrong{background:var(--badbg);color:var(--bad)}.lm-wrap .q-content{padding:20px}.lm-wrap .stem{font-size:1rem}.lm-wrap .given{color:#475569;font-size:.92rem;font-weight:700}.lm-wrap .figure-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:16px 0}.lm-wrap .figure-grid img{display:block;max-width:100%;height:auto;max-height:470px;object-fit:contain;margin:auto;border-radius:10px;background:#fff;border:1px solid #e2e8f0;padding:5px}.lm-wrap .answers{display:grid;gap:9px;margin:18px 0 6px}.lm-wrap .option{display:flex;gap:10px;align-items:flex-start;border:1px solid #dbe4ef;border-radius:12px;padding:10px 12px;cursor:pointer;background:#fff;transition:.15s}.lm-wrap .option:hover{border-color:#93c5fd;background:#f8fbff}.lm-wrap .option:has(input:checked){border-color:#2563eb;background:#eff6ff}.lm-wrap .option input{margin-top:5px;flex:0 0 auto}.lm-wrap .letter,.lm-wrap .checkmark{width:25px;height:25px;border-radius:50%;background:#e2e8f0;display:inline-grid;place-items:center;font-size:.78rem;font-weight:950;flex:0 0 auto}.lm-wrap .checkmark{font-size:.72rem;color:#475569}.lm-wrap .input-answer{margin:18px 0 8px;padding:14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px}.lm-wrap .input-answer label{font-weight:850;color:#334155}.lm-wrap .unit-help{font-size:.78rem;font-weight:600;color:#64748b}.lm-wrap .text-input{display:block;width:min(430px,100%);margin-top:7px;border:1px solid #cbd5e1;border-radius:9px;padding:11px 12px;font-size:1rem;background:#fff}.lm-wrap .q-actions{display:flex;justify-content:flex-end;margin-top:10px}.lm-wrap .btn-clear-one{background:#fff;color:#475569;border:1px solid var(--line);padding:8px 10px;font-size:.82rem}.lm-wrap .mini-note{font-size:.8rem;color:#64748b;margin-top:7px}.lm-wrap .post-grade{margin-top:14px;border-radius:12px;padding:13px 14px;font-weight:800}.lm-wrap .post-grade.correct{background:var(--okbg);border:1px solid #a7f3d0;color:#065f46}.lm-wrap .post-grade.wrong{background:var(--badbg);border:1px solid #fecaca;color:#991b1b}.lm-wrap .final{margin-top:30px;background:linear-gradient(180deg,#fff,#f8fafc);border:2px solid #cbd5e1;border-radius:22px;padding:22px}.lm-wrap .final h2{margin:0 0 5px;font-size:1.7rem}.lm-wrap .final p{margin:.3rem 0;color:#475569}.lm-wrap .final-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.lm-wrap .warning{display:none;margin-top:14px;background:var(--warnbg);border:1px solid #fed7aa;color:var(--warn);border-radius:12px;padding:12px 14px;font-weight:850}.lm-wrap .warning.show{display:block}.lm-wrap .report{display:none;margin-top:18px}.lm-wrap .report.show{display:block}.lm-wrap .report-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}.lm-wrap .metric{padding:15px;border-radius:14px;background:#fff;border:1px solid var(--line);text-align:center}.lm-wrap .metric strong{display:block;font-size:2rem;line-height:1.1}.lm-wrap .metric small{font-weight:800;color:#64748b}.lm-wrap .metric.good strong{color:var(--ok)}.lm-wrap .metric.bad strong{color:var(--bad)}.lm-wrap .metric.pct strong{color:#1e40af}.lm-wrap .question-lists{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}.lm-wrap .qlist{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px}.lm-wrap .qlist strong{display:block;margin-bottom:5px}.lm-wrap .answer-key{display:none;margin-top:18px;border-top:1px solid var(--line);padding-top:18px}.lm-wrap .answer-key.show{display:block}.lm-wrap .key-card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:13px 14px;margin:9px 0}.lm-wrap .key-card .khead{font-weight:950;color:#1e3a8a}.lm-wrap .key-card p{margin:.35rem 0 0;color:#334155}.lm-wrap .footer{margin-top:30px;padding:18px 4px;color:#64748b;font-size:.84rem;border-top:1px solid var(--line)}.lm-wrap .footer strong{color:#334155}@media(max-width:760px){.lm-wrap .lo-hero{padding:27px 18px 24px;border-radius:20px}.lm-wrap .lo-hero:after{font-size:180px;top:-35px}.lm-wrap .q-head{align-items:flex-start;flex-direction:column;gap:6px}.lm-wrap .q-topic{display:block;margin:4px 0 0}.lm-wrap .report-grid,.lm-wrap .question-lists{grid-template-columns:1fr}.lm-wrap .toolbar{top:4px}}@media print{.lm-wrap .toolbar,.lm-wrap .q-actions,.lm-wrap .final-actions,.lm-wrap .review-note{display:none!important}.lm-wrap .question-card{box-shadow:none;break-inside:avoid}.lm-wrap{background:#fff}}
+.lm-wrap{--navy:#071b35;--navy2:#172554;--blue:#10b3c4;--gold:#18e3ac;--gold2:#63e3b0;--ink:#eaf4fc;--muted:#bbcfdf;--paper:#0f2236;--bg:#081420;--line:#1d3d56;--ok:#34d399;--okbg:rgba(52,211,153,.12);--bad:#ff6b72;--badbg:rgba(255,107,114,.12);--warn:#fde68a;--warnbg:rgba(251,191,36,.12);background:#081420;color:#eaf4fc}
+.lm-wrap .orientation{background:#0f2236;color:#eaf4fc}
+.lm-wrap .review-note{background:rgba(16,179,196,.12);border-color:#1d5e6b;color:#bdf0f6}
+.lm-wrap .bar{background:#1d3d56}
+.lm-wrap .lo-btn-primary{background:linear-gradient(120deg,#18e3ac,#10b3c4);color:#04231b}
+.lm-wrap .btn-dark{background:#0c1c2c;color:#eaf4fc;border:1px solid #1d3d56}
+.lm-wrap .btn-light{background:#0c1c2c;color:#bbcfdf;border:1px solid #1d3d56}
+.lm-wrap .question-card{background:#0f2236;border-color:#1d3d56}
+.lm-wrap .question-card.is-wrong{border-color:rgba(255,107,114,.5)}
+.lm-wrap .question-card.is-correct{border-color:rgba(52,211,153,.5)}
+.lm-wrap .q-head{background:linear-gradient(180deg,#0f2236,#0c1c2c);border-bottom-color:#1d3d56}
+.lm-wrap .q-status{background:rgba(255,255,255,.08);color:#bbcfdf}
+.lm-wrap .q-status.answered{background:rgba(16,179,196,.18);color:#8ef0ff}
+.lm-wrap .option{background:#0c1c2c;border-color:#1d3d56;color:#eaf4fc}
+.lm-wrap .option:hover{background:#0f2a40;border-color:#18e3ac}
+.lm-wrap .option:has(input:checked){background:rgba(24,227,172,.12);border-color:#18e3ac}
+.lm-wrap .letter,.lm-wrap .checkmark{background:#1d3d56;color:#eaf4fc}
+.lm-wrap .input-answer{background:#0c1c2c;border-color:#1d3d56}
+.lm-wrap .text-input{background:#0c1c2c;color:#eaf4fc;border-color:#1d3d56}
+.lm-wrap .btn-clear-one{background:transparent;color:#bbcfdf;border:1px solid #1d3d56}
+.lm-wrap .btn-clear-one:hover{color:#fff;border-color:#bbcfdf}
+.lm-wrap .btn-check-one{background:linear-gradient(120deg,#18e3ac,#10b3c4);color:#04231b;border:0;padding:8px 12px;font-size:.82rem;font-weight:800;border-radius:10px;cursor:pointer}
+.lm-wrap .q-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.lm-wrap .post-grade.wrong{background:rgba(255,107,114,.12);border:1px solid rgba(255,107,114,.4);color:#ffb3b8}
+.lm-wrap .post-grade.warn{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.35);color:#fde68a}
+.lm-wrap .final{background:linear-gradient(180deg,#0f2236,#0c1c2c);border-color:#1d3d56}
+.lm-wrap .metric{background:#0c1c2c;border-color:#1d3d56}
+.lm-wrap .qlist{background:#0c1c2c;border-color:#1d3d56}
+.lm-wrap .key-card{background:#0c1c2c;border-color:#1d3d56}
+.lm-wrap .figure-grid img{background:#fff}
+</style>
+</head>
+<body data-active="listas">
+<header class="site-header" id="site-header"></header>
+<div class="lm-wrap">
+<div class="shell">
+
+<div class="print-only-header" aria-hidden="true">
+  <div class="print-brand">
+    <div class="print-brand-name">PROFESSOR MADISON</div>
+    <div class="print-brand-sub">FÍSICA • MDC</div>
+  </div>
+  <div class="print-title">
+    <strong>Lista de Exercícios — Corrente Elétrica e Leis de Ohm</strong>
+    <span>Material de estudo • Professor Madison</span>
+  </div>
+</div>
+
+<section class="lo-hero">
+<div class="hero-copy">
+    <div class="lo-eyebrow">PROFESSOR MADISON • MDC</div>
+    <h1>Lista Interativa — Corrente Elétrica e Leis de Ohm</h1>
+    <p>Ensino Médio • responda no caderno e registre aqui suas respostas.</p>
+  </div>
+
+  <div class="hero-badges">
+    <span class="hero-badge accent">HTML autônomo</span>
+    <span class="hero-badge">29 questões</span>
+    <span class="hero-badge">Interativo</span>
+  </div>
+</section>
+
+<div class="site-tags">
+  <span>Professor Madison</span>
+  <span>Física</span>
+  <span>Material interativo</span>
+</div>
+
+<div class="orientation"><strong>Como usar:</strong> faça os cálculos e justificativas no caderno. No site, marque a alternativa ou digite o resultado solicitado. Você pode limpar qualquer resposta antes de finalizar. O gabarito só é liberado depois que todas as 29 questões forem respondidas e a lista for finalizada.</div>
+
+
+
+<div class="toolbar">
+  <div class="progress">
+    <div class="progress-top"><span>Progresso</span><span id="progress-text">0/29 respondidas</span></div>
+    <div class="bar"><i id="progress-bar"></i></div>
+  </div>
+  <button class="btn-light" type="button" onclick="goPending()">Ir para pendente</button>
+  <button class="lo-btn-primary" type="button" onclick="finishQuiz()">Finalizar lista</button>
+</div>
+
+<div class="section-title"><div class="section-kicker">Exercícios</div><h2>Corrente elétrica, resistência e circuitos</h2></div>
+
+
+<article class="question-card" id="q1" data-q="1">
+  <header class="q-head">
+    <div><span class="q-number">Questão 01</span><span class="q-topic">Corrente elétrica e carga</span></div>
+    <span class="q-status" id="status-1">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Na tira, Garfield reproduz o famoso experimento de Benjamin Franklin. Hoje sabemos que os raios são descargas elétricas produzidas entre regiões com grande diferença de potencial. Uma descarga pode atingir corrente da ordem de <strong>10<sup>5</sup> A</strong>. Para tornar a estimativa quantitativamente bem definida, considere que a fase intensa de cada descarga dure aproximadamente <strong>10<sup>−4</sup> s</strong> e que ocorram, em média, <strong>100 descargas por segundo</strong>. A ordem de grandeza do número total de elétrons transferidos por segundo é aproximadamente:<br><span class="given">Dado: |e| = 1,6 × 10<sup>−19</sup> C.</span></div>
+    <div class="figure-grid"><img src="/listas-html/img/corrente-eletrica-leis-de-ohm-lista/q1.jpg" alt="Figura da questão 1" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q1" value="a"><span class="letter">A</span><span>10²²</span></label><label class="option"><input type="radio" name="q1" value="b"><span class="letter">B</span><span>10²⁴</span></label><label class="option"><input type="radio" name="q1" value="c"><span class="letter">C</span><span>10²⁶</span></label><label class="option"><input type="radio" name="q1" value="d"><span class="letter">D</span><span>10²⁸</span></label><label class="option"><input type="radio" name="q1" value="e"><span class="letter">E</span><span>10³⁰</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(1)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(1)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-1" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q2" data-q="2">
+  <header class="q-head">
+    <div><span class="q-number">Questão 02</span><span class="q-topic">Circuitos e interruptores</span></div>
+    <span class="q-status" id="status-2">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Para ligar ou desligar uma mesma lâmpada a partir de dois interruptores, usam-se dois interruptores paralelos (chaves de duas posições). A mudança de posição de qualquer um deles deve alterar o estado da lâmpada, independentemente da posição do outro. Qual circuito cumpre essa finalidade?</div>
+    <div class="figure-grid"><img src="/listas-html/img/corrente-eletrica-leis-de-ohm-lista/q2.png" alt="Figura 1 da questão 2" loading="lazy"><img src="/listas-html/img/corrente-eletrica-leis-de-ohm-lista/q2-2.png" alt="Figura 2 da questão 2" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q2" value="a"><span class="letter">A</span></label><label class="option"><input type="radio" name="q2" value="b"><span class="letter">B</span></label><label class="option"><input type="radio" name="q2" value="c"><span class="letter">C</span></label><label class="option"><input type="radio" name="q2" value="d"><span class="letter">D</span></label><label class="option"><input type="radio" name="q2" value="e"><span class="letter">E</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(2)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(2)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-2" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q3" data-q="3">
+  <header class="q-head">
+    <div><span class="q-number">Questão 03</span><span class="q-topic">1ª Lei de Ohm</span></div>
+    <span class="q-status" id="status-3">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Um fio condutor é submetido a uma tensão de 60 V e, em 10 s, é atravessado por 30 C de carga. Calcule sua resistência elétrica.</div>
+    
+    <div class="input-answer"><label>Digite seu resultado <span class="unit-help">(a unidade pode ser omitida)</span><input class="text-input" type="text" id="q3-input" inputmode="decimal" autocomplete="off" placeholder="Ex.: 20 Ω"></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(3)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(3)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-3" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q4" data-q="4">
+  <header class="q-head">
+    <div><span class="q-number">Questão 04</span><span class="q-topic">Corrente elétrica e carga</span></div>
+    <span class="q-status" id="status-4">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Através de dois eletrodos de cobre mergulhados em sulfato de cobre, faz-se passar uma corrente de 4,0 A durante 30 min. Os íons Cu²⁺ são neutralizados por elétrons. Nesse intervalo, o número de elétrons transportados é:<br><span class="given">Dado: |e| = 1,6 × 10<sup>−19</sup> C.</span></div>
+    
+    <div class="answers"><label class="option"><input type="radio" name="q4" value="a"><span class="letter">A</span><span>1,6 × 10¹⁹</span></label><label class="option"><input type="radio" name="q4" value="b"><span class="letter">B</span><span>3,2 × 10¹⁹</span></label><label class="option"><input type="radio" name="q4" value="c"><span class="letter">C</span><span>4,5 × 10²²</span></label><label class="option"><input type="radio" name="q4" value="d"><span class="letter">D</span><span>7,6 × 10²²</span></label><label class="option"><input type="radio" name="q4" value="e"><span class="letter">E</span><span>9,0 × 10²²</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(4)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(4)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-4" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q5" data-q="5">
+  <header class="q-head">
+    <div><span class="q-number">Questão 05</span><span class="q-topic">Corrente elétrica e carga</span></div>
+    <span class="q-status" id="status-5">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Cerca de 10⁶ íons Na⁺ penetram numa célula excitada em 2×10⁻³ s. A intensidade da corrente elétrica através da membrana é:<br><span class="given">Dado: carga elementar = 1,6 × 10<sup>−19</sup> C.</span></div>
+    
+    <div class="answers"><label class="option"><input type="radio" name="q5" value="a"><span class="letter">A</span><span>2,0 × 10⁻¹¹ A</span></label><label class="option"><input type="radio" name="q5" value="b"><span class="letter">B</span><span>3,2 × 10⁻¹¹ A</span></label><label class="option"><input type="radio" name="q5" value="c"><span class="letter">C</span><span>7,5 × 10⁻¹¹ A</span></label><label class="option"><input type="radio" name="q5" value="d"><span class="letter">D</span><span>8,0 × 10⁻¹¹ A</span></label><label class="option"><input type="radio" name="q5" value="e"><span class="letter">E</span><span>9,6 × 10⁻¹¹ A</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(5)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(5)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-5" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q6" data-q="6">
+  <header class="q-head">
+    <div><span class="q-number">Questão 06</span><span class="q-topic">Conceito de corrente elétrica</span></div>
+    <span class="q-status" id="status-6">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Analise as afirmações:<br><strong>I.</strong> Corrente elétrica é o movimento ordenado de elétrons em um condutor metálico.<br><strong>II.</strong> Corrente elétrica pode corresponder ao movimento ordenado de íons em uma solução eletrolítica.<br><strong>III.</strong> Em um resistor ôhmico, a corrente é inversamente proporcional à ddp aplicada e diretamente proporcional à resistência elétrica.<br>Está correto apenas o que se afirma em:</div>
+    
+    <div class="answers"><label class="option"><input type="radio" name="q6" value="a"><span class="letter">A</span><span>I</span></label><label class="option"><input type="radio" name="q6" value="b"><span class="letter">B</span><span>II</span></label><label class="option"><input type="radio" name="q6" value="c"><span class="letter">C</span><span>III</span></label><label class="option"><input type="radio" name="q6" value="d"><span class="letter">D</span><span>I e II</span></label><label class="option"><input type="radio" name="q6" value="e"><span class="letter">E</span><span>I e III</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(6)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(6)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-6" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q7" data-q="7">
+  <header class="q-head">
+    <div><span class="q-number">Questão 07</span><span class="q-topic">Condutores, isolantes e descargas</span></div>
+    <span class="q-status" id="status-7">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Um livro afirma: (1) isolantes não permitem a passagem de corrente elétrica; (2) o ar é isolante; (3) um raio pode corresponder a uma corrente de 10 000 A atravessando o ar e deslocando cerca de 20 C. Considerando literalmente essas três afirmações, pode-se concluir que elas são:</div>
+    
+    <div class="answers"><label class="option"><input type="radio" name="q7" value="a"><span class="letter">A</span><span>coerentes, e a descarga dura 0,002 s</span></label><label class="option"><input type="radio" name="q7" value="b"><span class="letter">B</span><span>coerentes, e a descarga dura 2,0 s</span></label><label class="option"><input type="radio" name="q7" value="c"><span class="letter">C</span><span>conflitantes, e a descarga dura 0,002 s</span></label><label class="option"><input type="radio" name="q7" value="d"><span class="letter">D</span><span>conflitantes, e a descarga dura 2,0 s</span></label><label class="option"><input type="radio" name="q7" value="e"><span class="letter">E</span><span>conflitantes, e não é possível estimar a duração</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(7)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(7)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-7" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q8" data-q="8">
+  <header class="q-head">
+    <div><span class="q-number">Questão 08</span><span class="q-topic">Corrente em gases ionizados</span></div>
+    <span class="q-status" id="status-8">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Numa lâmpada fluorescente, íons negativos deslocam-se à taxa de 1,0×10¹⁸ íons/s para um polo e íons positivos, com a mesma taxa, para o polo oposto. A carga de cada íon tem módulo 1,6×10⁻¹⁹ C. A corrente elétrica total na lâmpada é:</div>
+    
+    <div class="answers"><label class="option"><input type="radio" name="q8" value="a"><span class="letter">A</span><span>0,16 A</span></label><label class="option"><input type="radio" name="q8" value="b"><span class="letter">B</span><span>0,32 A</span></label><label class="option"><input type="radio" name="q8" value="c"><span class="letter">C</span><span>1,0 × 10¹⁸ A</span></label><label class="option"><input type="radio" name="q8" value="d"><span class="letter">D</span><span>nula</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(8)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(8)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-8" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q9" data-q="9">
+  <header class="q-head">
+    <div><span class="q-number">Questão 09</span><span class="q-topic">Diferença de potencial</span></div>
+    <span class="q-status" id="status-9">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Passarinhos podem pousar sobre um único fio de alta tensão sem sofrer choque significativo. Qual alternativa explica corretamente esse fato?</div>
+    <div class="figure-grid"><img src="/listas-html/img/corrente-eletrica-leis-de-ohm-lista/q9.jpg" alt="Figura da questão 9" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q9" value="a"><span class="letter">A</span><span>A diferença de potencial entre os dois pontos de apoio (A e B) é quase nula.</span></label><label class="option"><input type="radio" name="q9" value="b"><span class="letter">B</span><span>A diferença de potencial entre A e B é muito elevada.</span></label><label class="option"><input type="radio" name="q9" value="c"><span class="letter">C</span><span>A resistência elétrica do corpo do pássaro é praticamente nula.</span></label><label class="option"><input type="radio" name="q9" value="d"><span class="letter">D</span><span>O corpo do pássaro é um bom condutor de corrente elétrica.</span></label><label class="option"><input type="radio" name="q9" value="e"><span class="letter">E</span><span>A corrente elétrica no fio de alta tensão é muito baixa.</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(9)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(9)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-9" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q10" data-q="10">
+  <header class="q-head">
+    <div><span class="q-number">Questão 10</span><span class="q-topic">2ª Lei de Ohm</span></div>
+    <span class="q-status" id="status-10">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Dois cabos elétricos são feitos do mesmo material. O cabo 1 tem 25 km e resistência de 4 Ω; o cabo 2 tem 75 km. Sabe-se que o peso do cabo 2 é quatro vezes o peso do cabo 1. Calcule a resistência R₂ do cabo 2.</div>
+    <div class="figure-grid"><img src="/listas-html/img/corrente-eletrica-leis-de-ohm-lista/q10.jpg" alt="Figura da questão 10" loading="lazy"></div>
+    <div class="input-answer"><label>Digite seu resultado <span class="unit-help">(a unidade pode ser omitida)</span><input class="text-input" type="text" id="q10-input" inputmode="decimal" autocomplete="off" placeholder="Ex.: 20 Ω"></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(10)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(10)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-10" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q11" data-q="11">
+  <header class="q-head">
+    <div><span class="q-number">Questão 11</span><span class="q-topic">2ª Lei de Ohm</span></div>
+    <span class="q-status" id="status-11">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Um fio de níquel-cromo, de resistividade 1×10⁻⁶ Ω·m, tem 1,0 m de comprimento e área de seção reta 2,5 mm². Submetido a uma ddp de 12 V, a corrente que o percorre vale:</div>
+    
+    <div class="answers"><label class="option"><input type="radio" name="q11" value="a"><span class="letter">A</span><span>20 A</span></label><label class="option"><input type="radio" name="q11" value="b"><span class="letter">B</span><span>25 A</span></label><label class="option"><input type="radio" name="q11" value="c"><span class="letter">C</span><span>30 A</span></label><label class="option"><input type="radio" name="q11" value="d"><span class="letter">D</span><span>50 A</span></label><label class="option"><input type="radio" name="q11" value="e"><span class="letter">E</span><span>60 A</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(11)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(11)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-11" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q12" data-q="12">
+  <header class="q-head">
+    <div><span class="q-number">Questão 12</span><span class="q-topic">Resistência e potência</span></div>
+    <span class="q-status" id="status-12">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Duas lâmpadas L₁ e L₂ são idênticas, exceto pelo filamento: L₁ possui filamento mais espesso. Ligadas separadamente à mesma tensão de 220 V, observa-se que:</div>
+    
+    <div class="answers"><label class="option"><input type="radio" name="q12" value="a"><span class="letter">A</span><span>L₁ e L₂ terão o mesmo brilho.</span></label><label class="option"><input type="radio" name="q12" value="b"><span class="letter">B</span><span>L₁ brilhará mais, pois tem maior resistência.</span></label><label class="option"><input type="radio" name="q12" value="c"><span class="letter">C</span><span>L₂ brilhará mais, pois tem maior resistência.</span></label><label class="option"><input type="radio" name="q12" value="d"><span class="letter">D</span><span>L₂ brilhará mais, pois tem menor resistência.</span></label><label class="option"><input type="radio" name="q12" value="e"><span class="letter">E</span><span>L₁ brilhará mais, pois tem menor resistência.</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(12)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(12)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-12" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q13" data-q="13">
+  <header class="q-head">
+    <div><span class="q-number">Questão 13</span><span class="q-topic">2ª Lei de Ohm</span></div>
+    <span class="q-status" id="status-13">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Um fio metálico tem resistência 4,0 Ω. Outro fio, do mesmo metal e à mesma temperatura, possui o dobro do comprimento e o dobro do diâmetro. Sua resistência é:</div>
+    
+    <div class="answers"><label class="option"><input type="radio" name="q13" value="a"><span class="letter">A</span><span>1,0 Ω</span></label><label class="option"><input type="radio" name="q13" value="b"><span class="letter">B</span><span>2,0 Ω</span></label><label class="option"><input type="radio" name="q13" value="c"><span class="letter">C</span><span>4,0 Ω</span></label><label class="option"><input type="radio" name="q13" value="d"><span class="letter">D</span><span>6,0 Ω</span></label><label class="option"><input type="radio" name="q13" value="e"><span class="letter">E</span><span>8,0 Ω</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(13)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(13)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-13" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q14" data-q="14">
+  <header class="q-head">
+    <div><span class="q-number">Questão 14</span><span class="q-topic">Fusíveis e seção transversal</span></div>
+    <span class="q-status" id="status-14">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Dois fusíveis F₁ e F₂, feitos do mesmo material e com o mesmo comprimento, são especificados para 1,0 A e 2,0 A, respectivamente. No modelo escolar em que a corrente limite é proporcional à área da seção transversal, a razão S₁/S₂ é:</div>
+    
+    <div class="answers"><label class="option"><input type="radio" name="q14" value="a"><span class="letter">A</span><span>4</span></label><label class="option"><input type="radio" name="q14" value="b"><span class="letter">B</span><span>3/2</span></label><label class="option"><input type="radio" name="q14" value="c"><span class="letter">C</span><span>1/2</span></label><label class="option"><input type="radio" name="q14" value="d"><span class="letter">D</span><span>1/4</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(14)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(14)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-14" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q15" data-q="15">
+  <header class="q-head">
+    <div><span class="q-number">Questão 15</span><span class="q-topic">Resistência e localização de curto</span></div>
+    <span class="q-status" id="status-15">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Um cabo telefônico com dois fios paralelos tem 5,00 km. Em algum ponto, os fios entram em contato e provocam curto-circuito. Mede-se 20,0 Ω entre P e Q e 80,0 Ω entre R e S. A distância de PQ até o ponto do curto é:</div>
+    <div class="figure-grid"><img src="/listas-html/img/corrente-eletrica-leis-de-ohm-lista/q15.png" alt="Figura da questão 15" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q15" value="a"><span class="letter">A</span><span>1,25 km</span></label><label class="option"><input type="radio" name="q15" value="b"><span class="letter">B</span><span>4,00 km</span></label><label class="option"><input type="radio" name="q15" value="c"><span class="letter">C</span><span>1,00 km</span></label><label class="option"><input type="radio" name="q15" value="d"><span class="letter">D</span><span>3,75 km</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(15)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(15)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-15" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q16" data-q="16">
+  <header class="q-head">
+    <div><span class="q-number">Questão 16</span><span class="q-topic">2ª Lei de Ohm</span></div>
+    <span class="q-status" id="status-16">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Um fio cilíndrico de comprimento L, raio r e resistividade ρ apresenta resistência R. Outro fio tem resistividade 2ρ, comprimento 3L e raio r/3. Sua resistência será:</div>
+    
+    <div class="answers"><label class="option"><input type="radio" name="q16" value="a"><span class="letter">A</span><span>R/54</span></label><label class="option"><input type="radio" name="q16" value="b"><span class="letter">B</span><span>2R</span></label><label class="option"><input type="radio" name="q16" value="c"><span class="letter">C</span><span>6R</span></label><label class="option"><input type="radio" name="q16" value="d"><span class="letter">D</span><span>18R</span></label><label class="option"><input type="radio" name="q16" value="e"><span class="letter">E</span><span>54R</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(16)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(16)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-16" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q17" data-q="17">
+  <header class="q-head">
+    <div><span class="q-number">Questão 17</span><span class="q-topic">2ª Lei de Ohm</span></div>
+    <span class="q-status" id="status-17">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Um fio metálico de comprimento L e resistência R é esticado até que seu comprimento passe a 2L. A densidade e a resistividade permanecem constantes e a temperatura não varia. Qual é a nova resistência do fio?</div>
+    
+    <div class="input-answer"><label>Digite sua resposta<input class="text-input" type="text" id="q17-input" autocomplete="off" placeholder="Ex.: 4R"></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(17)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(17)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-17" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q18" data-q="18">
+  <header class="q-head">
+    <div><span class="q-number">Questão 18</span><span class="q-topic">2ª Lei de Ohm</span></div>
+    <span class="q-status" id="status-18">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Três resistores R<sub>A</sub>, R<sub>B</sub> e R<sub>C</sub> são feitos com fios de mesmo comprimento:<br>I. ρ<sub>A</sub> = 1,0×10⁻⁶ Ω·m e d<sub>A</sub> = 0,50 mm;<br>II. ρ<sub>B</sub> = 1,2×10⁻⁶ Ω·m e d<sub>B</sub> = 0,50 mm;<br>III. ρ<sub>C</sub> = 1,5×10⁻⁶ Ω·m e d<sub>C</sub> = 0,40 mm.<br>É correto afirmar que:</div>
+    
+    <div class="answers"><label class="option"><input type="radio" name="q18" value="a"><span class="letter">A</span><span>Rₐ > Rᵦ > R꜀</span></label><label class="option"><input type="radio" name="q18" value="b"><span class="letter">B</span><span>Rᵦ > R꜀ > Rₐ</span></label><label class="option"><input type="radio" name="q18" value="c"><span class="letter">C</span><span>R꜀ > Rᵦ > Rₐ</span></label><label class="option"><input type="radio" name="q18" value="d"><span class="letter">D</span><span>Rᵦ > Rₐ > R꜀</span></label><label class="option"><input type="radio" name="q18" value="e"><span class="letter">E</span><span>R꜀ > Rₐ > Rᵦ</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(18)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(18)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-18" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q19" data-q="19">
+  <header class="q-head">
+    <div><span class="q-number">Questão 19</span><span class="q-topic">Carga elétrica e autonomia</span></div>
+    <span class="q-status" id="status-19">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Um carro elétrico desloca-se a 60 km/h consumindo corrente de 50 A. A bateria possui carga máxima de 75 Ah. Desprezando variações de consumo, a autonomia é:</div>
+    
+    <div class="answers"><label class="option"><input type="radio" name="q19" value="a"><span class="letter">A</span><span>40,0 km</span></label><label class="option"><input type="radio" name="q19" value="b"><span class="letter">B</span><span>62,5 km</span></label><label class="option"><input type="radio" name="q19" value="c"><span class="letter">C</span><span>90,0 km</span></label><label class="option"><input type="radio" name="q19" value="d"><span class="letter">D</span><span>160,0 km</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(19)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(19)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-19" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q20" data-q="20">
+  <header class="q-head">
+    <div><span class="q-number">Questão 20</span><span class="q-topic">Condutor não ôhmico</span></div>
+    <span class="q-status" id="status-20">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">O gráfico mostra a tensão elétrica em função da corrente para um resistor mantido em condição térmica controlada. Com base na curva, é correto afirmar que:</div>
+    <div class="figure-grid"><img src="/listas-html/img/corrente-eletrica-leis-de-ohm-lista/q20.jpg" alt="Figura da questão 20" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q20" value="a"><span class="letter">A</span><span>A corrente é diretamente proporcional à tensão.</span></label><label class="option"><input type="radio" name="q20" value="b"><span class="letter">B</span><span>A resistência elétrica aumenta quando a corrente aumenta.</span></label><label class="option"><input type="radio" name="q20" value="c"><span class="letter">C</span><span>A resistência tem o mesmo valor para qualquer tensão.</span></label><label class="option"><input type="radio" name="q20" value="d"><span class="letter">D</span><span>Ao dobrar a corrente, a potência sempre quadruplica.</span></label><label class="option"><input type="radio" name="q20" value="e"><span class="letter">E</span><span>O material obedece à Lei de Ohm em toda a faixa mostrada.</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(20)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(20)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-20" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q21" data-q="21">
+  <header class="q-head">
+    <div><span class="q-number">Questão 21</span><span class="q-topic">Resistência e temperatura</span></div>
+    <span class="q-status" id="status-21">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Uma lâmpada de lanterna é alimentada por 3 V. Seu filamento de tungstênio tem coeficiente α = 4,5×10⁻³ °C⁻¹ e resistência R₀ = 1,0 Ω a 20 °C. Quando acesa, a corrente é 0,3 A. Usando R = R₀[1 + α(T−T₀)], a temperatura do filamento é aproximadamente:</div>
+    
+    <div class="answers"><label class="option"><input type="radio" name="q21" value="a"><span class="letter">A</span><span>1500 °C</span></label><label class="option"><input type="radio" name="q21" value="b"><span class="letter">B</span><span>2020 °C</span></label><label class="option"><input type="radio" name="q21" value="c"><span class="letter">C</span><span>2293 °C</span></label><label class="option"><input type="radio" name="q21" value="d"><span class="letter">D</span><span>5400 °C</span></label><label class="option"><input type="radio" name="q21" value="e"><span class="letter">E</span><span>6465 °C</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(21)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(21)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-21" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q22" data-q="22">
+  <header class="q-head">
+    <div><span class="q-number">Questão 22</span><span class="q-topic">Choque elétrico</span></div>
+    <span class="q-status" id="status-22">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Segundo a tabela, em qual faixa se enquadra uma pessoa de resistência corporal aproximadamente 1500 Ω submetida a uma tensão de 220 V?</div>
+    <div class="figure-grid"><img src="/listas-html/img/corrente-eletrica-leis-de-ohm-lista/q22.jpg" alt="Figura da questão 22" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q22" value="a"><span class="letter">A</span><span>I</span></label><label class="option"><input type="radio" name="q22" value="b"><span class="letter">B</span><span>II</span></label><label class="option"><input type="radio" name="q22" value="c"><span class="letter">C</span><span>III</span></label><label class="option"><input type="radio" name="q22" value="d"><span class="letter">D</span><span>IV</span></label><label class="option"><input type="radio" name="q22" value="e"><span class="letter">E</span><span>V</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(22)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(22)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-22" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q23" data-q="23">
+  <header class="q-head">
+    <div><span class="q-number">Questão 23</span><span class="q-topic">Curvas características</span></div>
+    <span class="q-status" id="status-23">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">O gráfico apresenta as curvas características de três condutores X, Y e Z. Analisando-o, verifica-se que:</div>
+    <div class="figure-grid"><img src="/listas-html/img/corrente-eletrica-leis-de-ohm-lista/q23.jpg" alt="Figura da questão 23" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q23" value="a"><span class="letter">A</span><span>Os três condutores são ôhmicos.</span></label><label class="option"><input type="radio" name="q23" value="b"><span class="letter">B</span><span>A resistência elétrica de X é 6 Ω.</span></label><label class="option"><input type="radio" name="q23" value="c"><span class="letter">C</span><span>A resistência elétrica de Z é 0,25 Ω.</span></label><label class="option"><input type="radio" name="q23" value="d"><span class="letter">D</span><span>A potência dissipada por Y é 150 W quando U = 30 V.</span></label><label class="option"><input type="radio" name="q23" value="e"><span class="letter">E</span><span>A potência dissipada por Z é 4 W quando U = 60 V.</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(23)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(23)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-23" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q24" data-q="24">
+  <header class="q-head">
+    <div><span class="q-number">Questão 24</span><span class="q-topic">Lei de Ohm em contexto biológico</span></div>
+    <span class="q-status" id="status-24">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">A arraia elétrica possui eletrócitos organizados em camadas. Considere que cada eletrócito forneça uma ddp de 10⁻⁴ V, que a resistência corporal de um mergulhador seja 2000 Ω e que uma corrente de 20 mA seja potencialmente fatal. Quantas camadas, em série, seriam necessárias para produzir essa corrente?</div>
+    <div class="figure-grid"><img src="/listas-html/img/corrente-eletrica-leis-de-ohm-lista/q24.jpg" alt="Figura da questão 24" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q24" value="a"><span class="letter">A</span><span>400 000</span></label><label class="option"><input type="radio" name="q24" value="b"><span class="letter">B</span><span>480 000</span></label><label class="option"><input type="radio" name="q24" value="c"><span class="letter">C</span><span>560 000</span></label><label class="option"><input type="radio" name="q24" value="d"><span class="letter">D</span><span>800 000</span></label><label class="option"><input type="radio" name="q24" value="e"><span class="letter">E</span><span>1 000 000</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(24)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(24)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-24" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q25" data-q="25">
+  <header class="q-head">
+    <div><span class="q-number">Questão 25</span><span class="q-topic">Resistividade e dimensionamento</span></div>
+    <span class="q-status" id="status-25">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Para alimentar uma casa, duas rotas de fios são possíveis: a linha 1 mede 72 m + 72 m = 144 m e a linha 2 mede 100 m. Usando fios do mesmo material e exigindo a mesma resistência total de linha, qual deve ser a razão entre o diâmetro do fio da linha 1 e o da linha 2?</div>
+    <div class="figure-grid"><img src="/listas-html/img/corrente-eletrica-leis-de-ohm-lista/q25.jpg" alt="Figura da questão 25" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q25" value="a"><span class="letter">A</span><span>1,0</span></label><label class="option"><input type="radio" name="q25" value="b"><span class="letter">B</span><span>0,6</span></label><label class="option"><input type="radio" name="q25" value="c"><span class="letter">C</span><span>0,72</span></label><label class="option"><input type="radio" name="q25" value="d"><span class="letter">D</span><span>1,2</span></label><label class="option"><input type="radio" name="q25" value="e"><span class="letter">E</span><span>1,44</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(25)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(25)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-25" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q26" data-q="26">
+  <header class="q-head">
+    <div><span class="q-number">Questão 26</span><span class="q-topic">Queda de tensão</span></div>
+    <span class="q-status" id="status-26">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Um fio de transmissão conduz 1000 A e possui resistência por unidade de comprimento 5,0×10⁻⁵ Ω/m. Os pés de um pássaro estão separados por 6,0 cm ao longo do fio. A diferença de potencial entre seus pés é:</div>
+    
+    <div class="answers"><label class="option"><input type="radio" name="q26" value="a"><span class="letter">A</span><span>1,0 mV</span></label><label class="option"><input type="radio" name="q26" value="b"><span class="letter">B</span><span>2,0 mV</span></label><label class="option"><input type="radio" name="q26" value="c"><span class="letter">C</span><span>3,0 mV</span></label><label class="option"><input type="radio" name="q26" value="d"><span class="letter">D</span><span>4,0 mV</span></label><label class="option"><input type="radio" name="q26" value="e"><span class="letter">E</span><span>5,0 mV</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(26)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(26)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-26" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q27" data-q="27">
+  <header class="q-head">
+    <div><span class="q-number">Questão 27</span><span class="q-topic">Circuitos simples</span></div>
+    <span class="q-status" id="status-27">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Quatro estudantes tentam acender uma lâmpada usando uma pilha e um fio. Marque <strong>todas</strong> as montagens em que a lâmpada acende corretamente.</div>
+    <div class="figure-grid"><img src="/listas-html/img/corrente-eletrica-leis-de-ohm-lista/q27.jpg" alt="Figura da questão 27" loading="lazy"></div>
+    <div class="answers multi"><label class="option"><input type="checkbox" name="q27" value="carlos"><span class="checkmark">✓</span><span>Carlos</span></label><label class="option"><input type="checkbox" name="q27" value="joao"><span class="checkmark">✓</span><span>João</span></label><label class="option"><input type="checkbox" name="q27" value="mateus"><span class="checkmark">✓</span><span>Mateus</span></label><label class="option"><input type="checkbox" name="q27" value="pedro"><span class="checkmark">✓</span><span>Pedro</span></label></div><div class="mini-note">Nesta questão, pode haver mais de uma resposta correta.</div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(27)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(27)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-27" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q28" data-q="28">
+  <header class="q-head">
+    <div><span class="q-number">Questão 28</span><span class="q-topic">Circuitos simples</span></div>
+    <span class="q-status" id="status-28">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Um estudante usa uma pilha, uma lâmpada e um fio com as extremidades desencapadas. Em quais montagens a lâmpada acende?</div>
+    <div class="figure-grid"><img src="/listas-html/img/corrente-eletrica-leis-de-ohm-lista/q28.jpg" alt="Figura da questão 28" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q28" value="a"><span class="letter">A</span><span>(1), (3), (6)</span></label><label class="option"><input type="radio" name="q28" value="b"><span class="letter">B</span><span>(3), (4), (5)</span></label><label class="option"><input type="radio" name="q28" value="c"><span class="letter">C</span><span>(1), (3), (5)</span></label><label class="option"><input type="radio" name="q28" value="d"><span class="letter">D</span><span>(1), (3), (7)</span></label><label class="option"><input type="radio" name="q28" value="e"><span class="letter">E</span><span>(1), (2), (5)</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(28)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(28)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-28" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q29" data-q="29">
+  <header class="q-head">
+    <div><span class="q-number">Questão 29</span><span class="q-topic">Interruptor paralelo</span></div>
+    <span class="q-status" id="status-29">Não respondida</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Uma situação prática comum em residências é o chamado <em>interruptor paralelo</em>, no qual uma lâmpada pode ser ligada ou desligada independentemente a partir de dois pontos, como no alto e no pé de uma escada. Nos esquemas I, II e III, A e B representam os dois pontos de comando e L é a lâmpada. Quais esquemas permitem esse funcionamento?</div>
+    <div class="figure-grid"><img src="/listas-html/img/corrente-eletrica-leis-de-ohm-lista/q29.png" alt="Figura 1 da questão 29" loading="lazy"><img src="/listas-html/img/corrente-eletrica-leis-de-ohm-lista/q29-2.jpg" alt="Figura 2 da questão 29" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q29" value="a"><span class="letter">A</span><span>Somente I</span></label><label class="option"><input type="radio" name="q29" value="b"><span class="letter">B</span><span>Somente II</span></label><label class="option"><input type="radio" name="q29" value="c"><span class="letter">C</span><span>Somente III</span></label><label class="option"><input type="radio" name="q29" value="d"><span class="letter">D</span><span>II e III</span></label><label class="option"><input type="radio" name="q29" value="e"><span class="letter">E</span><span>I e III</span></label></div>
+    <div class="q-actions">
+      <button type="button" class="btn-check-one" onclick="checkOne(29)">Verificar resposta</button>
+      <button type="button" class="btn-clear-one" onclick="clearOne(29)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-29" hidden></div>
+  </div>
+</article>
+
+<section class="final" id="final">
+  <h2>Relatório da lista</h2>
+  <p>O relatório e o acesso ao gabarito são liberados após a resposta das 29 questões.</p>
+  <div class="final-actions">
+    <button class="lo-btn-primary" type="button" onclick="finishQuiz()">Finalizar e ver meu resultado</button>
+    <button class="btn-dark" type="button" onclick="resetAll()">Limpar tudo e recomeçar</button>
+  </div>
+  <div class="warning" id="warning"></div>
+
+  <div class="report" id="report" aria-live="polite">
+    <div class="report-grid">
+      <div class="metric good"><strong id="n-correct">0</strong><small>acertos</small></div>
+      <div class="metric bad"><strong id="n-wrong">0</strong><small>erros</small></div>
+      <div class="metric pct"><strong id="pct">0%</strong><small>aproveitamento</small></div>
+    </div>
+    <div class="question-lists">
+      <div class="qlist"><strong>Questões acertadas</strong><span id="correct-list">—</span></div>
+      <div class="qlist"><strong>Questões erradas</strong><span id="wrong-list">—</span></div>
+    </div>
+    <div class="final-actions">
+      <button class="btn-light" id="key-btn" type="button" onclick="toggleKey()">Acessar gabarito correto</button>
+      <button class="btn-dark" type="button" onclick="resetAll()">Tentar novamente desde o início</button>
+    </div>
+    <div class="answer-key" id="answer-key"></div>
+  </div>
+</section>
+
+<footer class="footer"><strong>Professor Madison · Física · Método de Domínio Conceitual (MDC)</strong><br>Questões adaptadas do material “Corrente elétrica e leis de Ohm”, Prof. Panosso. Revisão científica, correções editoriais e adaptação interativa: Professor Madison.</footer>
+</div>
+
+<script>
+const DATA = [{"id": 1, "type": "choice", "answer": "a", "topic": "Corrente elétrica e carga", "stem": "Na tira, Garfield reproduz o famoso experimento de Benjamin Franklin. Hoje sabemos que os raios são descargas elétricas produzidas entre regiões com grande diferença de potencial. Uma descarga pode atingir corrente da ordem de <strong>10<sup>5<\/sup> A<\/strong>. Para tornar a estimativa quantitativamente bem definida, considere que a fase intensa de cada descarga dure aproximadamente <strong>10<sup>−4<\/sup> s<\/strong> e que ocorram, em média, <strong>100 descargas por segundo<\/strong>. A ordem de grandeza do número total de elétrons transferidos por segundo é aproximadamente:<br><span class=\"given\">Dado: |e| = 1,6 × 10<sup>−19<\/sup> C.<\/span>", "options": {"a": "10²²", "b": "10²⁴", "c": "10²⁶", "d": "10²⁸", "e": "10³⁰"}, "resolution": "Em cada descarga, Q = IΔt = 10⁵·10⁻⁴ = 10 C. Em 100 descargas: Q ≈ 10³ C por segundo. Logo N ≈ 10³/(1,6×10⁻¹⁹) ≈ 6,25×10²¹ elétrons, cuja ordem de grandeza é 10²²."}, {"id": 2, "type": "choice", "answer": "e", "topic": "Circuitos e interruptores", "stem": "Para ligar ou desligar uma mesma lâmpada a partir de dois interruptores, usam-se dois interruptores paralelos (chaves de duas posições). A mudança de posição de qualquer um deles deve alterar o estado da lâmpada, independentemente da posição do outro. Qual circuito cumpre essa finalidade?", "options": {"a": "A", "b": "B", "c": "C", "d": "D", "e": "E"}, "resolution": "O circuito correto precisa ligar os dois terminais comutados de um interruptor aos dois terminais comutados do outro, de modo que qualquer chave possa abrir ou fechar o caminho da corrente. Isso ocorre em E."}, {"id": 3, "type": "numeric", "answer": 20, "tol": 0.02, "unit": "Ω", "topic": "1ª Lei de Ohm", "stem": "Um fio condutor é submetido a uma tensão de 60 V e, em 10 s, é atravessado por 30 C de carga. Calcule sua resistência elétrica.", "resolution": "I = Q/Δt = 30/10 = 3 A. Pela Lei de Ohm, R = U/I = 60/3 = 20 Ω."}, {"id": 4, "type": "choice", "answer": "c", "topic": "Corrente elétrica e carga", "stem": "Através de dois eletrodos de cobre mergulhados em sulfato de cobre, faz-se passar uma corrente de 4,0 A durante 30 min. Os íons Cu²⁺ são neutralizados por elétrons. Nesse intervalo, o número de elétrons transportados é:<br><span class=\"given\">Dado: |e| = 1,6 × 10<sup>−19<\/sup> C.<\/span>", "options": {"a": "1,6 × 10¹⁹", "b": "3,2 × 10¹⁹", "c": "4,5 × 10²²", "d": "7,6 × 10²²", "e": "9,0 × 10²²"}, "resolution": "Q = IΔt = 4,0·1800 = 7200 C. Então N = Q/e = 7200/(1,6×10⁻¹⁹) = 4,5×10²² elétrons."}, {"id": 5, "type": "choice", "answer": "d", "topic": "Corrente elétrica e carga", "stem": "Cerca de 10⁶ íons Na⁺ penetram numa célula excitada em 2×10⁻³ s. A intensidade da corrente elétrica através da membrana é:<br><span class=\"given\">Dado: carga elementar = 1,6 × 10<sup>−19<\/sup> C.<\/span>", "options": {"a": "2,0 × 10⁻¹¹ A", "b": "3,2 × 10⁻¹¹ A", "c": "7,5 × 10⁻¹¹ A", "d": "8,0 × 10⁻¹¹ A", "e": "9,6 × 10⁻¹¹ A"}, "resolution": "Q = 10⁶·1,6×10⁻¹⁹ = 1,6×10⁻¹³ C. I = Q/Δt = 1,6×10⁻¹³/(2×10⁻³) = 8,0×10⁻¹¹ A."}, {"id": 6, "type": "choice", "answer": "d", "topic": "Conceito de corrente elétrica", "stem": "Analise as afirmações:<br><strong>I.<\/strong> Corrente elétrica é o movimento ordenado de elétrons em um condutor metálico.<br><strong>II.<\/strong> Corrente elétrica pode corresponder ao movimento ordenado de íons em uma solução eletrolítica.<br><strong>III.<\/strong> Em um resistor ôhmico, a corrente é inversamente proporcional à ddp aplicada e diretamente proporcional à resistência elétrica.<br>Está correto apenas o que se afirma em:", "options": {"a": "I", "b": "II", "c": "III", "d": "I e II", "e": "I e III"}, "resolution": "I e II estão corretas nos contextos indicados. A III está invertida: para resistor ôhmico, I = U/R, portanto I é diretamente proporcional a U e inversamente proporcional a R."}, {"id": 7, "type": "choice", "answer": "c", "topic": "Condutores, isolantes e descargas", "stem": "Um livro afirma: (1) isolantes não permitem a passagem de corrente elétrica; (2) o ar é isolante; (3) um raio pode corresponder a uma corrente de 10 000 A atravessando o ar e deslocando cerca de 20 C. Considerando literalmente essas três afirmações, pode-se concluir que elas são:", "options": {"a": "coerentes, e a descarga dura 0,002 s", "b": "coerentes, e a descarga dura 2,0 s", "c": "conflitantes, e a descarga dura 0,002 s", "d": "conflitantes, e a descarga dura 2,0 s", "e": "conflitantes, e não é possível estimar a duração"}, "resolution": "Δt = Q/I = 20/10 000 = 0,002 s. As frases são conflitantes se tomadas literalmente, pois um isolante não é absolutamente incapaz de conduzir: sob campo elétrico intenso o ar pode ionizar-se e sofrer ruptura dielétrica."}, {"id": 8, "type": "choice", "answer": "b", "topic": "Corrente em gases ionizados", "stem": "Numa lâmpada fluorescente, íons negativos deslocam-se à taxa de 1,0×10¹⁸ íons/s para um polo e íons positivos, com a mesma taxa, para o polo oposto. A carga de cada íon tem módulo 1,6×10⁻¹⁹ C. A corrente elétrica total na lâmpada é:", "options": {"a": "0,16 A", "b": "0,32 A", "c": "1,0 × 10¹⁸ A", "d": "nula"}, "resolution": "Cada fluxo corresponde a 0,16 A. Como cargas opostas se deslocam em sentidos opostos, suas contribuições para a corrente convencional têm o mesmo sentido e se somam: I = 0,32 A."}, {"id": 9, "type": "choice", "answer": "a", "topic": "Diferença de potencial", "stem": "Passarinhos podem pousar sobre um único fio de alta tensão sem sofrer choque significativo. Qual alternativa explica corretamente esse fato?", "options": {"a": "A diferença de potencial entre os dois pontos de apoio (A e B) é quase nula.", "b": "A diferença de potencial entre A e B é muito elevada.", "c": "A resistência elétrica do corpo do pássaro é praticamente nula.", "d": "O corpo do pássaro é um bom condutor de corrente elétrica.", "e": "A corrente elétrica no fio de alta tensão é muito baixa."}, "resolution": "Como os pés estão separados por pequena distância ao longo do mesmo fio, a queda de potencial entre os pontos A e B é muito pequena; assim, a corrente pelo corpo do pássaro é desprezível."}, {"id": 10, "type": "numeric", "answer": 9, "tol": 0.02, "unit": "Ω", "topic": "2ª Lei de Ohm", "stem": "Dois cabos elétricos são feitos do mesmo material. O cabo 1 tem 25 km e resistência de 4 Ω; o cabo 2 tem 75 km. Sabe-se que o peso do cabo 2 é quatro vezes o peso do cabo 1. Calcule a resistência R₂ do cabo 2.", "resolution": "Mesmo material ⇒ massa (e peso) ∝ volume = A·L. Como m₂/m₁ = 4 e L₂/L₁ = 3, então A₂/A₁ = 4/3. Logo R₂/R₁ = (L₂/L₁)/(A₂/A₁) = 3/(4/3) = 9/4. Assim R₂ = 4·9/4 = 9 Ω."}, {"id": 11, "type": "choice", "answer": "c", "topic": "2ª Lei de Ohm", "stem": "Um fio de níquel-cromo, de resistividade 1×10⁻⁶ Ω·m, tem 1,0 m de comprimento e área de seção reta 2,5 mm². Submetido a uma ddp de 12 V, a corrente que o percorre vale:", "options": {"a": "20 A", "b": "25 A", "c": "30 A", "d": "50 A", "e": "60 A"}, "resolution": "R = ρL/A = (1×10⁻⁶·1)/(2,5×10⁻⁶) = 0,4 Ω. I = U/R = 12/0,4 = 30 A."}, {"id": 12, "type": "choice", "answer": "e", "topic": "Resistência e potência", "stem": "Duas lâmpadas L₁ e L₂ são idênticas, exceto pelo filamento: L₁ possui filamento mais espesso. Ligadas separadamente à mesma tensão de 220 V, observa-se que:", "options": {"a": "L₁ e L₂ terão o mesmo brilho.", "b": "L₁ brilhará mais, pois tem maior resistência.", "c": "L₂ brilhará mais, pois tem maior resistência.", "d": "L₂ brilhará mais, pois tem menor resistência.", "e": "L₁ brilhará mais, pois tem menor resistência."}, "resolution": "Maior área de seção ⇒ menor resistência. Sob a mesma tensão, P = U²/R; portanto a lâmpada de menor resistência dissipa maior potência e tende a brilhar mais."}, {"id": 13, "type": "choice", "answer": "b", "topic": "2ª Lei de Ohm", "stem": "Um fio metálico tem resistência 4,0 Ω. Outro fio, do mesmo metal e à mesma temperatura, possui o dobro do comprimento e o dobro do diâmetro. Sua resistência é:", "options": {"a": "1,0 Ω", "b": "2,0 Ω", "c": "4,0 Ω", "d": "6,0 Ω", "e": "8,0 Ω"}, "resolution": "Dobrar o diâmetro quadruplica a área. Assim R'/R = 2/4 = 1/2. Logo R' = 2,0 Ω."}, {"id": 14, "type": "choice", "answer": "c", "topic": "Fusíveis e seção transversal", "stem": "Dois fusíveis F₁ e F₂, feitos do mesmo material e com o mesmo comprimento, são especificados para 1,0 A e 2,0 A, respectivamente. No modelo escolar em que a corrente limite é proporcional à área da seção transversal, a razão S₁/S₂ é:", "options": {"a": "4", "b": "3/2", "c": "1/2", "d": "1/4"}, "resolution": "No modelo proposto, I_lim ∝ S. Portanto S₁/S₂ = I₁/I₂ = 1/2."}, {"id": 15, "type": "choice", "answer": "c", "topic": "Resistência e localização de curto", "stem": "Um cabo telefônico com dois fios paralelos tem 5,00 km. Em algum ponto, os fios entram em contato e provocam curto-circuito. Mede-se 20,0 Ω entre P e Q e 80,0 Ω entre R e S. A distância de PQ até o ponto do curto é:", "options": {"a": "1,25 km", "b": "4,00 km", "c": "1,00 km", "d": "3,75 km"}, "resolution": "As resistências medidas são proporcionais ao dobro do comprimento de cada trecho. Logo x/(5−x) = 20/80 = 1/4. Então 4x = 5−x ⇒ x = 1,00 km."}, {"id": 16, "type": "choice", "answer": "e", "topic": "2ª Lei de Ohm", "stem": "Um fio cilíndrico de comprimento L, raio r e resistividade ρ apresenta resistência R. Outro fio tem resistividade 2ρ, comprimento 3L e raio r/3. Sua resistência será:", "options": {"a": "R/54", "b": "2R", "c": "6R", "d": "18R", "e": "54R"}, "resolution": "A área varia com r²: A' = A/9. Portanto R'/R = (2·3)/(1/9) = 54."}, {"id": 17, "type": "text", "answer": "4r", "topic": "2ª Lei de Ohm", "stem": "Um fio metálico de comprimento L e resistência R é esticado até que seu comprimento passe a 2L. A densidade e a resistividade permanecem constantes e a temperatura não varia. Qual é a nova resistência do fio?", "resolution": "Como a massa e a densidade não mudam, o volume A·L permanece constante. Ao dobrar L, a área cai à metade. Assim R' = ρ(2L)/(A/2) = 4R."}, {"id": 18, "type": "choice", "answer": "c", "topic": "2ª Lei de Ohm", "stem": "Três resistores R<sub>A<\/sub>, R<sub>B<\/sub> e R<sub>C<\/sub> são feitos com fios de mesmo comprimento:<br>I. ρ<sub>A<\/sub> = 1,0×10⁻⁶ Ω·m e d<sub>A<\/sub> = 0,50 mm;<br>II. ρ<sub>B<\/sub> = 1,2×10⁻⁶ Ω·m e d<sub>B<\/sub> = 0,50 mm;<br>III. ρ<sub>C<\/sub> = 1,5×10⁻⁶ Ω·m e d<sub>C<\/sub> = 0,40 mm.<br>É correto afirmar que:", "options": {"a": "Rₐ > Rᵦ > R꜀", "b": "Rᵦ > R꜀ > Rₐ", "c": "R꜀ > Rᵦ > Rₐ", "d": "Rᵦ > Rₐ > R꜀", "e": "R꜀ > Rₐ > Rᵦ"}, "resolution": "Para mesmo comprimento, R ∝ ρ/d². Os valores relativos são: A ∝ 1/0,50² = 4; B ∝ 1,2/0,50² = 4,8; C ∝ 1,5/0,40² ≈ 9,38. Logo R꜀ > Rᵦ > Rₐ."}, {"id": 19, "type": "choice", "answer": "c", "topic": "Carga elétrica e autonomia", "stem": "Um carro elétrico desloca-se a 60 km/h consumindo corrente de 50 A. A bateria possui carga máxima de 75 Ah. Desprezando variações de consumo, a autonomia é:", "options": {"a": "40,0 km", "b": "62,5 km", "c": "90,0 km", "d": "160,0 km"}, "resolution": "t = 75 Ah / 50 A = 1,5 h. A 60 km/h, d = 60·1,5 = 90 km."}, {"id": 20, "type": "choice", "answer": "b", "topic": "Condutor não ôhmico", "stem": "O gráfico mostra a tensão elétrica em função da corrente para um resistor mantido em condição térmica controlada. Com base na curva, é correto afirmar que:", "options": {"a": "A corrente é diretamente proporcional à tensão.", "b": "A resistência elétrica aumenta quando a corrente aumenta.", "c": "A resistência tem o mesmo valor para qualquer tensão.", "d": "Ao dobrar a corrente, a potência sempre quadruplica.", "e": "O material obedece à Lei de Ohm em toda a faixa mostrada."}, "resolution": "A curva U×I não é uma reta pela origem; o quociente U/I cresce com a corrente. Portanto a resistência efetiva aumenta."}, {"id": 21, "type": "choice", "answer": "b", "topic": "Resistência e temperatura", "stem": "Uma lâmpada de lanterna é alimentada por 3 V. Seu filamento de tungstênio tem coeficiente α = 4,5×10⁻³ °C⁻¹ e resistência R₀ = 1,0 Ω a 20 °C. Quando acesa, a corrente é 0,3 A. Usando R = R₀[1 + α(T−T₀)], a temperatura do filamento é aproximadamente:", "options": {"a": "1500 °C", "b": "2020 °C", "c": "2293 °C", "d": "5400 °C", "e": "6465 °C"}, "resolution": "A resistência quente é R = U/I = 3/0,3 = 10 Ω. Então 10 = 1[1+4,5×10⁻³(T−20)]. Daí T−20 = 2000 e T ≈ 2020 °C."}, {"id": 22, "type": "choice", "answer": "d", "topic": "Choque elétrico", "stem": "Segundo a tabela, em qual faixa se enquadra uma pessoa de resistência corporal aproximadamente 1500 Ω submetida a uma tensão de 220 V?", "options": {"a": "I", "b": "II", "c": "III", "d": "IV", "e": "V"}, "resolution": "I = U/R = 220/1500 ≈ 0,147 A = 147 mA. Esse valor está entre 100 mA e 3 A, portanto na faixa IV."}, {"id": 23, "type": "choice", "answer": "b", "topic": "Curvas características", "stem": "O gráfico apresenta as curvas características de três condutores X, Y e Z. Analisando-o, verifica-se que:", "options": {"a": "Os três condutores são ôhmicos.", "b": "A resistência elétrica de X é 6 Ω.", "c": "A resistência elétrica de Z é 0,25 Ω.", "d": "A potência dissipada por Y é 150 W quando U = 30 V.", "e": "A potência dissipada por Z é 4 W quando U = 60 V."}, "resolution": "X é representado por uma reta que passa pela origem. Por exemplo, em U = 60 V, I = 10 A; logo Rₓ = U/I = 6 Ω."}, {"id": 24, "type": "choice", "answer": "a", "topic": "Lei de Ohm em contexto biológico", "stem": "A arraia elétrica possui eletrócitos organizados em camadas. Considere que cada eletrócito forneça uma ddp de 10⁻⁴ V, que a resistência corporal de um mergulhador seja 2000 Ω e que uma corrente de 20 mA seja potencialmente fatal. Quantas camadas, em série, seriam necessárias para produzir essa corrente?", "options": {"a": "400 000", "b": "480 000", "c": "560 000", "d": "800 000", "e": "1 000 000"}, "resolution": "A tensão necessária é U = RI = 2000·0,020 = 40 V. Cada camada fornece 10⁻⁴ V, então N = 40/10⁻⁴ = 4,0×10⁵ = 400 000."}, {"id": 25, "type": "choice", "answer": "d", "topic": "Resistividade e dimensionamento", "stem": "Para alimentar uma casa, duas rotas de fios são possíveis: a linha 1 mede 72 m + 72 m = 144 m e a linha 2 mede 100 m. Usando fios do mesmo material e exigindo a mesma resistência total de linha, qual deve ser a razão entre o diâmetro do fio da linha 1 e o da linha 2?", "options": {"a": "1,0", "b": "0,6", "c": "0,72", "d": "1,2", "e": "1,44"}, "resolution": "Para R igual e mesmo material, L/A deve ser igual. Assim A₁/A₂ = 144/100 = 1,44. Como A ∝ d², d₁/d₂ = √1,44 = 1,2."}, {"id": 26, "type": "choice", "answer": "c", "topic": "Queda de tensão", "stem": "Um fio de transmissão conduz 1000 A e possui resistência por unidade de comprimento 5,0×10⁻⁵ Ω/m. Os pés de um pássaro estão separados por 6,0 cm ao longo do fio. A diferença de potencial entre seus pés é:", "options": {"a": "1,0 mV", "b": "2,0 mV", "c": "3,0 mV", "d": "4,0 mV", "e": "5,0 mV"}, "resolution": "R = (5,0×10⁻⁵)(0,060) = 3,0×10⁻⁶ Ω. Então U = RI = 3,0×10⁻⁶·1000 = 3,0×10⁻³ V = 3,0 mV."}, {"id": 27, "type": "multi", "answer": ["joao", "pedro"], "topic": "Circuitos simples", "stem": "Quatro estudantes tentam acender uma lâmpada usando uma pilha e um fio. Marque <strong>todas<\/strong> as montagens em que a lâmpada acende corretamente.", "options": {"carlos": "Carlos", "joao": "João", "mateus": "Mateus", "pedro": "Pedro"}, "resolution": "A lâmpada precisa ter seus dois contatos elétricos ligados aos dois polos da pilha. Isso acontece nas montagens de João e Pedro."}, {"id": 28, "type": "choice", "answer": "d", "topic": "Circuitos simples", "stem": "Um estudante usa uma pilha, uma lâmpada e um fio com as extremidades desencapadas. Em quais montagens a lâmpada acende?", "options": {"a": "(1), (3), (6)", "b": "(3), (4), (5)", "c": "(1), (3), (5)", "d": "(1), (3), (7)", "e": "(1), (2), (5)"}, "resolution": "É necessário fechar o circuito ligando um polo da pilha a um contato da lâmpada e o outro polo ao outro contato. Isso ocorre em (1), (3) e (7)."}, {"id": 29, "type": "choice", "answer": "c", "topic": "Interruptor paralelo", "stem": "Uma situação prática comum em residências é o chamado <em>interruptor paralelo<\/em>, no qual uma lâmpada pode ser ligada ou desligada independentemente a partir de dois pontos, como no alto e no pé de uma escada. Nos esquemas I, II e III, A e B representam os dois pontos de comando e L é a lâmpada. Quais esquemas permitem esse funcionamento?", "options": {"a": "Somente I", "b": "Somente II", "c": "Somente III", "d": "II e III", "e": "I e III"}, "resolution": "Somente o esquema III realiza a comutação do tipo paralelo (three-way): mudar a posição de qualquer um dos dois interruptores altera o estado da lâmpada, independentemente da posição do outro. No esquema I as chaves estão em série; no II, em paralelo simples, e nenhum dos dois garante esse comportamento."}];
+const TOTAL = DATA.length;
+const STORE = 'professor-madison-corrente-ohm-v1';
+
+function normText(s){
+  return (s||'').toLowerCase().trim().replace(/\s+/g,'').replace(/Ω/g,'ohm').replace(/ω/g,'ohm').replace(/,/g,'.');
+}
+function numericFrom(s){
+  let t=normText(s).replace(/ohms?/g,'').replace(/[^0-9eE+\-.]/g,'');
+  return Number(t);
+}
+function getQ(id){return DATA.find(q=>q.id===id)}
+function card(id){return document.getElementById('q'+id)}
+
+function answered(q){
+  const c=card(q.id);
+  if(q.type==='choice') return !!c.querySelector('input[type=radio]:checked');
+  if(q.type==='multi') return c.querySelectorAll('input[type=checkbox]:checked').length>0;
+  return document.getElementById('q'+q.id+'-input').value.trim()!=='';
+}
+function evaluate(q){
+  const c=card(q.id);
+  if(q.type==='choice'){
+    const x=c.querySelector('input[type=radio]:checked');
+    return !!x && x.value===q.answer;
+  }
+  if(q.type==='multi'){
+    const got=[...c.querySelectorAll('input[type=checkbox]:checked')].map(x=>x.value).sort();
+    const ans=[...q.answer].sort();
+    return got.length===ans.length && got.every((v,i)=>v===ans[i]);
+  }
+  if(q.type==='numeric'){
+    const x=numericFrom(document.getElementById('q'+q.id+'-input').value);
+    return Number.isFinite(x) && Math.abs(x-q.answer)<=Math.max(Math.abs(q.answer)*q.tol,1e-9);
+  }
+  if(q.type==='text'){
+    let s=normText(document.getElementById('q'+q.id+'-input').value);
+    s=s.replace(/\*/g,'');
+    return s==='4r' || s==='r4' || s==='4xr';
+  }
+  return false;
+}
+function answerLabel(q){
+  if(q.type==='choice') return q.answer.toUpperCase()+') '+q.options[q.answer];
+  if(q.type==='multi') return q.answer.map(k=>q.options[k]).join(' e ');
+  if(q.type==='numeric') return String(q.answer)+' '+(q.unit||'');
+  if(q.type==='text') return '4R';
+  return '';
+}
+function updateProgress(){
+  const n=DATA.filter(answered).length;
+  document.getElementById('progress-text').textContent=n+'/'+TOTAL+' respondidas';
+  document.getElementById('progress-bar').style.width=(100*n/TOTAL)+'%';
+  DATA.forEach(q=>{
+    const s=document.getElementById('status-'+q.id);
+    if(!s.classList.contains('correct')&&!s.classList.contains('wrong')){
+      s.textContent=answered(q)?'Respondida':'Não respondida';
+      s.classList.toggle('answered',answered(q));
+    }
+  });
+}
+function save(){
+  const state={};
+  DATA.forEach(q=>{
+    const c=card(q.id);
+    if(q.type==='choice'){
+      const x=c.querySelector('input[type=radio]:checked'); state[q.id]=x?x.value:'';
+    } else if(q.type==='multi'){
+      state[q.id]=[...c.querySelectorAll('input[type=checkbox]:checked')].map(x=>x.value);
+    } else {
+      state[q.id]=document.getElementById('q'+q.id+'-input').value;
+    }
+  });
+  try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){}
+}
+function load(){
+  let state={}; try{state=JSON.parse(localStorage.getItem(STORE)||'{}')}catch(e){}
+  DATA.forEach(q=>{
+    const v=state[q.id]; if(v===undefined||v===null) return;
+    const c=card(q.id);
+    if(q.type==='choice'){
+      const x=c.querySelector('input[value="'+v+'"]'); if(x)x.checked=true;
+    } else if(q.type==='multi' && Array.isArray(v)){
+      v.forEach(k=>{const x=c.querySelector('input[value="'+k+'"]'); if(x)x.checked=true});
+    } else if(q.type==='numeric'||q.type==='text'){
+      document.getElementById('q'+q.id+'-input').value=v;
+    }
+  });
+  updateProgress();
+}
+function clearGrade(){
+  DATA.forEach(q=>{
+    const c=card(q.id); c.classList.remove('is-correct','is-wrong');
+    const s=document.getElementById('status-'+q.id); s.classList.remove('correct','wrong');
+    const p=document.getElementById('post-'+q.id); p.hidden=true; p.className='post-grade'; p.textContent='';
+  });
+  document.getElementById('report').classList.remove('show');
+  document.getElementById('answer-key').classList.remove('show');
+  document.getElementById('answer-key').innerHTML='';
+  document.getElementById('warning').classList.remove('show');
+}
+window.clearOne=function(id){
+  const q=getQ(id),c=card(id);
+  if(q.type==='choice') c.querySelectorAll('input[type=radio]').forEach(x=>x.checked=false);
+  else if(q.type==='multi') c.querySelectorAll('input[type=checkbox]').forEach(x=>x.checked=false);
+  else document.getElementById('q'+id+'-input').value='';
+  resetOne(id); if (document.getElementById('report').classList.contains('show')) clearGrade(); save(); updateProgress();
+}
+window.goPending=function(){
+  const q=DATA.find(q=>!answered(q));
+  if(q) card(q.id).scrollIntoView({behavior:'smooth',block:'center'});
+  else document.getElementById('final').scrollIntoView({behavior:'smooth',block:'start'});
+}
+window.finishQuiz=function(){
+  const pending=DATA.filter(q=>!answered(q));
+  const w=document.getElementById('warning');
+  if(pending.length){
+    w.textContent='Ainda faltam '+pending.length+' questão(ões): '+pending.map(q=>q.id).join(', ')+'. Complete a lista antes de acessar o relatório e o gabarito.';
+    w.classList.add('show');
+    card(pending[0].id).scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  w.classList.remove('show');
+  let good=[],bad=[];
+  DATA.forEach(q=>{
+    const ok=evaluate(q),c=card(q.id),s=document.getElementById('status-'+q.id),p=document.getElementById('post-'+q.id);
+    c.classList.toggle('is-correct',ok); c.classList.toggle('is-wrong',!ok);
+    s.className='q-status '+(ok?'correct':'wrong'); s.textContent=ok?'Acertou':'Errou';
+    p.hidden=false; p.className='post-grade '+(ok?'correct':'wrong');
+    p.innerHTML=ok?'✓ Resposta correta.':'✗ Resposta incorreta. O gabarito completo pode ser aberto no relatório final.';
+    (ok?good:bad).push(q.id);
+  });
+  const pct=Math.round(good.length/TOTAL*100);
+  document.getElementById('n-correct').textContent=good.length;
+  document.getElementById('n-wrong').textContent=bad.length;
+  document.getElementById('pct').textContent=pct+'%';
+  document.getElementById('correct-list').textContent=good.length?good.join(', '):'Nenhuma';
+  document.getElementById('wrong-list').textContent=bad.length?bad.join(', '):'Nenhuma';
+  document.getElementById('report').classList.add('show');
+  document.getElementById('final').scrollIntoView({behavior:'smooth',block:'start'});
+}
+window.toggleKey=function(){
+  const box=document.getElementById('answer-key'),btn=document.getElementById('key-btn');
+  if(!box.innerHTML){
+    box.innerHTML='<h3>Gabarito comentado</h3>'+DATA.map(q=>'<div class="key-card"><div class="khead">Questão '+q.id+' — '+answerLabel(q)+'</div><p>'+q.resolution+'</p></div>').join('');
+  }
+  const showing=box.classList.toggle('show');
+  btn.textContent=showing?'Ocultar gabarito':'Acessar gabarito correto';
+}
+window.resetAll=function(){
+  if(!confirm('Apagar todas as respostas, o relatório e o progresso salvo para recomeçar a lista?')) return;
+  DATA.forEach(q=>{
+    const c=card(q.id);
+    c.querySelectorAll('input').forEach(x=>{if(x.type==='radio'||x.type==='checkbox')x.checked=false;});
+    const inp=document.getElementById('q'+q.id+'-input'); if(inp)inp.value='';
+  });
+  try{localStorage.removeItem(STORE)}catch(e){}
+  clearGrade(); updateProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.addEventListener('change',e=>{
+  if(e.target.matches('input[type=radio],input[type=checkbox]')){onAnswerChange(e.target);save();updateProgress();}
+});
+document.addEventListener('input',e=>{
+  if(e.target.matches('.text-input')){onAnswerChange(e.target);save();updateProgress();}
+});
+function resetOne(id){
+  card(id).classList.remove('is-correct','is-wrong');
+  const st=document.getElementById('status-'+id); st.classList.remove('correct','wrong');
+  const p=document.getElementById('post-'+id); p.hidden=true; p.className='post-grade'; p.textContent='';
+}
+function onAnswerChange(el){
+  const cid=el.closest('.question-card');
+  if(cid) resetOne(Number(cid.dataset.q));
+  if(document.getElementById('report').classList.contains('show')) clearGrade();
+}
+window.checkOne=function(id){
+  const q=getQ(id), c=card(id), st=document.getElementById('status-'+id), p=document.getElementById('post-'+id);
+  resetOne(id);
+  p.hidden=false;
+  if(!answered(q)){ p.className='post-grade warn'; p.textContent='Marque uma alternativa ou digite sua resposta antes de verificar.'; return; }
+  const ok=evaluate(q);
+  c.classList.toggle('is-correct',ok); c.classList.toggle('is-wrong',!ok);
+  st.className='q-status '+(ok?'correct':'wrong'); st.textContent=ok?'Acertou':'Errou';
+  p.className='post-grade '+(ok?'correct':'wrong');
+  p.textContent=ok?'✓ Resposta correta.':'✗ Resposta incorreta. Resposta correta: '+(q.type==='choice'&&q.options[q.answer].length<=2?q.answer.toUpperCase():answerLabel(q))+'.';
+}
+load();
+</script>
+</div>
+<footer class="site-footer" id="site-footer"></footer>
+<script src="/assets/js/layout.js"></script>
+<script data-goatcounter="https://professormadison.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body></html>

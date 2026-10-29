@@ -81,5 +81,13 @@ var LISTAS = [
     descricao: "40 questões sobre a gravitação universal, com correção por questão e relatório final de acertos e erros.",
     url: "/listas-html/gravitacao-universal-lista.html",
     data: "2026-10-23"
+  },
+  {
+    serie: "3",
+    tema: "Eletrodinâmica",
+    titulo: "Corrente Elétrica e Leis de Ohm — Lista Interativa",
+    descricao: "29 questões sobre corrente elétrica, resistência e as Leis de Ohm, com verificação por questão, correção final e relatório de acertos e erros.",
+    url: "/listas-html/corrente-eletrica-leis-de-ohm-lista.html",
+    data: "2026-10-29"
   }
 ];
