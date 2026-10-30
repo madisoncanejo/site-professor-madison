@@ -89,5 +89,13 @@ var LISTAS = [
     descricao: "29 questões sobre corrente elétrica, resistência e as Leis de Ohm, com verificação por questão, correção final e relatório de acertos e erros.",
     url: "/listas-html/corrente-eletrica-leis-de-ohm-lista.html",
     data: "2026-10-29"
+  },
+  {
+    serie: "3",
+    tema: "Eletrodinâmica",
+    titulo: "Associação de Resistores — Lista Interativa",
+    descricao: "19 questões sobre associação de resistores em série, em paralelo e mista, com verificação por questão, correção final e relatório de acertos e erros.",
+    url: "/listas-html/associacao-de-resistores-lista.html",
+    data: "2026-10-30"
   }
 ];

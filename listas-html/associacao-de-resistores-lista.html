@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#081420">
+<title>Associação de Resistores — Lista Interativa | Professor Madison</title>
+<meta name="description" content="Lista interativa de Física sobre associação de resistores (3ª série do Ensino Médio), com 19 questões, verificação por questão e relatório final de acertos e erros.">
+<link rel="icon" type="image/png" href="/assets/img/favicon.png">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<style>
+.lm-wrap{
+  --bg:#081420;--bg2:#0c1c2c;--card:#10263a;--deep:#0c1c2c;--border:#1c3a52;
+  --text:#edf2f6;--muted:#9fb5c7;--accent:#15cfb5;--accent2:#18b9c0;
+  --success:#2fd3a2;--danger:#f8686f;--white:#f7fafc;
+}.lm-wrap, .lm-wrap *{box-sizing:border-box}.lm-wrap{scroll-behavior:smooth}.lm-wrap{
+  margin:0;background:radial-gradient(circle at 18% 0%,rgba(19,72,86,.10),transparent 32%),linear-gradient(180deg,#081420 0%,#07131f 100%);
+  color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.58;
+}.lm-wrap .shell{max-width:1480px;margin:auto;padding:30px 28px 72px}.lm-wrap .lo-hero{
+  display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:28px;align-items:center;
+  min-height:220px;padding:32px 35px;border-radius:30px;background:linear-gradient(135deg,#0d2032,#10283f);
+  border:1px solid #0d5262;box-shadow:0 18px 45px rgba(0,0,0,.20);
+}.lm-wrap .lo-eyebrow{color:#65f0df;font-size:.8rem;letter-spacing:.23em;font-weight:950;text-transform:uppercase;margin-bottom:8px}.lm-wrap .lo-hero h1{margin:0;color:#fff;font-size:clamp(2.1rem,3.5vw,3.75rem);line-height:1.02;letter-spacing:-.035em}.lm-wrap .lo-hero p{margin:9px 0 0;color:#dbe7ef;font-size:1.04rem}.lm-wrap .hero-badges{display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-end}.lm-wrap .hero-badge{background:#203d58;color:#fff;border-radius:999px;padding:14px 20px;font-weight:900;white-space:nowrap}.lm-wrap .hero-badge.accent{background:rgba(21,207,181,.16);border:1px solid #168676;color:#55e7d2}.lm-wrap .site-tags{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0 28px}.lm-wrap .site-tags span{background:#10283f;border:1px solid #1d4967;color:#fff;font-weight:850;border-radius:999px;padding:10px 18px}.lm-wrap .intro-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(360px,.9fr);gap:22px;margin:0 0 26px}.lm-wrap .info-card,.lm-wrap .performance{background:var(--card);border:1px solid var(--border);border-radius:26px;padding:26px 30px}.lm-wrap .info-card h2,.lm-wrap .performance h2{margin:0 0 14px;color:#fff;font-size:1.45rem}.lm-wrap .info-card ul{margin:0;padding-left:1.3rem;color:#e5edf3}.lm-wrap .info-card li{margin:5px 0}.lm-wrap .info-note{margin-top:15px;color:#9fb5c7;font-size:.9rem}.lm-wrap .metrics{display:grid;grid-template-columns:1fr 1fr;gap:14px}.lm-wrap .metric{background:var(--deep);border:1px solid var(--border);border-radius:20px;padding:18px}.lm-wrap .metric.wide{grid-column:1/-1}.lm-wrap .metric span{display:block;color:var(--muted);font-size:.78rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase}.lm-wrap .metric strong{display:block;font-size:2rem;margin-top:5px;color:#edf2f6}.lm-wrap .metric.good strong{color:var(--success)}.lm-wrap .metric.bad strong{color:var(--danger)}.lm-wrap .performance-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}.lm-wrap button{font:inherit;font-weight:850;border:0;border-radius:12px;padding:11px 15px;cursor:pointer;transition:.15s}.lm-wrap button:hover{filter:brightness(1.06);transform:translateY(-1px)}.lm-wrap button:focus-visible,.lm-wrap input:focus-visible{outline:3px solid #66eadd;outline-offset:2px}.lm-wrap .lo-btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#041719}.lm-wrap .btn-secondary{background:var(--deep);color:#fff;border:1px solid var(--border)}.lm-wrap .btn-secondary[disabled]{opacity:.42;cursor:not-allowed;transform:none}.lm-wrap .progress-wrap{position:sticky;top:7px;z-index:30;background:rgba(16,38,58,.96);backdrop-filter:blur(13px);border:1px solid var(--border);border-radius:19px;padding:12px 14px;margin:20px 0;display:flex;gap:14px;align-items:center;box-shadow:0 10px 28px rgba(0,0,0,.14)}.lm-wrap .progress{flex:1;min-width:220px}.lm-wrap .progress-top{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:.8rem;font-weight:850;margin-bottom:5px}.lm-wrap .bar{height:9px;background:var(--deep);border-radius:999px;overflow:hidden}.lm-wrap .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .25s}.lm-wrap .question-card{background:var(--card);border:1px solid var(--border);border-radius:27px;margin:18px 0;overflow:hidden;scroll-margin-top:100px;box-shadow:0 10px 28px rgba(0,0,0,.10)}.lm-wrap .q-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;padding:25px 30px 8px}.lm-wrap .q-title{font-size:1.28rem;font-weight:950;color:#fff}.lm-wrap .q-topic,.lm-wrap .editorial-badge{display:inline-block;margin-top:10px;margin-right:8px;padding:8px 14px;border-radius:999px;background:#1e3d59;color:#fff;font-size:.78rem;font-weight:850}.lm-wrap .editorial-badge{background:rgba(21,207,181,.12);border:1px solid #168676;color:#63e6d4}.lm-wrap .q-index{min-width:64px;text-align:center;padding:12px;border-radius:20px;background:#174456;color:#fff;font-weight:950;font-size:1rem}.lm-wrap .q-content{padding:11px 30px 28px}.lm-wrap .stem{font-size:1.05rem;color:#f3f7fa}.lm-wrap .figure-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:13px;margin:20px 0;padding:18px;background:#f7fafc;border:1px solid #e2e8f0;border-radius:22px}.lm-wrap .figure-grid img{display:block;max-width:100%;height:auto;max-height:520px;object-fit:contain;margin:auto;background:#fff;border-radius:10px}.lm-wrap .answers{display:grid;gap:12px;margin:18px 0 7px}.lm-wrap .option{display:flex;gap:11px;align-items:flex-start;background:var(--deep);border:1px solid var(--border);border-radius:18px;padding:15px 18px;color:#fff;cursor:pointer}.lm-wrap .option:hover{background:#102b42;border-color:#2b617e}.lm-wrap .option:has(input:checked){background:#0e3542;border-color:var(--accent)}.lm-wrap .option input{margin-top:5px;accent-color:var(--accent)}.lm-wrap .letter{width:27px;height:27px;border-radius:50%;background:#1e405d;color:#fff;display:grid;place-items:center;font-weight:950;flex:0 0 auto}.lm-wrap .compact-grid{grid-template-columns:repeat(4,minmax(70px,1fr));max-width:480px}.lm-wrap .option.compact{justify-content:center;align-items:center;padding:14px}.lm-wrap .option.compact input{margin:0}.lm-wrap .option.compact .letter{margin-left:5px}.lm-wrap .option-text{padding-top:1px}.lm-wrap .input-answer,.lm-wrap .pair-inputs{margin:18px 0 8px;background:var(--deep);border:1px solid var(--border);border-radius:18px;padding:15px}.lm-wrap .input-answer label,.lm-wrap .pair-inputs label{font-weight:850;color:#fff}.lm-wrap .unit-help{font-size:.78rem;font-weight:600;color:var(--muted)}.lm-wrap .pair-inputs{display:grid;grid-template-columns:1fr 1fr;gap:13px}.lm-wrap .text-input{display:block;width:100%;margin-top:7px;background:#081725;color:#fff;border:1px solid #28506d;border-radius:10px;padding:11px 12px;font-size:1rem}.lm-wrap .text-input::placeholder{color:#7790a4}.lm-wrap .q-actions{display:flex;justify-content:flex-end;margin-top:11px}.lm-wrap .btn-clear-one{background:var(--deep);color:#dce7ee;border:1px solid var(--border);padding:8px 11px;font-size:.82rem}.lm-wrap .post-grade{margin-top:14px;padding:13px 14px;border-radius:12px;font-weight:800}.lm-wrap .post-grade.correct{background:#0c342d;border:1px solid #236f60;color:#6ce4c0}.lm-wrap .post-grade.wrong{background:#402126;border:1px solid #7f3c44;color:#ff9ca2}.lm-wrap .post-grade.unanswered{background:#2b3340;border:1px solid #4a5a6a;color:#cbd5df}.lm-wrap .answer-key{display:none;margin-top:22px}.lm-wrap .answer-key.show{display:block}.lm-wrap .answer-key h2{color:#fff}.lm-wrap .key-card{background:var(--deep);border:1px solid var(--border);border-radius:17px;padding:15px 17px;margin:10px 0}.lm-wrap .khead{font-weight:950;color:#64ead9}.lm-wrap .key-card p{margin:.4rem 0 0;color:#d9e4eb}.lm-wrap .source-note{margin-top:30px;padding:18px 4px;border-top:1px solid var(--border);color:#8fa7b9;font-size:.84rem}.lm-wrap .source-note strong{color:#dce7ee}@media(max-width:920px){.lm-wrap .shell{padding:14px 12px 52px}.lm-wrap .lo-hero{grid-template-columns:1fr;gap:18px;padding:24px}.lm-wrap .hero-badges{justify-content:flex-start}.lm-wrap .lo-hero h1{font-size:2.18rem}.lm-wrap .intro-grid{grid-template-columns:1fr}.lm-wrap .q-head{padding:20px 20px 7px}.lm-wrap .q-content{padding:10px 20px 22px}}@media(max-width:620px){.lm-wrap .pair-inputs{grid-template-columns:1fr}.lm-wrap .compact-grid{grid-template-columns:1fr 1fr}.lm-wrap .progress-wrap{align-items:stretch;flex-direction:column}}@media print{.lm-wrap{background:#fff;color:#111}.lm-wrap .shell{max-width:none;padding:0}.lm-wrap .lo-hero,.lm-wrap .site-tags,.lm-wrap .intro-grid,.lm-wrap .progress-wrap,.lm-wrap .q-actions,.lm-wrap .post-grade,.lm-wrap .answer-key,.lm-wrap .source-note{display:none!important}.lm-wrap .question-card{background:#fff;color:#111;border:1px solid #bbb;box-shadow:none;break-inside:avoid}.lm-wrap .q-head,.lm-wrap .q-content,.lm-wrap .stem{color:#111}.lm-wrap .q-title{color:#10263a}.lm-wrap .q-topic,.lm-wrap .editorial-badge{background:#eef3f7;color:#10263a;border:1px solid #d5e0e7}.lm-wrap .q-index{background:#eef3f7;color:#10263a}.lm-wrap .option,.lm-wrap .input-answer,.lm-wrap .pair-inputs{background:#fff;color:#111;border:1px solid #ccc}.lm-wrap .input-answer label,.lm-wrap .pair-inputs label{color:#111}.lm-wrap .letter{background:#eef3f7;color:#10263a}.lm-wrap .text-input{background:#fff;color:#111;border:1px solid #aaa}}
+.lm-wrap .btn-check-one{background:linear-gradient(120deg,#18e3ac,#10b3c4);color:#04231b;border:0;padding:8px 12px;font-size:.82rem;font-weight:800;border-radius:10px;cursor:pointer}
+.lm-wrap .post-grade.unanswered{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.35);color:#fde68a}
+.lm-wrap .q-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+</style>
+
+<body data-active="listas">
+<header class="site-header" id="site-header"></header>
+<div class="lm-wrap">
+<div class="pm-print-id" aria-hidden="false"><div class="pm-print-top"><img src="/assets/img/logo-professor-madison.png" alt="Logomarca Professor Madison"><div class="pm-print-title"><strong>Lista de exercícios</strong><span>Associação de Resistores</span></div></div><div class="pm-print-fields">Nome: <span class="pm-line"></span><br>Série: <span class="pm-line short"></span> &nbsp;&nbsp; Turma: <span class="pm-line short"></span><br>Data: <span class="pm-line date"></span></div></div>
+<div class="shell">
+  <section class="lo-hero">
+    <div>
+      <div class="lo-eyebrow">PROFESSOR MADISON • MDC</div>
+      <h1>Lista Interativa — Associação de Resistores</h1>
+      <p>Ensino Médio • resolva no caderno e registre aqui suas respostas.</p>
+    </div>
+    <div class="hero-badges">
+      <span class="hero-badge accent">HTML autônomo</span>
+      <span class="hero-badge">19 questões</span>
+      <span class="hero-badge">Interativo</span>
+    </div>
+  </section>
+
+  <div class="site-tags">
+    <span>Professor Madison</span><span>Física</span><span>Material interativo</span>
+  </div>
+
+  <section class="intro-grid">
+    <div class="info-card">
+      <h2>Como usar esta lista</h2>
+      <ul>
+        <li>Leia cada questão com atenção e resolva os cálculos no caderno.</li>
+        <li>Marque as alternativas ou digite os resultados das questões discursivas.</li>
+        <li>Você pode limpar a resposta de qualquer questão e tentar novamente.</li>
+        <li>Ao final, clique em <strong>Corrigir lista</strong> para ver acertos, erros e questões não respondidas.</li>
+        <li>O gabarito comentado só fica disponível <strong>depois da correção</strong>.</li>
+        <li>Use <strong>Refazer lista</strong> para apagar tudo e começar novamente.</li>
+      </ul>
+      <div class="info-note">As questões 19 e 21 do material original foram excluídas conforme solicitado. A questão 18 teve o enunciado corrigido após conferência com a figura e com o cálculo.</div>
+    </div>
+
+    <aside class="performance">
+      <h2>Seu desempenho</h2>
+      <div class="metrics">
+        <div class="metric"><span>Respondidas</span><strong id="m-answered">0</strong></div>
+        <div class="metric"><span>Não respondidas</span><strong id="m-unanswered">19</strong></div>
+        <div class="metric good"><span>Acertos</span><strong id="m-correct">0</strong></div>
+        <div class="metric bad"><span>Erros</span><strong id="m-wrong">0</strong></div>
+        <div class="metric wide"><span>Aproveitamento</span><strong id="m-percent">0%</strong></div>
+      </div>
+      <div class="performance-actions">
+        <button class="lo-btn-primary" type="button" onclick="gradeQuiz()">Corrigir lista</button>
+        <button class="btn-secondary" id="show-key-btn" type="button" onclick="toggleKey()" disabled>Mostrar todos os gabaritos</button>
+        <button class="lo-btn-primary" type="button" onclick="resetAll()">Refazer lista</button>
+      </div>
+    </aside>
+  </section>
+
+  <div class="progress-wrap">
+    <div class="progress">
+      <div class="progress-top"><span>Progresso da lista</span><span id="progress-text">0/19 respondidas</span></div>
+      <div class="bar"><i id="progress-bar"></i></div>
+    </div>
+    <button class="btn-secondary" type="button" onclick="goPending()">Ir para pendente</button>
+    <button class="lo-btn-primary" type="button" onclick="gradeQuiz()">Corrigir lista</button>
+  </div>
+
+  
+<article class="question-card" id="q1" data-q="1">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 1</div>
+      <span class="q-topic">Associação de resistores</span>
+    </div>
+    <span class="q-index">01</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Como consequência do rápido desenvolvimento da tecnologia eletrônica, hoje é possível realizar experimentos usando amostras com dimensões da ordem de nanômetros. Um pesquisador verificou que uma determinada proteína esticada obedecia à Lei de Ohm e apresentava resistência elétrica total <strong>R</strong>. Em seguida, a cadeia foi partida em dois pedaços e os dois trechos foram ligados em paralelo. A resistência equivalente medida foi <strong>3R/16</strong>. Considerando que o pedaço de menor comprimento tenha resistência <strong>R₁</strong> e o de maior comprimento, resistência <strong>R₂</strong>, determine R₁ e R₂ em função de R.</div>
+    
+    <div class="pair-inputs">
+          <label>R₁ =<input class="text-input" id="q1-a" type="text" autocomplete="off" placeholder="Ex.: R/4"></label>
+          <label>R₂ =<input class="text-input" id="q1-b" type="text" autocomplete="off" placeholder="Ex.: 3R/4"></label>
+        </div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(1)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(1)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-1" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q2" data-q="2">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 2</div>
+      <span class="q-topic">Série e paralelo</span>
+    </div>
+    <span class="q-index">02</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Uma bateria ideal de 12 V alimenta três resistores X, Y e Z, todos de mesma resistência R, conforme o circuito. Calcule a diferença de potencial entre os terminais do resistor Z.</div>
+    <div class="figure-grid"><img src="/listas-html/img/associacao-de-resistores-lista/q2.webp" alt="Figura da questão 2" loading="lazy"></div>
+    <div class="input-answer"><label>Digite seu resultado <span class="unit-help">(a unidade pode ser digitada ou omitida)</span><input class="text-input" id="q2-input" type="text" inputmode="decimal" autocomplete="off" placeholder="Digite sua resposta"></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(2)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(2)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-2" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q3" data-q="3">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 3</div>
+      <span class="q-topic">Leitura de amperímetro</span>
+    </div>
+    <span class="q-index">03</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">No circuito mostrado, determine a leitura do amperímetro A, considerando que a bateria fornece 120 V e possui resistência interna desprezível.</div>
+    <div class="figure-grid"><img src="/listas-html/img/associacao-de-resistores-lista/q3.webp" alt="Figura da questão 3" loading="lazy"></div>
+    <div class="input-answer"><label>Digite seu resultado <span class="unit-help">(a unidade pode ser digitada ou omitida)</span><input class="text-input" id="q3-input" type="text" inputmode="decimal" autocomplete="off" placeholder="Digite sua resposta"></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(3)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(3)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-3" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q4" data-q="4">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 4</div>
+      <span class="q-topic">Série e paralelo</span>
+    </div>
+    <span class="q-index">04</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Quando R₁ e R₂ são associados em série, a resistência equivalente vale 6 Ω. Quando são associados em paralelo, a resistência equivalente é 4/3 Ω. Os valores de R₁ e R₂ são:</div>
+    
+    <div class="answers"><label class="option"><input type="radio" name="q4" value="a"><span class="letter">A</span><span class="option-text">5 Ω e 1 Ω</span></label><label class="option"><input type="radio" name="q4" value="b"><span class="letter">B</span><span class="option-text">3 Ω e 3 Ω</span></label><label class="option"><input type="radio" name="q4" value="c"><span class="letter">C</span><span class="option-text">4 Ω e 2 Ω</span></label><label class="option"><input type="radio" name="q4" value="d"><span class="letter">D</span><span class="option-text">6 Ω e 0 Ω</span></label><label class="option"><input type="radio" name="q4" value="e"><span class="letter">E</span><span class="option-text">0 Ω e 6 Ω</span></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(4)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(4)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-4" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q5" data-q="5">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 5</div>
+      <span class="q-topic">Redução de circuito</span>
+    </div>
+    <span class="q-index">05</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">O circuito representado foi construído com resistores idênticos de resistência R. Supondo o gerador E ideal, a corrente elétrica total i fornecida ao circuito é:</div>
+    <div class="figure-grid"><img src="/listas-html/img/associacao-de-resistores-lista/q5.webp" alt="Figura da questão 5" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q5" value="a"><span class="letter">A</span><span class="option-text">i = 0</span></label><label class="option"><input type="radio" name="q5" value="b"><span class="letter">B</span><span class="option-text">i = 4E/R</span></label><label class="option"><input type="radio" name="q5" value="c"><span class="letter">C</span><span class="option-text">i = 4RE</span></label><label class="option"><input type="radio" name="q5" value="d"><span class="letter">D</span><span class="option-text">i = E/(8R)</span></label><label class="option"><input type="radio" name="q5" value="e"><span class="letter">E</span><span class="option-text">i = 2R/E</span></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(5)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(5)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-5" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q6" data-q="6">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 6</div>
+      <span class="q-topic">Divisão de corrente</span>
+    </div>
+    <span class="q-index">06</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">No circuito mostrado, a fonte ideal é percorrida por uma corrente total de 1,0 A. Determine, respectivamente, a tensão da fonte e a corrente i indicada no ramo da direita.</div>
+    <div class="figure-grid"><img src="/listas-html/img/associacao-de-resistores-lista/q6.webp" alt="Figura da questão 6" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q6" value="a"><span class="letter">A</span><span class="option-text">2,0 V e 0,2 A</span></label><label class="option"><input type="radio" name="q6" value="b"><span class="letter">B</span><span class="option-text">2,0 V e 0,5 A</span></label><label class="option"><input type="radio" name="q6" value="c"><span class="letter">C</span><span class="option-text">2,5 V e 0,3 A</span></label><label class="option"><input type="radio" name="q6" value="d"><span class="letter">D</span><span class="option-text">2,5 V e 0,5 A</span></label><label class="option"><input type="radio" name="q6" value="e"><span class="letter">E</span><span class="option-text">10,0 V e 0,2 A</span></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(6)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(6)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-6" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q7" data-q="7">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 7</div>
+      <span class="q-topic">Chave em circuito</span>
+    </div>
+    <span class="q-index">07</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">No circuito, a corrente indicada pelo amperímetro é 3,5 A quando a chave S está aberta. Desprezando as resistências internas do amperímetro e da bateria, determine a corrente no amperímetro quando a chave estiver fechada.</div>
+    <div class="figure-grid"><img src="/listas-html/img/associacao-de-resistores-lista/q7.webp" alt="Figura da questão 7" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q7" value="a"><span class="letter">A</span><span class="option-text">3,5 A</span></label><label class="option"><input type="radio" name="q7" value="b"><span class="letter">B</span><span class="option-text">4,0 A</span></label><label class="option"><input type="radio" name="q7" value="c"><span class="letter">C</span><span class="option-text">6,0 A</span></label><label class="option"><input type="radio" name="q7" value="d"><span class="letter">D</span><span class="option-text">7,5 A</span></label><label class="option"><input type="radio" name="q7" value="e"><span class="letter">E</span><span class="option-text">8,0 A</span></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(7)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(7)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-7" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q8" data-q="8">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 8</div>
+      <span class="q-topic">Comparação de associações</span>
+    </div>
+    <span class="q-index">08</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Considere três resistores A, B e C, com resistências R<sub>A</sub>, R<sub>B</sub> e R<sub>C</sub>, tais que R<sub>A</sub> &gt; R<sub>B</sub> &gt; R<sub>C</sub>. Qual dos esquemas apresenta a maior resistência equivalente entre P e M?</div>
+    <div class="figure-grid"><img src="/listas-html/img/associacao-de-resistores-lista/q8.webp" alt="Figura da questão 8" loading="lazy"></div>
+    <div class="answers compact-grid"><label class="option compact" aria-label="Alternativa A"><input type="radio" name="q8" value="a"><span class="letter">A</span></label><label class="option compact" aria-label="Alternativa B"><input type="radio" name="q8" value="b"><span class="letter">B</span></label><label class="option compact" aria-label="Alternativa C"><input type="radio" name="q8" value="c"><span class="letter">C</span></label><label class="option compact" aria-label="Alternativa D"><input type="radio" name="q8" value="d"><span class="letter">D</span></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(8)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(8)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-8" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q9" data-q="9">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 9</div>
+      <span class="q-topic">Curto-circuitos e nós</span>
+    </div>
+    <span class="q-index">09</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">No circuito representado, determine a corrente elétrica i quando a chave C está <strong>fechada</strong>.</div>
+    <div class="figure-grid"><img src="/listas-html/img/associacao-de-resistores-lista/q9.webp" alt="Figura da questão 9" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q9" value="a"><span class="letter">A</span><span class="option-text">V/(3R)</span></label><label class="option"><input type="radio" name="q9" value="b"><span class="letter">B</span><span class="option-text">V/(2R)</span></label><label class="option"><input type="radio" name="q9" value="c"><span class="letter">C</span><span class="option-text">V/R</span></label><label class="option"><input type="radio" name="q9" value="d"><span class="letter">D</span><span class="option-text">2V/R</span></label><label class="option"><input type="radio" name="q9" value="e"><span class="letter">E</span><span class="option-text">3V/R</span></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(9)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(9)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-9" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q10" data-q="10">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 10</div>
+      <span class="q-topic">Resistência desconhecida</span>
+    </div>
+    <span class="q-index">10</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">No circuito, R₁ = R₂ = 2 Ω e a corrente total fornecida pela bateria de 9 V é 7,5 A. Calcule o valor da resistência X.</div>
+    <div class="figure-grid"><img src="/listas-html/img/associacao-de-resistores-lista/q10.webp" alt="Figura da questão 10" loading="lazy"></div>
+    <div class="input-answer"><label>Digite seu resultado <span class="unit-help">(a unidade pode ser digitada ou omitida)</span><input class="text-input" id="q10-input" type="text" inputmode="decimal" autocomplete="off" placeholder="Digite sua resposta"></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(10)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(10)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-10" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q11" data-q="11">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 11</div>
+      <span class="q-topic">Equivalente misto</span>
+    </div>
+    <span class="q-index">11</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">No circuito mostrado, R₀ = 17,3 Ω. Qual deve ser o valor de R para que a resistência equivalente entre A e B seja igual a R₀?</div>
+    <div class="figure-grid"><img src="/listas-html/img/associacao-de-resistores-lista/q11.webp" alt="Figura da questão 11" loading="lazy"></div>
+    <div class="input-answer"><label>Digite seu resultado <span class="unit-help">(a unidade pode ser digitada ou omitida)</span><input class="text-input" id="q11-input" type="text" inputmode="decimal" autocomplete="off" placeholder="Digite sua resposta"></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(11)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(11)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-11" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q12" data-q="12">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 12</div>
+      <span class="q-topic">Lâmpadas em série e paralelo</span>
+    </div>
+    <span class="q-index">12</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Três circuitos diferentes são montados com uma bateria e três lâmpadas idênticas. Na primeira montagem, se uma lâmpada queimar, as outras duas permanecem acesas. Na segunda, se uma lâmpada queimar, as outras duas apagam. Na terceira, mesmo que duas lâmpadas queimem, a terceira permanece acesa. Qual hipótese é verdadeira?</div>
+    
+    <div class="answers"><label class="option"><input type="radio" name="q12" value="a"><span class="letter">A</span><span class="option-text">Todas as lâmpadas da primeira montagem estão em série e todas as da terceira em paralelo.</span></label><label class="option"><input type="radio" name="q12" value="b"><span class="letter">B</span><span class="option-text">Todas as lâmpadas da segunda estão em paralelo e todas as da terceira em série.</span></label><label class="option"><input type="radio" name="q12" value="c"><span class="letter">C</span><span class="option-text">Todas as lâmpadas da primeira estão em série e todas as da segunda em paralelo.</span></label><label class="option"><input type="radio" name="q12" value="d"><span class="letter">D</span><span class="option-text">Todas as lâmpadas da segunda estão em série e todas as da terceira em paralelo.</span></label><label class="option"><input type="radio" name="q12" value="e"><span class="letter">E</span><span class="option-text">Todas as lâmpadas da primeira estão em paralelo e todas as da terceira em série.</span></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(12)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(12)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-12" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q13" data-q="13">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 13</div>
+      <span class="q-topic">Tensão e corrente em lâmpadas</span>
+    </div>
+    <span class="q-index">13</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Três lâmpadas idênticas estão ligadas à rede de 127 V como mostrado. Seja V(P) a tensão e i(P) a corrente na lâmpada P; analogamente, V(Q) e i(Q) para a lâmpada Q. É correto afirmar que:</div>
+    <div class="figure-grid"><img src="/listas-html/img/associacao-de-resistores-lista/q13.webp" alt="Figura da questão 13" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q13" value="a"><span class="letter">A</span><span class="option-text">V(P) < V(Q) e i(P) > i(Q).</span></label><label class="option"><input type="radio" name="q13" value="b"><span class="letter">B</span><span class="option-text">V(P) > V(Q) e i(P) > i(Q).</span></label><label class="option"><input type="radio" name="q13" value="c"><span class="letter">C</span><span class="option-text">V(P) < V(Q) e i(P) = i(Q).</span></label><label class="option"><input type="radio" name="q13" value="d"><span class="letter">D</span><span class="option-text">V(P) > V(Q) e i(P) = i(Q).</span></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(13)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(13)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-13" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q14" data-q="14">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 14</div>
+      <span class="q-topic">Divisor de tensão</span>
+    </div>
+    <span class="q-index">14</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Um aparelho necessita de uma tensão igual à décima parte da tensão da rede. Para alimentá-lo, são usados dois resistores X e R em série, com o aparelho ligado em paralelo com R. Considere desprezível a corrente no aparelho. Qual deve ser o valor de X?</div>
+    <div class="figure-grid"><img src="/listas-html/img/associacao-de-resistores-lista/q14.webp" alt="Figura da questão 14" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q14" value="a"><span class="letter">A</span><span class="option-text">6R</span></label><label class="option"><input type="radio" name="q14" value="b"><span class="letter">B</span><span class="option-text">8R</span></label><label class="option"><input type="radio" name="q14" value="c"><span class="letter">C</span><span class="option-text">9R</span></label><label class="option"><input type="radio" name="q14" value="d"><span class="letter">D</span><span class="option-text">11R</span></label><label class="option"><input type="radio" name="q14" value="e"><span class="letter">E</span><span class="option-text">12R</span></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(14)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(14)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-14" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q15" data-q="15">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 15</div>
+      <span class="q-topic">Divisão de corrente</span>
+    </div>
+    <span class="q-index">15</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">No circuito mostrado, a força eletromotriz é 6 V e todos os resistores têm resistência 1,0 Ω. As correntes i₁ e i₂ são, respectivamente:</div>
+    <div class="figure-grid"><img src="/listas-html/img/associacao-de-resistores-lista/q15.webp" alt="Figura da questão 15" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q15" value="a"><span class="letter">A</span><span class="option-text">0,75 A e 1,5 A</span></label><label class="option"><input type="radio" name="q15" value="b"><span class="letter">B</span><span class="option-text">1,5 A e 3,0 A</span></label><label class="option"><input type="radio" name="q15" value="c"><span class="letter">C</span><span class="option-text">3,0 A e 1,5 A</span></label><label class="option"><input type="radio" name="q15" value="d"><span class="letter">D</span><span class="option-text">3,0 A e 6,0 A</span></label><label class="option"><input type="radio" name="q15" value="e"><span class="letter">E</span><span class="option-text">6,0 A e 3,0 A</span></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(15)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(15)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-15" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q16" data-q="16">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 16</div>
+      <span class="q-topic">Circuito misto</span>
+    </div>
+    <span class="q-index">16</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">No circuito mostrado, determine a corrente total fornecida pela bateria e a corrente que circula pelo resistor de 6,0 Ω, respectivamente.</div>
+    <div class="figure-grid"><img src="/listas-html/img/associacao-de-resistores-lista/q16.webp" alt="Figura da questão 16" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q16" value="a"><span class="letter">A</span><span class="option-text">4,0 A; 0,5 A</span></label><label class="option"><input type="radio" name="q16" value="b"><span class="letter">B</span><span class="option-text">4,0 A; 4,0 A</span></label><label class="option"><input type="radio" name="q16" value="c"><span class="letter">C</span><span class="option-text">4,0 A; 0,0 A</span></label><label class="option"><input type="radio" name="q16" value="d"><span class="letter">D</span><span class="option-text">0,0 A; 4,0 A</span></label><label class="option"><input type="radio" name="q16" value="e"><span class="letter">E</span><span class="option-text">0,0 A; 0,0 A</span></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(16)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(16)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-16" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q17" data-q="17">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 17</div>
+      <span class="q-topic">Lâmpadas e chave</span>
+    </div>
+    <span class="q-index">17</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">No circuito, as lâmpadas L₁, L₂ e L₃ são idênticas, cada uma com resistência de 30 Ω. A bateria fornece 18 V e a chave C está inicialmente fechada.<br><strong>a)</strong> Qual é a corrente que passa por L₂?<br><strong>b)</strong> Ao abrir a chave C, o que acontece com o brilho de L₁? Justifique no caderno.</div>
+    <div class="figure-grid"><img src="/listas-html/img/associacao-de-resistores-lista/q17.webp" alt="Figura da questão 17" loading="lazy"></div>
+    <div class="pair-inputs">
+          <label>a) Corrente em L₂ (A):<input class="text-input" id="q17-a" type="text" inputmode="decimal" autocomplete="off" placeholder="Ex.: 0,2 A"></label>
+          <label>b) O brilho de L₁:<input class="text-input" id="q17-b" type="text" autocomplete="off" placeholder="Ex.: aumenta / diminui / não se altera"></label>
+        </div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(17)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(17)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-17" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q18" data-q="18">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 18</div>
+      <span class="q-topic">Associação em paralelo</span><span class="editorial-badge">Enunciado revisado</span>
+    </div>
+    <span class="q-index">18</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">No trecho de circuito mostrado, a diferença de potencial entre A e B é 60 V e a corrente <strong>i₁</strong>, indicada no ramo de 12 Ω, tem intensidade de 1 A. O valor da resistência R é:</div>
+    <div class="figure-grid"><img src="/listas-html/img/associacao-de-resistores-lista/q18.webp" alt="Figura da questão 18" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q18" value="a"><span class="letter">A</span><span class="option-text">10 Ω</span></label><label class="option"><input type="radio" name="q18" value="b"><span class="letter">B</span><span class="option-text">8 Ω</span></label><label class="option"><input type="radio" name="q18" value="c"><span class="letter">C</span><span class="option-text">6 Ω</span></label><label class="option"><input type="radio" name="q18" value="d"><span class="letter">D</span><span class="option-text">4 Ω</span></label><label class="option"><input type="radio" name="q18" value="e"><span class="letter">E</span><span class="option-text">2 Ω</span></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(18)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(18)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-18" hidden></div>
+  </div>
+</article>
+<article class="question-card" id="q20" data-q="20">
+  <header class="q-head">
+    <div>
+      <div class="q-title">Questão 20</div>
+      <span class="q-topic">Fractal de resistores</span>
+    </div>
+    <span class="q-index">20</span>
+  </header>
+  <div class="q-content">
+    <div class="stem">Um técnico constrói uma associação fractal com resistores idênticos de resistência R. A célula básica é formada por dois resistores R em paralelo, em série com outro resistor R. Em cada etapa, cada resistor é substituído por uma célula idêntica à original. Para a configuração mostrada, a resistência equivalente vale:</div>
+    <div class="figure-grid"><img src="/listas-html/img/associacao-de-resistores-lista/q20.webp" alt="Figura 1 da questão 20" loading="lazy"><img src="/listas-html/img/associacao-de-resistores-lista/q20-2.webp" alt="Figura 2 da questão 20" loading="lazy"></div>
+    <div class="answers"><label class="option"><input type="radio" name="q20" value="a"><span class="letter">A</span><span class="option-text">3,375 R</span></label><label class="option"><input type="radio" name="q20" value="b"><span class="letter">B</span><span class="option-text">3,250 R</span></label><label class="option"><input type="radio" name="q20" value="c"><span class="letter">C</span><span class="option-text">3,125 R</span></label><label class="option"><input type="radio" name="q20" value="d"><span class="letter">D</span><span class="option-text">3,000 R</span></label><label class="option"><input type="radio" name="q20" value="e"><span class="letter">E</span><span class="option-text">2,875 R</span></label></div>
+    <div class="q-actions">
+      <button class="btn-check-one" type="button" onclick="checkOne(20)">Verificar resposta</button>
+      <button class="btn-clear-one" type="button" onclick="clearOne(20)">Limpar minha resposta</button>
+    </div>
+    <div class="post-grade" id="post-20" hidden></div>
+  </div>
+</article>
+
+  <section class="answer-key" id="answer-key" aria-live="polite"></section>
+
+  <footer class="source-note">
+    <strong>Professor Madison · Física · Método de Domínio Conceitual (MDC)</strong><br>
+    Questões adaptadas do material “Associação de resistores”, Prof. Panosso. Revisão científica, correções editoriais e adaptação interativa: Professor Madison.
+  </footer>
+</div>
+
+<script>
+const DATA = [{"id": 1, "type": "pairtext", "topic": "Associação de resistores", "answers": ["r/4", "3r/4"], "stem": "Como consequência do rápido desenvolvimento da tecnologia eletrônica, hoje é possível realizar experimentos usando amostras com dimensões da ordem de nanômetros. Um pesquisador verificou que uma determinada proteína esticada obedecia à Lei de Ohm e apresentava resistência elétrica total <strong>R<\/strong>. Em seguida, a cadeia foi partida em dois pedaços e os dois trechos foram ligados em paralelo. A resistência equivalente medida foi <strong>3R/16<\/strong>. Considerando que o pedaço de menor comprimento tenha resistência <strong>R₁<\/strong> e o de maior comprimento, resistência <strong>R₂<\/strong>, determine R₁ e R₂ em função de R.", "labels": ["R₁ =", "R₂ ="], "resolution": "Como os pedaços vieram do mesmo fio, R₁ + R₂ = R. Em paralelo: R₁R₂/(R₁+R₂)=3R/16. Logo R₁R₂=3R²/16. As raízes são R/4 e 3R/4. Como R₁ corresponde ao menor comprimento: R₁=R/4 e R₂=3R/4."}, {"id": 2, "type": "numeric", "topic": "Série e paralelo", "answer": 8, "tol": 0.02, "unit": "V", "stem": "Uma bateria ideal de 12 V alimenta três resistores X, Y e Z, todos de mesma resistência R, conforme o circuito. Calcule a diferença de potencial entre os terminais do resistor Z.", "resolution": "X e Y estão em paralelo: RXY=R/2. Esse conjunto está em série com Z: Req=3R/2. A corrente total é I=12/(3R/2)=8/R. Portanto UZ=IR=8 V."}, {"id": 3, "type": "numeric", "topic": "Leitura de amperímetro", "answer": 12, "tol": 0.02, "unit": "A", "stem": "No circuito mostrado, determine a leitura do amperímetro A, considerando que a bateria fornece 120 V e possui resistência interna desprezível.", "resolution": "Os resistores de 2 Ω e 4 Ω estão em paralelo: Rp=4/3 Ω. Em série com o resistor de 2 Ω da parte inferior, Req=10/3 Ω. A corrente total é 36 A. A tensão no paralelo é 48 V; portanto, no ramo de 4 Ω, I=48/4=12 A."}, {"id": 4, "type": "choice", "topic": "Série e paralelo", "answer": "c", "stem": "Quando R₁ e R₂ são associados em série, a resistência equivalente vale 6 Ω. Quando são associados em paralelo, a resistência equivalente é 4/3 Ω. Os valores de R₁ e R₂ são:", "options": {"a": "5 Ω e 1 Ω", "b": "3 Ω e 3 Ω", "c": "4 Ω e 2 Ω", "d": "6 Ω e 0 Ω", "e": "0 Ω e 6 Ω"}, "resolution": "Em série: R₁+R₂=6. Em paralelo: R₁R₂/(R₁+R₂)=4/3 ⇒ R₁R₂=8. As raízes de x²−6x+8=0 são 2 Ω e 4 Ω."}, {"id": 5, "type": "choice", "topic": "Redução de circuito", "answer": "b", "stem": "O circuito representado foi construído com resistores idênticos de resistência R. Supondo o gerador E ideal, a corrente elétrica total i fornecida ao circuito é:", "options": {"a": "i = 0", "b": "i = 4E/R", "c": "i = 4RE", "d": "i = E/(8R)", "e": "i = 2R/E"}, "resolution": "Os fios diagonais e verticais tornam vários pontos equipotenciais e reduzem o arranjo a quatro resistores R ligados em paralelo entre os terminais do gerador. Assim Req=R/4 e i=E/(R/4)=4E/R."}, {"id": 6, "type": "choice", "topic": "Divisão de corrente", "answer": "d", "stem": "No circuito mostrado, a fonte ideal é percorrida por uma corrente total de 1,0 A. Determine, respectivamente, a tensão da fonte e a corrente i indicada no ramo da direita.", "options": {"a": "2,0 V e 0,2 A", "b": "2,0 V e 0,5 A", "c": "2,5 V e 0,3 A", "d": "2,5 V e 0,5 A", "e": "10,0 V e 0,2 A"}, "resolution": "O ramo central tem 5 Ω. O ramo direito possui 3 Ω+2 Ω=5 Ω. Os dois ramos de 5 Ω estão em paralelo, dando Req=2,5 Ω. Como Itotal=1 A, E=2,5 V. As correntes se dividem igualmente: i=0,5 A."}, {"id": 7, "type": "choice", "topic": "Chave em circuito", "answer": "c", "stem": "No circuito, a corrente indicada pelo amperímetro é 3,5 A quando a chave S está aberta. Desprezando as resistências internas do amperímetro e da bateria, determine a corrente no amperímetro quando a chave estiver fechada.", "options": {"a": "3,5 A", "b": "4,0 A", "c": "6,0 A", "d": "7,5 A", "e": "8,0 A"}, "resolution": "Com S aberta, há 1 Ω em série com 5 Ω: Req=6 Ω. Como I=3,5 A, E=21 V. Fechando S, os dois resistores de 5 Ω ficam em paralelo: 2,5 Ω. Em série com 1 Ω, Req=3,5 Ω. Logo I=21/3,5=6,0 A."}, {"id": 8, "type": "choice_compact", "topic": "Comparação de associações", "answer": "d", "stem": "Considere três resistores A, B e C, com resistências R<sub>A<\/sub>, R<sub>B<\/sub> e R<sub>C<\/sub>, tais que R<sub>A<\/sub> &gt; R<sub>B<\/sub> &gt; R<sub>C<\/sub>. Qual dos esquemas apresenta a maior resistência equivalente entre P e M?", "options": {"a": "", "b": "", "c": "", "d": ""}, "resolution": "A alternativa D coloca o maior resistor, RA, em série com a associação RB||RC. Entre as quatro configurações, isso produz a maior resistência equivalente. Portanto, alternativa D."}, {"id": 9, "type": "choice", "topic": "Curto-circuitos e nós", "answer": "e", "stem": "No circuito representado, determine a corrente elétrica i quando a chave C está <strong>fechada<\/strong>.", "options": {"a": "V/(3R)", "b": "V/(2R)", "c": "V/R", "d": "2V/R", "e": "3V/R"}, "resolution": "Com a chave fechada, os fios tornam os extremos dos três resistores comuns aos mesmos dois nós. Os três resistores R ficam em paralelo: Req=R/3. Assim i=V/(R/3)=3V/R."}, {"id": 10, "type": "numeric", "topic": "Resistência desconhecida", "answer": 1, "tol": 0.02, "unit": "Ω", "stem": "No circuito, R₁ = R₂ = 2 Ω e a corrente total fornecida pela bateria de 9 V é 7,5 A. Calcule o valor da resistência X.", "resolution": "Req=V/I=9/7,5=1,2 Ω. Os ramos são R₁=2 Ω e R₂+X=(2+X) Ω em paralelo: 1/1,2=1/2+1/(2+X). Daí 1/(2+X)=1/3, então X=1 Ω."}, {"id": 11, "type": "numeric", "topic": "Equivalente misto", "answer": 10, "tol": 0.02, "unit": "Ω", "stem": "No circuito mostrado, R₀ = 17,3 Ω. Qual deve ser o valor de R para que a resistência equivalente entre A e B seja igual a R₀?", "resolution": "Req = R + [R(R+R₀)/(2R+R₀)]. Impõe-se Req=R₀. Definindo x=R/R₀, obtém-se x + x(x+1)/(2x+1)=1, o que leva a 3x²=1. Logo R=R₀/√3≈17,3/1,732≈10 Ω."}, {"id": 12, "type": "choice", "topic": "Lâmpadas em série e paralelo", "answer": "d", "stem": "Três circuitos diferentes são montados com uma bateria e três lâmpadas idênticas. Na primeira montagem, se uma lâmpada queimar, as outras duas permanecem acesas. Na segunda, se uma lâmpada queimar, as outras duas apagam. Na terceira, mesmo que duas lâmpadas queimem, a terceira permanece acesa. Qual hipótese é verdadeira?", "options": {"a": "Todas as lâmpadas da primeira montagem estão em série e todas as da terceira em paralelo.", "b": "Todas as lâmpadas da segunda estão em paralelo e todas as da terceira em série.", "c": "Todas as lâmpadas da primeira estão em série e todas as da segunda em paralelo.", "d": "Todas as lâmpadas da segunda estão em série e todas as da terceira em paralelo.", "e": "Todas as lâmpadas da primeira estão em paralelo e todas as da terceira em série."}, "resolution": "Na segunda montagem, uma lâmpada aberta interrompe todo o circuito: associação em série. Na terceira, cada lâmpada mantém caminho independente: associação em paralelo. Alternativa D."}, {"id": 13, "type": "choice", "topic": "Tensão e corrente em lâmpadas", "answer": "b", "stem": "Três lâmpadas idênticas estão ligadas à rede de 127 V como mostrado. Seja V(P) a tensão e i(P) a corrente na lâmpada P; analogamente, V(Q) e i(Q) para a lâmpada Q. É correto afirmar que:", "options": {"a": "V(P) < V(Q) e i(P) > i(Q).", "b": "V(P) > V(Q) e i(P) > i(Q).", "c": "V(P) < V(Q) e i(P) = i(Q).", "d": "V(P) > V(Q) e i(P) = i(Q)."}, "resolution": "P está sozinho em um ramo diretamente ligado à rede, portanto recebe 127 V. Q está em série com outra lâmpada idêntica em outro ramo e recebe metade da tensão. Assim V(P)>V(Q) e, sendo as resistências iguais, i(P)>i(Q)."}, {"id": 14, "type": "choice", "topic": "Divisor de tensão", "answer": "c", "stem": "Um aparelho necessita de uma tensão igual à décima parte da tensão da rede. Para alimentá-lo, são usados dois resistores X e R em série, com o aparelho ligado em paralelo com R. Considere desprezível a corrente no aparelho. Qual deve ser o valor de X?", "options": {"a": "6R", "b": "8R", "c": "9R", "d": "11R", "e": "12R"}, "resolution": "Como a corrente no aparelho é desprezível, temos um divisor de tensão. Deseja-se VR=Vrede/10: R/(X+R)=1/10. Portanto 10R=X+R ⇒ X=9R."}, {"id": 15, "type": "choice", "topic": "Divisão de corrente", "answer": "b", "stem": "No circuito mostrado, a força eletromotriz é 6 V e todos os resistores têm resistência 1,0 Ω. As correntes i₁ e i₂ são, respectivamente:", "options": {"a": "0,75 A e 1,5 A", "b": "1,5 A e 3,0 A", "c": "3,0 A e 1,5 A", "d": "3,0 A e 6,0 A", "e": "6,0 A e 3,0 A"}, "resolution": "Em cada metade do circuito, entre o nó central superior e o nó lateral, há um resistor de 1 Ω em paralelo com um caminho de 2 Ω. A corrente no resistor diagonal é o dobro da corrente no caminho de 2 Ω. No lado direito, o ramo de 2 Ω conduz 1,5 A (i₁) e o resistor diagonal conduz 3,0 A (i₂)."}, {"id": 16, "type": "choice", "topic": "Circuito misto", "answer": "a", "stem": "No circuito mostrado, determine a corrente total fornecida pela bateria e a corrente que circula pelo resistor de 6,0 Ω, respectivamente.", "options": {"a": "4,0 A; 0,5 A", "b": "4,0 A; 4,0 A", "c": "4,0 A; 0,0 A", "d": "0,0 A; 4,0 A", "e": "0,0 A; 0,0 A"}, "resolution": "A e B estão ligados por fio ideal e formam o mesmo nó. Entre esse nó e C, 2 Ω e 6 Ω estão em paralelo, resultando 1,5 Ω. Em série com o resistor C–D de 1,5 Ω, esse caminho vale 3 Ω. Ele fica em paralelo com o resistor externo de 3 Ω, logo Req=1,5 Ω. A corrente total é 6/1,5=4 A. No caminho interno passam 2 A; a ddp no paralelo 2||6 é 3 V, então I6=3/6=0,5 A."}, {"id": 17, "type": "pairmixed", "topic": "Lâmpadas e chave", "answer_num": 0.2, "tol": 0.03, "answer_text": "diminui", "stem": "No circuito, as lâmpadas L₁, L₂ e L₃ são idênticas, cada uma com resistência de 30 Ω. A bateria fornece 18 V e a chave C está inicialmente fechada.<br><strong>a)<\/strong> Qual é a corrente que passa por L₂?<br><strong>b)<\/strong> Ao abrir a chave C, o que acontece com o brilho de L₁? Justifique no caderno.", "labels": ["a) Corrente em L₂ (A):", "b) O brilho de L₁:"], "resolution": "Com C fechada, L₂ e L₃ estão em paralelo (15 Ω), em série com L₁ (30 Ω). A corrente total é 18/45=0,4 A e a tensão no paralelo é 6 V; então IL₂=6/30=0,2 A. Ao abrir C, L₃ é desconectada e restam L₂ e L₁ em série: a corrente cai para 18/60=0,3 A. Portanto o brilho de L₁ diminui."}, {"id": 18, "type": "choice", "topic": "Associação em paralelo", "answer": "b", "corrected": true, "stem": "No trecho de circuito mostrado, a diferença de potencial entre A e B é 60 V e a corrente <strong>i₁<\/strong>, indicada no ramo de 12 Ω, tem intensidade de 1 A. O valor da resistência R é:", "options": {"a": "10 Ω", "b": "8 Ω", "c": "6 Ω", "d": "4 Ω", "e": "2 Ω"}, "resolution": "Como i₁=1 A no resistor de 12 Ω, a ddp no conjunto em paralelo é 12 V. Assim, as correntes nos ramos de 6 Ω e 4 Ω valem 2 A e 3 A. A corrente que atravessa R é 1+2+3=6 A. A queda em R é 60−12=48 V. Portanto R=48/6=8 Ω. Observação: o material original trazia 'i₂=1 A', mas a figura identifica i₁; com i₂, o gabarito não seria compatível."}, {"id": 20, "type": "choice", "topic": "Fractal de resistores", "answer": "a", "stem": "Um técnico constrói uma associação fractal com resistores idênticos de resistência R. A célula básica é formada por dois resistores R em paralelo, em série com outro resistor R. Em cada etapa, cada resistor é substituído por uma célula idêntica à original. Para a configuração mostrada, a resistência equivalente vale:", "options": {"a": "3,375 R", "b": "3,250 R", "c": "3,125 R", "d": "3,000 R", "e": "2,875 R"}, "resolution": "A célula básica tem Req=R||R + R = R/2+R=1,5R. Cada substituição multiplica a resistência equivalente por 1,5. A configuração mostrada corresponde a três níveis: Req=(1,5)³R=3,375R."}];
+const TOTAL = DATA.length;
+const STORE = 'professor-madison-associacao-resistores-v1';
+let graded = false;
+
+function qCard(id){return document.getElementById('q'+id)}
+function norm(s){
+  return (s||'').toLowerCase().trim().replace(/\s+/g,'').replace(/,/g,'.')
+    .replace(/ω/g,'ohm').replace(/Ω/g,'ohm').replace(/×/g,'x');
+}
+function num(s){
+  const m=norm(s).match(/[-+]?\d*\.?\d+(?:e[-+]?\d+)?/i);
+  return m?Number(m[0]):NaN;
+}
+function exprKind(s){
+  let t=norm(s).replace(/\*/g,'').replace(/x/g,'').replace(/\(/g,'').replace(/\)/g,'');
+  if(['r/4','0.25r','r0.25','1/4r','r/04'].includes(t)) return 'r/4';
+  if(['3r/4','0.75r','r0.75','3/4r'].includes(t)) return '3r/4';
+  return t;
+}
+function getAnswer(q){
+  const c=qCard(q.id);
+  if(q.type==='choice'||q.type==='choice_compact'){
+    const x=c.querySelector('input[type=radio]:checked'); return x?x.value:null;
+  }
+  if(q.type==='numeric') return document.getElementById('q'+q.id+'-input').value.trim();
+  if(q.type==='pairtext') return [document.getElementById('q'+q.id+'-a').value.trim(),document.getElementById('q'+q.id+'-b').value.trim()];
+  if(q.type==='pairmixed') return [document.getElementById('q'+q.id+'-a').value.trim(),document.getElementById('q'+q.id+'-b').value.trim()];
+  return null;
+}
+function isAnswered(q){
+  const a=getAnswer(q);
+  if(Array.isArray(a)) return a.every(v=>v!=='');
+  return a!==null && a!=='';
+}
+function isCorrect(q){
+  const a=getAnswer(q);
+  if(!isAnswered(q)) return false;
+  if(q.type==='choice'||q.type==='choice_compact') return a===q.answer;
+  if(q.type==='numeric'){
+    const x=num(a); return Number.isFinite(x) && Math.abs(x-q.answer)<=Math.max(Math.abs(q.answer)*q.tol,1e-9);
+  }
+  if(q.type==='pairtext') return exprKind(a[0])==='r/4' && exprKind(a[1])==='3r/4';
+  if(q.type==='pairmixed'){
+    const x=num(a[0]);
+    const txt=norm(a[1]);
+    const numOk=Number.isFinite(x)&&Math.abs(x-q.answer_num)<=q.answer_num*q.tol;
+    const textOk=txt.includes('dimin')||txt.includes('menor')||txt.includes('reduz');
+    return numOk&&textOk;
+  }
+  return false;
+}
+function answerLabel(q){
+  if(q.type==='choice') return q.answer.toUpperCase()+') '+q.options[q.answer];
+  if(q.type==='choice_compact') return 'Alternativa '+q.answer.toUpperCase();
+  if(q.type==='numeric') return String(q.answer).replace('.',',')+' '+q.unit;
+  if(q.type==='pairtext') return 'R₁ = R/4; R₂ = 3R/4';
+  if(q.type==='pairmixed') return 'a) 0,2 A; b) o brilho de L₁ diminui';
+  return '';
+}
+function updateProgress(){
+  const answered=DATA.filter(isAnswered).length;
+  document.getElementById('m-answered').textContent=answered;
+  document.getElementById('m-unanswered').textContent=TOTAL-answered;
+  document.getElementById('progress-text').textContent=answered+'/'+TOTAL+' respondidas';
+  document.getElementById('progress-bar').style.width=(100*answered/TOTAL)+'%';
+}
+function save(){
+  const state={};
+  DATA.forEach(q=>state[q.id]=getAnswer(q));
+  try{localStorage.setItem(STORE,JSON.stringify(state))}catch(e){}
+}
+function load(){
+  let state={}; try{state=JSON.parse(localStorage.getItem(STORE)||'{}')}catch(e){}
+  DATA.forEach(q=>{
+    const v=state[q.id]; if(v===undefined||v===null) return;
+    const c=qCard(q.id);
+    if(q.type==='choice'||q.type==='choice_compact'){
+      const x=c.querySelector('input[value="'+v+'"]'); if(x)x.checked=true;
+    } else if(q.type==='numeric'){
+      document.getElementById('q'+q.id+'-input').value=v||'';
+    } else if(q.type==='pairtext'||q.type==='pairmixed'){
+      if(Array.isArray(v)){
+        document.getElementById('q'+q.id+'-a').value=v[0]||'';
+        document.getElementById('q'+q.id+'-b').value=v[1]||'';
+      }
+    }
+  });
+  updateProgress();
+}
+function clearGrading(){
+  graded=false;
+  DATA.forEach(q=>{
+    const p=document.getElementById('post-'+q.id);
+    p.hidden=true;p.className='post-grade';p.innerHTML='';
+  });
+  document.getElementById('m-correct').textContent='0';
+  document.getElementById('m-wrong').textContent='0';
+  document.getElementById('m-percent').textContent='0%';
+  document.getElementById('show-key-btn').disabled=true;
+  document.getElementById('answer-key').classList.remove('show');
+  document.getElementById('answer-key').innerHTML='';
+}
+window.clearOne=function(id){
+  const q=DATA.find(x=>x.id===id),c=qCard(id);
+  if(q.type==='choice'||q.type==='choice_compact') c.querySelectorAll('input[type=radio]').forEach(x=>x.checked=false);
+  else if(q.type==='numeric') document.getElementById('q'+id+'-input').value='';
+  else {
+    document.getElementById('q'+id+'-a').value='';
+    document.getElementById('q'+id+'-b').value='';
+  }
+  resetOne(id); if (graded) clearGrading(); save(); updateProgress();
+}
+window.goPending=function(){
+  const q=DATA.find(q=>!isAnswered(q));
+  if(q) qCard(q.id).scrollIntoView({behavior:'smooth',block:'center'});
+}
+window.gradeQuiz=function(){
+  let good=0,bad=0,empty=0;
+  DATA.forEach(q=>{
+    const p=document.getElementById('post-'+q.id);
+    if(!isAnswered(q)){
+      empty++; p.hidden=false;p.className='post-grade unanswered';p.textContent='Questão não respondida.';
+    }else if(isCorrect(q)){
+      good++; p.hidden=false;p.className='post-grade correct';p.textContent='✓ Resposta correta.';
+    }else{
+      bad++; p.hidden=false;p.className='post-grade wrong';p.textContent='✗ Resposta incorreta. Consulte o gabarito ao final, se desejar.';
+    }
+  });
+  graded=true;
+  document.getElementById('m-correct').textContent=good;
+  document.getElementById('m-wrong').textContent=bad;
+  document.getElementById('m-percent').textContent=Math.round(100*good/TOTAL)+'%';
+  document.getElementById('show-key-btn').disabled=false;
+  document.querySelector('.performance').scrollIntoView({behavior:'smooth',block:'start'});
+}
+window.toggleKey=function(){
+  if(!graded)return;
+  const box=document.getElementById('answer-key'),btn=document.getElementById('show-key-btn');
+  if(!box.innerHTML){
+    box.innerHTML='<h2>Gabarito comentado</h2>'+DATA.map(q=>'<div class="key-card"><div class="khead">Questão '+q.id+' — '+answerLabel(q)+'</div><p>'+q.resolution+'</p></div>').join('');
+  }
+  const show=box.classList.toggle('show');
+  btn.textContent=show?'Ocultar gabaritos':'Mostrar todos os gabaritos';
+  if(show)box.scrollIntoView({behavior:'smooth',block:'start'});
+}
+window.resetAll=function(){
+  if(!confirm('Deseja apagar todas as respostas e recomeçar a lista?'))return;
+  DATA.forEach(q=>{
+    const c=qCard(q.id);
+    c.querySelectorAll('input[type=radio]').forEach(x=>x.checked=false);
+    const a=document.getElementById('q'+q.id+'-a'),b=document.getElementById('q'+q.id+'-b'),single=document.getElementById('q'+q.id+'-input');
+    if(a)a.value='';if(b)b.value='';if(single)single.value='';
+  });
+  try{localStorage.removeItem(STORE)}catch(e){}
+  clearGrading();updateProgress();window.scrollTo({top:0,behavior:'smooth'});
+}
+document.addEventListener('change',e=>{
+  if(e.target.matches('input[type=radio]')){onAnswerChange(e.target);save();updateProgress();}
+});
+document.addEventListener('input',e=>{
+  if(e.target.matches('.text-input')){onAnswerChange(e.target);save();updateProgress();}
+});
+function resetOne(id){
+  const p=document.getElementById('post-'+id); p.hidden=true; p.className='post-grade'; p.textContent='';
+}
+function onAnswerChange(el){
+  const card=el.closest('.question-card');
+  if(card) resetOne(Number(card.id.replace('q','')));
+  if(graded) clearGrading();
+}
+window.checkOne=function(id){
+  const q=DATA.find(x=>x.id===id), p=document.getElementById('post-'+id);
+  resetOne(id); p.hidden=false;
+  if(!isAnswered(q)){ p.className='post-grade unanswered'; p.textContent='Questão não respondida.'; return; }
+  if(isCorrect(q)){ p.className='post-grade correct'; p.textContent='✓ Resposta correta.'; }
+  else { p.className='post-grade wrong'; p.textContent='✗ Resposta incorreta. Resposta correta: '+answerLabel(q)+'.'; }
+}
+load();
+</script>
+</div>
+<footer class="site-footer" id="site-footer"></footer>
+<script src="/assets/js/layout.js"></script>
+<button type="button" class="pm-print-btn" onclick="window.print()">Imprimir / salvar em PDF</button>
+<script data-goatcounter="https://professormadison.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
+</body>
+</html>
