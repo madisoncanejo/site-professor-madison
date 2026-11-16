@@ -17,7 +17,8 @@ const NAV = [
   { href: "/fisica/listas.html", label: "Listas de Exercícios", key: "listas" },
   { href: "/fisica/aulas.html", label: "Aulas Interativas", key: "aulas" },
   { href: "/fisica/games.html", label: "Games", key: "games" },
-  { href: "/fisica/blog.html", label: "Blog", key: "blog" }
+  { href: "/fisica/blog.html", label: "Blog", key: "blog" },
+  { href: "/sobre.html", label: "Sobre", key: "sobre" }
 ];
 
 
