@@ -13,12 +13,12 @@ const SOCIAL_LINKS = {
 
 const NAV = [
   { href: "/index.html", label: "Início", key: "home" },
+  { href: "/sobre.html", label: "Sobre", key: "sobre" },
   { href: "/fisica/videoaulas.html", label: "Vídeo-aulas", key: "videoaulas" },
   { href: "/fisica/listas.html", label: "Listas de Exercícios", key: "listas" },
   { href: "/fisica/aulas.html", label: "Aulas Interativas", key: "aulas" },
   { href: "/fisica/games.html", label: "Games", key: "games" },
-  { href: "/fisica/blog.html", label: "Blog", key: "blog" },
-  { href: "/sobre.html", label: "Sobre", key: "sobre" }
+  { href: "/fisica/blog.html", label: "Blog", key: "blog" }
 ];
 
 
