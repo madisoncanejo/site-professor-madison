@@ -14,4 +14,13 @@
      data: "2026-09-10"
    }
 */
-var VIDEOAULAS = [];
+var VIDEOAULAS = [
+  {
+    serie: "enem",
+    tema: "Resolução de questões do ENEM",
+    titulo: "Enem 2026 – Física – Questão 91 (Caderno Amarelo) | Modelo de Rutherford e lei de Coulomb",
+    descricao: "",
+    youtubeId: "https://www.youtube.com/watch?v=STJ-2BAYNGQ",
+    data: "2026-11-17"
+  }
+];
