@@ -19,7 +19,7 @@ var VIDEOAULAS = [
     serie: "enem",
     tema: "Resolução de questões do ENEM",
     titulo: "Enem 2026 – Física – Questão 91 (Caderno Amarelo) | Modelo de Rutherford e lei de Coulomb",
-    descricao: "",
+    descricao: "Resolução comentada de cada questão de Física do Enem 2026, com o conceito explicado antes da conta. A numeração segue o caderno amarelo. Questão 91 – Modelo de Rutherford e lei de Coulomb: por que a força entre o elétron e o núcleo cresceria cada vez mais rápido se o elétron caísse em espiral.",
     youtubeId: "https://www.youtube.com/watch?v=STJ-2BAYNGQ",
     data: "2026-11-17"
   }

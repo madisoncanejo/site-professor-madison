@@ -6,7 +6,7 @@
 const LOGO_SVG = `<img src="/assets/img/logo-mark.png" alt="Professor Madison" width="38" height="32" style="width:100%;height:100%;object-fit:contain;display:block">`;
 
 const SOCIAL_LINKS = {
-  youtube: "https://www.youtube.com/@professormadison8575",
+  youtube: "https://www.youtube.com/@professormadisonfisica",
   instagram: "https://www.instagram.com/professormadison",
   tiktok: "https://www.tiktok.com/@professormadison"
 };
