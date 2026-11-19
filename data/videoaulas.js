@@ -22,5 +22,13 @@ var VIDEOAULAS = [
     descricao: "Resolução comentada de cada questão de Física do Enem 2026, com o conceito explicado antes da conta. A numeração segue o caderno amarelo. Questão 91 – Modelo de Rutherford e lei de Coulomb: por que a força entre o elétron e o núcleo cresceria cada vez mais rápido se o elétron caísse em espiral.",
     youtubeId: "https://www.youtube.com/watch?v=STJ-2BAYNGQ",
     data: "2026-11-17"
+  },
+  {
+    serie: "enem",
+    tema: "Resolução de questões do ENEM",
+    titulo: "Enem 2026 – Física – Questão 92 (Caderno Amarelo) | Potência térmica e ar-condicionado (Btu/h)",
+    descricao: "",
+    youtubeId: "https://www.youtube.com/watch?v=b0zUBBGNKdQ",
+    data: "2026-11-19"
   }
 ];
