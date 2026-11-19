@@ -27,7 +27,7 @@ var VIDEOAULAS = [
     serie: "enem",
     tema: "Resolução de questões do ENEM",
     titulo: "Enem 2026 – Física – Questão 92 (Caderno Amarelo) | Potência térmica e ar-condicionado (Btu/h)",
-    descricao: "",
+    descricao: "Questão 92 – Ar-condicionado e potência térmica. Num escritório com 20 pessoas, computadores, lâmpadas e geladeiras, qual é a maior fonte de calor? Não são as máquinas: são as próprias pessoas. Nesta questão do Enem 2026, você descobre quanto calor um ambiente produz e qual ar-condicionado é capaz de manter a temperatura constante. Neste vídeo: • Por que, com a temperatura constante, o ar-condicionado precisa retirar exatamente o calor produzido lá dentro. • Como calcular a potência total: quantidade × potência de cada fonte. • Por que Btu/h é unidade de potência, como o watt, e como converter sem errar o sentido da conta. • As três pegadinhas que mais derrubam os candidatos. Resposta: letra E (30 000 Btu/h). Para pensar: na questão, as paredes são isolantes. Num escritório de verdade, num dia de muito sol, entra calor também pelas paredes e janelas. O aparelho de 30 000 Btu/h daria conta? Por quê? Numeração do caderno amarelo. Nos outros cadernos, procure pelo tema.",
     youtubeId: "https://www.youtube.com/watch?v=b0zUBBGNKdQ",
     data: "2026-11-19"
   }
